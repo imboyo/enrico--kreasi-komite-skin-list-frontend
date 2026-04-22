@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
 import { useRoutineCheckStore } from "@/client-side-page/home/routine-check-store";
-import { Checkbox } from "@/components/atomic/atom/Checkbox";
+import { ChecklistItemCard } from "@/components/atomic/molecule/ChecklistItemCard";
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { Skeleton as RoutineListSkeleton } from "@/components/domain/routine-list/Skeleton";
 import { useCheckableItems } from "@/hooks/useCheckableItems";
@@ -137,25 +137,18 @@ export function HomeChecklistSection<TItem extends HomeChecklistItem>({
           >
             <div className="space-y-3">
               {resolvedItems.map((item) => (
-                <div key={item.id} className="relative">
-                  <Checkbox
-                    checked={item.isChecked}
-                    label={item.label}
-                    onChange={(event) => {
-                      setChecked(item.id, event.currentTarget.checked);
-                      // All home checklists share one interaction counter so the
-                      // limit dialog still behaves the same across sections.
-                      incrementCheckCount();
-                    }}
-                    wrapperProps={{
-                      className: cn(
-                        "flex w-full items-center gap-3 rounded-[24px] border border-border/70 bg-card/90 px-4 py-4 shadow-sm transition-all hover:border-primary/40 hover:bg-primary/5 hover:shadow-md",
-                        item.isChecked && "border-primary/50 bg-primary/5",
-                      ),
-                    }}
-                    labelClassName="text-base font-medium text-foreground"
-                  />
-                </div>
+                <ChecklistItemCard
+                  key={item.id}
+                  checked={item.isChecked}
+                  label={item.label}
+                  onCheckedChange={(event) => {
+                    setChecked(item.id, event.currentTarget.checked);
+                    // All home checklists share one interaction counter so the
+                    // limit dialog still behaves the same across sections.
+                    incrementCheckCount();
+                  }}
+                  labelClassName="text-base font-medium text-foreground"
+                />
               ))}
             </div>
           </QueryStateHandler>
