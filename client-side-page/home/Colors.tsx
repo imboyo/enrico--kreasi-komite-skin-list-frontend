@@ -7,6 +7,7 @@ export function Colors() {
   return (
     <HomeChecklistSection
       title="Colors"
+      defaultOpen={false}
       queryKey={["skin-care-colors"]}
       queryFn={() => getColors()}
       errorTitle="Color list is unavailable."

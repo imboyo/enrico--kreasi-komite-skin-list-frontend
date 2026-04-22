@@ -7,6 +7,7 @@ export function Routines() {
   return (
     <HomeChecklistSection
       title="Routines"
+      defaultOpen
       queryKey={["skin-care-routines"]}
       queryFn={() => getRoutines()}
       errorTitle="Routine list is unavailable."

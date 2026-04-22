@@ -7,6 +7,7 @@ export function Scars() {
   return (
     <HomeChecklistSection
       title="Scars"
+      defaultOpen={false}
       queryKey={["skin-care-scars"]}
       queryFn={() => getScars()}
       errorTitle="Scar list is unavailable."

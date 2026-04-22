@@ -7,6 +7,7 @@ export function MakeUps() {
   return (
     <HomeChecklistSection
       title="Make Ups"
+      defaultOpen={false}
       queryKey={["skin-care-make-ups"]}
       queryFn={() => getMakeUps()}
       errorTitle="Make up list is unavailable."
