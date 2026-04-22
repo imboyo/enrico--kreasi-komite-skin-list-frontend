@@ -1,15 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/atomic/atom/Button";
 import Dialog, {
   DialogBody,
   DialogClose,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/atomic/molecule/Dialog";
-import { CHECK_LIMIT, useRoutineCheckStore } from "@/store/routine-check-store";
+import { useRoutineCheckStore } from "@/client-side-page/home/routine-check-store";
 
 /** Automatically opens when the check count hits a multiple of CHECK_LIMIT */
 export function LimitDialog() {
@@ -22,28 +19,57 @@ export function LimitDialog() {
       onOpenChange={(open) => {
         if (!open) dismissLimitDialog();
       }}
+      className="max-w-87.5"
     >
-      <DialogHeader>
-        <DialogTitle>You&apos;re on a roll!</DialogTitle>
-        <DialogClose>
-          <span className="text-dialog-muted text-lg leading-none">✕</span>
-        </DialogClose>
-      </DialogHeader>
+      <DialogBody className="flex flex-col items-center gap-5 py-8 text-center">
+        {/* Premium badge */}
+        <span className="rounded-full bg-primary/20 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
+          Premium Access
+        </span>
 
-      <DialogBody className="flex flex-col gap-4">
-        <DialogDescription>
-          You&apos;ve toggled your routines ${CHECK_LIMIT} times. Stay
-          consistent — small daily habits lead to big results over time.
-        </DialogDescription>
+        {/* App name */}
+        <div className="flex flex-col items-center gap-0.5">
+          <span className="text-3xl font-black tracking-tight text-dialog-foreground">
+            SKIN LIST
+          </span>
+          <span className="text-xs text-dialog-muted">by Skin Committee</span>
+        </div>
+
+        {/* Description */}
+        <p className="max-w-65 text-sm leading-relaxed text-dialog-muted">
+          Join the skincare community. Access exclusive routines and
+          personalized recommendations.
+        </p>
+
+        {/* Auth buttons */}
+        <div className="flex w-full flex-col gap-2 pt-1">
+          <DialogClose>
+            <Link href="/login" className="w-full">
+              <Button fullWidth size="md" variant="primary">
+                Login
+              </Button>
+            </Link>
+          </DialogClose>
+
+          <DialogClose>
+            <Link href="/register" className="w-full">
+              <Button fullWidth size="md" variant="muted">
+                Create Account
+              </Button>
+            </Link>
+          </DialogClose>
+        </div>
+
+        {/* Guest shortcut */}
+        <DialogClose>
+          <button
+            className="text-xs text-dialog-muted underline-offset-2 hover:underline"
+            onClick={dismissLimitDialog}
+          >
+            Continue as Guest
+          </button>
+        </DialogClose>
       </DialogBody>
-
-      <DialogFooter>
-        <DialogClose>
-          <Button size="sm">
-            Got it
-          </Button>
-        </DialogClose>
-      </DialogFooter>
     </Dialog>
   );
 }

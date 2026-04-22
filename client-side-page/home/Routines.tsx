@@ -7,7 +7,7 @@ import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandle
 import { Skeleton as RoutineListSkeleton } from "@/components/domain/routine-list/Skeleton";
 import { useCheckableItems } from "@/hooks/useCheckableItems";
 import { getRoutines } from "@/mock-backend/skin-care/get-routines";
-import { useRoutineCheckStore } from "@/store/routine-check-store";
+import { useRoutineCheckStore } from "@/client-side-page/home/routine-check-store";
 import { cn } from "@/util/cn";
 
 export function Routines() {

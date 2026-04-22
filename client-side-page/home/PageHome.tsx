@@ -2,8 +2,20 @@
 
 import { Routines } from "@/client-side-page/home/Routines";
 import { LimitDialog } from "@/components/domain/routine-list/LimitDialog";
+import { useRoutineCheckStore } from "@/client-side-page/home/routine-check-store";
+import { useEffect } from "react";
 
 export const PageHome = () => {
+  const reset = useRoutineCheckStore((s) => s.reset);
+
+  // Reset the shared check counter when this component unmounts so the store
+  // doesn't carry stale state into the next mount
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, [reset]);
+
   return (
     <main className="px-4 py-4 flex flex-col gap-6">
       {/* Renders itself automatically when the check limit is hit */}
