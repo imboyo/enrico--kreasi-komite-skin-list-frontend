@@ -1,5 +1,6 @@
 "use client";
 
+import { appConfig } from "@/config";
 import { motion } from "motion/react";
 import { HeroSection } from "@/components/atomic/molecule/HeroSection";
 import { IconCard } from "@/components/atomic/molecule/IconCard";
@@ -55,6 +56,8 @@ const fadeUp = (delay: number) =>
   }) as const;
 
 export const PageTerms = () => {
+  const { contact } = appConfig;
+
   return (
     <main className="mx-auto flex w-full max-w-125 flex-col gap-8 px-4 py-6">
       {/* Hero */}
@@ -89,9 +92,7 @@ export const PageTerms = () => {
       <motion.section className="flex flex-col gap-1 pb-2" {...fadeUp(0.5)}>
         <p className="text-muted-foreground text-xs leading-relaxed">
           If you have questions about these terms, contact us at{" "}
-          <span className="text-foreground font-medium">
-            support@kreasikomite.site
-          </span>
+          <span className="text-foreground font-medium">{contact.email}</span>
           .
         </p>
         <p className="text-muted-foreground text-xs">Last updated: April 2026</p>

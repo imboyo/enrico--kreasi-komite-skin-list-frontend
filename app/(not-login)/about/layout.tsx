@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react";
+import { NotLoginFooter } from "@/components/atomic/layout/not-login/NotLoginFooter";
 import React from "react";
 
 export default function AboutLayout({
@@ -9,17 +9,7 @@ export default function AboutLayout({
   return (
     <>
       {children}
-      <div className="flex items-center justify-center pb-4">
-        <span className="text-muted-foreground flex items-center gap-1.5 text-xs">
-          <Icon
-            icon="material-symbols:spa-outline-rounded"
-            width={14}
-            height={14}
-            className="text-orange-500"
-          />
-          Skin List · v1.0
-        </span>
-      </div>
+      <NotLoginFooter />
     </>
   );
 }
