@@ -1,10 +1,14 @@
 "use client";
 
 import { Routines } from "@/client-side-page/home/Routines";
+import { LimitDialog } from "@/components/domain/routine-list/LimitDialog";
 
 export const PageHome = () => {
   return (
     <main className="px-4 py-4 flex flex-col gap-6">
+      {/* Renders itself automatically when the check limit is hit */}
+      <LimitDialog />
+
       <section className="flex flex-col">
         <h1 className="text-[40px] font-medium">Routine</h1>
         <h6 className="text-muted-foreground text-sm">
