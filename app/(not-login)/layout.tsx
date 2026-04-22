@@ -12,7 +12,9 @@ export default function NotLoginLayout({
     <MobileContainer>
       <NotLoginTopbar />
       <NotLoginSidebar />
-      {children}
+      {/* The content slot grows under the fixed topbar height instead of
+          claiming a second full viewport and creating extra page height. */}
+      <div className="flex-1 min-h-0">{children}</div>
     </MobileContainer>
   );
 }

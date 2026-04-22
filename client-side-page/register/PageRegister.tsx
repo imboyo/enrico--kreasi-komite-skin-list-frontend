@@ -27,7 +27,7 @@ export function PageRegister() {
   } = useRegisterForm();
 
   return (
-    <main className="flex min-h-screen flex-col items-center px-6 py-10">
+    <main className="flex min-h-full flex-col items-center px-6 py-10">
       <LoginAvatar />
       <RegisterHeading />
 
@@ -38,15 +38,9 @@ export function PageRegister() {
           void form.handleSubmit();
         }}
       >
-        <RegisterNameField
-          form={form}
-          disabled={registerMutation.isPending}
-        />
+        <RegisterNameField form={form} disabled={registerMutation.isPending} />
 
-        <RegisterEmailField
-          form={form}
-          disabled={registerMutation.isPending}
-        />
+        <RegisterEmailField form={form} disabled={registerMutation.isPending} />
 
         <RegisterPasswordField
           form={form}
@@ -65,13 +59,6 @@ export function PageRegister() {
         {serverError && (
           <p className="text-sm text-destructive">{serverError}</p>
         )}
-
-        <p className="text-center text-sm text-muted-foreground">
-          Already have an account?{" "}
-          <Link href={APP_URL.LOGIN} className="font-medium text-primary hover:underline">
-            Log in
-          </Link>
-        </p>
 
         <form.Subscribe
           selector={(state) => ({
@@ -113,6 +100,16 @@ export function PageRegister() {
         >
           Back
         </Button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Link
+            href={APP_URL.LOGIN}
+            className="font-medium text-primary hover:underline"
+          >
+            Log in
+          </Link>
+        </p>
       </form>
     </main>
   );

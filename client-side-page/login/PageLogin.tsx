@@ -18,7 +18,7 @@ export function PageLogin() {
     useLoginForm();
 
   return (
-    <main className="flex min-h-screen flex-col items-center px-6 py-10">
+    <main className="flex min-h-full flex-col items-center px-6 py-10">
       <LoginAvatar />
       <LoginHeading />
 
