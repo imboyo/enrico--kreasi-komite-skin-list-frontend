@@ -1,6 +1,3 @@
-// Base sidebar drawer — shared layout for all sidebar variants (not-login, user, admin).
-// Structure: [Header + Close] → [topSection props] → [Logo] → [children/menu]
-// Closes on backdrop click, Escape key, or close button. Animates in from left.
 "use client";
 
 import { ReactNode, useEffect } from "react";
@@ -50,13 +47,19 @@ export function BaseSidebar({ title, topSection, children }: BaseSidebarProps) {
           >
             {/* Shared header */}
             <div className="flex items-center justify-between px-4 py-4 border-b border-border">
-              <span className="text-base font-semibold text-foreground">{title}</span>
+              <span className="text-base font-semibold text-foreground">
+                {title}
+              </span>
               <button
                 onClick={close}
                 className="rounded-full p-1.5 hover:bg-muted transition-colors"
                 aria-label="Close sidebar"
               >
-                <Icon icon="material-symbols:close-rounded" width={20} height={20} />
+                <Icon
+                  icon="material-symbols:close-rounded"
+                  width={20}
+                  height={20}
+                />
               </button>
             </div>
 
@@ -67,16 +70,8 @@ export function BaseSidebar({ title, topSection, children }: BaseSidebarProps) {
               </div>
             )}
 
-            {/* Shared logo */}
-            <div className="flex items-center gap-2 px-4 py-4 border-b border-border">
-              <Icon icon="material-symbols:spa-outline-rounded" width={28} height={28} className="text-orange-500" />
-              <span className="text-lg font-bold tracking-tight">Skin List</span>
-            </div>
-
             {/* Dynamic menu section — children */}
-            <div className="flex-1 overflow-y-auto px-4 py-4">
-              {children}
-            </div>
+            <div className="flex-1 overflow-y-auto px-4 py-4">{children}</div>
           </motion.aside>
         </div>
       )}
