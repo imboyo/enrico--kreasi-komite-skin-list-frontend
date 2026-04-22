@@ -17,6 +17,10 @@ const textInputVariants = cva(
         md: "min-h-12 text-sm",
         lg: "min-h-14 text-base",
       },
+      surface: {
+        default: "bg-input-surface",
+        transparent: "bg-transparent",
+      },
       fullWidth: {
         true: "w-full",
         false: "w-fit",
@@ -24,6 +28,7 @@ const textInputVariants = cva(
     },
     defaultVariants: {
       size: "md",
+      surface: "default",
       fullWidth: true,
     },
   },
@@ -59,6 +64,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   (
     {
       size,
+      surface,
       fullWidth,
       startItem,
       endItem,
@@ -72,10 +78,10 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       containerProps ?? {};
 
     return (
-      <div
-        {...restContainerProps}
-        className={cn(
-          textInputVariants({ size, fullWidth }),
+        <div
+          {...restContainerProps}
+          className={cn(
+          textInputVariants({ size, surface, fullWidth }),
           props.disabled && "cursor-not-allowed opacity-60",
           containerClassName,
         )}
@@ -87,7 +93,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         <input
           ref={ref}
           className={cn(
-            "w-full border-none bg-transparent py-3 text-foreground outline-none placeholder:text-input-placeholder disabled:cursor-not-allowed",
+            "w-full border-none bg-transparent py-3 text-foreground outline-none placeholder:text-input-placeholder disabled:cursor-not-allowed autofill:bg-transparent [-webkit-text-fill-color:var(--foreground)] [-webkit-box-shadow:0_0_0_1000px_transparent_inset]",
             className,
           )}
           {...props}
