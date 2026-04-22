@@ -3,12 +3,14 @@
 import { BaseSidebar } from "@/components/atomic/organism/sidebar/BaseSidebar";
 import { SidebarMenuList } from "@/components/atomic/molecule/sidebar/SidebarMenuList";
 import { SidebarMenuItem, type SidebarMenuItemProps } from "@/components/atomic/molecule/sidebar/SidebarMenuItem";
+import { APP_URL } from "@/constant";
 
 const items: SidebarMenuItemProps[] = [
-  { label: "Home", href: "/", icon: "material-symbols:home-outline-rounded", exact: true },
-  { label: "About Us", href: "/about", icon: "material-symbols:info-outline-rounded" },
-  { label: "Terms", href: "/terms", icon: "material-symbols:description-outline-rounded" },
-  { label: "Contact", href: "/contact", icon: "material-symbols:mail-outline-rounded" },
+  { label: "Home", href: APP_URL.HOME, icon: "material-symbols:home-outline-rounded", exact: true },
+  { label: "About Us", href: APP_URL.ABOUT, icon: "material-symbols:info-outline-rounded" },
+  { label: "Terms", href: APP_URL.TERMS, icon: "material-symbols:description-outline-rounded" },
+  { label: "Contact", href: APP_URL.CONTACT, icon: "material-symbols:mail-outline-rounded" },
+  { label: "Text Input", href: APP_URL.TEXT_INPUT, icon: "material-symbols:match-case-rounded" },
 ];
 
 export function NotLoginSidebar() {
@@ -18,7 +20,7 @@ export function NotLoginSidebar() {
       bottomSection={
         <SidebarMenuItem
           label="Login"
-          href="/login"
+          href={APP_URL.LOGIN}
           icon="material-symbols:person-outline-rounded"
         />
       }

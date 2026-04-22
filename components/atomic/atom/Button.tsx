@@ -1,5 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
+import { Icon } from "@iconify/react";
 
 const buttonVariants = cva(
   // Base styles shared by all variants
@@ -75,6 +76,8 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
     leadingIcon?: ReactNode;
     /** Icon rendered after the label */
     trailingIcon?: ReactNode;
+    /** Shows a spinner and disables the button while true */
+    isLoading?: boolean;
   };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -86,8 +89,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth,
       leadingIcon,
       trailingIcon,
+      isLoading,
       className,
       children,
+      disabled,
       ...props
     },
     ref,
@@ -102,14 +107,22 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           fullWidth,
           className,
         })}
+        disabled={disabled || isLoading}
         {...props}
       >
-        {leadingIcon && (
-          <span className={iconSlotVariants({ size })}>{leadingIcon}</span>
+        {/* Spinner replaces the leading icon slot while loading */}
+        {isLoading ? (
+          <span className={iconSlotVariants({ size })}>
+            <Icon icon="svg-spinners:ring-resize" />
+          </span>
+        ) : (
+          leadingIcon && (
+            <span className={iconSlotVariants({ size })}>{leadingIcon}</span>
+          )
         )}
         {/* Render children only when not icon-only to avoid layout issues */}
         {!iconOnly && children}
-        {trailingIcon && !iconOnly && (
+        {trailingIcon && !iconOnly && !isLoading && (
           <span className={iconSlotVariants({ size })}>{trailingIcon}</span>
         )}
         {/* For icon-only, children act as the icon itself */}

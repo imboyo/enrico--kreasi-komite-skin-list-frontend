@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/atomic/atom/Button";
+import { APP_URL } from "@/constant";
 import Dialog, {
   DialogBody,
   DialogClose,
@@ -44,7 +45,7 @@ export function LimitDialog() {
         {/* Auth buttons */}
         <div className="flex w-full flex-col gap-2 pt-1">
           <DialogClose>
-            <Link href="/login" className="w-full">
+            <Link href={APP_URL.LOGIN} className="w-full">
               <Button fullWidth size="md" variant="primary">
                 Login
               </Button>
@@ -52,7 +53,7 @@ export function LimitDialog() {
           </DialogClose>
 
           <DialogClose>
-            <Link href="/register" className="w-full">
+            <Link href={APP_URL.REGISTER} className="w-full">
               <Button fullWidth size="md" variant="muted">
                 Create Account
               </Button>

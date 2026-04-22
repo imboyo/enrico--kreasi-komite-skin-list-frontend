@@ -26,6 +26,8 @@
   --dialog: #3B3B3B;
   --dialog-foreground: #E8E8E8;
   --dialog-muted: #A3A3A3;
+  --input-surface: #E7E7E7;
+  --input-placeholder: #707070;
 }
 
 @theme inline {
@@ -53,6 +55,8 @@
   --color-dialog: var(--dialog);
   --color-dialog-foreground: var(--dialog-foreground);
   --color-dialog-muted: var(--dialog-muted);
+  --color-input-surface: var(--input-surface);
+  --color-input-placeholder: var(--input-placeholder);
   /* Prefer Helvetica Neue app-wide, then fall back to common sans-serif system fonts. */
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
