@@ -1,11 +1,5 @@
-import MobileContainer from "@/components/atomic/atom/MobileContainer";
+import { PageHome } from "@/client-side-page/home/PageHome";
 
 export default function Home() {
-  return (
-    <MobileContainer>
-      <div>
-        Halo
-      </div>
-    </MobileContainer>
-  );
+  return <PageHome />;
 }
