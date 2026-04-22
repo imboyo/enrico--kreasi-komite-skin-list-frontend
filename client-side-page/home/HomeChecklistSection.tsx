@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useRoutineCheckStore } from "@/client-side-page/home/routine-check-store";
 import { Checkbox } from "@/components/atomic/atom/Checkbox";
@@ -45,6 +45,10 @@ export function HomeChecklistSection<TItem extends HomeChecklistItem>({
   // Each section manages its own initial fold state so PageHome can choose
   // which checklist is expanded on the first render.
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const [contentHeight, setContentHeight] = useState(
+    defaultOpen ? "auto" : "0px",
+  );
+  const contentInnerRef = useRef<HTMLDivElement | null>(null);
   const query = useQuery<HomeChecklistResponse<TItem>>({
     queryKey,
     queryFn,
@@ -53,6 +57,32 @@ export function HomeChecklistSection<TItem extends HomeChecklistItem>({
   const items = query.data?.data ?? [];
   const { resolvedItems, setChecked } = useCheckableItems(items);
   const incrementCheckCount = useRoutineCheckStore((state) => state.increment);
+
+  useEffect(() => {
+    const contentElement = contentInnerRef.current;
+
+    if (!contentElement) {
+      return;
+    }
+
+    const updateHeight = () => {
+      // Measure the rendered content so the wrapper can animate both expand
+      // and collapse instead of hard-mounting the checklist body.
+      setContentHeight(isOpen ? `${contentElement.scrollHeight}px` : "0px");
+    };
+
+    updateHeight();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateHeight();
+    });
+
+    resizeObserver.observe(contentElement);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [isOpen, resolvedItems.length, query.status]);
 
   return (
     <section
@@ -68,6 +98,7 @@ export function HomeChecklistSection<TItem extends HomeChecklistItem>({
           type="button"
           className="flex w-full items-center justify-between gap-4 bg-transparent py-1 text-left transition-opacity hover:opacity-80"
           aria-expanded={isOpen}
+          aria-controls={`${queryKey.join("-")}-content`}
           onClick={() => {
             setIsOpen((currentValue) => !currentValue);
           }}
@@ -81,40 +112,55 @@ export function HomeChecklistSection<TItem extends HomeChecklistItem>({
         </button>
       </header>
 
-      {isOpen && (
-        <QueryStateHandler
-          query={query}
-          skeleton={<RoutineListSkeleton />}
-          isEmpty={resolvedItems.length === 0}
-          errorTitle={errorTitle}
-          emptyTitle={emptyTitle}
-          emptyDescription={emptyDescription}
+      <div
+        id={`${queryKey.join("-")}-content`}
+        className={cn(
+          "overflow-hidden transition-[height,opacity,margin] duration-300 ease-out motion-reduce:transition-none",
+          isOpen ? "mt-3 opacity-100" : "mt-0 opacity-0",
+        )}
+        style={{
+          height: contentHeight,
+        }}
+        aria-hidden={!isOpen}
+      >
+        <div
+          ref={contentInnerRef}
+          className={cn(!isOpen && "pointer-events-none")}
         >
-          <div className="space-y-3">
-            {resolvedItems.map((item) => (
-              <div key={item.id} className="relative">
-                <Checkbox
-                  checked={item.isChecked}
-                  label={item.label}
-                  onChange={(event) => {
-                    setChecked(item.id, event.currentTarget.checked);
-                    // All home checklists share one interaction counter so the
-                    // limit dialog still behaves the same across sections.
-                    incrementCheckCount();
-                  }}
-                  wrapperProps={{
-                    className: cn(
-                      "flex w-full items-center gap-3 rounded-[24px] border border-border/70 bg-card/90 px-4 py-4 shadow-sm transition-all hover:border-primary/40 hover:bg-primary/5 hover:shadow-md",
-                      item.isChecked && "border-primary/50 bg-primary/5",
-                    ),
-                  }}
-                  labelClassName="text-base font-medium text-foreground"
-                />
-              </div>
-            ))}
-          </div>
-        </QueryStateHandler>
-      )}
+          <QueryStateHandler
+            query={query}
+            skeleton={<RoutineListSkeleton />}
+            isEmpty={resolvedItems.length === 0}
+            errorTitle={errorTitle}
+            emptyTitle={emptyTitle}
+            emptyDescription={emptyDescription}
+          >
+            <div className="space-y-3">
+              {resolvedItems.map((item) => (
+                <div key={item.id} className="relative">
+                  <Checkbox
+                    checked={item.isChecked}
+                    label={item.label}
+                    onChange={(event) => {
+                      setChecked(item.id, event.currentTarget.checked);
+                      // All home checklists share one interaction counter so the
+                      // limit dialog still behaves the same across sections.
+                      incrementCheckCount();
+                    }}
+                    wrapperProps={{
+                      className: cn(
+                        "flex w-full items-center gap-3 rounded-[24px] border border-border/70 bg-card/90 px-4 py-4 shadow-sm transition-all hover:border-primary/40 hover:bg-primary/5 hover:shadow-md",
+                        item.isChecked && "border-primary/50 bg-primary/5",
+                      ),
+                    }}
+                    labelClassName="text-base font-medium text-foreground"
+                  />
+                </div>
+              ))}
+            </div>
+          </QueryStateHandler>
+        </div>
+      </div>
     </section>
   );
 }
