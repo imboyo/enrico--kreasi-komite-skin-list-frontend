@@ -1,7 +1,7 @@
 // Shared Zustand store for routine checkbox toggle count — shared across components
 import { create } from "zustand";
 
-export const CHECK_LIMIT = 20;
+export const CHECK_LIMIT = 15;
 
 interface RoutineCheckStore {
   /** Total number of check/uncheck interactions across all routines */

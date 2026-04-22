@@ -1,6 +1,7 @@
 "use client";
 
 import { Colors } from "@/client-side-page/home/Colors";
+import { HeroCard } from "@/client-side-page/home/HeroCard";
 import { MakeUps } from "@/client-side-page/home/MakeUps";
 import { Routines } from "@/client-side-page/home/Routines";
 import { Scars } from "@/client-side-page/home/Scars";
@@ -20,16 +21,20 @@ export const PageHome = () => {
   }, [reset]);
 
   return (
-    <main className="mx-auto flex w-full max-w-[500px] flex-col gap-6 px-4 py-4">
+    <main className="mx-auto flex w-full max-w-125 flex-col gap-6 px-4 py-4">
       {/* Renders itself automatically when the check limit is hit */}
       <LimitDialog />
 
-      <section className="flex flex-col">
-        <h1 className="text-[40px] font-medium">Skin Checklist</h1>
-        <h6 className="text-muted-foreground text-sm">
-          &#34;Track your routine, tone, make up, and skin concerns in one
-          place.”
-        </h6>
+      <section className="flex flex-col gap-4">
+        <div>
+          <h1 className="text-[40px] font-medium">Skin Checklist</h1>
+          <h6 className="text-muted-foreground text-sm">
+            &#34;Track your routine, tone, make up, and skin concerns in one
+            place.&#34;
+          </h6>
+        </div>
+
+        <HeroCard />
       </section>
       <Routines />
       <Colors />

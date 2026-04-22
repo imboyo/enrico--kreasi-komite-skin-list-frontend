@@ -104,7 +104,7 @@ export function HomeChecklistSection<TItem extends HomeChecklistItem>({
                   }}
                   wrapperProps={{
                     className: cn(
-                      "flex w-full items-center gap-3 rounded-[24px] border border-border/70 bg-card/90 px-4 py-4 shadow-sm transition-colors",
+                      "flex w-full items-center gap-3 rounded-[24px] border border-border/70 bg-card/90 px-4 py-4 shadow-sm transition-all hover:border-primary/40 hover:bg-primary/5 hover:shadow-md",
                       item.isChecked && "border-primary/50 bg-primary/5",
                     ),
                   }}
