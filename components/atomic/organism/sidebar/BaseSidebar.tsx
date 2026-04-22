@@ -9,9 +9,10 @@ interface BaseSidebarProps {
   title: string;
   topSection?: ReactNode;
   children?: ReactNode;
+  bottomSection?: ReactNode;
 }
 
-export function BaseSidebar({ title, topSection, children }: BaseSidebarProps) {
+export function BaseSidebar({ title, topSection, children, bottomSection }: BaseSidebarProps) {
   const { isOpen, close } = useSidebarStore();
 
   useEffect(() => {
@@ -39,24 +40,24 @@ export function BaseSidebar({ title, topSection, children }: BaseSidebarProps) {
 
           {/* Drawer panel */}
           <motion.aside
-            className="absolute inset-y-0 left-0 flex w-72 flex-col bg-background shadow-2xl"
+            className="absolute inset-y-0 left-0 flex w-72 flex-col bg-sidebar text-sidebar-foreground shadow-2xl"
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 220 }}
           >
             {/* Shared header */}
-            <div className="flex items-center justify-between px-4 py-4 border-b border-border">
-              <span className="text-base font-semibold text-foreground">
+            <div className="flex items-center justify-between px-4 py-4 border-b border-sidebar-foreground/15">
+              <span className="text-base font-semibold text-sidebar-foreground">
                 {title}
               </span>
               <button
                 onClick={close}
-                className="rounded-full p-1.5 hover:bg-muted transition-colors"
+                className="rounded-full p-1.5 text-sidebar-foreground hover:bg-sidebar-foreground/10 transition-colors"
                 aria-label="Close sidebar"
               >
                 <Icon
-                  icon="material-symbols:close-rounded"
+                  icon="material-symbols:close-outline-rounded"
                   width={20}
                   height={20}
                 />
@@ -65,13 +66,20 @@ export function BaseSidebar({ title, topSection, children }: BaseSidebarProps) {
 
             {/* Dynamic top section — passed via props, rendered above logo */}
             {topSection && (
-              <div className="px-4 py-4 border-b border-border">
+              <div className="px-4 py-4 border-b border-sidebar-foreground/15">
                 {topSection}
               </div>
             )}
 
             {/* Dynamic menu section — children */}
             <div className="flex-1 overflow-y-auto px-4 py-4">{children}</div>
+
+            {/* Bottom section — pinned to bottom */}
+            {bottomSection && (
+              <div className="px-4 py-4 border-t border-sidebar-foreground/15">
+                {bottomSection}
+              </div>
+            )}
           </motion.aside>
         </div>
       )}

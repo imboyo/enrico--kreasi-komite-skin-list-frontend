@@ -21,6 +21,8 @@
   --border: #e7d7c8;
   --input: #e7d7c8;
   --ring: #d18a5b;
+  --sidebar: #3B3B3B;
+  --sidebar-foreground: #E7E7E7;
 }
 
 @theme inline {
@@ -43,6 +45,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
 }
