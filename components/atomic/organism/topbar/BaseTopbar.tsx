@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import { Icon } from "@iconify/react";
 import { useSidebarStore } from "@/store/sidebar-store";
+import { Button } from "@/components/atomic/atom/Button";
 
 interface BaseTopbarProps {
   rightSection?: ReactNode;
@@ -14,13 +15,16 @@ export function BaseTopbar({ rightSection }: BaseTopbarProps) {
   return (
     <header className="relative flex items-center justify-between px-4 py-3 bg-background border-b border-border">
       {/* Hamburger — toggles sidebar */}
-      <button
+      <Button
+        variant="ghost"
+        size="md"
+        iconOnly
         onClick={toggle}
-        className="rounded-full p-1.5 hover:bg-muted transition-colors"
         aria-label="Open menu"
+        className="rounded-full"
       >
-        <Icon icon="material-symbols:menu-rounded" width={24} height={24} />
-      </button>
+        <Icon icon="material-symbols:menu-rounded" />
+      </Button>
 
       {/* Logo — centered when rightSection present, otherwise right-aligned */}
       <div
