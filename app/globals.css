@@ -15,7 +15,7 @@
   --accent: #dbe9d8;
   --accent-foreground: #294936;
   --muted: #f4efe8;
-  --muted-foreground: #6b7280;
+  --muted-foreground: #545454;
   --destructive: #c2410c;
   --destructive-foreground: #fff7ed;
   --border: #e7d7c8;
@@ -47,14 +47,15 @@
   --color-ring: var(--ring);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
-  --font-sans: var(--font-inter);
+  /* Prefer Helvetica Neue app-wide, then fall back to common sans-serif system fonts. */
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
 
 .mobile-shell-backdrop {

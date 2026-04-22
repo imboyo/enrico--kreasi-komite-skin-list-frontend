@@ -59,3 +59,5 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
   just make a container with the default background color behind it
 - Please add a comment explaining what the logic is for even inside a function or element if it need explanation or
   little complex
+- For `mock-backend`, keep reusable mock controls in `mock-backend/utils` and support the same specification for every
+  mock function: controllable delay/loading plus simulated server-down errors

@@ -1,13 +1,7 @@
-// Root layout — sets global fonts, SEO metadata, and HTML shell for all pages.
-// MobileContainer is here so the sidebar overlay is always constrained inside the 500px shell.
 import type { Metadata } from "next";
-import { Geist_Mono, Inter } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
+import ReactQueryProvider from "@/components/provider/QueryClient";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -82,11 +76,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="id"
-      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="id" className={`${geistMono.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col">
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </body>
     </html>
   );
 }
