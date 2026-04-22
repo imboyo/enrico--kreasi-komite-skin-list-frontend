@@ -1,4 +1,5 @@
-// Root layout — sets global fonts, SEO metadata, and HTML shell for all pages
+// Root layout — sets global fonts, SEO metadata, and HTML shell for all pages.
+// MobileContainer is here so the sidebar overlay is always constrained inside the 500px shell.
 import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";

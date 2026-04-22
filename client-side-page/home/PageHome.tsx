@@ -1,11 +1,9 @@
 "use client";
 
-import MobileContainer from "@/components/atomic/atom/MobileContainer";
-
 export const PageHome = () => {
   return (
-    <MobileContainer>
+    <main className="px-4 py-4">
       <div>Halo</div>
-    </MobileContainer>
+    </main>
   );
 };
