@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/atomic/atom/Button";
+import { APP_URL } from "@/constant";
 import { useLoginForm } from "@/hooks/useLoginForm";
 
 import { LoginAvatar } from "./LoginAvatar";
@@ -40,15 +41,6 @@ export function PageLogin() {
         {serverError && (
           <p className="text-sm text-destructive">{serverError}</p>
         )}
-
-        <div className="flex justify-end">
-          <Link
-            href="#"
-            className="text-sm font-medium text-primary hover:underline"
-          >
-            Forgot your password?
-          </Link>
-        </div>
 
         <form.Subscribe
           selector={(state) => ({
@@ -88,6 +80,23 @@ export function PageLogin() {
         >
           Back
         </Button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Don&apos;t have an account?{" "}
+          <Link
+            href={APP_URL.REGISTER}
+            className="font-medium text-primary hover:underline"
+          >
+            Sign up
+          </Link>
+        </p>
+
+        <Link
+          href="#"
+          className="text-sm text-center font-medium text-primary hover:underline"
+        >
+          Forgot your password?
+        </Link>
       </form>
     </main>
   );

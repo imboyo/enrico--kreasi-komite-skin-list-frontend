@@ -10,7 +10,6 @@ const items: SidebarMenuItemProps[] = [
   { label: "About Us", href: APP_URL.ABOUT, icon: "material-symbols:info-outline-rounded" },
   { label: "Terms", href: APP_URL.TERMS, icon: "material-symbols:description-outline-rounded" },
   { label: "Contact", href: APP_URL.CONTACT, icon: "material-symbols:mail-outline-rounded" },
-  { label: "Text Input", href: APP_URL.TEXT_INPUT, icon: "material-symbols:match-case-rounded" },
 ];
 
 export function NotLoginSidebar() {
@@ -18,11 +17,18 @@ export function NotLoginSidebar() {
     <BaseSidebar
       title="WELCOME!"
       bottomSection={
-        <SidebarMenuItem
-          label="Login"
-          href={APP_URL.LOGIN}
-          icon="material-symbols:person-outline-rounded"
-        />
+        <>
+          <SidebarMenuItem
+            label="Login"
+            href={APP_URL.LOGIN}
+            icon="material-symbols:person-outline-rounded"
+          />
+          <SidebarMenuItem
+            label="Sign Up"
+            href={APP_URL.REGISTER}
+            icon="material-symbols:person-add-outline-rounded"
+          />
+        </>
       }
     >
       <SidebarMenuList items={items} />
