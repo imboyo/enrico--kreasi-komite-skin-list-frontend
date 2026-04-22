@@ -1,7 +1,7 @@
 import { appConfig } from "@/config";
 import { Icon } from "@iconify/react";
 
-export function NotLoginFooter() {
+export function Footer() {
   const currentYear = new Date().getFullYear();
   const { githubUsername } = appConfig.developer;
   const developerGithubHref = `https://github.com/${githubUsername}`;

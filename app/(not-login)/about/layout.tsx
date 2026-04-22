@@ -1,4 +1,4 @@
-import { NotLoginFooter } from "@/components/atomic/layout/not-login/NotLoginFooter";
+import { Footer } from "@/components/atomic/atom/Footer";
 import React from "react";
 
 export default function AboutLayout({
@@ -9,7 +9,7 @@ export default function AboutLayout({
   return (
     <>
       {children}
-      <NotLoginFooter />
+      <Footer />
     </>
   );
 }

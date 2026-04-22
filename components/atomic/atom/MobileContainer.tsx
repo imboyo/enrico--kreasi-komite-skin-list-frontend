@@ -15,7 +15,7 @@ export default function MobileContainer({children, className}: MobileContainerPr
       {/* px-4 py-4 removed — each page/section controls its own padding */}
       <div
         className={cn(
-          "relative min-h-screen w-full bg-background sm:mx-auto sm:max-w-125 sm:shadow-[0_0_0_1px_rgba(255,255,255,0.3),0_24px_60px_rgba(63,70,79,0.18)]",
+          "relative min-h-screen w-full bg-background overflow-hidden sm:mx-auto sm:max-w-125 sm:shadow-[0_0_0_1px_rgba(255,255,255,0.3),0_24px_60px_rgba(63,70,79,0.18)]",
           className
         )}
       >
