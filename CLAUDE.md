@@ -51,3 +51,4 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 
 ### Codebase
 - Currently, I only develop in a mobile version, so maximum size of the main content is 500px then if it exceeds 500px just make a container with the default background color behind it
+- Please add a comment at the top of the file explaining what the file is for and for essential logic please add a comment explaining what the logic is for
