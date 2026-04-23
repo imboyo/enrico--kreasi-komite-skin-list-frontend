@@ -11,7 +11,7 @@ export function SkinGoalsSummary({
   onEdit,
 }: SkinGoalsSummaryProps) {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 mt-6">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold text-foreground">Skin Goals</h2>
 
@@ -19,7 +19,7 @@ export function SkinGoalsSummary({
           size="sm"
           variant="outline"
           onClick={onEdit}
-          leadingIcon={<Icon icon="lucide:pencil" className="size-3.5" />}
+          leadingIcon={<Icon icon="lucide:settings-2" className="size-3.5" />}
         >
           Edit Goals
         </Button>
@@ -32,7 +32,7 @@ export function SkinGoalsSummary({
           activeGoals.map((goal) => (
             <span
               key={goal}
-              className="rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary"
+              className="rounded-full border border-secondary/30 bg-secondary/10 px-4 py-1.5 text-sm font-medium text-secondary"
             >
               {goal}
             </span>

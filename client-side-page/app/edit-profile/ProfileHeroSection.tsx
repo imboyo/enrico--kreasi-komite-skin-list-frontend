@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { EditableAvatar } from "@/components/atomic/molecule/EditableAvatar";
+import { HeroSection } from "@/components/atomic/molecule/HeroSection";
 import { ProfileGlassCard } from "@/components/atomic/molecule/ProfileGlassCard";
 
 const MOCK_DERMAL_METRICS = [
@@ -25,25 +26,33 @@ export function ProfileHeroSection() {
   };
 
   return (
-    <div className="relative flex flex-col items-center">
-      {/* Avatar sits above the card, centred horizontally, z-indexed on top */}
-      <div className="relative z-10" style={{ marginBottom: -AVATAR_OVERLAP }}>
-        <EditableAvatar
-          imageUrl={profileImage}
-          onImageChange={handleImageChange}
-          size={AVATAR_SIZE}
+    <HeroSection
+      eyebrow="Profile"
+      title="Keep your details and skin progress up to date."
+      description="Update your avatar, review your account info, and keep your skincare journey aligned in one place."
+    >
+      {/* Profile summary card */}
+      <div className="relative flex flex-col items-center pt-2">
+        {/* Avatar sits above the card, centred horizontally, z-indexed on top */}
+        <div className="relative z-10" style={{ marginBottom: -AVATAR_OVERLAP }}>
+          <EditableAvatar
+            imageUrl={profileImage}
+            onImageChange={handleImageChange}
+            size={AVATAR_SIZE}
+          />
+        </div>
+
+        {/* Glass card starts behind/below the avatar bottom half */}
+        <ProfileGlassCard
+          fullName="Enrico Kreasi"
+          email="imbomabrur0906@gmail.com"
+          dermalMetrics={MOCK_DERMAL_METRICS}
+          editProfileHref="/app/profile/info"
+          tone="hero"
+          className="w-full"
+          style={{ paddingTop: AVATAR_OVERLAP + 12 }}
         />
       </div>
-
-      {/* Glass card starts behind/below the avatar bottom half */}
-      <ProfileGlassCard
-        fullName="Enrico Kreasi"
-        email="imbomabrur0906@gmail.com"
-        dermalMetrics={MOCK_DERMAL_METRICS}
-        editProfileHref="/app/profile/info"
-        className="w-full"
-        style={{ paddingTop: AVATAR_OVERLAP + 12 }}
-      />
-    </div>
+    </HeroSection>
   );
 }
