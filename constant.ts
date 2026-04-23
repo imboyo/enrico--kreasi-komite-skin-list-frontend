@@ -5,4 +5,5 @@ export const APP_URL = {
   CONTACT: "/contact",
   LOGIN: "/login",
   REGISTER: "/register",
+  FORGOT_PASSWORD: "/forgot-password",
 };

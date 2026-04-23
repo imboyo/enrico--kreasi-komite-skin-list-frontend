@@ -96,7 +96,7 @@ export function PageLogin() {
         </p>
 
         <Link
-          href="#"
+          href={APP_URL.FORGOT_PASSWORD}
           className="text-sm text-center font-medium text-primary hover:underline"
         >
           Forgot your password?
