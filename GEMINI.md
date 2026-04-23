@@ -52,6 +52,7 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 - Order from small to large -> atom, molecule, organism, template, layout
 - When creating a shared component, please put it in atomic and specify which category it belongs to. components/atomic
 - Provider is for setting up at a layout level like theme or store
+- When creating subchild featured component, create a subfolder for example PageRegister -> default-form || otp-form || success-form. Then put the child component in the subfolder. then without prefix anymore so default-form/input.tsx. If only one child component don't need to create subfolder
 
 ### Codebase
 
@@ -61,3 +62,5 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
   little complex
 - For `mock-backend`, keep reusable mock controls in `mock-backend/utils` and support the same specification for every
   mock function: controllable delay/loading plus simulated server-down errors
+- When you found a bug, please fix it and notify me
+- The App Language is Bahasa Indonesia but for all code base it's English 100% Only for the UI

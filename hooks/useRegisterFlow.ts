@@ -13,13 +13,10 @@ import { z } from "zod";
 import {
   requestRegisterOtp,
   verifyRegisterOtp,
-  InvalidRegisterOtpError,
 } from "@/mock-backend/auth/register-otp";
-import { EmailAlreadyRegisteredError } from "@/mock-backend/auth/register";
-import { MockServerDownError } from "@/mock-backend/utils/mock-control";
+import { normalizeWhatsappNumber } from "@/util/whatsapp-number";
 
 import {
-  registerSchema,
   validateRegisterField,
   type RegisterFormApi,
   type RegisterFormValues,
@@ -57,7 +54,7 @@ export function useRegisterFlow() {
     useState<RegisterFormValues | null>(null);
   const [registeredUser, setRegisteredUser] = useState<{
     name: string;
-    email: string;
+    whatsappNumber: string;
   } | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -67,7 +64,7 @@ export function useRegisterFlow() {
       requestRegisterOtp(
         {
           name: payload.name,
-          email: payload.email,
+          whatsappNumber: normalizeWhatsappNumber(payload.whatsappNumber),
           password: payload.password,
         },
         { delayMs: 1000 },
@@ -102,12 +99,9 @@ export function useRegisterFlow() {
   const form: RegisterFormApi = useForm({
     defaultValues: {
       name: "",
-      email: "",
+      whatsappNumber: "",
       password: "",
       confirmPassword: "",
-    },
-    validators: {
-      onSubmit: registerSchema,
     },
     onSubmit: async ({ value }) => {
       registerMutation.mutate(value);
@@ -124,19 +118,11 @@ export function useRegisterFlow() {
   });
 
   const registerError = registerMutation.error
-    ? registerMutation.error instanceof EmailAlreadyRegisteredError
-      ? registerMutation.error.message
-      : registerMutation.error instanceof MockServerDownError
-        ? "Server is unavailable. Please try again."
-        : "Something went wrong. Please try again."
+    ? "Something went wrong. Please try again."
     : null;
 
   const verifyError = verifyOtpMutation.error
-    ? verifyOtpMutation.error instanceof InvalidRegisterOtpError
-      ? verifyOtpMutation.error.message
-      : verifyOtpMutation.error instanceof MockServerDownError
-        ? "Server is unavailable. Please try again."
-        : "Something went wrong. Please try again."
+    ? "Something went wrong. Please try again."
     : null;
 
   return {

@@ -6,10 +6,10 @@ import { APP_URL } from "@/constant";
 import type { useRegisterFlow } from "@/hooks/useRegisterFlow";
 
 import { RegisterConfirmPasswordField } from "./RegisterConfirmPasswordField";
-import { RegisterEmailField } from "./RegisterEmailField";
 import { RegisterHeading } from "./RegisterHeading";
 import { RegisterNameField } from "./RegisterNameField";
 import { RegisterPasswordField } from "./RegisterPasswordField";
+import { RegisterWhatsappNumberField } from "./RegisterWhatsappNumberField";
 
 type RegisterFlowState = ReturnType<typeof useRegisterFlow>;
 
@@ -50,7 +50,7 @@ export function RegisterFormStep({
       >
         <RegisterNameField form={form} disabled={registerMutation.isPending} />
 
-        <RegisterEmailField form={form} disabled={registerMutation.isPending} />
+        <RegisterWhatsappNumberField form={form} disabled={registerMutation.isPending} />
 
         <RegisterPasswordField
           form={form}
@@ -80,7 +80,7 @@ export function RegisterFormStep({
           {({ isValid, values, submissionAttempts }) => {
             const hasValues =
               !!values.name.trim() &&
-              !!values.email.trim() &&
+              !!values.whatsappNumber.trim() &&
               !!values.password.trim() &&
               !!values.confirmPassword.trim();
 

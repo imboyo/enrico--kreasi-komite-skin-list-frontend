@@ -32,7 +32,7 @@ export function RegisterOtpStep({
           Verify your account
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter the OTP sent to <strong>{pendingRegistration?.email}</strong>.
+          Enter the OTP sent to <strong>{pendingRegistration?.whatsappNumber}</strong>.
         </p>
       </div>
 

@@ -4,7 +4,7 @@ import {
 } from "@/mock-backend/utils/mock-control";
 
 import {
-  EmailAlreadyRegisteredError,
+  WhatsappAlreadyRegisteredError,
   register,
   type RegisterPayload,
   type RegisterResponse,
@@ -24,7 +24,7 @@ export class InvalidRegisterOtpError extends Error {
 }
 
 const MOCK_REGISTER_OTP = "123456";
-const REGISTERED_EMAILS = new Set(["member@skincommittee.id"]);
+const REGISTERED_WHATSAPP_NUMBERS = new Set(["628123456789"]);
 
 export async function requestRegisterOtp(
   payload: RequestRegisterOtpPayload,
@@ -32,8 +32,8 @@ export async function requestRegisterOtp(
 ): Promise<void> {
   await simulateMockRequest(control);
 
-  if (REGISTERED_EMAILS.has(payload.email.toLowerCase())) {
-    throw new EmailAlreadyRegisteredError();
+  if (REGISTERED_WHATSAPP_NUMBERS.has(payload.whatsappNumber)) {
+    throw new WhatsappAlreadyRegisteredError();
   }
 }
 
@@ -47,13 +47,11 @@ export async function verifyRegisterOtp(
     throw new InvalidRegisterOtpError();
   }
 
-  return register(
-    {
-      name: payload.name,
-      email: payload.email,
-      password: payload.password,
-    },
-  );
+  return register({
+    name: payload.name,
+    whatsappNumber: payload.whatsappNumber,
+    password: payload.password,
+  });
 }
 
 const registerOtpApi = { requestRegisterOtp, verifyRegisterOtp };

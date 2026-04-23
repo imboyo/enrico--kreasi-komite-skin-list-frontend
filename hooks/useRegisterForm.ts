@@ -9,17 +9,17 @@ import {
 import { useState } from "react";
 import { z } from "zod";
 
-import { EmailAlreadyRegisteredError } from "@/mock-backend/auth/register";
+import {
+  normalizeWhatsappNumber,
+  whatsappNumberSchema,
+} from "@/util/whatsapp-number";
 
 import { useRegisterMutation } from "./useRegisterMutation";
 
 export const registerSchema = z
   .object({
     name: z.string().min(1, "Full name is required"),
-    email: z
-      .string()
-      .min(1, "Email is required")
-      .pipe(z.email("Enter a valid email address")),
+    whatsappNumber: whatsappNumberSchema,
     password: z
       .string()
       .min(1, "Password is required")
@@ -65,23 +65,21 @@ export function useRegisterForm() {
   const form: RegisterFormApi = useForm({
     defaultValues: {
       name: "",
-      email: "",
+      whatsappNumber: "",
       password: "",
       confirmPassword: "",
     },
     onSubmit: async ({ value }) => {
       registerMutation.mutate({
         name: value.name,
-        email: value.email,
+        whatsappNumber: normalizeWhatsappNumber(value.whatsappNumber),
         password: value.password,
       });
     },
   });
 
   const serverError = registerMutation.error
-    ? registerMutation.error instanceof EmailAlreadyRegisteredError
-      ? registerMutation.error.message
-      : "Something went wrong. Please try again."
+    ? "Something went wrong. Please try again."
     : null;
 
   return {

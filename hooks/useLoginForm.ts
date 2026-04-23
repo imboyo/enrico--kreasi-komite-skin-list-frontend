@@ -10,14 +10,15 @@ import { useState } from "react";
 import { z } from "zod";
 
 import { InvalidCredentialsError } from "@/mock-backend/auth/login";
+import {
+  normalizeWhatsappNumber,
+  whatsappNumberSchema,
+} from "@/util/whatsapp-number";
 
 import { useLoginMutation } from "./useLoginMutation";
 
 export const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .pipe(z.email("Enter a valid email address")),
+  whatsappNumber: whatsappNumberSchema,
   password: z
     .string()
     .min(1, "Password is required")
@@ -55,9 +56,12 @@ export function useLoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const form: LoginFormApi = useForm({
-    defaultValues: { email: "", password: "" },
+    defaultValues: { whatsappNumber: "", password: "" },
     onSubmit: async ({ value }) => {
-      loginMutation.mutate(value);
+      loginMutation.mutate({
+        whatsappNumber: normalizeWhatsappNumber(value.whatsappNumber),
+        password: value.password,
+      });
     },
   });
 

@@ -2,15 +2,16 @@ import {
   simulateMockRequest,
   type MockControlInput,
 } from "@/mock-backend/utils/mock-control";
+import { normalizeWhatsappNumber } from "@/util/whatsapp-number";
 
 export type LoginPayload = {
-  email: string;
+  whatsappNumber: string;
   password: string;
 };
 
 export type LoginUser = {
   id: string;
-  email: string;
+  whatsappNumber: string;
   name: string;
 };
 
@@ -26,7 +27,7 @@ export type LoginControlInput = MockControlInput & {
 
 export class InvalidCredentialsError extends Error {
   constructor() {
-    super("Invalid email or password.");
+    super("Invalid WhatsApp number or password.");
     this.name = "InvalidCredentialsError";
   }
 }
@@ -34,7 +35,7 @@ export class InvalidCredentialsError extends Error {
 // Hardcoded demo account for mock purposes.
 const MOCK_USER: LoginUser = {
   id: "user-001",
-  email: "member@skincommittee.id",
+  whatsappNumber: "+62 812-3456-7890",
   name: "Skin Committee Member",
 };
 
@@ -49,7 +50,8 @@ export async function login(
   // Simulate invalid-credentials branch
   if (
     control.forceInvalidCredentials ||
-    payload.email !== MOCK_USER.email ||
+    normalizeWhatsappNumber(payload.whatsappNumber) !==
+      normalizeWhatsappNumber(MOCK_USER.whatsappNumber) ||
     payload.password !== MOCK_PASSWORD
   ) {
     throw new InvalidCredentialsError();

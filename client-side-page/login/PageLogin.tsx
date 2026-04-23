@@ -9,8 +9,8 @@ import { useLoginForm } from "@/hooks/useLoginForm";
 
 import { LoginAvatar } from "./LoginAvatar";
 import { LoginHeading } from "./LoginHeading";
-import { LoginEmailField } from "./LoginEmailField";
 import { LoginPasswordField } from "./LoginPasswordField";
+import { LoginWhatsappNumberField } from "./LoginWhatsappNumberField";
 
 export function PageLogin() {
   const router = useRouter();
@@ -29,7 +29,10 @@ export function PageLogin() {
           void form.handleSubmit();
         }}
       >
-        <LoginEmailField form={form} disabled={loginMutation.isPending} />
+        <LoginWhatsappNumberField
+          form={form}
+          disabled={loginMutation.isPending}
+        />
 
         <LoginPasswordField
           form={form}
@@ -50,7 +53,8 @@ export function PageLogin() {
         >
           {({ isValid, values }) => {
             // Disable the button if either field is empty (before any touch/validation).
-            const hasValues = !!values.email.trim() && !!values.password.trim();
+            const hasValues =
+              !!values.whatsappNumber.trim() && !!values.password.trim();
 
             return (
               <Button

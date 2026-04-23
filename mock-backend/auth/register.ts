@@ -5,7 +5,7 @@ import {
 
 export type RegisterPayload = {
   name: string;
-  email: string;
+  whatsappNumber: string;
   password: string;
 };
 
@@ -13,23 +13,23 @@ export type RegisterResponse = {
   user: {
     id: string;
     name: string;
-    email: string;
+    whatsappNumber: string;
   };
 };
 
 export type RegisterControlInput = MockControlInput & {
-  /** Force a duplicate-email error regardless of the submitted payload. */
-  forceDuplicateEmail?: boolean;
+  /** Force a duplicate-whatsapp error regardless of the submitted payload. */
+  forceDuplicateWhatsapp?: boolean;
 };
 
-export class EmailAlreadyRegisteredError extends Error {
+export class WhatsappAlreadyRegisteredError extends Error {
   constructor() {
-    super("This email is already registered.");
-    this.name = "EmailAlreadyRegisteredError";
+    super("This WhatsApp number is already registered.");
+    this.name = "WhatsappAlreadyRegisteredError";
   }
 }
 
-const REGISTERED_EMAILS = new Set(["member@skincommittee.id"]);
+const REGISTERED_WHATSAPP_NUMBERS = new Set(["628123456789"]);
 
 export async function register(
   payload: RegisterPayload,
@@ -38,17 +38,17 @@ export async function register(
   await simulateMockRequest(control);
 
   if (
-    control.forceDuplicateEmail ||
-    REGISTERED_EMAILS.has(payload.email.toLowerCase())
+    control.forceDuplicateWhatsapp ||
+    REGISTERED_WHATSAPP_NUMBERS.has(payload.whatsappNumber)
   ) {
-    throw new EmailAlreadyRegisteredError();
+    throw new WhatsappAlreadyRegisteredError();
   }
 
   return {
     user: {
       id: "user-registered-001",
       name: payload.name,
-      email: payload.email,
+      whatsappNumber: payload.whatsappNumber,
     },
   };
 }

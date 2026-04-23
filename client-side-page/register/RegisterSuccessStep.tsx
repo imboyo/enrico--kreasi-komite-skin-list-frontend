@@ -28,7 +28,7 @@ export function RegisterSuccessStep({
         </h1>
         <p className="text-sm text-muted-foreground">
           {registeredUser?.name} is ready to sign in with{" "}
-          <strong>{registeredUser?.email}</strong>.
+          <strong>{registeredUser?.whatsappNumber}</strong>.
         </p>
       </div>
 
