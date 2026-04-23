@@ -9,6 +9,8 @@ export interface DialogProps {
   trigger?: ReactNode;
   children: ReactNode;
   className?: string;
+  /** Dialog surface token. Keeps the original dark style by default. */
+  surface?: "dialog" | "dialog-2";
   /** Override dialog panel width (default: fit content, capped by mobile shell) */
   width?: CSSProperties["width"];
   /** Override dialog panel max-height (default: 80vh) */
@@ -21,9 +23,25 @@ export default function Dialog({
   trigger,
   children,
   className,
+  surface = "dialog",
   width,
   maxHeight = "80vh",
 }: DialogProps) {
+  const surfaceClasses =
+    surface === "dialog-2"
+      ? [
+          "[--dialog-current:var(--dialog-2)]",
+          "[--dialog-current-foreground:var(--dialog-2-foreground)]",
+          "[--dialog-current-muted:var(--dialog-2-muted)]",
+          "[--dialog-current-border:var(--dialog-2-border)]",
+        ]
+      : [
+          "[--dialog-current:var(--dialog)]",
+          "[--dialog-current-foreground:var(--dialog-foreground)]",
+          "[--dialog-current-muted:var(--dialog-muted)]",
+          "[--dialog-current-border:rgba(255,255,255,0.1)]",
+        ];
+
   return (
     <RadixDialog.Root open={open} onOpenChange={onOpenChange}>
       {trigger && <RadixDialog.Trigger asChild>{trigger}</RadixDialog.Trigger>}
@@ -40,7 +58,10 @@ export default function Dialog({
             // Sizing
             "w-[calc(100vw-2rem)] max-w-[468px]",
             // Glass effect: blurred backdrop + semi-transparent bg
-            "rounded-2xl border border-white/10 bg-dialog/80 backdrop-blur-md shadow-xl",
+            "rounded-2xl border border-dialog-current-border bg-dialog-current/92 backdrop-blur-md shadow-xl",
+            // Surface tokens let each dialog switch palettes without duplicating structure.
+            "text-dialog-current-foreground",
+            surfaceClasses,
             className,
           )}
         >
@@ -82,7 +103,7 @@ export function DialogTitle({
 }) {
   return (
     <RadixDialog.Title
-      className={cn("text-base font-semibold text-dialog-foreground", className)}
+      className={cn("text-base font-semibold text-dialog-current-foreground", className)}
     >
       {children}
     </RadixDialog.Title>
@@ -98,7 +119,7 @@ export function DialogDescription({
 }) {
   return (
     <RadixDialog.Description
-      className={cn("text-sm text-dialog-muted", className)}
+      className={cn("text-sm text-dialog-current-muted", className)}
     >
       {children}
     </RadixDialog.Description>
@@ -113,7 +134,7 @@ export function DialogBody({
   className?: string;
 }) {
   return (
-    <div className={cn("px-5 py-3 text-dialog-foreground", className)}>
+    <div className={cn("px-5 py-3 text-dialog-current-foreground", className)}>
       {children}
     </div>
   );

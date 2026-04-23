@@ -26,6 +26,10 @@
   --dialog: #3B3B3B;
   --dialog-foreground: #E8E8E8;
   --dialog-muted: #A3A3A3;
+  --dialog-2: var(--background);
+  --dialog-2-foreground: var(--foreground);
+  --dialog-2-muted: var(--muted-foreground);
+  --dialog-2-border: var(--border);
   --input-surface: #E7E7E7;
   --input-placeholder: #707070;
 }
@@ -55,6 +59,14 @@
   --color-dialog: var(--dialog);
   --color-dialog-foreground: var(--dialog-foreground);
   --color-dialog-muted: var(--dialog-muted);
+  --color-dialog-2: var(--dialog-2);
+  --color-dialog-2-foreground: var(--dialog-2-foreground);
+  --color-dialog-2-muted: var(--dialog-2-muted);
+  --color-dialog-2-border: var(--dialog-2-border);
+  --color-dialog-current: var(--dialog-current);
+  --color-dialog-current-foreground: var(--dialog-current-foreground);
+  --color-dialog-current-muted: var(--dialog-current-muted);
+  --color-dialog-current-border: var(--dialog-current-border);
   --color-input-surface: var(--input-surface);
   --color-input-placeholder: var(--input-placeholder);
   /* Prefer Helvetica Neue app-wide, then fall back to common sans-serif system fonts. */

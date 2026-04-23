@@ -2,10 +2,9 @@ import {
   simulateMockRequest,
   type MockControlInput,
 } from "@/mock-backend/utils/mock-control";
-import {
-  BARRIERS,
-  type SkinCareBarrierItem,
-} from "@/mock-backend/skin-care/get-barriers";
+import type { SkinCareBarrierItem } from "@/mock-backend/skin-care/get-barriers";
+
+import { getDashboardItems } from "./item-store";
 
 export type UserBarrierFallbackMode = "data" | "empty";
 
@@ -33,9 +32,8 @@ export async function getUserBarriers(
     meta: {
       mode,
     },
-    // Reuse the shared skincare catalog so dashboard and public checklist
-    // screens stay in sync when the mock content changes.
-    data: mode === "empty" ? [] : BARRIERS.map((item) => ({ ...item })),
+    // Read from the mutable dashboard store so mock edits remain visible after refetch.
+    data: mode === "empty" ? [] : (getDashboardItems("barriers") as SkinCareBarrierItem[]),
   };
 }
 

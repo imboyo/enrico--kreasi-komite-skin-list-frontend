@@ -2,10 +2,9 @@ import {
   simulateMockRequest,
   type MockControlInput,
 } from "@/mock-backend/utils/mock-control";
-import {
-  SCARS,
-  type SkinCareScarItem,
-} from "@/mock-backend/skin-care/get-scars";
+import type { SkinCareScarItem } from "@/mock-backend/skin-care/get-scars";
+
+import { getDashboardItems } from "./item-store";
 
 export type UserScarFallbackMode = "data" | "empty";
 
@@ -33,9 +32,8 @@ export async function getUserScars(
     meta: {
       mode,
     },
-    // Reuse the shared skincare catalog so dashboard and public checklist
-    // screens stay in sync when the mock content changes.
-    data: mode === "empty" ? [] : SCARS.map((item) => ({ ...item })),
+    // Read from the mutable dashboard store so mock edits remain visible after refetch.
+    data: mode === "empty" ? [] : (getDashboardItems("scars") as SkinCareScarItem[]),
   };
 }
 

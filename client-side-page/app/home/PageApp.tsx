@@ -2,16 +2,31 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Tabs } from "@/components/atomic/molecule/Tabs";
-import { DashboardList } from "@/client-side-page/app/DashboardList";
+import {
+  DashboardList,
+  type DashboardListItem,
+} from "@/components/atomic/organism/DashboardList";
+import { ItemDialog } from "@/client-side-page/app/home/item-dialog/ItemDialog";
 import { getUserRoutines } from "@/mock-backend/user/dashboard/get-routines";
 import { getUserColors } from "@/mock-backend/user/dashboard/get-colors";
 import { getUserMakeUps } from "@/mock-backend/user/dashboard/get-make-ups";
 import { getUserBarriers } from "@/mock-backend/user/dashboard/get-barriers";
 import { getUserScars } from "@/mock-backend/user/dashboard/get-scars";
+import type {
+  DashboardEditableItem,
+  DashboardItemCategory,
+} from "@/mock-backend/user/dashboard/item-store";
 
 type TabId = "routines" | "colors" | "make-ups" | "barriers" | "scars";
+
+type SelectedDashboardItem = {
+  category: DashboardItemCategory;
+  queryKey: string[];
+  item: DashboardEditableItem;
+};
 
 const TABS = [
   { id: "routines", label: "Routines" },
@@ -22,7 +37,38 @@ const TABS = [
 ] as const;
 
 export function PageApp() {
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<TabId>("routines");
+  const [selectedItem, setSelectedItem] = useState<SelectedDashboardItem | null>(null);
+
+  function openItemDetails(
+    category: DashboardItemCategory,
+    queryKey: string[],
+    item: DashboardListItem,
+  ) {
+    setSelectedItem({
+      category,
+      queryKey,
+      item,
+    });
+  }
+
+  function handleItemSaved(updatedItem: DashboardEditableItem) {
+    if (!selectedItem) {
+      return;
+    }
+
+    setSelectedItem((previous) =>
+      previous
+        ? {
+            ...previous,
+            item: updatedItem,
+          }
+        : previous,
+    );
+
+    void queryClient.invalidateQueries({ queryKey: selectedItem.queryKey });
+  }
 
   const renderContent = () => {
     switch (activeTab) {
@@ -35,6 +81,9 @@ export function PageApp() {
             errorTitle="Routine list is unavailable."
             emptyTitle="No routines available yet."
             emptyDescription="Add your routine data or retry the request to load this checklist again."
+            onItemClick={(item) =>
+              openItemDetails("routines", ["user-dashboard-routines"], item)
+            }
           />
         );
       case "colors":
@@ -46,6 +95,9 @@ export function PageApp() {
             errorTitle="Color list is unavailable."
             emptyTitle="No colors available yet."
             emptyDescription="Add your color data to load this checklist again."
+            onItemClick={(item) =>
+              openItemDetails("colors", ["user-dashboard-colors"], item)
+            }
           />
         );
       case "make-ups":
@@ -57,6 +109,9 @@ export function PageApp() {
             errorTitle="Make up list is unavailable."
             emptyTitle="No make ups available yet."
             emptyDescription="Add your make up data to load this checklist again."
+            onItemClick={(item) =>
+              openItemDetails("make-ups", ["user-dashboard-make-ups"], item)
+            }
           />
         );
       case "barriers":
@@ -68,6 +123,9 @@ export function PageApp() {
             errorTitle="Barrier list is unavailable."
             emptyTitle="No barriers available yet."
             emptyDescription="Add your barrier data to load this checklist again."
+            onItemClick={(item) =>
+              openItemDetails("barriers", ["user-dashboard-barriers"], item)
+            }
           />
         );
       case "scars":
@@ -79,6 +137,9 @@ export function PageApp() {
             errorTitle="Scar list is unavailable."
             emptyTitle="No scars available yet."
             emptyDescription="Add your scar data to load this checklist again."
+            onItemClick={(item) =>
+              openItemDetails("scars", ["user-dashboard-scars"], item)
+            }
           />
         );
       default:
@@ -128,6 +189,14 @@ export function PageApp() {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Item detail dialog section — controlled by this page */}
+      <ItemDialog
+        item={selectedItem?.item ?? null}
+        category={selectedItem?.category ?? null}
+        onClose={() => setSelectedItem(null)}
+        onSave={handleItemSaved}
+      />
     </motion.main>
   );
 }

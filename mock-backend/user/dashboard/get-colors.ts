@@ -2,10 +2,9 @@ import {
   simulateMockRequest,
   type MockControlInput,
 } from "@/mock-backend/utils/mock-control";
-import {
-  COLORS,
-  type SkinCareColorItem,
-} from "@/mock-backend/skin-care/get-colors";
+import type { SkinCareColorItem } from "@/mock-backend/skin-care/get-colors";
+
+import { getDashboardItems } from "./item-store";
 
 export type UserColorFallbackMode = "data" | "empty";
 
@@ -33,9 +32,8 @@ export async function getUserColors(
     meta: {
       mode,
     },
-    // Reuse the shared skincare catalog so dashboard and public checklist
-    // screens stay in sync when the mock content changes.
-    data: mode === "empty" ? [] : COLORS.map((item) => ({ ...item })),
+    // Read from the mutable dashboard store so mock edits remain visible after refetch.
+    data: mode === "empty" ? [] : (getDashboardItems("colors") as SkinCareColorItem[]),
   };
 }
 

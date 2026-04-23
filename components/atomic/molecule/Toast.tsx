@@ -10,8 +10,10 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        // Success / neutral info
+        // Neutral info
         normal: "border-accent bg-accent text-accent-foreground",
+        // Success feedback uses the same accent treatment as the existing positive toast
+        success: "border-accent bg-accent text-accent-foreground",
         // Error / destructive
         error: "border-destructive/30 bg-destructive/10 text-destructive",
         // Brand accent (orange)
@@ -26,11 +28,12 @@ const toastVariants = cva(
 
 const iconMap = {
   normal: <Icon icon="mdi:check-circle" className="mt-0.5 size-4 shrink-0" />,
+  success: <Icon icon="mdi:check-circle" className="mt-0.5 size-4 shrink-0" />,
   error: <Icon icon="mdi:alert-circle" className="mt-0.5 size-4 shrink-0" />,
   secondary: <Icon icon="mdi:information" className="mt-0.5 size-4 shrink-0" />,
 };
 
-export type ToastVariant = "normal" | "error" | "secondary";
+export type ToastVariant = "normal" | "success" | "error" | "secondary";
 
 export type ToastItem = {
   id: string;
