@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+
 import { Tabs } from "@/components/atomic/molecule/Tabs";
 import { DashboardList } from "@/client-side-page/app/DashboardList";
 import { getUserRoutines } from "@/mock-backend/user/dashboard/get-routines";
@@ -8,7 +10,6 @@ import { getUserColors } from "@/mock-backend/user/dashboard/get-colors";
 import { getUserMakeUps } from "@/mock-backend/user/dashboard/get-make-ups";
 import { getUserBarriers } from "@/mock-backend/user/dashboard/get-barriers";
 import { getUserScars } from "@/mock-backend/user/dashboard/get-scars";
-import { motion, AnimatePresence } from "motion/react";
 
 type TabId = "routines" | "colors" | "make-ups" | "barriers" | "scars";
 
@@ -92,7 +93,9 @@ export function PageApp() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
+      {/* Dashboard content section */}
       <div className="flex flex-col gap-4">
+        {/* Page header section */}
         <div className="flex flex-col gap-1">
           <h1 className="text-[40px] font-medium">Dashboard</h1>
           <h6 className="text-muted-foreground text-sm">
@@ -100,7 +103,7 @@ export function PageApp() {
           </h6>
         </div>
 
-        {/* Scrollable container for tabs on smaller screens */}
+        {/* Tabs section */}
         <div className="overflow-x-auto pb-2 -mx-4 px-4 sm:overflow-visible sm:px-0 sm:mx-0 sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Tabs<TabId>
             options={[...TABS]}
@@ -110,6 +113,7 @@ export function PageApp() {
           />
         </div>
 
+        {/* Tab panel section */}
         <div className="mt-2">
           <AnimatePresence mode="wait">
             <motion.div

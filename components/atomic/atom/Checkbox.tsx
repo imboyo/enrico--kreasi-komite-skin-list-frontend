@@ -21,7 +21,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const { className: wrapperClassName, ...restWrapperProps } =
       wrapperProps ?? {};
     const checkboxInput = (
-      <span className="relative inline-flex size-5 shrink-0">
+      <span className="relative inline-flex size-5 shrink-0 items-center justify-center">
         <input
           ref={ref}
           type="checkbox"
@@ -36,7 +36,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         <svg
           viewBox="0 0 16 16"
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 m-auto hidden size-3.5 text-white peer-checked:block"
+          className="pointer-events-none absolute left-1/2 top-1/2 hidden size-3 -translate-x-1/2 -translate-y-1/2 text-white peer-checked:block"
         >
           <path
             d="M3 8l3.5 3.5L13 4.5"

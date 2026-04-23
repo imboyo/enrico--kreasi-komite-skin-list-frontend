@@ -8,6 +8,7 @@ export type MakeUpFallbackMode = "data" | "empty";
 export type SkinCareMakeUpItem = {
   id: string;
   label: string;
+  description: string;
   isChecked: boolean;
 };
 
@@ -22,14 +23,56 @@ export type GetMakeUpsControlInput = MockControlInput & {
   mode?: MakeUpFallbackMode;
 };
 
-const MAKE_UPS: SkinCareMakeUpItem[] = [
-  { id: "foundation", label: "Foundation", isChecked: true },
-  { id: "concealer", label: "Concealer", isChecked: false },
-  { id: "powder", label: "Powder", isChecked: false },
-  { id: "blush", label: "Blush", isChecked: false },
-  { id: "eyebrow-pencil", label: "Eyebrow Pencil", isChecked: false },
-  { id: "mascara", label: "Mascara", isChecked: false },
-  { id: "lipstick", label: "Lipstick", isChecked: false },
+export const MAKE_UPS: SkinCareMakeUpItem[] = [
+  {
+    id: "foundation",
+    label: "Foundation",
+    description:
+      "An even-base product that helps smooth tone differences and sets the overall complexion finish.",
+    isChecked: true,
+  },
+  {
+    id: "concealer",
+    label: "Concealer",
+    description:
+      "Adds targeted coverage for under-eyes, blemishes, or discoloration without changing the full-face finish.",
+    isChecked: false,
+  },
+  {
+    id: "powder",
+    label: "Powder",
+    description:
+      "Helps reduce excess shine and can lock cream products in place for longer wear during the day.",
+    isChecked: false,
+  },
+  {
+    id: "blush",
+    label: "Blush",
+    description:
+      "Brings warmth and life back to the face by adding color to the cheeks after base makeup.",
+    isChecked: false,
+  },
+  {
+    id: "eyebrow-pencil",
+    label: "Eyebrow Pencil",
+    description:
+      "Defines and fills brow shape with controlled strokes for a more polished face frame.",
+    isChecked: false,
+  },
+  {
+    id: "mascara",
+    label: "Mascara",
+    description:
+      "Adds lift, length, and depth to the lashes to make the eyes look more defined.",
+    isChecked: false,
+  },
+  {
+    id: "lipstick",
+    label: "Lipstick",
+    description:
+      "Finishes the look with lip color while also helping shape how bold or soft the final makeup reads.",
+    isChecked: false,
+  },
 ];
 
 export async function getMakeUps(

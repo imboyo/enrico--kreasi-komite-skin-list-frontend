@@ -6,4 +6,9 @@ export const APP_URL = {
   LOGIN: "/login",
   REGISTER: "/register",
   FORGOT_PASSWORD: "/forgot-password",
+  APP: "/app",
+  APP_CHAT: "/app/chat",
+  APP_ASK_AI: "/app/ask-ai",
+  APP_PROFILE: "/app/profile",
+  APP_PROFILE_INFO: "/app/profile/info",
 };

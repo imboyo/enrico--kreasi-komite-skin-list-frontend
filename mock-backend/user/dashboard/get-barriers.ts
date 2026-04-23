@@ -2,14 +2,14 @@ import {
   simulateMockRequest,
   type MockControlInput,
 } from "@/mock-backend/utils/mock-control";
+import {
+  BARRIERS,
+  type SkinCareBarrierItem,
+} from "@/mock-backend/skin-care/get-barriers";
 
 export type UserBarrierFallbackMode = "data" | "empty";
 
-export type UserSkinCareBarrierItem = {
-  id: string;
-  label: string;
-  isChecked: boolean;
-};
+export type UserSkinCareBarrierItem = SkinCareBarrierItem;
 
 export type GetUserBarriersResponse = {
   data: UserSkinCareBarrierItem[];
@@ -22,16 +22,6 @@ export type GetUserBarriersControlInput = MockControlInput & {
   mode?: UserBarrierFallbackMode;
 };
 
-const USER_BARRIERS: UserSkinCareBarrierItem[] = [
-  { id: "hydrated", label: "Hydrated", isChecked: true },
-  { id: "dry", label: "Dry", isChecked: false },
-  { id: "itchy", label: "Itchy", isChecked: false },
-  { id: "redness", label: "Redness", isChecked: false },
-  { id: "peeling", label: "Peeling", isChecked: false },
-  { id: "tightness", label: "Tightness", isChecked: false },
-  { id: "sensitive", label: "Sensitive", isChecked: false },
-];
-
 export async function getUserBarriers(
   control: GetUserBarriersControlInput = {},
 ): Promise<GetUserBarriersResponse> {
@@ -43,7 +33,9 @@ export async function getUserBarriers(
     meta: {
       mode,
     },
-    data: mode === "empty" ? [] : USER_BARRIERS.map((item) => ({ ...item })),
+    // Reuse the shared skincare catalog so dashboard and public checklist
+    // screens stay in sync when the mock content changes.
+    data: mode === "empty" ? [] : BARRIERS.map((item) => ({ ...item })),
   };
 }
 

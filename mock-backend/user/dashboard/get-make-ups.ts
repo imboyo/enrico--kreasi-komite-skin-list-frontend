@@ -2,14 +2,14 @@ import {
   simulateMockRequest,
   type MockControlInput,
 } from "@/mock-backend/utils/mock-control";
+import {
+  MAKE_UPS,
+  type SkinCareMakeUpItem,
+} from "@/mock-backend/skin-care/get-make-ups";
 
 export type UserMakeUpFallbackMode = "data" | "empty";
 
-export type UserSkinCareMakeUpItem = {
-  id: string;
-  label: string;
-  isChecked: boolean;
-};
+export type UserSkinCareMakeUpItem = SkinCareMakeUpItem;
 
 export type GetUserMakeUpsResponse = {
   data: UserSkinCareMakeUpItem[];
@@ -22,16 +22,6 @@ export type GetUserMakeUpsControlInput = MockControlInput & {
   mode?: UserMakeUpFallbackMode;
 };
 
-const USER_MAKE_UPS: UserSkinCareMakeUpItem[] = [
-  { id: "foundation", label: "Foundation", isChecked: true },
-  { id: "concealer", label: "Concealer", isChecked: false },
-  { id: "powder", label: "Powder", isChecked: false },
-  { id: "blush", label: "Blush", isChecked: false },
-  { id: "eyebrow-pencil", label: "Eyebrow Pencil", isChecked: false },
-  { id: "mascara", label: "Mascara", isChecked: false },
-  { id: "lipstick", label: "Lipstick", isChecked: false },
-];
-
 export async function getUserMakeUps(
   control: GetUserMakeUpsControlInput = {},
 ): Promise<GetUserMakeUpsResponse> {
@@ -43,7 +33,9 @@ export async function getUserMakeUps(
     meta: {
       mode,
     },
-    data: mode === "empty" ? [] : USER_MAKE_UPS.map((item) => ({ ...item })),
+    // Reuse the shared skincare catalog so dashboard and public checklist
+    // screens stay in sync when the mock content changes.
+    data: mode === "empty" ? [] : MAKE_UPS.map((item) => ({ ...item })),
   };
 }
 

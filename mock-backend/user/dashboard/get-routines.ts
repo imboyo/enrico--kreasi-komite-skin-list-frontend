@@ -2,14 +2,14 @@ import {
   simulateMockRequest,
   type MockControlInput,
 } from "@/mock-backend/utils/mock-control";
+import {
+  ROUTINES,
+  type SkinCareRoutineItem,
+} from "@/mock-backend/skin-care/get-routines";
 
 export type UserRoutineFallbackMode = "data" | "empty";
 
-export type UserSkinCareRoutineItem = {
-  id: string;
-  label: string;
-  isChecked: boolean;
-};
+export type UserSkinCareRoutineItem = SkinCareRoutineItem;
 
 export type GetUserRoutinesResponse = {
   data: UserSkinCareRoutineItem[];
@@ -22,16 +22,6 @@ export type GetUserRoutinesControlInput = MockControlInput & {
   mode?: UserRoutineFallbackMode;
 };
 
-const USER_ROUTINES: UserSkinCareRoutineItem[] = [
-  { id: "facial-wash", label: "Facial Wash", isChecked: true },
-  { id: "moisturizer", label: "Moisturizer", isChecked: false },
-  { id: "toner", label: "Toner", isChecked: false },
-  { id: "serum", label: "Serum", isChecked: false },
-  { id: "eye-cream", label: "Eye Cream", isChecked: false },
-  { id: "night-cream", label: "Night Cream", isChecked: false },
-  { id: "lip-care", label: "Lip Care", isChecked: false },
-];
-
 export async function getUserRoutines(
   control: GetUserRoutinesControlInput = {},
 ): Promise<GetUserRoutinesResponse> {
@@ -43,7 +33,9 @@ export async function getUserRoutines(
     meta: {
       mode,
     },
-    data: mode === "empty" ? [] : USER_ROUTINES.map((item) => ({ ...item })),
+    // Reuse the shared skincare catalog so dashboard and public checklist
+    // screens stay in sync when the mock content changes.
+    data: mode === "empty" ? [] : ROUTINES.map((item) => ({ ...item })),
   };
 }
 
