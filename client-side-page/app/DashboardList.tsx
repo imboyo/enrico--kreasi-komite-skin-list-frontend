@@ -83,45 +83,54 @@ export function DashboardList<TItem extends DashboardListItem>({
                   key={item.id}
                   className={cn(
                     "rounded-[24px] border border-[#bcbcbc] bg-background shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_6px_14px_rgba(90,90,90,0.08)] transition-all",
+                    // Checked state: ring + subtle secondary background
+                    item.isChecked &&
+                      "border-secondary/30 bg-secondary/5 ring-1 ring-secondary/20",
                     isSelected &&
                       "border-primary/50 bg-primary/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_10px_20px_rgba(90,90,90,0.12)]",
                   )}
                 >
                   <div className="flex items-center gap-3 px-4 py-4">
-                    <Checkbox
-                      checked={item.isChecked}
-                      aria-label={`Mark ${item.label} as completed`}
-                      className="self-center"
-                      onChange={(event) => {
-                        setChecked(item.id, event.currentTarget.checked);
-                        incrementCheckCount();
-                      }}
-                    />
+                    <label
+                      htmlFor={`${queryKey.join("-")}-${item.id}`}
+                      className="flex flex-1 cursor-pointer items-center gap-3"
+                    >
+                      <Checkbox
+                        id={`${queryKey.join("-")}-${item.id}`}
+                        checked={item.isChecked}
+                        aria-label={`Mark ${item.label} as completed`}
+                        className="self-center"
+                        onChange={(event) => {
+                          setChecked(item.id, event.currentTarget.checked);
+                          incrementCheckCount();
+                        }}
+                      />
 
-                    <div className="flex flex-1 items-center justify-between gap-3">
-                      <span className="text-base font-medium text-foreground">
+                      <span className="flex-1 text-base font-medium text-foreground">
                         {item.label}
                       </span>
-                      <button
-                        type="button"
-                        aria-label={`Open ${item.label} details`}
-                        className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition-transform hover:bg-foreground/5"
-                        onClick={() => {
-                          // Limit dialog opening to the explicit detail affordance instead of the whole row.
-                          setSelectedItemId(item.id);
-                        }}
-                      >
-                        <Icon
-                          icon="mdi:chevron-right"
-                          width={20}
-                          height={20}
-                          className={cn(
-                            "shrink-0 transition-transform",
-                            isSelected && "translate-x-0.5 text-primary",
-                          )}
-                        />
-                      </button>
-                    </div>
+                    </label>
+
+                    <button
+                      type="button"
+                      aria-label={`Open ${item.label} details`}
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-background/80 text-muted-foreground transition-[background-color,transform] hover:bg-primary/5"
+                      onClick={() => {
+                        // Keep the detail action isolated so a tap on the arrow
+                        // never toggles the checklist state by accident.
+                        setSelectedItemId(item.id);
+                      }}
+                    >
+                      <Icon
+                        icon="mdi:chevron-right"
+                        width={20}
+                        height={20}
+                        className={cn(
+                          "shrink-0 transition-transform",
+                          isSelected && "translate-x-0.5 text-primary",
+                        )}
+                      />
+                    </button>
                   </div>
                 </div>
               );
