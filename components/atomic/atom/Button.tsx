@@ -12,6 +12,8 @@ const buttonVariants = cva(
           "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary/70",
+        accent2:
+          "bg-[#E9E9E9] text-[#363536] hover:bg-[#DDDDDD] active:bg-[#D1D1D1]",
         outline:
           "border border-border bg-transparent text-foreground hover:bg-muted active:bg-muted/80",
         ghost:
@@ -97,6 +99,21 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
+    const showLeadingSlot = isLoading || Boolean(leadingIcon);
+    const showTrailingSlot = !isLoading && Boolean(trailingIcon);
+    const leadingSlotContent = isLoading ? (
+      <Icon icon="svg-spinners:ring-resize" />
+    ) : (
+      leadingIcon
+    );
+
+    // Reserve the opposite icon slot when only one side is populated so the
+    // text label stays visually centered inside the button.
+    const reserveLeadingSlot = !showLeadingSlot && showTrailingSlot;
+    const reserveTrailingSlot = showLeadingSlot && !showTrailingSlot;
+    const leadingSlotClassName = reserveLeadingSlot ? "invisible" : "";
+    const trailingSlotClassName = reserveTrailingSlot ? "invisible" : "";
+
     return (
       <button
         ref={ref}
@@ -111,20 +128,34 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {/* Spinner replaces the leading icon slot while loading */}
-        {isLoading ? (
-          <span className={iconSlotVariants({ size })}>
-            <Icon icon="svg-spinners:ring-resize" />
+        {!iconOnly && (showLeadingSlot || reserveLeadingSlot) ? (
+          <span
+            aria-hidden={reserveLeadingSlot}
+            className={iconSlotVariants({
+              size,
+              className: leadingSlotClassName,
+            })}
+          >
+            {reserveLeadingSlot ? trailingIcon : leadingSlotContent}
           </span>
-        ) : (
-          leadingIcon && (
-            <span className={iconSlotVariants({ size })}>{leadingIcon}</span>
-          )
-        )}
+        ) : null}
         {/* Render children only when not icon-only to avoid layout issues */}
-        {!iconOnly && children}
-        {trailingIcon && !iconOnly && !isLoading && (
-          <span className={iconSlotVariants({ size })}>{trailingIcon}</span>
-        )}
+        {!iconOnly ? (
+          <span className="inline-flex min-w-0 items-center text-center leading-none">
+            {children}
+          </span>
+        ) : null}
+        {!iconOnly && (showTrailingSlot || reserveTrailingSlot) ? (
+          <span
+            aria-hidden={reserveTrailingSlot}
+            className={iconSlotVariants({
+              size,
+              className: trailingSlotClassName,
+            })}
+          >
+            {reserveTrailingSlot ? leadingSlotContent : trailingIcon}
+          </span>
+        ) : null}
         {/* For icon-only, children act as the icon itself */}
         {iconOnly && (
           <span className={iconSlotVariants({ size })}>{children}</span>

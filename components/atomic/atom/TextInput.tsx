@@ -9,7 +9,7 @@ import {
 import { cn } from "@/util/cn";
 
 const textInputVariants = cva(
-  "flex items-center gap-3 rounded-2xl border border-input bg-input-surface px-4 transition-shadow duration-150 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1",
+  "flex items-center gap-3 rounded-2xl border border-input bg-input-surface px-4 transition-shadow duration-150 focus-within:ring-2 focus-within:ring-ring",
   {
     variants: {
       size: {

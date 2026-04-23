@@ -13,7 +13,7 @@ export function BaseTopbar({ rightSection }: BaseTopbarProps) {
   const { toggle } = useSidebarStore();
 
   return (
-    <header className="relative flex items-center justify-between px-4 py-3 bg-background border-b border-border">
+    <header className="relative flex items-center justify-between px-4 py-3 bg-background border-b border-[#b8b8b8]">
       {/* Hamburger — toggles sidebar */}
       <Button
         variant="ghost"

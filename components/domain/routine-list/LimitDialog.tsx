@@ -46,7 +46,7 @@ export function LimitDialog() {
         <div className="flex w-full flex-col gap-2 pt-1">
           <DialogClose>
             <Link href={APP_URL.LOGIN} className="w-full">
-              <Button fullWidth size="md" variant="primary">
+              <Button fullWidth size="md" variant="secondary">
                 Login
               </Button>
             </Link>
@@ -54,7 +54,7 @@ export function LimitDialog() {
 
           <DialogClose>
             <Link href={APP_URL.REGISTER} className="w-full">
-              <Button fullWidth size="md" variant="muted">
+              <Button fullWidth size="md" variant="accent2">
                 Create Account
               </Button>
             </Link>

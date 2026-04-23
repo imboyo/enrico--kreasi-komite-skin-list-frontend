@@ -28,7 +28,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           className={cn(
             // Render the checkmark as a real SVG overlay instead of a CSS data URI
             // so the checked indicator stays visible across browsers.
-            "peer size-full cursor-pointer appearance-none rounded-md border border-[#999] bg-transparent checked:border-primary checked:bg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50",
+            "peer size-full cursor-pointer appearance-none rounded-md border border-[#999] bg-transparent checked:border-secondary checked:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50",
             className,
           )}
           {...props}
