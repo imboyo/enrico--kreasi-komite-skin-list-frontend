@@ -1,116 +1,48 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
 
-import { Button } from "@/components/atomic/atom/Button";
-import { APP_URL } from "@/constant";
-import { useRegisterForm } from "@/hooks/useRegisterForm";
+import { useRegisterFlow } from "@/hooks/useRegisterFlow";
 
 import { LoginAvatar } from "../login/LoginAvatar";
-import { RegisterConfirmPasswordField } from "./RegisterConfirmPasswordField";
-import { RegisterEmailField } from "./RegisterEmailField";
-import { RegisterHeading } from "./RegisterHeading";
-import { RegisterNameField } from "./RegisterNameField";
-import { RegisterPasswordField } from "./RegisterPasswordField";
+import { RegisterFormStep } from "./RegisterFormStep";
+import { RegisterOtpStep } from "./RegisterOtpStep";
+import { RegisterSuccessStep } from "./RegisterSuccessStep";
 
 export function PageRegister() {
-  const router = useRouter();
-  const {
-    form,
-    registerMutation,
-    serverError,
-    showPassword,
-    showConfirmPassword,
-    toggleShowPassword,
-    toggleShowConfirmPassword,
-  } = useRegisterForm();
+  const registerFlow = useRegisterFlow();
+  const { currentStep, direction } = registerFlow;
+
+  const transitionX = direction > 0 ? 20 : -20;
+
+  const renderStep = () => {
+    if (currentStep === "otp") {
+      return <RegisterOtpStep {...registerFlow} />;
+    }
+
+    if (currentStep === "success") {
+      return <RegisterSuccessStep {...registerFlow} />;
+    }
+
+    return <RegisterFormStep {...registerFlow} />;
+  };
 
   return (
     <main className="flex min-h-full flex-col items-center px-6 py-10">
       <LoginAvatar />
-      <RegisterHeading />
-
-      <form
-        className="flex w-full flex-col gap-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void form.handleSubmit();
-        }}
-      >
-        <RegisterNameField form={form} disabled={registerMutation.isPending} />
-
-        <RegisterEmailField form={form} disabled={registerMutation.isPending} />
-
-        <RegisterPasswordField
-          form={form}
-          showPassword={showPassword}
-          onToggleShowPassword={toggleShowPassword}
-          disabled={registerMutation.isPending}
-        />
-
-        <RegisterConfirmPasswordField
-          form={form}
-          showPassword={showConfirmPassword}
-          onToggleShowPassword={toggleShowConfirmPassword}
-          disabled={registerMutation.isPending}
-        />
-
-        {serverError && (
-          <p className="text-sm text-destructive">{serverError}</p>
-        )}
-
-        <form.Subscribe
-          selector={(state) => ({
-            isValid: state.isValid,
-            values: state.values,
-            submissionAttempts: state.submissionAttempts,
-          })}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={currentStep}
+          className="w-full"
+          // The direction from the reusable flow hook keeps back/next motion consistent.
+          initial={{ opacity: 0, x: transitionX }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -transitionX }}
+          transition={{ duration: 0.24, ease: "easeOut" }}
         >
-          {({ isValid, values, submissionAttempts }) => {
-            const hasValues =
-              !!values.name.trim() &&
-              !!values.email.trim() &&
-              !!values.password.trim() &&
-              !!values.confirmPassword.trim();
-
-            return (
-              <Button
-                type="submit"
-                fullWidth
-                size="lg"
-                isLoading={registerMutation.isPending}
-                disabled={
-                  registerMutation.isPending ||
-                  (hasValues ? !isValid && submissionAttempts > 0 : true)
-                }
-              >
-                Register
-              </Button>
-            );
-          }}
-        </form.Subscribe>
-
-        <Button
-          fullWidth
-          size="lg"
-          variant="outline"
-          disabled={registerMutation.isPending}
-          onClick={() => router.back()}
-        >
-          Back
-        </Button>
-
-        <p className="text-center text-sm text-muted-foreground">
-          Already have an account?{" "}
-          <Link
-            href={APP_URL.LOGIN}
-            className="font-medium text-primary hover:underline"
-          >
-            Log in
-          </Link>
-        </p>
-      </form>
+          {renderStep()}
+        </motion.div>
+      </AnimatePresence>
     </main>
   );
 }

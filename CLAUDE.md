@@ -61,3 +61,4 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
   little complex
 - For `mock-backend`, keep reusable mock controls in `mock-backend/utils` and support the same specification for every
   mock function: controllable delay/loading plus simulated server-down errors
+- When you found a bug, please fix it and notify me
