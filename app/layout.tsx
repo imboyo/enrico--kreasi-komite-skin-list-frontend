@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import ReactQueryProvider from "@/components/provider/QueryClient";
 import NavigationProgressProvider from "@/components/provider/NavigationProgress";
+import { ToastProvider } from "@/components/provider/Toast";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -80,8 +81,10 @@ export default function RootLayout({
     <html lang="id" className={`${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
           <ReactQueryProvider>
-            <NavigationProgressProvider />
-            {children}
+            <ToastProvider defaultPosition="bottom-right">
+              <NavigationProgressProvider />
+              {children}
+            </ToastProvider>
           </ReactQueryProvider>
         </body>
     </html>

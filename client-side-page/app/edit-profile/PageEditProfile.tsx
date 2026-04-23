@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { ProfileHeroSection } from "./ProfileHeroSection";
 import { DashboardShortcutsSection } from "./DashboardShortcutsSection";
-import { SkinGoalsSection } from "./SkinGoalsSection";
+import { SkinGoalsSection } from "./skin-goal-section/SkinGoalsSection";
 
 export function PageEditProfile() {
   return (
