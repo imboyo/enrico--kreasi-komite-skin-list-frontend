@@ -67,3 +67,4 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 - When you found a bug, please fix it and notify me
 - Instead of using `max-w-[260px]` in tailwind use `max-w-65` tailwind. So if 12px it will be max-w-3
 - For JSX Section add a comment what section it is
+- If the component or the logic is too complex or bloated please consider refactoring it
