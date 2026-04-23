@@ -1,6 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
+import { ProfileHeroSection } from "./ProfileHeroSection";
+import { DashboardShortcutsSection } from "./DashboardShortcutsSection";
+import { SkinGoalsSection } from "./SkinGoalsSection";
 
 export function PageEditProfile() {
   return (
@@ -10,17 +13,10 @@ export function PageEditProfile() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="flex flex-col gap-1">
-        <h1 className="text-[40px] font-medium">Edit Profile</h1>
-        <h6 className="text-muted-foreground text-sm">
-          &#34;Update your profile information.&#34;
-        </h6>
-      </div>
-
-      <div className="mt-4">
-        {/* Empty content for now */}
-        <p className="text-muted-foreground">Form will go here.</p>
-      </div>
+      <h1 className="text-center text-xl font-semibold">Edit Profile</h1>
+      <ProfileHeroSection />
+      <DashboardShortcutsSection />
+      <SkinGoalsSection />
     </motion.main>
   );
 }
