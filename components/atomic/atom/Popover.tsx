@@ -26,7 +26,7 @@ export function Popover({
         <RadixPopover.Content
           side={side}
           sideOffset={sideOffset}
-          className="z-50 max-w-[260px] rounded-lg border border-background/35 bg-foreground px-3 py-2 text-xs text-background shadow-md shadow-foreground/15 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
+          className="z-50 max-w-65 rounded-lg border border-background/35 bg-foreground px-3 py-2 text-xs text-background shadow-md shadow-foreground/15 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
         >
           {children}
           <RadixPopover.Arrow className="fill-foreground stroke-background/35" />

@@ -52,7 +52,9 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 - Order from small to large -> atom, molecule, organism, template, layout
 - When creating a shared component, please put it in atomic and specify which category it belongs to. components/atomic
 - Provider is for setting up at a layout level like theme or store
-- When creating subchild featured component, create a subfolder for example PageRegister -> default-form || otp-form || success-form. Then put the child component in the subfolder. then without prefix anymore so default-form/input.tsx. If only one child component don't need to create subfolder
+- When creating subchild featured component, create a subfolder for example PageRegister -> default-form || otp-form ||
+  success-form. Then put the child component in the subfolder. then without prefix anymore so default-form/input.tsx. If
+  only one child component don't need to create subfolder
 
 ### Codebase
 
@@ -63,4 +65,6 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 - For `mock-backend`, keep reusable mock controls in `mock-backend/utils` and support the same specification for every
   mock function: controllable delay/loading plus simulated server-down errors
 - When you found a bug, please fix it and notify me
-- The App Language is Bahasa Indonesia but for all code base it's English 100% Only for the UI
+- The App Language is Bahasa Indonesia but for all code base it's English 100% Only for the UI and for your response
+  message in English too
+- Instead of using `max-w-[260px]` in tailwind use `max-w-65` tailwind. So if 12px it will be max-w-3

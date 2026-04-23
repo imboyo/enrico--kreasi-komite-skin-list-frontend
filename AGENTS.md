@@ -67,3 +67,4 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 - When you found a bug, please fix it and notify me
 - The App Language is Bahasa Indonesia but for all code base it's English 100% Only for the UI and for your response
   message in English too
+- Instead of using `max-w-[260px]` in tailwind use `max-w-65` tailwind. So if 12px it will be max-w-3
