@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist_Mono } from "next/font/google";
 import ReactQueryProvider from "@/components/provider/QueryClient";
 import NavigationProgressProvider from "@/components/provider/NavigationProgress";
 import { ToastProvider } from "@/components/provider/Toast";
+import PWARegistrationProvider from "@/components/provider/PWARegistration";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -14,6 +15,7 @@ const BASE_URL = "https://skinlist.kreasikomite.site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
+  applicationName: "Skin List - Kreasi Komite",
   title: {
     default: "Skin List - Kreasi Komite",
     template: "%s | Skin List - Kreasi Komite",
@@ -33,6 +35,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Kreasi Komite" }],
   creator: "Kreasi Komite",
   publisher: "Kreasi Komite",
+  manifest: "/manifest.webmanifest",
   robots: {
     index: true,
     follow: true,
@@ -72,6 +75,11 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#363536",
+  colorScheme: "light",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -80,13 +88,14 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-          <ReactQueryProvider>
-            <ToastProvider defaultPosition="bottom-right">
-              <NavigationProgressProvider />
-              {children}
-            </ToastProvider>
-          </ReactQueryProvider>
-        </body>
+        <ReactQueryProvider>
+          <ToastProvider defaultPosition="bottom-right">
+            <NavigationProgressProvider />
+            <PWARegistrationProvider />
+            {children}
+          </ToastProvider>
+        </ReactQueryProvider>
+      </body>
     </html>
   );
 }

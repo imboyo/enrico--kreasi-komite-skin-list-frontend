@@ -3,10 +3,20 @@
 "use client";
 
 import Link from "next/link";
-import { BaseTopbar } from "@/components/atomic/organism/topbar/BaseTopbar";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
+import { BaseTopbar } from "@/components/atomic/organism/topbar/BaseTopbar";
+import { APP_URL } from "@/constant";
+
+// Routes that render their own topbar — suppress the shared AppTopbar here so
+// we don't stack two headers on top of each other.
+const SUPPRESSED_ROUTES = new Set<string>([APP_URL.APP_CHAT]);
 
 export function AppTopbar() {
+  const pathname = usePathname();
+  if (pathname && SUPPRESSED_ROUTES.has(pathname)) return null;
+
   return (
     <BaseTopbar
       rightSection={
