@@ -63,10 +63,6 @@
   --color-dialog-2-foreground: var(--dialog-2-foreground);
   --color-dialog-2-muted: var(--dialog-2-muted);
   --color-dialog-2-border: var(--dialog-2-border);
-  --color-dialog-current: var(--dialog-current);
-  --color-dialog-current-foreground: var(--dialog-current-foreground);
-  --color-dialog-current-muted: var(--dialog-current-muted);
-  --color-dialog-current-border: var(--dialog-current-border);
   --color-input-surface: var(--input-surface);
   --color-input-placeholder: var(--input-placeholder);
   /* Prefer Helvetica Neue app-wide, then fall back to common sans-serif system fonts. */
