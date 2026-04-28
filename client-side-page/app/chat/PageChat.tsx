@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Icon } from "@iconify/react";
 
-import { Button } from "@/components/atomic/atom/Button";
 import {
   ChatBubble,
   type ChatMessage,
@@ -12,6 +10,7 @@ import { ChatInput } from "@/components/atomic/molecule/chat/ChatInput";
 import { ChatTopbar } from "@/components/atomic/organism/topbar/ChatTopbar";
 import { useChatConversation } from "@/hooks/useChatConversation";
 import { APP_URL } from "@/constant";
+import { RightSection } from "@/client-side-page/app/chat/RightSection";
 
 // Helper to build an ISO date relative to now.
 function daysAgo(days: number, hour = 10, minute = 0) {
@@ -110,24 +109,11 @@ export function PageChat() {
         backHref={APP_URL.APP}
         title="Skin Committee"
         subtitle="Usually replies within an hour"
-        rightSection={
-          <Button
-            variant="ghost"
-            size="md"
-            iconOnly
-            aria-label="Conversation options"
-            className="rounded-full"
-          >
-            <Icon icon="material-symbols:more-vert" />
-          </Button>
-        }
+        rightSection={<RightSection />}
       />
 
       {/* Messages section */}
-      <div
-        ref={scrollRef}
-        className="flex-1 overflow-y-auto px-4 py-4"
-      >
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4">
         <div className="flex flex-col gap-3">
           {messages.map((message) => (
             <ChatBubble key={message.id} message={message} />
