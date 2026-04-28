@@ -11,4 +11,8 @@ export const APP_URL = {
   APP_ASK_AI: "/app/ask-ai",
   APP_PROFILE: "/app/profile",
   APP_PROFILE_INFO: "/app/profile/info",
+  ADMIN: "/admin",
+  ADMIN_USER_MANAGEMENT: "/admin/user-management",
+  ADMIN_CARE_SKIN_MANAGEMENT: "/admin/care-skin-management",
+  ADMIN_CHATS: "/admin/chats",
 };
