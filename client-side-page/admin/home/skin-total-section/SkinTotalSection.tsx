@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { getAdminSkinTotals } from "@/mock-backend/admin/dashboard/total-skin";
 
+import { LoadingState } from "./LoadingState";
 import { SkinTotalCard } from "./SkinTotalCard";
-import { LoadingState } from "@/client-side-page/admin/skin-total-section/LoadingState";
 
 export function SkinTotalSection() {
   const skinTotalsQuery = useQuery({

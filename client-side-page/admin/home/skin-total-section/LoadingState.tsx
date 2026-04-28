@@ -1,5 +1,6 @@
 import { SKIN_TOTAL_CARDS } from "@/mock-backend/admin/dashboard/total-skin";
-import { SkinTotalCard } from "@/client-side-page/admin/skin-total-section/SkinTotalCard";
+
+import { SkinTotalCard } from "./SkinTotalCard";
 
 export const LoadingState = () => {
   return (

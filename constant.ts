@@ -12,7 +12,7 @@ export const APP_URL = {
   APP_PROFILE: "/app/profile",
   APP_PROFILE_INFO: "/app/profile/info",
   ADMIN: "/admin",
-  ADMIN_USER_MANAGEMENT: "/admin/user-management",
+  ADMIN_USER_MANAGEMENT: "/admin/user",
   ADMIN_CARE_SKIN_MANAGEMENT: "/admin/care-skin-management",
   ADMIN_CHATS: "/admin/chats",
 };

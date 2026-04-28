@@ -27,9 +27,7 @@ export function SkinTotalCard({ card, isLoading = false }: SkinTotalCardProps) {
       </div>
 
       <div className="flex flex-col gap-1">
-        <p className="text-3xl font-semibold leading-none">
-          {totalLabel}
-        </p>
+        <p className="text-3xl font-semibold leading-none">{totalLabel}</p>
         <p className="text-sm font-medium text-muted-foreground">{card.label}</p>
       </div>
     </article>

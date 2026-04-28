@@ -8,7 +8,7 @@ import { Tabs } from "@/components/atomic/molecule/Tabs";
 import {
   DashboardList,
   type DashboardListItem,
-} from "@/components/atomic/organism/DashboardList";
+} from "@/components/atomic/organism/dashboard-list";
 import { ItemDialog } from "@/client-side-page/app/home/item-dialog/ItemDialog";
 import { getUserRoutines } from "@/mock-backend/user/dashboard/get-routines";
 import { getUserColors } from "@/mock-backend/user/dashboard/get-colors";

@@ -4,9 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { getAdminSupportReplySummary } from "@/mock-backend/admin/dashboard/support-reply";
-import { Header } from "@/client-side-page/admin/support-reply-section/Header";
-import { LoadingState } from "@/client-side-page/admin/support-reply-section/LoadingState";
-import { SuccessState } from "@/client-side-page/admin/support-reply-section/SuccessState";
+
+import { Header } from "./Header";
+import { LoadingState } from "./LoadingState";
+import { SuccessState } from "./SuccessState";
 
 export function SupportReplySection() {
   const supportReplyQuery = useQuery({

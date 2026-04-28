@@ -15,7 +15,6 @@ type Props = {
 };
 
 export function ListItem({
-  id,
   label,
   isChecked,
   checkboxId,
