@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { DialogBody } from "@/components/atomic/molecule/Dialog";
+import { ConfirmationDialog } from "@/components/atomic/molecule/ConfirmationDialog";
 import { useToast } from "@/components/provider/Toast";
 import { useDashboardItemEditForm } from "@/hooks/useDashboardItemEditForm";
 
@@ -20,6 +21,7 @@ export function ItemDialogPanel({
 }: ItemDialogPanelProps) {
   const { showToast } = useToast();
   const [mode, setMode] = useState<DialogMode>("view");
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   const { form, mutation, serverError, syncFormValues } =
     useDashboardItemEditForm({
@@ -66,8 +68,13 @@ export function ItemDialogPanel({
     setMode("view");
   }
 
-  function handleDelete() {
+  function handleRequestDelete() {
+    setDeleteConfirmOpen(true);
+  }
+
+  function handleConfirmDelete() {
     onDelete?.(item);
+    setDeleteConfirmOpen(false);
     onClose();
   }
 
@@ -84,7 +91,7 @@ export function ItemDialogPanel({
       <DialogBody className="flex flex-col gap-5 pb-5 pt-0">
         {/* View mode section */}
         {mode === "view" ? (
-          <ItemDialogViewContent item={item} onDelete={handleDelete} />
+          <ItemDialogViewContent item={item} onDelete={handleRequestDelete} />
         ) : (
           <ItemDialogEditForm
             form={form}
@@ -92,10 +99,20 @@ export function ItemDialogPanel({
             serverError={serverError}
             onSave={handleSave}
             onCancel={handleCancelEdit}
-            onDelete={handleDelete}
+            onDelete={handleRequestDelete}
           />
         )}
       </DialogBody>
+
+      <ConfirmationDialog
+        open={deleteConfirmOpen}
+        onOpenChange={setDeleteConfirmOpen}
+        title="Delete Item"
+        description={`Delete "${item.label}" from this list?`}
+        confirmLabel="Delete"
+        confirmVariant="destructive"
+        onConfirm={handleConfirmDelete}
+      />
     </>
   );
 }

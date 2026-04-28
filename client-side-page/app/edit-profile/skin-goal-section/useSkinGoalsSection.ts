@@ -1,4 +1,3 @@
-import type { KeyboardEvent } from "react";
 import { useState } from "react";
 import { addSkinGoal } from "@/mock-backend/user/skin-goal/add-goal";
 import { deleteSkinGoal } from "@/mock-backend/user/skin-goal/delete-goal";
@@ -75,15 +74,6 @@ export function useSkinGoalsSection() {
     }
   }
 
-  function handleGoalNameKeyDown(event: KeyboardEvent<HTMLInputElement>) {
-    if (event.key !== "Enter") {
-      return;
-    }
-
-    event.preventDefault();
-    handleAddGoal();
-  }
-
   return {
     activeGoals,
     goalName,
@@ -95,6 +85,5 @@ export function useSkinGoalsSection() {
     closeEditSheet,
     handleAddGoal,
     handleDeleteGoal,
-    handleGoalNameKeyDown,
   };
 }

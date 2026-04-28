@@ -17,7 +17,6 @@ export function SkinGoalsSection() {
     closeEditSheet,
     handleAddGoal,
     handleDeleteGoal,
-    handleGoalNameKeyDown,
   } = useSkinGoalsSection();
 
   // Derive loading message based on which operation is in progress.
@@ -43,7 +42,6 @@ export function SkinGoalsSection() {
         isAdding={isAdding}
         deletingGoal={deletingGoal}
         onGoalNameChange={setGoalName}
-        onGoalNameKeyDown={handleGoalNameKeyDown}
         onAddGoal={handleAddGoal}
         onDeleteGoal={handleDeleteGoal}
         onClose={closeEditSheet}

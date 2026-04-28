@@ -54,7 +54,7 @@ const SEED_MESSAGES: ChatMessage[] = [
     status: "read",
     createdAt: daysAgo(4, 14, 45),
   },
-  // Yesterday — shows "Kemarin"
+  // Yesterday — showed "Kemarin"
   {
     id: "seed-yest-1",
     author: "admin",

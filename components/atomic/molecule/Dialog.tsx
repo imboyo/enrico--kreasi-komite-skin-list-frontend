@@ -27,49 +27,43 @@ export default function Dialog({
   width,
   maxHeight = "80vh",
 }: DialogProps) {
-  const surfaceClasses =
+  const surfaceStyle =
     surface === "dialog-2"
-      ? [
-          "[--dialog-current:var(--dialog-2)]",
-          "[--dialog-current-foreground:var(--dialog-2-foreground)]",
-          "[--dialog-current-muted:var(--dialog-2-muted)]",
-          "[--dialog-current-border:var(--dialog-2-border)]",
-        ]
-      : [
-          "[--dialog-current:var(--dialog)]",
-          "[--dialog-current-foreground:var(--dialog-foreground)]",
-          "[--dialog-current-muted:var(--dialog-muted)]",
-          "[--dialog-current-border:rgba(255,255,255,0.1)]",
-        ];
+      ? ({
+          "--dialog-current": "var(--dialog-2)",
+          "--dialog-current-foreground": "var(--dialog-2-foreground)",
+          "--dialog-current-muted": "var(--dialog-2-muted)",
+          "--dialog-current-border": "var(--dialog-2-border)",
+        } as CSSProperties)
+      : ({
+          "--dialog-current": "var(--dialog)",
+          "--dialog-current-foreground": "var(--dialog-foreground)",
+          "--dialog-current-muted": "var(--dialog-muted)",
+          "--dialog-current-border": "rgba(255,255,255,0.1)",
+        } as CSSProperties);
 
   return (
     <RadixDialog.Root open={open} onOpenChange={onOpenChange}>
       {trigger && <RadixDialog.Trigger asChild>{trigger}</RadixDialog.Trigger>}
 
       <RadixDialog.Portal>
-        {/* Semi-transparent overlay behind the dialog */}
-        <RadixDialog.Overlay className="dialog-overlay fixed inset-0 z-40 bg-black/50" />
+        <RadixDialog.Overlay
+          className={cn("fixed inset-0 z-40 bg-black/55 backdrop-blur-xs")}
+        />
 
         <RadixDialog.Content
-          style={{ width, maxHeight }}
+          style={{ ...surfaceStyle, width, maxHeight }}
           className={cn(
             // Positioning: centered inside the mobile shell
             "dialog-content fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
-            // Sizing
-            "w-[calc(100vw-2rem)] max-w-[468px]",
-            // Glass effect: blurred backdrop + semi-transparent bg
-            "rounded-2xl border border-dialog-current-border bg-dialog-current/92 backdrop-blur-md shadow-xl",
-            // Surface tokens let each dialog switch palettes without duplicating structure.
+            "w-[calc(100vw-2rem)] max-w-117",
+            "rounded-2xl border border-dialog-current-border bg-dialog-current shadow-xl",
             "text-dialog-current-foreground",
-            surfaceClasses,
             className,
           )}
         >
           {/* Scrollable inner area — overflows vertically when content is tall */}
-          <div
-            className="overflow-y-auto"
-            style={{ maxHeight }}
-          >
+          <div className="overflow-y-auto" style={{ maxHeight }}>
             {children}
           </div>
         </RadixDialog.Content>
@@ -88,7 +82,12 @@ export function DialogHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("flex items-center justify-between px-5 pt-5 pb-3", className)}>
+    <div
+      className={cn(
+        "flex items-center justify-between px-5 pt-5 pb-3",
+        className,
+      )}
+    >
       {children}
     </div>
   );
@@ -103,7 +102,10 @@ export function DialogTitle({
 }) {
   return (
     <RadixDialog.Title
-      className={cn("text-base font-semibold text-dialog-current-foreground", className)}
+      className={cn(
+        "text-base font-semibold text-dialog-current-foreground",
+        className,
+      )}
     >
       {children}
     </RadixDialog.Title>
@@ -148,7 +150,12 @@ export function DialogFooter({
   className?: string;
 }) {
   return (
-    <div className={cn("flex items-center justify-end gap-2 px-5 pb-5 pt-3", className)}>
+    <div
+      className={cn(
+        "flex items-center justify-end gap-2 px-5 pb-5 pt-3",
+        className,
+      )}
+    >
       {children}
     </div>
   );

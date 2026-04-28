@@ -59,6 +59,10 @@
   --color-dialog: var(--dialog);
   --color-dialog-foreground: var(--dialog-foreground);
   --color-dialog-muted: var(--dialog-muted);
+  --color-dialog-current: var(--dialog-current);
+  --color-dialog-current-foreground: var(--dialog-current-foreground);
+  --color-dialog-current-muted: var(--dialog-current-muted);
+  --color-dialog-current-border: var(--dialog-current-border);
   --color-dialog-2: var(--dialog-2);
   --color-dialog-2-foreground: var(--dialog-2-foreground);
   --color-dialog-2-muted: var(--dialog-2-muted);
