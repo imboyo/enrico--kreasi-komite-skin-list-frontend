@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__code-review-graph__build_or_update_graph_tool",
+      "mcp__code-review-graph__semantic_search_nodes_tool",
+      "mcp__code-review-graph__query_graph_tool",
+      "mcp__code-review-graph__get_architecture_overview_tool",
+      "Bash(npx tsc *)",
+      "WebFetch(domain:api.iconify.design)",
+      "WebFetch(domain:icon-sets.iconify.design)",
+      "mcp__ide__getDiagnostics",
+      "mcp__code-review-graph__detect_changes_tool",
+      "Bash(awk '{print $2}')",
+      "Read(//tmp/**)",
+      "mcp__code-review-graph__list_repos_tool"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "code-review-graph"
+  ]
+}

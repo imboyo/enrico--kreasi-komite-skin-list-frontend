@@ -2,6 +2,7 @@
 import { Cell, flexRender, Table } from "@tanstack/react-table";
 import { css, SerializedStyles } from "@emotion/react";
 import React from "react";
+import { Checkbox } from "@/components/atomic/atom/Checkbox";
 import {
   HeightThickness,
   SimpleTableProps,
@@ -63,11 +64,12 @@ export const Body = <T extends object>({
   };
 
   const rowStyle = cn(
-    "flex w-full border-t border-border hover:bg-primary/10 transition-all duration-200",
+    "flex w-full border-t border-border/70 text-foreground transition-colors duration-150",
     {
-      "py-2": heightThickness === "sm",
+      "cursor-pointer hover:bg-primary/5": onItemClick,
+      "py-2.5": heightThickness === "sm",
       "py-4": heightThickness === "md",
-      "py-6": heightThickness === "lg",
+      "py-5": heightThickness === "lg",
     },
   );
 
@@ -79,20 +81,19 @@ export const Body = <T extends object>({
           className={rowStyle}
           onClick={() => handleRowClick(row.original as T)}
         >
-          {/* ✅ Checkbox cell when checkMode is active */}
+          {/* Selection cell section */}
           {checkMode && (
             <td
               css={css({
                 width: "48px",
                 flexShrink: 0,
-                borderRight: "1px solid var(--border)",
+                borderRight: "1px solid color-mix(in srgb, var(--border) 70%, transparent)",
               })}
               className="flex items-center justify-center px-4"
-              onClick={(e) => e.stopPropagation()} // prevent row click
+              onClick={(event) => event.stopPropagation()}
             >
-              <input
-                type="checkbox"
-                className="cursor-pointer accent-primary"
+              <Checkbox
+                aria-label="Select row"
                 onChange={(e) =>
                   checkMode.onItemCheckChange(row.original, e.target.checked)
                 }
@@ -103,12 +104,13 @@ export const Body = <T extends object>({
             </td>
           )}
 
+          {/* Data cells section */}
           {row.getVisibleCells().map((cell, index) => (
             <td
               key={cell.id}
               css={getCellStyle(cell, index)}
               className={cn(
-                "flex items-center whitespace-normal break-all px-4 text-sm text-wrap",
+                "flex items-center whitespace-normal text-wrap break-words px-4 text-sm leading-6",
               )}
             >
               {flexRender(cell.column.columnDef.cell, cell.getContext())}

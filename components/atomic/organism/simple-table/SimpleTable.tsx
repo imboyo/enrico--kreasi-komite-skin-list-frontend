@@ -66,30 +66,32 @@ export const SimpleTable = <T extends object>({
   }, [columns]);
 
   return (
-    <div className="w-full overflow-x-auto rounded-lg border border-border">
+    <div className="w-full overflow-hidden rounded-[24px] border border-[#bcbcbc] bg-background shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_6px_14px_rgba(90,90,90,0.08)]">
       {/* Table section */}
-      <table className="w-full">
-        <Head
-          table={table}
-          columnsWithDefinedSize={columnsWithDefinedSize}
-          checkMode={checkMode}
-        />
-        {!stateContent && (
-          <Body
+      <div className="w-full overflow-x-auto">
+        <table className="w-full min-w-full">
+          <Head
             table={table}
             columnsWithDefinedSize={columnsWithDefinedSize}
-            onItemClick={onItemClick}
-            heightThickness={heightThickness}
-            fullBorder={fullBorder}
             checkMode={checkMode}
           />
-        )}
-      </table>
+          {!stateContent && (
+            <Body
+              table={table}
+              columnsWithDefinedSize={columnsWithDefinedSize}
+              onItemClick={onItemClick}
+              heightThickness={heightThickness}
+              fullBorder={fullBorder}
+              checkMode={checkMode}
+            />
+          )}
+        </table>
+      </div>
 
       {stateContent && (
         <>
           {/* State content section */}
-          <div className="w-full overflow-hidden border-t h-[600px]">
+          <div className="min-h-60 w-full overflow-hidden border-t border-border/70 bg-card/80">
             {stateContent}
           </div>
         </>
