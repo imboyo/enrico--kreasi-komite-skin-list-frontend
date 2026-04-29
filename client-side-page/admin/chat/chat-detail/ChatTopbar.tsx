@@ -19,7 +19,7 @@ export function ChatTopbar({
   rightSection,
 }: ChatTopbarProps) {
   return (
-    <header className="relative flex items-center justify-between gap-3 border-b border-[#b8b8b8] bg-background px-4 py-3">
+    <header className="relative flex shrink-0 items-center justify-between gap-3 border-b border-[#b8b8b8] bg-background px-4 py-3">
       <Link
         href={backHref}
         aria-label="Back"

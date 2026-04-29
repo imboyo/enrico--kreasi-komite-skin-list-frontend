@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/atomic/atom/Button";
 import { Fallback } from "@/components/atomic/atom/Fallback";
 import { Skeleton } from "@/components/atomic/atom/Skeleton";
+import { cn } from "@/util/cn";
 
 type QueryState = {
   isLoading: boolean;
@@ -25,6 +26,7 @@ type QueryStateHandlerProps = {
   errorDescription?: string;
   emptyTitle?: string;
   emptyDescription?: string;
+  contentClassName?: string;
   children: ReactNode;
 };
 
@@ -44,6 +46,7 @@ export function QueryStateHandler({
   errorDescription,
   emptyTitle = "No data available.",
   emptyDescription,
+  contentClassName,
   children,
 }: QueryStateHandlerProps) {
   if (query.isLoading) {
@@ -84,7 +87,7 @@ export function QueryStateHandler({
   }
 
   return (
-    <div className="relative">
+    <div className={cn("relative", contentClassName)}>
       {/* Thin progress bar while a background refetch runs */}
       {query.isFetching ? (
         <div className="pointer-events-none absolute inset-x-4 top-0 z-10">

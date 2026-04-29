@@ -87,9 +87,9 @@ export function ChatInput({
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative border-t border-border/70 bg-background px-3 py-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))]"
+      className="relative shrink-0 border-t border-border/70 bg-background px-3 py-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))]"
     >
-      {/* Attachment menu: shown above the attach button when toggled. */}
+      {/* Attachment menu: shown above the attached button when toggled. */}
       {isAttachMenuOpen && (
         <div className="absolute bottom-full left-3 mb-2 flex flex-col gap-1 rounded-2xl border border-border bg-background p-1 shadow-[0_8px_24px_rgba(60,60,60,0.12)]">
           <button
