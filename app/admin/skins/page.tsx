@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-import { PageAdminSkins } from "../../../components/atomic/layout/skins/PageAdminSkins";
+import { APP_URL } from "@/constant";
 
 export const metadata: Metadata = {
-  title: "Skins Management",
+  title: "Skin Routines",
 };
 
 export default function AdminSkinsPage() {
-  return <PageAdminSkins />;
+  redirect(`${APP_URL.ADMIN_CARE_SKIN_MANAGEMENT}/routines`);
 }

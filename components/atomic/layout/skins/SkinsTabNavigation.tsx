@@ -5,14 +5,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { Tabs, type TabOption } from "@/components/atomic/molecule/Tabs";
 import { APP_URL } from "@/constant";
 
-type SkinsTabId = "overview" | "routines" | "colors" | "scars" | "make-ups";
+type SkinsTabId = "routines" | "colors" | "scars" | "make-ups";
 
 const SKINS_TABS: Array<TabOption<SkinsTabId> & { href: string }> = [
-  {
-    id: "overview",
-    label: "Overview",
-    href: APP_URL.ADMIN_CARE_SKIN_MANAGEMENT,
-  },
   {
     id: "routines",
     label: "Routines",
@@ -37,14 +32,10 @@ const SKINS_TABS: Array<TabOption<SkinsTabId> & { href: string }> = [
 
 function getActiveTabId(pathname: string): SkinsTabId {
   const activeTab = SKINS_TABS.find((tab) => {
-    if (tab.id === "overview") {
-      return pathname === tab.href;
-    }
-
     return pathname.startsWith(tab.href);
   });
 
-  return activeTab?.id ?? "overview";
+  return activeTab?.id ?? "routines";
 }
 
 export function SkinsTabNavigation() {

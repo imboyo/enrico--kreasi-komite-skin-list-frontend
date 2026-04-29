@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { PageAdminSkinRoutines } from "../../../../components/atomic/layout/skins/PageAdminSkinRoutines";
+import { PageAdminSkinRoutines } from "@/components/atomic/layout/skins/PageAdminSkinRoutines";
 
 export const metadata: Metadata = {
   title: "Skin Routines",
