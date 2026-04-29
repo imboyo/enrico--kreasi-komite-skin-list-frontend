@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { SkinsTabNavigation } from "../../../components/atomic/layout/skins/SkinsTabNavigation";
+import { SkinsTabNavigation } from "components/domain/skin/SkinsTabNavigation";
 
 interface AdminSkinsLayoutProps {
   children: ReactNode;

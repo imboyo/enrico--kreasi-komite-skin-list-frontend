@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { PageAdminSkinScars } from "../../../../components/atomic/layout/skins/PageAdminSkinScars";
+import { PageAdminSkinScars } from "client-side-page/admin/skins/PageAdminSkinScars";
 
 export const metadata: Metadata = {
   title: "Skin Scars",

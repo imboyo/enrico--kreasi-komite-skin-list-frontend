@@ -1,4 +1,4 @@
-import { Skeleton as BaseSkeleton } from "@/components/atomic/atom/Skeleton";
+import { Skeleton as BaseSkeleton } from "components/atomic/atom/Skeleton";
 
 export function Skeleton() {
   return (

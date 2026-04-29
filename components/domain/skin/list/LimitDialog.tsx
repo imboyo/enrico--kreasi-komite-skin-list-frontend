@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/atomic/atom/Button";
-import { APP_URL } from "@/constant";
+import { Button } from "components/atomic/atom/Button";
+import { APP_URL } from "constant";
 import Dialog, {
   DialogBody,
   DialogClose,
-} from "@/components/atomic/molecule/Dialog";
-import { useRoutineCheckStore } from "@/client-side-page/home/routine-check-store";
+} from "components/atomic/molecule/Dialog";
+import { useRoutineCheckStore } from "client-side-page/home/routine-check-store";
 
 /** Automatically opens when the check count hits a multiple of CHECK_LIMIT */
 export function LimitDialog() {

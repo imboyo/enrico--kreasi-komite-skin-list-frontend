@@ -2,8 +2,8 @@
 
 import { usePathname, useRouter } from "next/navigation";
 
-import { Tabs, type TabOption } from "@/components/atomic/molecule/Tabs";
-import { APP_URL } from "@/constant";
+import { Tabs, type TabOption } from "components/atomic/molecule/Tabs";
+import { APP_URL } from "constant";
 
 type SkinsTabId = "routines" | "colors" | "scars" | "make-ups";
 

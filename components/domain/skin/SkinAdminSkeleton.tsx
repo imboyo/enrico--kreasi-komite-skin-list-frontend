@@ -1,13 +1,13 @@
-import { Skeleton } from "@/components/atomic/atom/Skeleton";
+import { Skeleton } from "components/atomic/atom/Skeleton";
 
-export function LoadingState() {
+export function SkinAdminSkeleton() {
   return (
     <div className="flex flex-col gap-3">
-      {/* Section: Routine card skeleton */}
+      {/* Section: Skin care card skeleton */}
       {Array.from({ length: 5 }).map((_, index) => (
         <div
           key={index}
-          className="rounded-[24px] border border-border bg-card p-4"
+          className="rounded-3xl border border-border bg-card p-4"
         >
           <div className="flex items-start gap-3">
             <Skeleton className="size-11 rounded-2xl" />

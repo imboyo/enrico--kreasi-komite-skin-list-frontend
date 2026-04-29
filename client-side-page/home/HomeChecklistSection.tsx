@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRoutineCheckStore } from "@/client-side-page/home/routine-check-store";
 import { ChecklistItemCard } from "@/components/atomic/molecule/ChecklistItemCard";
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
-import { Skeleton as RoutineListSkeleton } from "@/components/domain/routine-list/Skeleton";
+import { Skeleton as RoutineListSkeleton } from "components/domain/skin/list/Skeleton";
 import { useCheckableItems } from "@/hooks/useCheckableItems";
 import { cn } from "@/util/cn";
 
