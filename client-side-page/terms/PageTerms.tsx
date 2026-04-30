@@ -4,6 +4,7 @@ import { appConfig } from "@/config";
 import { motion } from "motion/react";
 import { HeroSection } from "@/components/atomic/molecule/HeroSection";
 import { IconCard } from "@/components/atomic/molecule/IconCard";
+import { fadeUp } from "@/util/page-motion-variants";
 
 const SECTIONS = [
   {
@@ -47,13 +48,6 @@ const SECTIONS = [
     body: "These terms are governed by the laws of Indonesia. Any disputes arising from your use of Skin List will be subject to the exclusive jurisdiction of the courts located in Indonesia.",
   },
 ];
-
-const fadeUp = (delay: number) =>
-  ({
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.4, delay, ease: "easeOut" as const },
-  }) as const;
 
 export const PageTerms = () => {
   const { contact } = appConfig;

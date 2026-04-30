@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { HeroSection } from "@/components/atomic/molecule/HeroSection";
 import { IconCard } from "@/components/atomic/molecule/IconCard";
+import { fadeUp } from "@/util/page-motion-variants";
 
 const TEAM_MEMBERS = [
   {
@@ -67,14 +68,6 @@ const FEATURES = [
       "Document blemishes and scars so you can measure healing progress.",
   },
 ];
-
-/** Shared fade-up variant for section headings and blocks */
-const fadeUp = (delay: number) =>
-  ({
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.4, delay, ease: "easeOut" as const },
-  }) as const;
 
 export const PageAbout = () => {
   return (

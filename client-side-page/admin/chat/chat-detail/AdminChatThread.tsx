@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 
 import { ChatBubble } from "components/atomic/molecule/chat/ChatBubble";
 import { ChatInput } from "components/atomic/molecule/chat/ChatInput";
-import { ChatTopbar } from "client-side-page/admin/chat/chat-detail/ChatTopbar";
+import { ChatTopbar } from "components/atomic/organism/topbar/ChatTopbar";
 import { APP_URL } from "constant";
 import { useChatConversation } from "hooks/useChatConversation";
 import type { AdminChatConversation } from "mock-backend/admin/chat/chats";

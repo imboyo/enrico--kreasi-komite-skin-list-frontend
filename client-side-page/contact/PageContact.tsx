@@ -4,57 +4,12 @@ import { ContactChannelsSection } from "@/client-side-page/contact/components/Co
 import { ContactHeroSection } from "@/client-side-page/contact/components/ContactHeroSection";
 import { SupportNotesSection } from "@/client-side-page/contact/components/SupportNotesSection";
 import { motion, useReducedMotion } from "motion/react";
-
-const pageVariants = {
-  initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.08,
-    },
-  },
-} as const;
-
-const sectionVariants = {
-  initial: {
-    opacity: 0,
-    y: 24,
-    filter: "blur(10px)",
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.6,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
-  },
-} as const;
-
-const headingVariants = {
-  initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-} as const;
-
-const headingItemVariants = {
-  initial: {
-    opacity: 0,
-    y: 16,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.45,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
-  },
-} as const;
+import {
+  headingItemVariants,
+  headingVariants,
+  pageVariants,
+  sectionVariants,
+} from "@/util/page-motion-variants";
 
 export const PageContact = () => {
   const reduceMotion = useReducedMotion();
