@@ -13,7 +13,7 @@ import Dialog, {
   DialogHeader,
   DialogTitle,
 } from "@/components/atomic/molecule/Dialog";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 export type ListToolbarOption<TValue extends string> = {
   value: TValue;

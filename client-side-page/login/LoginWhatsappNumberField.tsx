@@ -1,6 +1,6 @@
 import { WhatsappNumberField } from "@/components/atomic/molecule/WhatsappNumberField";
 import type { LoginFormApi } from "@/hooks/useLoginForm";
-import { validateWhatsappField } from "@/util/whatsapp-number";
+import { validateWhatsappField } from "libs/util/whatsapp-number";
 
 interface Props {
   form: LoginFormApi;

@@ -2,7 +2,7 @@
 
 import { Icon } from "@iconify/react";
 import type { ReactNode } from "react";
-import { cn } from "util/cn";
+import { cn } from "libs/util/cn";
 
 export type SkinCareCardItem = {
   id: string;

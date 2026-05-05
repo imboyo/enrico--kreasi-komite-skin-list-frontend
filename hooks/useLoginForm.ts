@@ -13,7 +13,7 @@ import { InvalidCredentialsError } from "@/mock-backend/auth/login";
 import {
   normalizeWhatsappNumber,
   whatsappNumberSchema,
-} from "@/util/whatsapp-number";
+} from "libs/util/whatsapp-number";
 
 import { useLoginMutation } from "./useLoginMutation";
 

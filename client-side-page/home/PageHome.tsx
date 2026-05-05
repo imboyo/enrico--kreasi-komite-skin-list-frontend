@@ -14,7 +14,7 @@ import {
   headingVariants,
   pageVariants,
   sectionVariants,
-} from "@/util/page-motion-variants";
+} from "libs/util/page-motion-variants";
 
 export const PageHome = () => {
   const reset = useRoutineCheckStore((s) => s.reset);

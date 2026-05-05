@@ -14,7 +14,7 @@ import {
   requestRegisterOtp,
   verifyRegisterOtp,
 } from "@/mock-backend/auth/register-otp";
-import { normalizeWhatsappNumber } from "@/util/whatsapp-number";
+import { normalizeWhatsappNumber } from "libs/util/whatsapp-number";
 
 import {
   validateRegisterField,

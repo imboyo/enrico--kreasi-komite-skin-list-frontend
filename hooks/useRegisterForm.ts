@@ -12,7 +12,7 @@ import { z } from "zod";
 import {
   normalizeWhatsappNumber,
   whatsappNumberSchema,
-} from "@/util/whatsapp-number";
+} from "libs/util/whatsapp-number";
 
 import { useRegisterMutation } from "./useRegisterMutation";
 

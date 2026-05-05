@@ -2,7 +2,7 @@
 
 import { type ReactNode, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 export interface BottomSheetProps {
   open: boolean;

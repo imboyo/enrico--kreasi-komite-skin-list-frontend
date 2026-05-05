@@ -3,7 +3,7 @@
 import { createPortal } from "react-dom";
 
 import { Toast } from "@/components/atomic/molecule/Toast";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 import type { ToastEntry, ToastPosition } from "@/components/provider/toast-context";
 import { toastPositionClasses } from "@/components/provider/toast-position";
 

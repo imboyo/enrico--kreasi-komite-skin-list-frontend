@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { HeroSection } from "@/components/atomic/molecule/HeroSection";
 import { IconCard } from "@/components/atomic/molecule/IconCard";
-import { fadeUp } from "@/util/page-motion-variants";
+import { fadeUp } from "libs/util/page-motion-variants";
 
 const TEAM_MEMBERS = [
   {

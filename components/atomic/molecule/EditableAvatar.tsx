@@ -2,7 +2,7 @@
 
 import { Icon } from "@iconify/react";
 import React, { useRef } from "react";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 export interface EditableAvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   imageUrl?: string | null;

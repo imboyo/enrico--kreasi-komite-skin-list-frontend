@@ -4,7 +4,7 @@ import { ClassNames, keyframes } from "@emotion/react";
 import { DropdownMenu as RadixDropdownMenu } from "radix-ui";
 import { type ComponentPropsWithoutRef, type ReactNode } from "react";
 
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 type MenuDropdownProps = {
   trigger: ReactNode;

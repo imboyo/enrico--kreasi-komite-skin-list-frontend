@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 export type ChatAuthor = "user" | "admin";
 export type ChatMessageType = "text" | "image" | "file";

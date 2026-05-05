@@ -3,7 +3,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 const badgeVariants = cva(
   "inline-flex max-w-full items-center border border-primary/30 bg-primary/10 transition-colors duration-150",

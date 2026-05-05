@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from "react";
 
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 export type FallbackProps = HTMLAttributes<HTMLDivElement> & {
   title: ReactNode;

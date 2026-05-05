@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import {cn} from "@/util/cn";
+import {cn} from "libs/util/cn";
 import MobileContainerBackdrop from "@/components/atomic/atom/MobileContainerBackdrop";
 
 interface MobileContainerProps {

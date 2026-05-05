@@ -3,7 +3,7 @@
 import { Icon } from "@iconify/react";
 
 import type { SkinTotalCard as SkinTotalCardData } from "@/mock-backend/admin/dashboard/total-skin";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 type SkinTotalCardProps = {
   card: SkinTotalCardData;

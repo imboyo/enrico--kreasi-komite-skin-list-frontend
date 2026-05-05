@@ -2,7 +2,7 @@ import {
   simulateMockRequest,
   type MockControlInput,
 } from "@/mock-backend/utils/mock-control";
-import { normalizeWhatsappNumber } from "@/util/whatsapp-number";
+import { normalizeWhatsappNumber } from "libs/util/whatsapp-number";
 
 export type LoginPayload = {
   whatsappNumber: string;

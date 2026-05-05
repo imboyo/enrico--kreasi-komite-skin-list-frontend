@@ -2,7 +2,7 @@
 
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 interface DashboardLinkCardProps {
   label: string;

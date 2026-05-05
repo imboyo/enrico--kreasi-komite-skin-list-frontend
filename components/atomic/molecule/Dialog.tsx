@@ -1,6 +1,6 @@
 import { Dialog as RadixDialog } from "radix-ui";
 import { type CSSProperties, type ReactNode } from "react";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 export interface DialogProps {
   open?: boolean;

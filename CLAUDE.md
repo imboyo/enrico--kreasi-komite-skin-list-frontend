@@ -68,3 +68,7 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 - Instead of using `max-w-[260px]` in tailwind use `max-w-65` tailwind. So if 12px it will be max-w-3
 - For JSX Section add a comment what section it is
 - If the component or the logic is too complex or bloated please consider refactoring it
+- If needs additional css when in tailwind can not achieve or too messy please use emotion react in css syntax `css={css`color: green;`}`
+
+### Moduling / Project Structure
+1. Backend Service use barrel export with naming for example `backend-service/auth/index.ts` and its have index.ts on `backend-service` so in consumer we can choose import directly from `backend-service/auth` or for more readable we can import from `backend-service`

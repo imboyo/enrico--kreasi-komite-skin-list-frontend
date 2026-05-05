@@ -10,7 +10,7 @@ import {
 import { Icon } from "@iconify/react";
 
 import { Button } from "@/components/atomic/atom/Button";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 interface ChatInputProps {
   onSendText: (text: string) => void;

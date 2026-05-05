@@ -7,7 +7,7 @@ import {
   HeightThickness,
   SimpleTableProps,
 } from "@/components/atomic/organism/simple-table/SimpleTable";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 import _ from "lodash";
 
 interface Props<T extends object> {

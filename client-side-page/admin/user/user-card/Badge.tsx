@@ -1,6 +1,6 @@
 import { Badge } from "@/components/atomic/atom/Badge";
 import type { AdminUserStatus } from "@/mock-backend/admin/user/users";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 const USER_STATUS_LABEL: Record<AdminUserStatus, string> = {
   active: "Active",

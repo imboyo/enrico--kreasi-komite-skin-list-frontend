@@ -8,7 +8,7 @@ import { ChecklistItemCard } from "@/components/atomic/molecule/ChecklistItemCar
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { Skeleton as RoutineListSkeleton } from "components/domain/skin/list/Skeleton";
 import { useCheckableItems } from "@/hooks/useCheckableItems";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 type HomeChecklistItem = {
   id: string;

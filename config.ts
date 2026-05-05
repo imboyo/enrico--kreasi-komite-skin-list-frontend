@@ -1,3 +1,5 @@
+import "dotenv/config"
+
 export const appConfig = {
   contact: {
     email: "support@kreasikomite.site",
@@ -10,3 +12,5 @@ export const appConfig = {
     githubUsername: "imboyo",
   },
 } as const;
+
+export const NEXT_PUBLIC_BACKEND_HOST = process.env.NEXT_PUBLIC_BACKEND_HOST ?? "http://localhost:3000";

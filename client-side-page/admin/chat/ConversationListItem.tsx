@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { APP_URL } from "@/constant";
 import type { AdminChatConversation } from "@/mock-backend/admin/chat/chats";
-import { getInitials } from "@/util/get-initials";
-import { getPreviewMessage } from "util/get-preview-message";
+import { getInitials } from "libs/util/get-initials";
+import { getPreviewMessage } from "libs/util/get-preview-message";
 
 type ConversationListItemProps = {
   conversation: AdminChatConversation;

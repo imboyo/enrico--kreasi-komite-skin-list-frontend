@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Icon } from "@iconify/react";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 const toastVariants = cva(
   "flex items-start gap-3 rounded-2xl border px-4 py-3 shadow-lg transition-all duration-300",

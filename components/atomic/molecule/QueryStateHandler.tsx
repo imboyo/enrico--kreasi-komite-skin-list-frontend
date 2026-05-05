@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/atomic/atom/Button";
 import { Fallback } from "@/components/atomic/atom/Fallback";
 import { Skeleton } from "@/components/atomic/atom/Skeleton";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 type QueryState = {
   isLoading: boolean;

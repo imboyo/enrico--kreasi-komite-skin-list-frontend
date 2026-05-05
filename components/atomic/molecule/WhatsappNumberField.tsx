@@ -6,7 +6,7 @@ import { TextInput } from "@/components/atomic/atom/TextInput";
 import {
   sanitizeWhatsappNumberInput,
   WHATSAPP_MAX_LENGTH,
-} from "@/util/whatsapp-number";
+} from "libs/util/whatsapp-number";
 
 // Slim structural interface — matches TanStack Form's FieldApi render-prop value.
 interface WhatsappFieldSlim {

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "motion/react";
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 export interface TabOption<T extends string> {
   id: T;

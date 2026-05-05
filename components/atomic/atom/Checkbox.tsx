@@ -5,7 +5,7 @@ import {
   type ReactNode,
 } from "react";
 
-import { cn } from "@/util/cn";
+import { cn } from "libs/util/cn";
 
 export type CheckboxProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,

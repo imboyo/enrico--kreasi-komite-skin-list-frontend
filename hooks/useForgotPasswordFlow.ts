@@ -12,7 +12,7 @@ import {
   verifyForgotPasswordOtp,
   WhatsappNotRegisteredError,
 } from "@/mock-backend/auth/forgot-password-otp";
-import { normalizeWhatsappNumber, whatsappNumberSchema } from "@/util/whatsapp-number";
+import { normalizeWhatsappNumber, whatsappNumberSchema } from "libs/util/whatsapp-number";
 
 import { useMultiStepForm } from "./useMultiStepForm";
 import { validateRegisterField } from "./useRegisterForm";
