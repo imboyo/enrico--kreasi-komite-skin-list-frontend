@@ -1,13 +1,22 @@
 import { Icon } from "@iconify/react";
-import { useForm, type ReactFormExtendedApi, type FormValidateOrFn, type FormAsyncValidateOrFn } from "@tanstack/react-form";
+import {
+  useForm,
+  type ReactFormExtendedApi,
+  type FormValidateOrFn,
+  type FormAsyncValidateOrFn,
+} from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 
+import { registerVerify } from "@/backend-service/auth/register-verify.service";
 import { Button } from "@/components/atomic/atom/Button";
 import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
 import { TextInput } from "@/components/atomic/atom/TextInput";
-import { verifyRegisterOtp } from "@/mock-backend/auth/register-otp";
-import { validateRegisterField, type RegisterFormValues } from "@/hooks/useRegisterForm";
+import {
+  validateRegisterField,
+  type RegisterFormValues,
+} from "@/hooks/useRegisterForm";
+import { normalizeWhatsappNumber } from "libs/util/whatsapp-number";
 
 const otpSchema = z.object({
   otp: z.string().min(1, "OTP is required").length(6, "OTP must be 6 digits"),
@@ -47,13 +56,24 @@ export function RegisterOtpStep({
         throw new Error("Missing pending registration data.");
       }
 
-      return verifyRegisterOtp(
-        { ...pendingRegistration, otp },
-        { delayMs: 1000 },
-      );
+      return registerVerify({
+        phone_number: normalizeWhatsappNumber(
+          pendingRegistration.whatsappNumber,
+        ),
+        otp_code: otp,
+      });
     },
-    onSuccess: (response) => {
-      onVerifySuccess(response.user);
+    onSuccess: () => {
+      if (!pendingRegistration) {
+        return;
+      }
+
+      // The verify endpoint only confirms activation, so the success screen
+      // keeps using the already submitted registration identity.
+      onVerifySuccess({
+        name: pendingRegistration.name,
+        whatsappNumber: pendingRegistration.whatsappNumber,
+      });
     },
   });
 
@@ -79,7 +99,8 @@ export function RegisterOtpStep({
           Verify your account
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter the OTP sent to <strong>{pendingRegistration?.whatsappNumber}</strong>.
+          Enter the OTP sent to{" "}
+          <strong>{pendingRegistration?.whatsappNumber}</strong>.
         </p>
       </div>
 
@@ -131,11 +152,12 @@ export function RegisterOtpStep({
         </otpForm.Field>
 
         <p className="text-xs text-muted-foreground">
-          Use <span className="font-medium text-foreground">123456</span> for
-          the mock OTP.
+          Enter the latest 6-digit OTP sent to your WhatsApp number.
         </p>
 
-        {verifyError && <p className="text-sm text-destructive">{verifyError}</p>}
+        {verifyError && (
+          <p className="text-sm text-destructive">{verifyError}</p>
+        )}
 
         <otpForm.Subscribe
           selector={(state) => ({
