@@ -78,7 +78,7 @@ export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
       setAuth(tokens.access_token, tokens.refresh_token, {
         uuid: profile.uuid,
         fullName: profile.full_name,
-        photoProfile: null,
+        photoProfile: profile.profile_photo?.uuid ?? null,
         role,
         email: profile.email,
       });

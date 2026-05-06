@@ -1,5 +1,17 @@
 // Shared types reused across multiple account service files
 
+export type ProfilePhoto = {
+  uuid: string;
+  original_name: string;
+  filename: string;
+  category: string;
+  mime_type: string;
+  size: string;
+  is_public: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 export type AccountProfile = {
   uuid: string;
   full_name: string;
@@ -7,6 +19,7 @@ export type AccountProfile = {
   phone_number: string;
   role: string;
   status: string;
+  profile_photo: ProfilePhoto | null;
   auth_field_updated_at: string;
   created_at: string;
   updated_at: string;

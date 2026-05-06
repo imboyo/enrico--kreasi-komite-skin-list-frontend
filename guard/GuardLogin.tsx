@@ -71,7 +71,7 @@ export default function GuardLogin({
         setUserInfo({
           uuid: profile.uuid,
           fullName: profile.full_name,
-          photoProfile: null,
+          photoProfile: profile.profile_photo?.uuid ?? null,
           role: backendRole,
           email: profile.email,
         });
