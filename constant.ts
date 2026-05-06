@@ -4,6 +4,7 @@ export const APP_URL = {
   TERMS: "/terms",
   CONTACT: "/contact",
   LOGIN: "/login",
+  FORGOT_PASSWORD: "/forgot-password",
   REGISTER: "/register",
   APP: "/app",
   APP_CHAT: "/app/chat",
