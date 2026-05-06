@@ -15,14 +15,16 @@ export default function GuardNotLogin({ children }: GuardNotLoginProps) {
   const router = useRouter();
   const accessToken = useAuthStore((state) => state.accessToken);
   const refreshToken = useAuthStore((state) => state.refreshToken);
-  const userRole = useAuthStore((state) => state.userInfo?.role);
+  const userRole = useAuthStore(
+    (state) => state.impersonatingAs?.role ?? state.userInfo?.role,
+  );
   const isHydrated = useIsHydrated();
 
   useEffect(() => {
     if (!isHydrated) return;
 
-    // Treat either persisted token as an authenticated local session, then pick
-    // the destination from the stored role and fall back to the user app route.
+    // Login should also respect the active session role so impersonated admins
+    // do not bounce back into the admin area while using a user session.
     if (accessToken || refreshToken) {
       router.replace(getAuthenticatedRedirect(userRole));
     }

@@ -15,20 +15,9 @@ type GuardLoginProps = {
    * When a new role is added to AccountRole, just include it here as needed.
    */
   allowedRoles: AccountRole[];
-  /**
-   * When true (default), the guard resolves the role from the impersonated
-   * user if an impersonation is active. Set to false to always check the real
-   * logged-in user's role — use this for sections like /admin where the guard
-   * must remain tied to the actual account, not the impersonation target.
-   */
-  respectImpersonation?: boolean;
 };
 
-export default function GuardLogin({
-  children,
-  allowedRoles,
-  respectImpersonation = true,
-}: GuardLoginProps) {
+export default function GuardLogin({ children, allowedRoles }: GuardLoginProps) {
   const router = useRouter();
   const accessToken = useAuthStore((state) => state.accessToken);
   const refreshToken = useAuthStore((state) => state.refreshToken);
@@ -36,8 +25,12 @@ export default function GuardLogin({
   const impersonatingAs = useAuthStore((state) => state.impersonatingAs);
   const isHydrated = useIsHydrated();
 
-  // When respectImpersonation is true, use the impersonated user's role if active
-  const resolvedRole = (respectImpersonation ? (impersonatingAs ?? userInfo) : userInfo)?.role;
+  // The active route guard must follow the current session identity.
+  // During impersonation, tokens belong to the impersonated user, so the
+  // allowed role should come from that session before falling back to the
+  // original signed-in account.
+  const activeUser = impersonatingAs ?? userInfo;
+  const resolvedRole = activeUser?.role;
   const isAuthenticated = Boolean(accessToken || refreshToken);
   const isAllowed = resolvedRole !== undefined && allowedRoles.includes(resolvedRole);
 
@@ -50,11 +43,11 @@ export default function GuardLogin({
     }
 
     if (!isAllowed) {
-      // Redirect to the section that matches the real user's role
-      const fallback = userInfo?.role === "ADMIN" ? APP_URL.ADMIN : APP_URL.APP;
+      // Keep each section exclusive by bouncing to the active session's home.
+      const fallback = resolvedRole === "ADMIN" ? APP_URL.ADMIN : APP_URL.APP;
       router.replace(fallback);
     }
-  }, [isAuthenticated, isAllowed, isHydrated, router, userInfo?.role]);
+  }, [isAuthenticated, isAllowed, isHydrated, resolvedRole, router]);
 
   if (!isHydrated) return null;
   if (!isAuthenticated || !isAllowed) return null;

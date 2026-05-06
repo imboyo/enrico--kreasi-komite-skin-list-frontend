@@ -10,8 +10,8 @@ export default function AppLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // USER and ADMIN both allowed; admin can impersonate a user and access this section
-    <GuardLogin allowedRoles={["USER", "ADMIN"]}>
+    // Only USER role can access the app area; impersonation is resolved in GuardLogin.
+    <GuardLogin allowedRoles={["USER"]}>
       <MobileContainer>
         <AppTopbar />
         <AppSidebar />

@@ -11,8 +11,8 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: Readonly<AdminLayoutProps>) {
   return (
-    // Only ADMIN role — checks real userInfo role so impersonation cannot bypass admin access
-    <GuardLogin allowedRoles={["ADMIN"]} respectImpersonation={false}>
+    // Only ADMIN role — access is always tied to the authenticated account info
+    <GuardLogin allowedRoles={["ADMIN"]}>
       <MobileContainer>
         <AdminTopbar />
         <AdminSidebar />
