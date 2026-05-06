@@ -17,8 +17,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     ? localStorage.getItem(LOCAL_STORAGE_KEY.REFRESH_TOKEN)
     : null,
   userInfo: readStoredUserInfo(),
-  // Impersonation is session-only — never persisted to localStorage
-  impersonatingAs: null,
+  // Impersonation is session-only because the active userInfo comes from the current session.
+  isImpersonating: false,
   // Admin's stashed tokens while impersonating — session-only
   adminAccessToken: null,
   adminRefreshToken: null,
@@ -56,13 +56,13 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       accessToken: null,
       refreshToken: null,
       userInfo: null,
-      impersonatingAs: null,
+      isImpersonating: false,
       adminAccessToken: null,
       adminRefreshToken: null,
     });
   },
 
-  startImpersonation: (targetUser, userAccessToken, userRefreshToken) => {
+  startImpersonation: (userAccessToken, userRefreshToken) => {
     const { accessToken, refreshToken } = get();
     // Stash admin's current tokens in memory, then swap main tokens to the user's
     if (isBrowser()) {
@@ -70,7 +70,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       localStorage.setItem(LOCAL_STORAGE_KEY.REFRESH_TOKEN, userRefreshToken);
     }
     set({
-      impersonatingAs: targetUser,
+      isImpersonating: true,
       adminAccessToken: accessToken,
       adminRefreshToken: refreshToken,
       accessToken: userAccessToken,
@@ -88,7 +88,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         localStorage.setItem(LOCAL_STORAGE_KEY.REFRESH_TOKEN, adminRefreshToken);
     }
     set({
-      impersonatingAs: null,
+      isImpersonating: false,
       adminAccessToken: null,
       adminRefreshToken: null,
       accessToken: adminAccessToken,

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useIsHydrated } from "@/hooks/useIsHydrated";
 import { useAuthStore } from "@/store/auth/auth.store";
 import { getAuthenticatedRedirect } from "@/guard/util/get-authenticated-redirect";
+import { useToast } from "@/components/provider/Toast";
 
 type GuardNotLoginProps = {
   children: React.ReactNode;
@@ -13,22 +14,21 @@ type GuardNotLoginProps = {
 
 export default function GuardNotLogin({ children }: GuardNotLoginProps) {
   const router = useRouter();
+  const { showToast } = useToast();
   const accessToken = useAuthStore((state) => state.accessToken);
   const refreshToken = useAuthStore((state) => state.refreshToken);
-  const userRole = useAuthStore(
-    (state) => state.impersonatingAs?.role ?? state.userInfo?.role,
-  );
+  const userRole = useAuthStore((state) => state.userInfo?.role);
   const isHydrated = useIsHydrated();
 
   useEffect(() => {
     if (!isHydrated) return;
 
-    // Login should also respect the active session role so impersonated admins
-    // do not bounce back into the admin area while using a user session.
+    // The guard only needs the role attached to the active session userInfo.
     if (accessToken || refreshToken) {
+      showToast("Anda sudah login", { variant: "secondary" });
       router.replace(getAuthenticatedRedirect(userRole));
     }
-  }, [accessToken, isHydrated, refreshToken, router, userRole]);
+  }, [accessToken, isHydrated, refreshToken, router, showToast, userRole]);
 
   if (!isHydrated) {
     return null;

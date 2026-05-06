@@ -12,8 +12,8 @@ export type AuthStore = {
   accessToken: string | null;
   refreshToken: string | null;
   userInfo: UserInfo | null;
-  // The user being impersonated by admin; null when not impersonating
-  impersonatingAs: UserInfo | null;
+  // Tracks whether the active tokens belong to an impersonated session.
+  isImpersonating: boolean;
   // Admin's original tokens — held temporarily while impersonating so admin can return
   adminAccessToken: string | null;
   adminRefreshToken: string | null;
@@ -29,9 +29,8 @@ export type AuthStore = {
   setUserInfo: (userInfo: UserInfo) => void;
   // Clear everything on logout
   clearAuth: () => void;
-  // Admin impersonates a user — swaps main tokens with user's tokens, saves admin tokens aside
+  // Admin impersonates a user — swaps main tokens with user's tokens, saves admin tokens aside.
   startImpersonation: (
-    targetUser: UserInfo,
     userAccessToken: string,
     userRefreshToken: string,
   ) => void;
