@@ -1,8 +1,6 @@
-import { Icon } from "@iconify/react";
-
 import { Button } from "@/components/atomic/atom/Button";
 import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
-import { TextInput } from "@/components/atomic/atom/TextInput";
+import { OtpInput } from "@/components/atomic/atom/OtpInput";
 import type { useForgotPasswordFlow } from "@/hooks/useForgotPasswordFlow";
 
 type ForgotPasswordFlowState = ReturnType<typeof useForgotPasswordFlow>;
@@ -58,19 +56,11 @@ export function ForgotPasswordOtpStep({
               >
                 OTP Code
               </label>
-              <TextInput
+              <OtpInput
                 id="forgot-password-otp"
-                type="text"
-                inputMode="numeric"
-                maxLength={6}
-                placeholder="Enter 6-digit OTP"
                 value={field.state.value}
-                onChange={(event) =>
-                  field.handleChange(event.target.value.replace(/\D/g, ""))
-                }
+                onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
-                autoComplete="one-time-code"
-                startItem={<Icon icon="material-symbols:pin-outline" />}
                 disabled={verifyOtpMutation.isPending}
                 surface="transparent"
               />

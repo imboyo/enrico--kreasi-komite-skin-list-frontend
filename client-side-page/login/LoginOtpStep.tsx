@@ -1,21 +1,24 @@
+"use client";
+
 import {
-  useForm,
-  type ReactFormExtendedApi,
-  type FormValidateOrFn,
   type FormAsyncValidateOrFn,
+  type FormValidateOrFn,
+  type ReactFormExtendedApi,
+  useForm,
 } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 
-import { registerVerify } from "@/backend-service/auth/register-verify.service";
+import { loginVerify } from "@/backend-service/auth/login-verify.service";
 import { Button } from "@/components/atomic/atom/Button";
 import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
 import { OtpInput } from "@/components/atomic/atom/OtpInput";
-import {
-  validateRegisterField,
-  type RegisterFormValues,
-} from "@/hooks/useRegisterForm";
+import { APP_URL } from "@/constant";
+import { useAuthStore } from "@/store/auth/auth.store";
 import { normalizeWhatsappNumber } from "libs/util/whatsapp-number";
+
+import { type LoginFormValues, validateLoginField } from "./login-form.schema";
 
 const otpSchema = z.object({
   otp: z.string().min(1, "OTP is required").length(6, "OTP must be 6 digits"),
@@ -38,41 +41,31 @@ type OtpFormApi = ReactFormExtendedApi<
   never
 >;
 
-type RegisterOtpStepProps = {
-  pendingRegistration: RegisterFormValues | null;
-  backToRegister: () => void;
-  onVerifySuccess: (user: { name: string; whatsappNumber: string }) => void;
+type LoginOtpStepProps = {
+  pendingLogin: LoginFormValues | null;
+  backToLogin: () => void;
 };
 
-export function RegisterOtpStep({
-  pendingRegistration,
-  backToRegister,
-  onVerifySuccess,
-}: RegisterOtpStepProps) {
+export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
+  const router = useRouter();
+  const setTokens = useAuthStore((state) => state.setTokens);
+
   const verifyOtpMutation = useMutation({
     mutationFn: (otp: string) => {
-      if (!pendingRegistration) {
-        throw new Error("Missing pending registration data.");
+      if (!pendingLogin) {
+        throw new Error("Missing pending login data.");
       }
 
-      return registerVerify({
-        phone_number: normalizeWhatsappNumber(
-          pendingRegistration.whatsappNumber,
-        ),
+      return loginVerify({
+        phone_number: normalizeWhatsappNumber(pendingLogin.whatsappNumber),
         otp_code: otp,
       });
     },
-    onSuccess: () => {
-      if (!pendingRegistration) {
-        return;
-      }
-
-      // The verify endpoint only confirms activation, so the success screen
-      // keeps using the already submitted registration identity.
-      onVerifySuccess({
-        name: pendingRegistration.name,
-        whatsappNumber: pendingRegistration.whatsappNumber,
-      });
+    onSuccess: (tokens) => {
+      setTokens(tokens.access_token, tokens.refresh_token);
+      // Replace the login route after verification so a successful auth lands on
+      // the app dashboard and does not keep the login page as the forward target.
+      router.replace(APP_URL.APP);
     },
   });
 
@@ -84,10 +77,11 @@ export function RegisterOtpStep({
   });
 
   const validateOtpField = (value: string) =>
-    validateRegisterField(otpSchema.shape.otp, value);
+    validateLoginField(otpSchema.shape.otp, value);
 
   const verifyError = verifyOtpMutation.error
-    ? "Something went wrong. Please try again."
+    ? verifyOtpMutation.error.message ||
+      "Something went wrong. Please try again."
     : null;
 
   return (
@@ -95,11 +89,10 @@ export function RegisterOtpStep({
       {/* Heading */}
       <div className="mb-6 text-center">
         <h1 className="mb-1 text-2xl font-semibold leading-tight text-foreground">
-          Verify your account
+          Verify your login
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter the OTP sent to{" "}
-          <strong>{pendingRegistration?.whatsappNumber}</strong>.
+          Enter the OTP sent to <strong>{pendingLogin?.whatsappNumber}</strong>.
         </p>
       </div>
 
@@ -121,13 +114,13 @@ export function RegisterOtpStep({
           {(field) => (
             <div className="flex flex-col gap-1.5">
               <label
-                htmlFor="register-otp"
+                htmlFor="login-otp"
                 className="text-sm font-medium text-foreground"
               >
                 OTP Code
               </label>
               <OtpInput
-                id="register-otp"
+                id="login-otp"
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
@@ -179,7 +172,7 @@ export function RegisterOtpStep({
           size="lg"
           variant="outline"
           disabled={verifyOtpMutation.isPending}
-          onClick={backToRegister}
+          onClick={backToLogin}
         >
           Back
         </Button>

@@ -1,107 +1,61 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
-import { Button } from "@/components/atomic/atom/Button";
-import { APP_URL } from "@/constant";
-import { useLoginForm } from "@/hooks/useLoginForm";
+import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 
 import { LoginAvatar } from "./LoginAvatar";
-import { LoginHeading } from "./LoginHeading";
-import { LoginPasswordField } from "./LoginPasswordField";
-import { LoginWhatsappNumberField } from "./LoginWhatsappNumberField";
+import { LoginFormStep } from "./LoginFormStep";
+import { LoginOtpStep } from "./LoginOtpStep";
+import { type LoginFormValues } from "./login-form.schema";
+
+const LOGIN_FLOW_STEPS = ["login", "otp"] as const;
 
 export function PageLogin() {
-  const router = useRouter();
-  const { form, loginMutation, serverError, showPassword, toggleShowPassword } =
-    useLoginForm();
+  const flow = useMultiStepForm({ steps: LOGIN_FLOW_STEPS });
+  const [pendingLogin, setPendingLogin] = useState<LoginFormValues | null>(
+    null,
+  );
+
+  const transitionX = flow.direction > 0 ? 20 : -20;
+
+  const renderStep = () => {
+    if (flow.currentStep === "otp") {
+      return (
+        <LoginOtpStep
+          pendingLogin={pendingLogin}
+          backToLogin={() => flow.goToStep("login")}
+        />
+      );
+    }
+
+    return (
+      <LoginFormStep
+        onLoginChainSuccess={(values) => {
+          setPendingLogin(values);
+          flow.nextStep();
+        }}
+      />
+    );
+  };
 
   return (
     <main className="flex min-h-full flex-col items-center px-6 py-10">
       <LoginAvatar />
-      <LoginHeading />
-
-      <form
-        className="flex w-full flex-col gap-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void form.handleSubmit();
-        }}
-      >
-        <LoginWhatsappNumberField
-          form={form}
-          disabled={loginMutation.isPending}
-        />
-
-        <LoginPasswordField
-          form={form}
-          showPassword={showPassword}
-          onToggleShowPassword={toggleShowPassword}
-          disabled={loginMutation.isPending}
-        />
-
-        {serverError && (
-          <p className="text-sm text-destructive">{serverError}</p>
-        )}
-
-        <form.Subscribe
-          selector={(state) => ({
-            isValid: state.isValid,
-            values: state.values,
-          })}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={flow.currentStep}
+          className="w-full"
+          // The flow direction keeps OTP/back transitions aligned with register.
+          initial={{ opacity: 0, x: transitionX }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -transitionX }}
+          transition={{ duration: 0.24, ease: "easeOut" }}
         >
-          {({ isValid, values }) => {
-            // Disable the button if either field is empty (before any touch/validation).
-            const hasValues =
-              !!values.whatsappNumber.trim() && !!values.password.trim();
-
-            return (
-              <Button
-                type="submit"
-                fullWidth
-                size="lg"
-                isLoading={loginMutation.isPending}
-                disabled={
-                  loginMutation.isPending ||
-                  (hasValues
-                    ? !isValid && form.state.submissionAttempts > 0
-                    : true)
-                }
-              >
-                Continue
-              </Button>
-            );
-          }}
-        </form.Subscribe>
-
-        <Button
-          fullWidth
-          size="lg"
-          variant="outline"
-          disabled={loginMutation.isPending}
-          onClick={() => router.back()}
-        >
-          Back
-        </Button>
-
-        <p className="text-center text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Link
-            href={APP_URL.REGISTER}
-            className="font-medium text-primary hover:underline"
-          >
-            Sign up
-          </Link>
-        </p>
-
-        <Link
-          href={APP_URL.FORGOT_PASSWORD}
-          className="text-sm text-center font-medium text-primary hover:underline"
-        >
-          Forgot your password?
-        </Link>
-      </form>
+          {renderStep()}
+        </motion.div>
+      </AnimatePresence>
     </main>
   );
 }

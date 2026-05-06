@@ -1,10 +1,13 @@
 import { Icon } from "@iconify/react";
 
-import type { LoginFormApi } from "@/hooks/useLoginForm";
-import { loginSchema, validateLoginField } from "@/hooks/useLoginForm";
-
 import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
 import { TextInput } from "@/components/atomic/atom/TextInput";
+
+import {
+  loginSchema,
+  type LoginFormApi,
+  validateLoginField,
+} from "./login-form.schema";
 
 interface Props {
   form: LoginFormApi;
