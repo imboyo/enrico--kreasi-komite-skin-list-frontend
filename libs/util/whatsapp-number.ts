@@ -4,7 +4,7 @@ const WHATSAPP_DIGITS_ONLY = /\D/g;
 const INDONESIA_COUNTRY_CODE = "62";
 
 export const WHATSAPP_MIN_LENGTH = 10;
-// Max 13 local digits (0XXXXXXXXXXX) → normalizes to max 14 (628XXXXXXXXXXX) which fits /^628\d{7,11}$/.
+// Max 13 local digits (0XXXXXXXXXXX) → normalizes to max 14 (+628XXXXXXXXXXX) which fits /^\+628\d{7,11}$/.
 export const WHATSAPP_MAX_LENGTH = 13;
 
 export function sanitizeWhatsappNumberInput(value: string): string {
@@ -18,14 +18,17 @@ export function normalizeWhatsappNumber(value: string): string {
     return "";
   }
 
-  // Accept local mobile formats like 0812..., 812..., or international 62812...
-  // so the UI and mock backend compare the same canonical value.
+  // Normalize all local/international formats to +628... for the backend.
   if (digitsOnlyValue.startsWith("0")) {
-    return `${INDONESIA_COUNTRY_CODE}${digitsOnlyValue.slice(1)}`;
+    return `+${INDONESIA_COUNTRY_CODE}${digitsOnlyValue.slice(1)}`;
   }
 
   if (digitsOnlyValue.startsWith("8")) {
-    return `${INDONESIA_COUNTRY_CODE}${digitsOnlyValue}`;
+    return `+${INDONESIA_COUNTRY_CODE}${digitsOnlyValue}`;
+  }
+
+  if (digitsOnlyValue.startsWith("62")) {
+    return `+${digitsOnlyValue}`;
   }
 
   return digitsOnlyValue;
@@ -65,5 +68,5 @@ export function isValidWhatsappNumber(value: string): boolean {
 
   const normalizedValue = normalizeWhatsappNumber(sanitizedValue);
 
-  return /^628\d{7,11}$/.test(normalizedValue);
+  return /^\+628\d{7,11}$/.test(normalizedValue);
 }

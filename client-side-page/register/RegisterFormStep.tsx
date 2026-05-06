@@ -1,9 +1,17 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "@tanstack/react-form";
 
 import { Button } from "@/components/atomic/atom/Button";
 import { APP_URL } from "@/constant";
-import type { useRegisterFlow } from "@/hooks/useRegisterFlow";
+import { register } from "@/backend-service/auth/register.service";
+import { normalizeWhatsappNumber } from "libs/util/whatsapp-number";
+import {
+  type RegisterFormApi,
+  type RegisterFormValues,
+} from "@/hooks/useRegisterForm";
 
 import { RegisterConfirmPasswordField } from "./RegisterConfirmPasswordField";
 import { RegisterHeading } from "./RegisterHeading";
@@ -11,36 +19,52 @@ import { RegisterNameField } from "./RegisterNameField";
 import { RegisterPasswordField } from "./RegisterPasswordField";
 import { RegisterWhatsappNumberField } from "./RegisterWhatsappNumberField";
 
-type RegisterFlowState = ReturnType<typeof useRegisterFlow>;
+type RegisterFormStepProps = {
+  onRegisterSuccess: (values: RegisterFormValues) => void;
+};
 
-type RegisterFormStepProps = Pick<
-  RegisterFlowState,
-  | "form"
-  | "registerMutation"
-  | "registerError"
-  | "showPassword"
-  | "showConfirmPassword"
-  | "toggleShowPassword"
-  | "toggleShowConfirmPassword"
->;
-
-export function RegisterFormStep({
-  form,
-  registerMutation,
-  registerError,
-  showPassword,
-  showConfirmPassword,
-  toggleShowPassword,
-  toggleShowConfirmPassword,
-}: RegisterFormStepProps) {
+export function RegisterFormStep({ onRegisterSuccess }: RegisterFormStepProps) {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const registerMutation = useMutation({
+    mutationFn: (payload: RegisterFormValues) =>
+      register({
+        full_name: payload.name,
+        phone_number: normalizeWhatsappNumber(payload.whatsappNumber),
+        password: payload.password,
+      }),
+    onSuccess: (_, payload) => {
+      form.reset();
+      onRegisterSuccess(payload);
+    },
+  });
+
+  const form: RegisterFormApi = useForm({
+    defaultValues: {
+      name: "",
+      whatsappNumber: "",
+      password: "",
+      confirmPassword: "",
+    },
+    onSubmit: async ({ value }) => {
+      registerMutation.mutate(value);
+    },
+  });
+
+  const registerError = registerMutation.error
+    ? "Something went wrong. Please try again."
+    : null;
 
   return (
     <>
+      {/* Heading */}
       <div className="mb-6 text-center">
         <RegisterHeading />
       </div>
 
+      {/* Register form */}
       <form
         className="flex w-full flex-col gap-4"
         onSubmit={(event) => {
@@ -50,19 +74,22 @@ export function RegisterFormStep({
       >
         <RegisterNameField form={form} disabled={registerMutation.isPending} />
 
-        <RegisterWhatsappNumberField form={form} disabled={registerMutation.isPending} />
+        <RegisterWhatsappNumberField
+          form={form}
+          disabled={registerMutation.isPending}
+        />
 
         <RegisterPasswordField
           form={form}
           showPassword={showPassword}
-          onToggleShowPassword={toggleShowPassword}
+          onToggleShowPassword={() => setShowPassword((prev) => !prev)}
           disabled={registerMutation.isPending}
         />
 
         <RegisterConfirmPasswordField
           form={form}
           showPassword={showConfirmPassword}
-          onToggleShowPassword={toggleShowConfirmPassword}
+          onToggleShowPassword={() => setShowConfirmPassword((prev) => !prev)}
           disabled={registerMutation.isPending}
         />
 

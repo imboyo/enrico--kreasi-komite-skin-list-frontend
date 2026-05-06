@@ -1,32 +1,79 @@
 import { Icon } from "@iconify/react";
+import { useForm, type ReactFormExtendedApi, type FormValidateOrFn, type FormAsyncValidateOrFn } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
+import { z } from "zod";
 
 import { Button } from "@/components/atomic/atom/Button";
 import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
 import { TextInput } from "@/components/atomic/atom/TextInput";
-import type { useRegisterFlow } from "@/hooks/useRegisterFlow";
+import { verifyRegisterOtp } from "@/mock-backend/auth/register-otp";
+import { validateRegisterField, type RegisterFormValues } from "@/hooks/useRegisterForm";
 
-type RegisterFlowState = ReturnType<typeof useRegisterFlow>;
+const otpSchema = z.object({
+  otp: z.string().min(1, "OTP is required").length(6, "OTP must be 6 digits"),
+});
 
-type RegisterOtpStepProps = Pick<
-  RegisterFlowState,
-  | "otpForm"
-  | "pendingRegistration"
-  | "verifyOtpMutation"
-  | "verifyError"
-  | "backToRegister"
-  | "validateOtpField"
+type OtpValues = z.infer<typeof otpSchema>;
+
+type OtpFormApi = ReactFormExtendedApi<
+  OtpValues,
+  undefined | FormValidateOrFn<OtpValues>,
+  undefined | FormValidateOrFn<OtpValues>,
+  undefined | FormAsyncValidateOrFn<OtpValues>,
+  undefined | FormValidateOrFn<OtpValues>,
+  undefined | FormAsyncValidateOrFn<OtpValues>,
+  undefined | FormValidateOrFn<OtpValues>,
+  undefined | FormAsyncValidateOrFn<OtpValues>,
+  undefined | FormValidateOrFn<OtpValues>,
+  undefined | FormAsyncValidateOrFn<OtpValues>,
+  undefined | FormAsyncValidateOrFn<OtpValues>,
+  never
 >;
 
+type RegisterOtpStepProps = {
+  pendingRegistration: RegisterFormValues | null;
+  backToRegister: () => void;
+  onVerifySuccess: (user: { name: string; whatsappNumber: string }) => void;
+};
+
 export function RegisterOtpStep({
-  otpForm,
   pendingRegistration,
-  verifyOtpMutation,
-  verifyError,
   backToRegister,
-  validateOtpField,
+  onVerifySuccess,
 }: RegisterOtpStepProps) {
+  const verifyOtpMutation = useMutation({
+    mutationFn: (otp: string) => {
+      if (!pendingRegistration) {
+        throw new Error("Missing pending registration data.");
+      }
+
+      return verifyRegisterOtp(
+        { ...pendingRegistration, otp },
+        { delayMs: 1000 },
+      );
+    },
+    onSuccess: (response) => {
+      onVerifySuccess(response.user);
+    },
+  });
+
+  const otpForm: OtpFormApi = useForm({
+    defaultValues: { otp: "" },
+    onSubmit: async ({ value }) => {
+      verifyOtpMutation.mutate(value.otp);
+    },
+  });
+
+  const validateOtpField = (value: string) =>
+    validateRegisterField(otpSchema.shape.otp, value);
+
+  const verifyError = verifyOtpMutation.error
+    ? "Something went wrong. Please try again."
+    : null;
+
   return (
     <>
+      {/* Heading */}
       <div className="mb-6 text-center">
         <h1 className="mb-1 text-2xl font-semibold leading-tight text-foreground">
           Verify your account
@@ -36,6 +83,7 @@ export function RegisterOtpStep({
         </p>
       </div>
 
+      {/* OTP form */}
       <form
         className="flex w-full flex-col gap-4"
         onSubmit={(event) => {

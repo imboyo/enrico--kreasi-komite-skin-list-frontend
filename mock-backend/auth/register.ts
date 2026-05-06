@@ -29,7 +29,7 @@ export class WhatsappAlreadyRegisteredError extends Error {
   }
 }
 
-const REGISTERED_WHATSAPP_NUMBERS = new Set(["628123456789"]);
+const REGISTERED_WHATSAPP_NUMBERS = new Set(["+628123456789"]);
 
 export async function register(
   payload: RegisterPayload,

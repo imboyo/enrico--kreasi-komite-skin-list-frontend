@@ -10,21 +10,34 @@ import { RegisterOtpStep } from "./RegisterOtpStep";
 import { RegisterSuccessStep } from "./RegisterSuccessStep";
 
 export function PageRegister() {
-  const registerFlow = useRegisterFlow();
-  const { currentStep, direction } = registerFlow;
+  const {
+    currentStep,
+    direction,
+    pendingRegistration,
+    registeredUser,
+    onRegisterSuccess,
+    onVerifySuccess,
+    backToRegister,
+  } = useRegisterFlow();
 
   const transitionX = direction > 0 ? 20 : -20;
 
   const renderStep = () => {
     if (currentStep === "otp") {
-      return <RegisterOtpStep {...registerFlow} />;
+      return (
+        <RegisterOtpStep
+          pendingRegistration={pendingRegistration}
+          backToRegister={backToRegister}
+          onVerifySuccess={onVerifySuccess}
+        />
+      );
     }
 
     if (currentStep === "success") {
-      return <RegisterSuccessStep {...registerFlow} />;
+      return <RegisterSuccessStep registeredUser={registeredUser} />;
     }
 
-    return <RegisterFormStep {...registerFlow} />;
+    return <RegisterFormStep onRegisterSuccess={onRegisterSuccess} />;
   };
 
   return (

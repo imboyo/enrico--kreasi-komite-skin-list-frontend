@@ -24,7 +24,7 @@ export class InvalidRegisterOtpError extends Error {
 }
 
 const MOCK_REGISTER_OTP = "123456";
-const REGISTERED_WHATSAPP_NUMBERS = new Set(["628123456789"]);
+const REGISTERED_WHATSAPP_NUMBERS = new Set(["+628123456789"]);
 
 export async function requestRegisterOtp(
   payload: RequestRegisterOtpPayload,

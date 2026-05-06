@@ -19,7 +19,7 @@ export class InvalidForgotPasswordOtpError extends Error {
 
 const MOCK_FORGOT_PASSWORD_OTP = "123456";
 // Mock registered numbers — must match what the register mock considers registered.
-const REGISTERED_WHATSAPP_NUMBERS = new Set(["628123456789", "6285399292027"]);
+const REGISTERED_WHATSAPP_NUMBERS = new Set(["+628123456789", "+6285399292027"]);
 
 export async function requestForgotPasswordOtp(
   payload: { whatsappNumber: string },

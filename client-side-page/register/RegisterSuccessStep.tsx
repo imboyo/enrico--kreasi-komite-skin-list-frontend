@@ -3,11 +3,10 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/atomic/atom/Button";
 import { APP_URL } from "@/constant";
-import type { useRegisterFlow } from "@/hooks/useRegisterFlow";
 
-type RegisterFlowState = ReturnType<typeof useRegisterFlow>;
-
-type RegisterSuccessStepProps = Pick<RegisterFlowState, "registeredUser">;
+type RegisterSuccessStepProps = {
+  registeredUser: { name: string; whatsappNumber: string } | null;
+};
 
 export function RegisterSuccessStep({
   registeredUser,
