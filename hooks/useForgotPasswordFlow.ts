@@ -6,12 +6,11 @@ import { useState } from "react";
 import { z } from "zod";
 
 import {
-  InvalidForgotPasswordOtpError,
-  requestForgotPasswordOtp,
-  resetPassword,
-  verifyForgotPasswordOtp,
-  WhatsappNotRegisteredError,
-} from "@/mock-backend/auth/forgot-password-otp";
+  forgotPasswordChain,
+  forgotPasswordReset,
+  forgotPasswordVerify,
+} from "@/backend-service/auth";
+import { HttpError } from "libs/error/http-error";
 import { normalizeWhatsappNumber, whatsappNumberSchema } from "libs/util/whatsapp-number";
 
 import { useMultiStepForm } from "./useMultiStepForm";
@@ -37,15 +36,16 @@ export const forgotPasswordResetSchema = z.object({
 
 export function useForgotPasswordFlow() {
   const flow = useMultiStepForm({ steps: FORGOT_PASSWORD_STEPS });
-  const [pendingWhatsappNumber, setPendingWhatsappNumber] = useState<string | null>(null);
+  const [pendingPhoneNumber, setPendingPhoneNumber] = useState<string | null>(null);
+  const [resetToken, setResetToken] = useState<string | null>(null);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const requestOtpMutation = useMutation({
-    mutationFn: (whatsappNumber: string) =>
-      requestForgotPasswordOtp({ whatsappNumber }, { delayMs: 1000 }),
-    onSuccess: (_, whatsappNumber) => {
-      setPendingWhatsappNumber(whatsappNumber);
+    mutationFn: (phoneNumber: string) =>
+      forgotPasswordChain({ phone_number: phoneNumber }),
+    onSuccess: (_, phoneNumber) => {
+      setPendingPhoneNumber(phoneNumber);
       otpForm.reset();
       flow.nextStep();
     },
@@ -53,13 +53,11 @@ export function useForgotPasswordFlow() {
 
   const verifyOtpMutation = useMutation({
     mutationFn: (otp: string) => {
-      if (!pendingWhatsappNumber) throw new Error("Missing WhatsApp number.");
-      return verifyForgotPasswordOtp(
-        { whatsappNumber: pendingWhatsappNumber, otp },
-        { delayMs: 1000 },
-      );
+      if (!pendingPhoneNumber) throw new Error("Missing phone number.");
+      return forgotPasswordVerify({ phone_number: pendingPhoneNumber, otp_code: otp });
     },
-    onSuccess: () => {
+    onSuccess: ({ reset_token }) => {
+      setResetToken(reset_token);
       resetForm.reset();
       flow.nextStep();
     },
@@ -67,11 +65,8 @@ export function useForgotPasswordFlow() {
 
   const resetPasswordMutation = useMutation({
     mutationFn: (newPassword: string) => {
-      if (!pendingWhatsappNumber) throw new Error("Missing WhatsApp number.");
-      return resetPassword(
-        { whatsappNumber: pendingWhatsappNumber, newPassword },
-        { delayMs: 1000 },
-      );
+      if (!resetToken) throw new Error("Missing reset token.");
+      return forgotPasswordReset({ reset_token: resetToken, new_password: newPassword });
     },
     onSuccess: () => {
       flow.nextStep();
@@ -100,19 +95,21 @@ export function useForgotPasswordFlow() {
   });
 
   const requestOtpError = requestOtpMutation.error
-    ? requestOtpMutation.error instanceof WhatsappNotRegisteredError
+    ? requestOtpMutation.error instanceof HttpError
       ? requestOtpMutation.error.message
       : "Something went wrong. Please try again."
     : null;
 
   const verifyOtpError = verifyOtpMutation.error
-    ? verifyOtpMutation.error instanceof InvalidForgotPasswordOtpError
+    ? verifyOtpMutation.error instanceof HttpError
       ? verifyOtpMutation.error.message
       : "Something went wrong. Please try again."
     : null;
 
   const resetPasswordError = resetPasswordMutation.error
-    ? "Something went wrong. Please try again."
+    ? resetPasswordMutation.error instanceof HttpError
+      ? resetPasswordMutation.error.message
+      : "Something went wrong. Please try again."
     : null;
 
   return {
@@ -120,7 +117,8 @@ export function useForgotPasswordFlow() {
     whatsappForm,
     otpForm,
     resetForm,
-    pendingWhatsappNumber,
+    // Displayed in OTP step to confirm which number was messaged.
+    pendingWhatsappNumber: pendingPhoneNumber,
     requestOtpMutation,
     verifyOtpMutation,
     resetPasswordMutation,

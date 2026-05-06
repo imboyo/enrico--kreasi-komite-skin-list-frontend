@@ -72,11 +72,6 @@ export function ForgotPasswordOtpStep({
           )}
         </otpForm.Field>
 
-        <p className="text-xs text-muted-foreground">
-          Use <span className="font-medium text-foreground">123456</span> for
-          the mock OTP.
-        </p>
-
         {verifyOtpError && (
           <p className="text-sm text-destructive">{verifyOtpError}</p>
         )}

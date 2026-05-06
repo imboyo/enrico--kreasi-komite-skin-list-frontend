@@ -7,6 +7,7 @@ import {
 } from "@/components/atomic/molecule/sidebar/SidebarMenuList";
 import type { SidebarMenuItemProps } from "@/components/atomic/molecule/sidebar/SidebarMenuItem";
 import { APP_URL } from "@/constant";
+import { useLogout } from "@/hooks/useLogout";
 
 const NAV_ITEMS: SidebarMenuItemProps[] = [
   {
@@ -33,17 +34,21 @@ const NAV_ITEMS: SidebarMenuItemProps[] = [
 ];
 
 function LogoutSection() {
-  function handleLogout() {
-    // TODO: wire up actual logout logic (clear session/token, redirect to login)
-    console.log("User confirmed logout");
-  }
+  const { logout, isLoggingOut } = useLogout();
 
-  return <LogoutConfirmDialog onConfirm={handleLogout} />;
+  return (
+    <LogoutConfirmDialog
+      onConfirm={logout}
+      isConfirming={isLoggingOut}
+      keepOpenOnConfirm
+    />
+  );
 }
 
 export function AppSidebar() {
   return (
     <BaseSidebar title="Menu" bottomSection={<LogoutSection />}>
+      {/* Section: App navigation menu */}
       <SidebarMenuList items={NAV_ITEMS} />
     </BaseSidebar>
   );

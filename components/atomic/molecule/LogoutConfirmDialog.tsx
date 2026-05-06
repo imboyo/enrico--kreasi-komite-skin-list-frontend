@@ -7,25 +7,36 @@ import { ConfirmationDialog } from "@/components/atomic/molecule/ConfirmationDia
 
 interface LogoutConfirmDialogProps {
   /** Called when the user confirms logout */
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<void>;
+  isConfirming?: boolean;
+  keepOpenOnConfirm?: boolean;
 }
 
-export function LogoutConfirmDialog({ onConfirm }: LogoutConfirmDialogProps) {
+export function LogoutConfirmDialog({
+  onConfirm,
+  isConfirming = false,
+  keepOpenOnConfirm = false,
+}: LogoutConfirmDialogProps) {
   const [open, setOpen] = useState(false);
 
-  function handleConfirm() {
-    setOpen(false);
-    onConfirm();
+  async function handleConfirm() {
+    await onConfirm();
+
+    if (!keepOpenOnConfirm) {
+      setOpen(false);
+    }
   }
 
   return (
     <ConfirmationDialog
       open={open}
       onOpenChange={setOpen}
+      isConfirming={isConfirming}
       trigger={
         <Button
           variant="destructive"
           fullWidth
+          disabled={isConfirming}
           leadingIcon={<Icon icon="material-symbols:logout-rounded" width={20} height={20} />}
         >
           Logout

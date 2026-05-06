@@ -10,12 +10,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 
-import { loginVerify } from "@/backend-service/auth/login-verify.service";
+import { getProfile, loginVerify } from "@/backend-service";
 import { Button } from "@/components/atomic/atom/Button";
 import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
 import { OtpInput } from "@/components/atomic/atom/OtpInput";
 import { APP_URL } from "@/constant";
 import { useAuthStore } from "@/store/auth/auth.store";
+import type { AccountRole } from "@/store/auth/auth.types";
 import { normalizeWhatsappNumber } from "libs/util/whatsapp-number";
 
 import { type LoginFormValues, validateLoginField } from "./login-form.schema";
@@ -48,24 +49,43 @@ type LoginOtpStepProps = {
 
 export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
   const router = useRouter();
-  const setTokens = useAuthStore((state) => state.setTokens);
+  const setAuth = useAuthStore((state) => state.setAuth);
+
+  const getDashboardHref = (role: AccountRole) =>
+    role === "ADMIN" ? APP_URL.ADMIN : APP_URL.APP;
 
   const verifyOtpMutation = useMutation({
-    mutationFn: (otp: string) => {
+    mutationFn: async (otp: string) => {
       if (!pendingLogin) {
         throw new Error("Missing pending login data.");
       }
 
-      return loginVerify({
+      const tokens = await loginVerify({
         phone_number: normalizeWhatsappNumber(pendingLogin.whatsappNumber),
         otp_code: otp,
       });
+      // Pass the fresh access token directly — the store isn't populated yet,
+      // so fetcher would send the request without an Authorization header.
+      const profile = await getProfile(tokens.access_token);
+
+      return { tokens, profile };
     },
-    onSuccess: (tokens) => {
-      setTokens(tokens.access_token, tokens.refresh_token);
+    onSuccess: ({ tokens, profile }) => {
+      const role: AccountRole = profile.role === "ADMIN" ? "ADMIN" : "USER";
+
+      // Persist tokens together with the fetched profile so local guards and
+      // future screens can make role-based decisions without another lookup.
+      setAuth(tokens.access_token, tokens.refresh_token, {
+        uuid: profile.uuid,
+        fullName: profile.full_name,
+        photoProfile: null,
+        role,
+        email: profile.email,
+      });
+
       // Replace the login route after verification so a successful auth lands on
-      // the app dashboard and does not keep the login page as the forward target.
-      router.replace(APP_URL.APP);
+      // the correct dashboard and does not keep the login page as the forward target.
+      router.replace(getDashboardHref(role));
     },
   });
 
