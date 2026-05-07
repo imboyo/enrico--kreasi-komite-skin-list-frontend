@@ -23,36 +23,53 @@ export function useFilePreview(
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    let resetTimer: ReturnType<typeof setTimeout> | null = null;
+
     if (!fileUuid) {
-      setUrl(null);
-      setError(null);
-      return;
+      resetTimer = setTimeout(() => {
+        setUrl(null);
+        setError(null);
+      }, 0);
+
+      return () => {
+        if (resetTimer) clearTimeout(resetTimer);
+      };
     }
+
+    const scheduleReset = () => {
+      resetTimer = setTimeout(() => {
+        setIsLoading(true);
+        setError(null);
+        setUrl(null);
+      }, 0);
+    };
+
+    scheduleReset();
 
     let objectUrl: string | null = null;
     let cancelled = false;
 
-    setIsLoading(true);
-    setError(null);
-    setUrl(null);
+    const loadPreview = async () => {
+      try {
+        const res = await streamFile(fileUuid);
+        const blob = await res.blob();
 
-    streamFile(fileUuid)
-      .then((res) => res.blob())
-      .then((blob) => {
         if (cancelled) return;
         objectUrl = URL.createObjectURL(blob);
         setUrl(objectUrl);
-      })
-      .catch((err) => {
+      } catch (err) {
         if (cancelled) return;
         setError(err instanceof Error ? err : new Error(String(err)));
-      })
-      .finally(() => {
+      } finally {
         if (!cancelled) setIsLoading(false);
-      });
+      }
+    };
+
+    void loadPreview();
 
     return () => {
       cancelled = true;
+      if (resetTimer) clearTimeout(resetTimer);
       // Revoke blob URL to prevent memory leaks when UUID changes or component unmounts
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };

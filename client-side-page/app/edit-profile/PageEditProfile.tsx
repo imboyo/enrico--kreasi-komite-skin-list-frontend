@@ -13,13 +13,8 @@ export function PageEditProfile() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      {/* Hero section */}
       <ProfileHeroSection />
-
-      {/* Dashboard shortcuts section */}
       <DashboardShortcutsSection />
-
-      {/* Skin goals section */}
       <SkinGoalsSection />
     </motion.main>
   );

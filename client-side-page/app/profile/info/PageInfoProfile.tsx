@@ -7,7 +7,6 @@ import { Button } from "@/components/atomic/atom/Button";
 
 import { EditNameSection } from "./EditNameSection";
 import { EditPasswordSection } from "./EditPasswordSection";
-import { EditEmailSection } from "./EditEmailSection";
 
 export function PageInfoProfile() {
   const router = useRouter();
@@ -23,9 +22,13 @@ export function PageInfoProfile() {
 
       <EditNameSection />
       <EditPasswordSection />
-      <EditEmailSection />
 
-      <Button fullWidth size="lg" variant="outline" onClick={() => router.back()}>
+      <Button
+        fullWidth
+        size="lg"
+        variant="outline"
+        onClick={() => router.back()}
+      >
         Back
       </Button>
     </motion.main>

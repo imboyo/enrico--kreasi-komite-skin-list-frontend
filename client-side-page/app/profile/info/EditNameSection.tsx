@@ -9,15 +9,17 @@ import {
   editNameSchema,
   useEditNameForm,
   validateEditNameField,
-} from "@/hooks/useEditNameForm";
+} from "./useEditNameForm";
 
 export function EditNameSection() {
   const { form, mutation, serverError, isSuccess } = useEditNameForm();
 
   return (
+    /* Name edit section */
     <section className="flex flex-col gap-4 rounded-2xl bg-card p-4">
       <h2 className="text-base font-semibold">Name</h2>
 
+      {/* Name edit form section */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -36,7 +38,10 @@ export function EditNameSection() {
         >
           {(field) => (
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="edit-name" className="text-sm font-medium text-foreground">
+              <label
+                htmlFor="edit-name"
+                className="text-sm font-medium text-foreground"
+              >
                 Full Name
               </label>
               <TextInput
@@ -47,7 +52,9 @@ export function EditNameSection() {
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
                 autoComplete="name"
-                startItem={<Icon icon="material-symbols:person-outline-rounded" />}
+                startItem={
+                  <Icon icon="material-symbols:person-outline-rounded" />
+                }
                 disabled={mutation.isPending}
                 surface="transparent"
               />
@@ -59,10 +66,16 @@ export function EditNameSection() {
           )}
         </form.Field>
 
-        {serverError && <p className="text-sm text-destructive">{serverError}</p>}
-        {isSuccess && <p className="text-sm text-green-600">Name updated successfully.</p>}
+        {serverError && (
+          <p className="text-sm text-destructive">{serverError}</p>
+        )}
+        {isSuccess && (
+          <p className="text-sm text-green-600">Name updated successfully.</p>
+        )}
 
-        <form.Subscribe selector={(s) => ({ isValid: s.isValid, values: s.values })}>
+        <form.Subscribe
+          selector={(s) => ({ isValid: s.isValid, values: s.values })}
+        >
           {({ isValid, values }) => (
             <Button
               type="submit"
@@ -71,8 +84,8 @@ export function EditNameSection() {
               isLoading={mutation.isPending}
               disabled={
                 mutation.isPending ||
-                (!values.name.trim() ||
-                  (!isValid && form.state.submissionAttempts > 0))
+                !values.name.trim() ||
+                (!isValid && form.state.submissionAttempts > 0)
               }
             >
               Save Name

@@ -3,9 +3,9 @@ import { Icon } from "@iconify/react";
 import type { SkinGoal } from "@/backend-service/user/skin-goal";
 import { Badge } from "@/components/atomic/atom/Badge";
 import { Button } from "@/components/atomic/atom/Button";
+import { Skeleton } from "@/components/atomic/atom/Skeleton";
 import { TextInput } from "@/components/atomic/atom/TextInput";
 import { BottomSheet } from "@/components/atomic/molecule/BottomSheet";
-import { FullScreenLoading } from "@/components/atomic/molecule/FullScreenLoading";
 import { useSkinGoalsSection } from "./useSkinGoalsSection";
 
 interface SkinGoalsEditSheetProps {
@@ -46,14 +46,6 @@ export function SkinGoalsEditSheet({ open, onClose, onGoalsChange }: SkinGoalsEd
   const canRequestAdd =
     Boolean(normalizedGoalName) && !alreadyExists && !isAdding;
 
-  // Derive loading message based on which operation is in progress.
-  const loadingMessage = isLoadingGoals
-    ? "Memuat Skin Goals..."
-    : isAdding
-      ? "Menambahkan Skin Goal..."
-      : deletingGoal
-        ? "Menghapus Skin Goal..."
-        : undefined;
 
   function handleGoalNameKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key !== "Enter") {
@@ -68,14 +60,7 @@ export function SkinGoalsEditSheet({ open, onClose, onGoalsChange }: SkinGoalsEd
   }
 
   return (
-    <>
-      {/* Full-screen overlay during API calls to block concurrent operations */}
-      <FullScreenLoading
-        visible={isLoadingGoals || isAdding || !!deletingGoal}
-        message={loadingMessage}
-      />
-
-      <BottomSheet open={open} onClose={onClose}>
+    <BottomSheet open={open} onClose={onClose}>
       {/* Header */}
       <div className="flex items-center gap-3 px-4 pt-4 pb-3">
         <Button
@@ -137,7 +122,13 @@ export function SkinGoalsEditSheet({ open, onClose, onGoalsChange }: SkinGoalsEd
 
         {/* Keep only the list scrollable so the sheet stays at half-screen height. */}
         <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-6">
-          {activeGoals.length === 0 ? (
+          {isLoadingGoals ? (
+            <div className="flex flex-wrap content-start gap-2">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-8 w-28" />
+              ))}
+            </div>
+          ) : activeGoals.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-border bg-muted/30 px-4 py-6 text-center text-sm text-muted-foreground">
               Add your first skin goal to start building this list.
             </div>
@@ -162,7 +153,6 @@ export function SkinGoalsEditSheet({ open, onClose, onGoalsChange }: SkinGoalsEd
                       )
                     }
                     actionButtonProps={{
-                      // Delete immediately from the badge action without an extra confirmation step.
                       onClick: () => void handleDeleteGoal(goal.uuid),
                       disabled: !!deletingGoal,
                     }}
@@ -174,6 +164,5 @@ export function SkinGoalsEditSheet({ open, onClose, onGoalsChange }: SkinGoalsEd
         </div>
       </div>
     </BottomSheet>
-    </>
   );
 }

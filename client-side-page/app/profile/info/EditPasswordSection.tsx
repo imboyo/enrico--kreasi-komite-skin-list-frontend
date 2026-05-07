@@ -9,7 +9,7 @@ import {
   editPasswordSchema,
   useEditPasswordForm,
   validateEditPasswordField,
-} from "@/hooks/useEditPasswordForm";
+} from "./useEditPasswordForm";
 
 function PasswordToggleButton({
   visible,

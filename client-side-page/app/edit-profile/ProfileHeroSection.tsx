@@ -31,13 +31,8 @@ export function ProfileHeroSection() {
     userInfo?.photoProfile ?? null,
   );
 
-  // Optimistic blob URL shown immediately while the upload is in flight
   const [localPreview, setLocalPreview] = useState<string | null>(null);
-
-  // Fetches the photo from the authenticated file service and returns a blob URL
   const { url: fetchedPreview } = useFilePreview(photoUuid);
-
-  // During upload show the local blob; once upload settles show the server file
   const displayUrl = localPreview ?? fetchedPreview;
 
   const uploadMutation = useMutation({

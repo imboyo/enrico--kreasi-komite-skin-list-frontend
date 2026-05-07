@@ -16,7 +16,9 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
-      "Bash(xargs ls)"
+      "Bash(xargs ls)",
+      "Bash(git commit *)",
+      "Bash(python3 -c \"import json, sys; data = json.load\\(sys.stdin\\); print\\('Summary:', data.get\\('summary', ''\\)\\); print\\('Changed files:', len\\(data.get\\('changed_files', []\\)\\)\\); print\\('Risk score:', data.get\\('risk_score', 'N/A'\\)\\)\")"
     ]
   },
   "enableAllProjectMcpServers": true,
