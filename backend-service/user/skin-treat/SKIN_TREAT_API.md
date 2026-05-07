@@ -30,11 +30,11 @@ All fields are optional.
 
 #### Allowed Sort Fields
 
-`uuid`, `name`, `description`, `category`, `created_at`, `updated_at`
+`uuid`, `name`, `description`, `category`, `is_check`, `created_at`, `updated_at`
 
 #### Allowed Filter Fields
 
-`uuid`, `name`, `description`, `category`, `created_at`, `updated_at`
+`uuid`, `name`, `description`, `category`, `is_check`, `created_at`, `updated_at`
 
 #### SortDto
 
@@ -85,6 +85,7 @@ POST /user/skin-treat/list
       "name": "Daily Cleanser",
       "description": "Gentle cleanser for daily use",
       "category": "routine",
+      "is_check": false,
       "created_at": "2026-05-04T10:00:00.000Z",
       "updated_at": "2026-05-04T10:00:00.000Z"
     }
@@ -136,6 +137,7 @@ POST /user/skin-treat
   "name": "Daily Cleanser",
   "description": "Gentle cleanser for daily use",
   "category": "routine",
+  "is_check": false,
   "created_at": "2026-05-04T10:00:00.000Z",
   "updated_at": "2026-05-04T10:00:00.000Z"
 }
@@ -162,10 +164,11 @@ Update an existing skin treat record. Only `name` and `description` can be chang
 
 All fields are optional.
 
-| Field         | Type   | Description                                        |
-|---------------|--------|----------------------------------------------------|
-| `name`        | string | New name. Min 1, max 255 characters.               |
-| `description` | string | New description. Pass `null` to clear it.          |
+| Field         | Type    | Description                                        |
+|---------------|---------|----------------------------------------------------|
+| `name`        | string  | New name. Min 1, max 255 characters.               |
+| `description` | string  | New description. Pass `null` to clear it.          |
+| `is_check`    | boolean | Mark whether the skin treat has been checked.      |
 
 ### Example Request
 
@@ -173,7 +176,8 @@ All fields are optional.
 PATCH /user/skin-treat/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 {
   "name": "Morning Cleanser",
-  "description": null
+  "description": null,
+  "is_check": true
 }
 ```
 
@@ -185,6 +189,7 @@ PATCH /user/skin-treat/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   "name": "Morning Cleanser",
   "description": null,
   "category": "routine",
+  "is_check": true,
   "created_at": "2026-05-04T10:00:00.000Z",
   "updated_at": "2026-05-05T08:00:00.000Z"
 }

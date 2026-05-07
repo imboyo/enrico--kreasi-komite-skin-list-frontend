@@ -10,6 +10,7 @@ export type SkinTreat = {
   name: string;
   description: string | null;
   category: SkinTreatCategory;
+  is_check: boolean;
   created_at: string;
   updated_at: string;
 };
@@ -45,6 +46,7 @@ export type CreateSkinTreatResponse = SkinTreat;
 export type UpdateSkinTreatPayload = {
   name?: string;
   description?: string | null;
+  is_check?: boolean;
 };
 
 export type UpdateSkinTreatResponse = SkinTreat;

@@ -9,6 +9,8 @@ type Props = {
   id: string;
   label: string;
   isChecked: boolean;
+  isSyncing: boolean;
+  isDeleting: boolean;
   checkboxId: string;
   onCheck: (checked: boolean) => void;
   onDetailOpen: () => void;
@@ -17,29 +19,41 @@ type Props = {
 export function ListItem({
   label,
   isChecked,
+  isSyncing,
+  isDeleting,
   checkboxId,
   onCheck,
   onDetailOpen,
 }: Props) {
+  const isLocked = isSyncing || isDeleting;
+
   return (
     <div
+      aria-busy={isLocked}
       className={cn(
-        "rounded-[24px] border border-[#bcbcbc] bg-background shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_6px_14px_rgba(90,90,90,0.08)] transition-all",
+        "rounded-3xl border border-[#bcbcbc] bg-background shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_6px_14px_rgba(90,90,90,0.08)] transition-all",
         // Checked state: ring + subtle secondary background
         isChecked &&
           "border-secondary/30 bg-secondary/5 ring-1 ring-secondary/20",
+        isSyncing && "ring-1 ring-primary/20",
+        isDeleting && "border-destructive/30 bg-destructive/5 opacity-70",
       )}
     >
       <div className="flex items-center gap-3 px-4 py-4">
         {/* Checkbox + label wrapped together for a11y */}
         <label
           htmlFor={checkboxId}
-          className="flex flex-1 cursor-pointer items-center gap-3"
+          className={cn(
+            "flex flex-1 items-center gap-3",
+            isLocked ? "cursor-not-allowed opacity-70" : "cursor-pointer",
+          )}
         >
           <Checkbox
             id={checkboxId}
             checked={isChecked}
+            disabled={isLocked}
             aria-label={`Mark ${label} as completed`}
+            aria-busy={isLocked}
             className="self-center"
             onChange={(event) => onCheck(event.currentTarget.checked)}
           />
@@ -49,12 +63,25 @@ export function ListItem({
           </span>
         </label>
 
+        {/* Sync state section */}
+        {isDeleting ? (
+          <span className="text-xs font-medium text-destructive">
+            Deleting...
+          </span>
+        ) : isSyncing ? (
+          <span
+            aria-label="Saving checklist item"
+            className="size-2 shrink-0 rounded-full bg-primary/70"
+          />
+        ) : null}
+
         {/* Detail button — isolated so it never toggles the checkbox */}
         <button
           type="button"
           aria-label={`Open ${label} details`}
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-background/80 text-muted-foreground transition-[background-color,transform] hover:bg-primary/5"
           onClick={onDetailOpen}
+          disabled={isDeleting}
         >
           <Icon
             icon="mdi:chevron-right"

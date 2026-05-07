@@ -13,6 +13,7 @@ import type { ItemDialogEditFormProps } from "./types";
 export function ItemDialogEditForm({
   form,
   isPending,
+  isDeleting = false,
   serverError,
   onSave,
   onCancel,
@@ -134,7 +135,6 @@ export function ItemDialogEditForm({
                 isPending ||
                 !canSubmit ||
                 !values.label.trim() ||
-                !values.description.trim() ||
                 (!isValid && submissionAttempts > 0)
               }
             >
@@ -163,8 +163,9 @@ export function ItemDialogEditForm({
           className="text-destructive hover:bg-destructive/5"
           onClick={onDelete}
           disabled={isPending}
+          isLoading={isDeleting}
         >
-          Delete
+          {isDeleting ? "Deleting..." : "Delete"}
         </Button>
       </div>
     </form>

@@ -10,6 +10,7 @@ import type { ItemDialogViewContentProps } from "./types";
 
 export function ItemDialogViewContent({
   item,
+  isDeleting,
   onDelete,
 }: ItemDialogViewContentProps) {
   return (
@@ -44,8 +45,10 @@ export function ItemDialogViewContent({
           variant="ghost"
           className="text-destructive hover:bg-destructive/5"
           onClick={onDelete}
+          disabled={isDeleting}
+          isLoading={isDeleting}
         >
-          Delete
+          {isDeleting ? "Deleting..." : "Delete"}
         </Button>
       </div>
     </>

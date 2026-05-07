@@ -8,6 +8,8 @@ import type { DeleteSkinTreatResponse } from "./types";
 export async function deleteSkinTreat(
   skinTreatId: string,
 ): Promise<DeleteSkinTreatResponse> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const res = await fetcher(`/user/skin-treat/${skinTreatId}`, {
     method: "DELETE",
   });

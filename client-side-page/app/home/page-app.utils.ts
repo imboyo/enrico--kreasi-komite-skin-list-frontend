@@ -11,10 +11,13 @@ import {
   type TabId,
 } from "./page-app.constants";
 
+export type SortDirection = "ASC" | "DESC";
+
 export type GetUserSkinTreatsParams = {
   tabId: TabId;
   search: string;
   page: number;
+  sortDirection?: SortDirection;
 };
 
 function buildCategoryFilter(tabId: TabId) {
@@ -32,7 +35,7 @@ export function mapSkinTreatToDashboardItem(
     id: treat.uuid,
     label: treat.name,
     description: treat.description ?? "",
-    isChecked: false,
+    isChecked: treat.is_check,
   };
 }
 
@@ -53,6 +56,7 @@ export async function getUserSkinTreats({
   tabId,
   search,
   page,
+  sortDirection = "DESC",
 }: GetUserSkinTreatsParams): Promise<ListSkinTreatResponse> {
   const normalizedSearch = search.trim();
 
@@ -61,6 +65,6 @@ export async function getUserSkinTreats({
     limit: UI_PAGE_SIZE,
     search: normalizedSearch.length > 0 ? normalizedSearch : undefined,
     filter: buildCategoryFilter(tabId),
-    sort: [{ field: "created_at", direction: "ASC" }],
+    sort: [{ field: "created_at", direction: sortDirection }],
   });
 }

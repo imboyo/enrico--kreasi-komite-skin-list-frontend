@@ -15,9 +15,12 @@ import type { DialogMode, ItemDialogPanelProps } from "./types";
 
 export function ItemDialogPanel({
   item,
+  isDeleting = false,
   onClose,
   onSave,
+  onDeleteStart,
   onDelete,
+  onDeleteError,
 }: ItemDialogPanelProps) {
   const { showToast } = useToast();
   const [mode, setMode] = useState<DialogMode>("view");
@@ -45,7 +48,7 @@ export function ItemDialogPanel({
     },
   });
 
-  const isPending = mutation.isPending || deleteMutation.isPending;
+  const isPending = mutation.isPending || deleteMutation.isPending || isDeleting;
 
   function syncFormWithItem() {
     // Keep form values aligned with the latest item payload before toggling modes.
@@ -83,9 +86,11 @@ export function ItemDialogPanel({
     }
 
     try {
+      onDeleteStart?.(item);
       // Delete immediately from the item dialog without showing a confirmation modal.
       await deleteMutation.mutateAsync();
     } catch {
+      onDeleteError?.(item);
       showToast("Failed to delete item. Please try again.", {
         variant: "error",
       });
@@ -98,6 +103,7 @@ export function ItemDialogPanel({
         mode={mode}
         itemLabel={item.label}
         isPending={isPending}
+        isDeleting={deleteMutation.isPending || isDeleting}
         onEnterEdit={handleEnterEdit}
         onCancelEdit={handleCancelEdit}
       />
@@ -105,11 +111,16 @@ export function ItemDialogPanel({
       <DialogBody className="flex flex-col gap-5 pb-5 pt-0">
         {/* View mode section */}
         {mode === "view" ? (
-          <ItemDialogViewContent item={item} onDelete={handleDelete} />
+          <ItemDialogViewContent
+            item={item}
+            isDeleting={deleteMutation.isPending || isDeleting}
+            onDelete={handleDelete}
+          />
         ) : (
           <ItemDialogEditForm
             form={form}
             isPending={isPending}
+            isDeleting={deleteMutation.isPending || isDeleting}
             serverError={serverError}
             onSave={handleSave}
             onCancel={handleCancelEdit}

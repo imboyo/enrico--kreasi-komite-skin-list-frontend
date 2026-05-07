@@ -22,7 +22,6 @@ export const dashboardItemEditSchema = z.object({
   description: z
     .string()
     .trim()
-    .min(1, "Description is required")
     .max(280, "Description must be 280 characters or less"),
 });
 

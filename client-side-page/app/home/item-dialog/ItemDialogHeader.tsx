@@ -14,6 +14,7 @@ export function ItemDialogHeader({
   mode,
   itemLabel,
   isPending,
+  isDeleting,
   onEnterEdit,
   onCancelEdit,
 }: ItemDialogHeaderProps) {
@@ -23,10 +24,18 @@ export function ItemDialogHeader({
       <DialogHeader>
         <div className="flex flex-col gap-2">
           <p className="text-xs font-medium uppercase tracking-[0.24em] text-dialog-current-muted">
-            {mode === "edit" ? "Edit Item" : "Selected Item"}
+            {isDeleting
+              ? "Deleting Item"
+              : mode === "edit"
+                ? "Edit Item"
+                : "Selected Item"}
           </p>
           <DialogTitle className="text-2xl font-semibold">
-            {mode === "edit" ? "Edit Details" : itemLabel}
+            {isDeleting
+              ? `Deleting ${itemLabel}`
+              : mode === "edit"
+                ? "Edit Details"
+                : itemLabel}
           </DialogTitle>
         </div>
 
@@ -37,6 +46,7 @@ export function ItemDialogHeader({
               type="button"
               aria-label="Edit item"
               onClick={onEnterEdit}
+              disabled={isPending}
               className="flex h-8 w-8 items-center justify-center rounded-xl text-dialog-current-foreground/60 transition-colors hover:bg-primary/5 hover:text-dialog-current-foreground"
             >
               <Icon
@@ -61,14 +71,24 @@ export function ItemDialogHeader({
             </button>
           )}
 
-          <DialogClose>
-            <Icon
-              icon="material-symbols:close-rounded"
-              width={20}
-              height={20}
-              className="text-dialog-current-foreground/60"
-            />
-          </DialogClose>
+          {isPending ? (
+            <span className="inline-flex h-8 w-8 items-center justify-center text-dialog-current-foreground/40">
+              <Icon
+                icon="material-symbols:close-rounded"
+                width={20}
+                height={20}
+              />
+            </span>
+          ) : (
+            <DialogClose>
+              <Icon
+                icon="material-symbols:close-rounded"
+                width={20}
+                height={20}
+                className="text-dialog-current-foreground/60"
+              />
+            </DialogClose>
+          )}
         </div>
       </DialogHeader>
     </>

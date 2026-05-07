@@ -6,6 +6,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import debounce from "lodash/debounce";
 
 import { Tabs } from "@/components/atomic/molecule/Tabs";
+import { MobilePagination } from "@/components/atomic/molecule/MobilePagination";
 import {
   DashboardList,
   type DashboardListItem,
@@ -26,7 +27,11 @@ import {
   TAB_CONTENT_COPY,
   type TabId,
 } from "./page-app.constants";
-import { selectSkinTreatPage, getUserSkinTreats } from "./page-app.utils";
+import {
+  selectSkinTreatPage,
+  getUserSkinTreats,
+  type SortDirection,
+} from "./page-app.utils";
 import { FloatingAddButton } from "@/components/atomic/atom/FloatingAddButton";
 
 type SelectedDashboardItem = {
@@ -39,11 +44,13 @@ export function PageApp() {
   const [activeTab, setActiveTab] = useState<TabId>("routines");
   const [selectedItem, setSelectedItem] =
     useState<SelectedDashboardItem | null>(null);
+  const [deletingItemId, setDeletingItemId] = useState<string | null>(null);
   const [isAddSheetOpen, setIsAddSheetOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   // Separate state so the query key only changes after the debounce delay, preventing rapid re-fetches on every keystroke.
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortDirection, setSortDirection] = useState<SortDirection>("DESC");
 
   const applyDebouncedSearch = useMemo(
     () =>
@@ -62,6 +69,7 @@ export function PageApp() {
     activeTab,
     debouncedSearchQuery,
     currentPage,
+    sortDirection,
   ] as const;
 
   const fetchSkinTreatPage = () =>
@@ -69,6 +77,7 @@ export function PageApp() {
       tabId: activeTab,
       search: debouncedSearchQuery,
       page: currentPage,
+      sortDirection,
     });
 
   // Deduped query (same key as DashboardList) - only used for pagination meta + isFetching.
@@ -107,6 +116,11 @@ export function PageApp() {
     setCurrentPage(1);
   }
 
+  function handleSortChange(direction: SortDirection) {
+    setSortDirection(direction);
+    setCurrentPage(1);
+  }
+
   function handleSearchChange(value: string) {
     // Update the visible input immediately; the query key updates after debounce delay.
     setSearchQuery(value);
@@ -121,6 +135,12 @@ export function PageApp() {
     category: DashboardItemCategory,
     item: DashboardListItem,
   ) {
+    // Ignore taps for the row currently being deleted so the dialog cannot
+    // reopen while the backend is still processing removal.
+    if (deletingItemId === item.id) {
+      return;
+    }
+
     setSelectedItem({ category, item });
   }
 
@@ -132,9 +152,24 @@ export function PageApp() {
     void queryClient.invalidateQueries({ queryKey: SKIN_TREAT_QUERY_KEY });
   }
 
-  function handleItemDeleted() {
-    if (!selectedItem) return;
-    setSelectedItem(null);
+  function handleItemDeleteStart(item: DashboardEditableItem) {
+    setDeletingItemId(item.id);
+  }
+
+  function handleItemDeleteError(item: DashboardEditableItem) {
+    setDeletingItemId((currentId) =>
+      currentId === item.id ? null : currentId,
+    );
+  }
+
+  function handleItemDeleted(item: DashboardEditableItem) {
+    setDeletingItemId((currentId) =>
+      currentId === item.id ? null : currentId,
+    );
+    setSelectedItem((previous) =>
+      previous?.item.id === item.id ? null : previous,
+    );
+    void queryClient.invalidateQueries({ queryKey: SKIN_TREAT_QUERY_KEY });
     void syncPaginationWithBackend();
   }
 
@@ -172,19 +207,25 @@ export function PageApp() {
           />
         </div>
 
-        {/* Toolbar section - search, refresh, pagination */}
+        {/* Toolbar section - search, sort, and refresh */}
         <SectionToolbar
           searchValue={searchQuery}
           onSearchChange={handleSearchChange}
           searchPlaceholder="Search items..."
+          sortDirection={sortDirection}
+          onSortChange={handleSortChange}
           onRefresh={handleRefresh}
           isRefreshing={skinTreatPageQuery.isFetching}
-          pagination={{
-            currentPage,
-            totalPages,
-            onPageChange: setCurrentPage,
-          }}
         />
+
+        {/* Top pagination section */}
+        {totalPages > 1 && (
+          <MobilePagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
 
         {/* Tab panel section */}
         <div>
@@ -197,7 +238,7 @@ export function PageApp() {
               transition={{ duration: 0.2 }}
             >
               <DashboardList
-                key={`${activeTab}-${searchQuery}-${currentPage}`}
+                key={`${activeTab}-${searchQuery}-${currentPage}-${sortDirection}`}
                 queryKey={skinTreatQueryKey}
                 queryFn={fetchSkinTreatPage}
                 select={selectSkinTreatPage()}
@@ -206,20 +247,37 @@ export function PageApp() {
                 errorTitle={copy.errorTitle}
                 emptyTitle={copy.emptyTitle}
                 emptyDescription={copy.emptyDescription}
+                deletingItemId={deletingItemId}
                 onItemClick={(item) => openItemDetails(activeTab, item)}
               />
             </motion.div>
           </AnimatePresence>
         </div>
+
+        {/* Bottom pagination section */}
+        {totalPages > 1 && (
+          <MobilePagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </div>
 
       {/* Item detail dialog section — controlled by this page */}
       <ItemDialog
         item={selectedItem?.item ?? null}
         category={selectedItem?.category ?? null}
-        onClose={() => setSelectedItem(null)}
+        isDeleting={selectedItem?.item.id === deletingItemId}
+        onClose={() => {
+          if (!deletingItemId) {
+            setSelectedItem(null);
+          }
+        }}
         onSave={handleItemSaved}
+        onDeleteStart={handleItemDeleteStart}
         onDelete={handleItemDeleted}
+        onDeleteError={handleItemDeleteError}
       />
 
       <FloatingAddButton onClick={() => setIsAddSheetOpen(true)} />

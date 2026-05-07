@@ -21,7 +21,6 @@ export const dashboardItemEditSchema = z.object({
   description: z
     .string()
     .trim()
-    .min(1, "Description is required")
     .max(280, "Description must be 280 characters or less"),
 });
 
@@ -52,7 +51,7 @@ function mapSkinTreatToDashboardItem(treat: SkinTreat): DashboardEditableItem {
     id: treat.uuid,
     label: treat.name,
     description: treat.description ?? "",
-    isChecked: false,
+    isChecked: treat.is_check,
   };
 }
 
@@ -72,7 +71,8 @@ export function useDashboardItemEditForm({
     mutationFn: (payload: DashboardItemEditValues) =>
       updateSkinTreat(item.id, {
         name: payload.label,
-        description: payload.description,
+        // Send null for empty description so edit behavior matches the add flow and nullable backend contract.
+        description: payload.description.trim() || null,
       }),
     onSuccess: (updatedTreat) => {
       onSuccess?.(mapSkinTreatToDashboardItem(updatedTreat));

@@ -8,15 +8,20 @@ import type { ItemDialogProps } from "./types";
 export function ItemDialog({
   item,
   category,
+  isDeleting = false,
   onClose,
   onSave,
+  onDeleteStart,
   onDelete,
+  onDeleteError,
 }: ItemDialogProps) {
   return (
     <Dialog
       open={item !== null}
       onOpenChange={(open) => {
-        if (!open) onClose();
+        // Keep the dialog open while delete is in flight so the pending state
+        // stays visible and the user cannot reopen the same item mid-request.
+        if (!open && !isDeleting) onClose();
       }}
       surface="dialog-2"
       className="max-w-112"
@@ -27,9 +32,12 @@ export function ItemDialog({
           key={item.id}
           item={item}
           category={category}
+          isDeleting={isDeleting}
           onClose={onClose}
           onSave={onSave}
+          onDeleteStart={onDeleteStart}
           onDelete={onDelete}
+          onDeleteError={onDeleteError}
         />
       ) : null}
     </Dialog>
