@@ -23,26 +23,41 @@ type DashboardListResponse<TItem extends DashboardListItem> = {
   };
 };
 
-type DashboardListProps<TItem extends DashboardListItem> = {
-  queryKey: string[];
-  queryFn: () => Promise<DashboardListResponse<TItem>>;
+type DashboardListProps<
+  TItem extends DashboardListItem,
+  TQueryData = DashboardListResponse<TItem>,
+> = {
+  queryKey: readonly unknown[];
+  queryFn: () => Promise<TQueryData>;
+  select?: (data: TQueryData) => DashboardListResponse<TItem>;
   errorTitle: string;
   emptyTitle: string;
   emptyDescription: string;
+  staleTime?: number;
+  gcTime?: number;
   onItemClick: (item: TItem) => void;
 };
 
-export function DashboardList<TItem extends DashboardListItem>({
+export function DashboardList<
+  TItem extends DashboardListItem,
+  TQueryData = DashboardListResponse<TItem>,
+>({
   queryKey,
   queryFn,
+  select,
   errorTitle,
   emptyTitle,
   emptyDescription,
+  staleTime,
+  gcTime,
   onItemClick,
-}: DashboardListProps<TItem>) {
-  const query = useQuery<DashboardListResponse<TItem>>({
+}: DashboardListProps<TItem, TQueryData>) {
+  const query = useQuery<TQueryData, Error, DashboardListResponse<TItem>>({
     queryKey,
     queryFn,
+    select,
+    staleTime,
+    gcTime,
   });
 
   const items = query.data?.data ?? [];

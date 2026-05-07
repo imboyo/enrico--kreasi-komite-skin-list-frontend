@@ -3,8 +3,10 @@
 import { Button } from "@/components/atomic/atom/Button";
 import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
 import { TextInput } from "@/components/atomic/atom/TextInput";
-import { validateDashboardItemField } from "@/hooks/useDashboardItemEditForm";
-import { dashboardItemEditSchema } from "@/mock-backend/user/dashboard/update-item";
+import {
+  dashboardItemEditSchema,
+  validateDashboardItemField,
+} from "@/hooks/useDashboardItemEditForm";
 
 import type { ItemDialogEditFormProps } from "./types";
 

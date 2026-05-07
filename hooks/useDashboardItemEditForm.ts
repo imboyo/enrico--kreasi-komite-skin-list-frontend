@@ -9,17 +9,23 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 
-import {
-  dashboardItemEditSchema,
-  updateDashboardItem,
-  DashboardItemNotFoundError,
-  type DashboardItemEditValues,
-} from "@/mock-backend/user/dashboard/update-item";
-import { MockServerDownError } from "@/mock-backend/utils/mock-control";
-import type {
-  DashboardEditableItem,
-  DashboardItemCategory,
-} from "@/mock-backend/user/dashboard/item-store";
+import { updateSkinTreat, type SkinTreat } from "@/backend-service/user/skin-treat";
+import type { DashboardEditableItem } from "@/mock-backend/user/dashboard/item-store";
+
+export const dashboardItemEditSchema = z.object({
+  label: z
+    .string()
+    .trim()
+    .min(1, "Title is required")
+    .max(60, "Title must be 60 characters or less"),
+  description: z
+    .string()
+    .trim()
+    .min(1, "Description is required")
+    .max(280, "Description must be 280 characters or less"),
+});
+
+export type DashboardItemEditValues = z.infer<typeof dashboardItemEditSchema>;
 
 export type DashboardItemEditFormApi = ReactFormExtendedApi<
   DashboardItemEditValues,
@@ -37,10 +43,18 @@ export type DashboardItemEditFormApi = ReactFormExtendedApi<
 >;
 
 type UseDashboardItemEditFormParams = {
-  category: DashboardItemCategory;
   item: DashboardEditableItem;
   onSuccess?: (updatedItem: DashboardEditableItem) => void;
 };
+
+function mapSkinTreatToDashboardItem(treat: SkinTreat): DashboardEditableItem {
+  return {
+    id: treat.uuid,
+    label: treat.name,
+    description: treat.description ?? "",
+    isChecked: false,
+  };
+}
 
 export function validateDashboardItemField<T>(
   schema: z.ZodType<T>,
@@ -51,22 +65,17 @@ export function validateDashboardItemField<T>(
 }
 
 export function useDashboardItemEditForm({
-  category,
   item,
   onSuccess,
 }: UseDashboardItemEditFormParams) {
   const mutation = useMutation({
     mutationFn: (payload: DashboardItemEditValues) =>
-      updateDashboardItem(
-        {
-          category,
-          itemId: item.id,
-          ...payload,
-        },
-        { delayMs: 800 },
-      ),
-    onSuccess: ({ item: updatedItem }) => {
-      onSuccess?.(updatedItem);
+      updateSkinTreat(item.id, {
+        name: payload.label,
+        description: payload.description,
+      }),
+    onSuccess: (updatedTreat) => {
+      onSuccess?.(mapSkinTreatToDashboardItem(updatedTreat));
     },
   });
 
@@ -81,11 +90,7 @@ export function useDashboardItemEditForm({
   });
 
   const serverError = mutation.error
-    ? mutation.error instanceof DashboardItemNotFoundError
-      ? mutation.error.message
-      : mutation.error instanceof MockServerDownError
-        ? "Server is unavailable. Please try again."
-        : "Failed to save item changes. Please try again."
+    ? "Failed to save item changes. Please try again."
     : null;
 
   function syncFormValues(values: DashboardItemEditValues) {
