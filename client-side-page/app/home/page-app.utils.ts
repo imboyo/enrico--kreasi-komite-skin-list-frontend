@@ -7,9 +7,23 @@ import type { DashboardEditableItem } from "@/mock-backend/user/dashboard/item-s
 
 import {
   SKIN_TREAT_CATEGORY_BY_TAB,
-  SKIN_TREAT_PAGE_LIMIT,
+  UI_PAGE_SIZE,
   type TabId,
 } from "./page-app.constants";
+
+export type GetUserSkinTreatsParams = {
+  tabId: TabId;
+  search: string;
+  page: number;
+};
+
+function buildCategoryFilter(tabId: TabId) {
+  const category = SKIN_TREAT_CATEGORY_BY_TAB[tabId];
+
+  return {
+    and: [{ field: "category", operator: "eq" as const, value: category }],
+  };
+}
 
 export function mapSkinTreatToDashboardItem(
   treat: SkinTreat,
@@ -22,12 +36,9 @@ export function mapSkinTreatToDashboardItem(
   };
 }
 
-export function selectSkinTreatByTab(tabId: TabId) {
+export function selectSkinTreatPage() {
   return (response: ListSkinTreatResponse) => {
-    const category = SKIN_TREAT_CATEGORY_BY_TAB[tabId];
-    const data = response.data
-      .filter((treat) => treat.category === category)
-      .map(mapSkinTreatToDashboardItem);
+    const data = response.data.map(mapSkinTreatToDashboardItem);
 
     return {
       data,
@@ -38,34 +49,18 @@ export function selectSkinTreatByTab(tabId: TabId) {
   };
 }
 
-export async function getUserSkinTreats(): Promise<ListSkinTreatResponse> {
-  const firstPage = await listSkinTreat({
-    page: 1,
-    limit: SKIN_TREAT_PAGE_LIMIT,
+export async function getUserSkinTreats({
+  tabId,
+  search,
+  page,
+}: GetUserSkinTreatsParams): Promise<ListSkinTreatResponse> {
+  const normalizedSearch = search.trim();
+
+  return listSkinTreat({
+    page,
+    limit: UI_PAGE_SIZE,
+    search: normalizedSearch.length > 0 ? normalizedSearch : undefined,
+    filter: buildCategoryFilter(tabId),
     sort: [{ field: "created_at", direction: "ASC" }],
   });
-
-  if (firstPage.meta.total_pages <= 1) {
-    return firstPage;
-  }
-
-  // The list endpoint is paginated, so merge the remaining pages before
-  // deriving per-tab data from the shared cached query.
-  const remainingPages = await Promise.all(
-    Array.from({ length: firstPage.meta.total_pages - 1 }, (_, index) =>
-      listSkinTreat({
-        page: index + 2,
-        limit: SKIN_TREAT_PAGE_LIMIT,
-        sort: [{ field: "created_at", direction: "ASC" }],
-      }),
-    ),
-  );
-
-  return {
-    ...firstPage,
-    data: [
-      ...firstPage.data,
-      ...remainingPages.flatMap((page) => page.data),
-    ],
-  };
 }

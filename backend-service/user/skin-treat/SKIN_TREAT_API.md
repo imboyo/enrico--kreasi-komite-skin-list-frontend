@@ -26,7 +26,7 @@ All fields are optional.
 | `limit`    | number    | Items per page, min 1, max 100. Default: `10`     |
 | `search`   | string    | ILIKE search across `name`, `description`, `category` |
 | `sort`     | SortDto[] | Sort order for the allowed sort fields            |
-| `filter`   | FilterDto | Dynamic filter using the allowed filter fields    |
+| `filter`   | FilterDto | Dynamic filter using `and` / `or` condition groups |
 
 #### Allowed Sort Fields
 
@@ -36,6 +36,28 @@ All fields are optional.
 
 `uuid`, `name`, `description`, `category`, `created_at`, `updated_at`
 
+#### SortDto
+
+| Field       | Type   | Description                    |
+|-------------|--------|--------------------------------|
+| `field`     | string | One of the allowed sort fields |
+| `direction` | string | `ASC` or `DESC`                |
+
+#### FilterDto
+
+| Field | Type         | Description                                  |
+|-------|--------------|----------------------------------------------|
+| `and` | FilterItem[] | All conditions must match (AND logic)        |
+| `or`  | FilterItem[] | At least one condition must match (OR logic) |
+
+#### FilterItem
+
+| Field      | Type   | Required | Description                                                                                                               |
+|------------|--------|----------|---------------------------------------------------------------------------------------------------------------------------|
+| `field`    | string | Yes      | One of the allowed filter fields                                                                                          |
+| `operator` | string | Yes      | One of: `eq`, `neq`, `gt`, `gte`, `lt`, `lte`, `like`, `ilike`, `in`, `notIn`, `isNull`, `isNotNull`, `between`, `notBetween` |
+| `value`    | any    | No       | The value to compare against (omit for `isNull` / `isNotNull`)                                                            |
+
 ### Example Request
 
 ```json
@@ -44,7 +66,12 @@ POST /user/skin-treat/list
   "page": 1,
   "limit": 10,
   "search": "routine",
-  "sort": [{ "field": "created_at", "direction": "DESC" }]
+  "sort": [{ "field": "created_at", "direction": "DESC" }],
+  "filter": {
+    "and": [
+      { "field": "category", "operator": "eq", "value": "colors" }
+    ]
+  }
 }
 ```
 

@@ -1,7 +1,7 @@
 // Shared types for skin-treat endpoints
 
-import type { SortDto, FilterDto } from "../common-dto";
-export type { SortDto, FilterDto };
+import type { SortDto, FilterDto, FilterItem, FilterOperator } from "../common-dto";
+export type { SortDto, FilterDto, FilterItem, FilterOperator };
 
 export type SkinTreatCategory = "routine" | "make_up" | "barrier" | "colors" | "scars";
 

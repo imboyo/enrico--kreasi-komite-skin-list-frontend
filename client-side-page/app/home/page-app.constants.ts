@@ -12,7 +12,7 @@ export const TABS = [
 
 export const SKIN_TREAT_QUERY_KEY = ["user-skin-treats"] as const;
 export const SKIN_TREAT_CACHE_MS = 5 * 60 * 1000;
-export const SKIN_TREAT_PAGE_LIMIT = 100;
+export const UI_PAGE_SIZE = 10;
 
 export const SKIN_TREAT_CATEGORY_BY_TAB: Record<TabId, SkinTreatCategory> = {
   routines: "routine",

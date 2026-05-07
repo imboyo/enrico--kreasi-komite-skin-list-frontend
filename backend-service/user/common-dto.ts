@@ -4,4 +4,23 @@ export type SortDto = {
   direction: "ASC" | "DESC";
 };
 
-export type FilterDto = Record<string, unknown>;
+export type FilterOperator =
+  | "eq" | "neq"
+  | "gt" | "gte" | "lt" | "lte"
+  | "like" | "ilike"
+  | "in" | "notIn"
+  | "isNull" | "isNotNull"
+  | "between" | "notBetween";
+
+export type FilterItem = {
+  field: string;
+  operator: FilterOperator;
+  // omit value for isNull / isNotNull
+  value?: unknown;
+};
+
+// and/or condition groups — both are optional so callers can use either or both
+export type FilterDto = {
+  and?: FilterItem[];
+  or?: FilterItem[];
+};
