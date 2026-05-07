@@ -3,7 +3,7 @@
 export type SkinChatMessage = {
   id: number;
   message: string;
-  sender_role: "user" | "admin";
+  sender_role: "USER" | "ADMIN";
   created_at: string;
 };
 
