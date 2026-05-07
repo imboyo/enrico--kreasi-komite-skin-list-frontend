@@ -7,6 +7,7 @@ import { Button } from "@/components/atomic/atom/Button";
 
 import { EditNameSection } from "./EditNameSection";
 import { EditPassword } from "client-side-page/app/profile/info/edit-password/EditPassword";
+import { EditPhoneNumber } from "client-side-page/app/profile/info/edit-phone-number/EditPhoneNumber";
 
 export function PageInfoProfile() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export function PageInfoProfile() {
       <h1 className="text-center text-xl font-semibold">Edit Info</h1>
 
       <EditNameSection />
+      <EditPhoneNumber />
       <EditPassword />
 
       <Button
