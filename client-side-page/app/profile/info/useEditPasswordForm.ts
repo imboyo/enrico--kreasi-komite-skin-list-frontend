@@ -10,11 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { z } from "zod";
 
-import {
-  updatePassword,
-  WrongCurrentPasswordError,
-} from "@/mock-backend/user/profile/update-password";
-import { MockServerDownError } from "@/mock-backend/utils/mock-control";
+import { changePassword } from "backend-service/account/password.service";
 
 export const editPasswordSchema = z
   .object({
@@ -63,9 +59,9 @@ export function useEditPasswordForm() {
 
   const mutation = useMutation({
     mutationFn: (payload: EditPasswordFormValues) =>
-      updatePassword({
-        currentPassword: payload.currentPassword,
-        newPassword: payload.newPassword,
+      changePassword({
+        old_password: payload.currentPassword,
+        new_password: payload.newPassword,
       }),
     onSuccess: () => setIsSuccess(true),
   });
@@ -82,11 +78,9 @@ export function useEditPasswordForm() {
   });
 
   const serverError = mutation.error
-    ? mutation.error instanceof WrongCurrentPasswordError
+    ? mutation.error instanceof Error
       ? mutation.error.message
-      : mutation.error instanceof MockServerDownError
-        ? "Server is unavailable. Please try again."
-        : "Something went wrong. Please try again."
+      : "Something went wrong. Please try again."
     : null;
 
   return {

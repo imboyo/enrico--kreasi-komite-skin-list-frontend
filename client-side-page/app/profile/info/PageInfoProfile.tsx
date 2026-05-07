@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/atomic/atom/Button";
 
 import { EditNameSection } from "./EditNameSection";
-import { EditPasswordSection } from "./EditPasswordSection";
+import { EditPassword } from "client-side-page/app/profile/info/edit-password/EditPassword";
 
 export function PageInfoProfile() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export function PageInfoProfile() {
       <h1 className="text-center text-xl font-semibold">Edit Info</h1>
 
       <EditNameSection />
-      <EditPasswordSection />
+      <EditPassword />
 
       <Button
         fullWidth
