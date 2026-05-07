@@ -1,11 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 import { DialogBody } from "@/components/atomic/molecule/Dialog";
-import { ConfirmationDialog } from "@/components/atomic/molecule/ConfirmationDialog";
 import { useToast } from "@/components/provider/Toast";
 import { useDashboardItemEditForm } from "@/hooks/useDashboardItemEditForm";
+import {
+  deleteDashboardItem,
+  DashboardItemNotFoundError,
+} from "@/mock-backend/user/dashboard/delete-item";
+import { MockServerDownError } from "@/mock-backend/utils/mock-control";
 
 import { ItemDialogEditForm } from "./ItemDialogEditForm";
 import { ItemDialogHeader } from "./ItemDialogHeader";
@@ -21,7 +26,6 @@ export function ItemDialogPanel({
 }: ItemDialogPanelProps) {
   const { showToast } = useToast();
   const [mode, setMode] = useState<DialogMode>("view");
-  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   const { form, mutation, serverError, syncFormValues } =
     useDashboardItemEditForm({
@@ -37,6 +41,24 @@ export function ItemDialogPanel({
         showToast("Item updated successfully.", { variant: "success" });
       },
     });
+
+  const deleteMutation = useMutation({
+    mutationFn: () =>
+      deleteDashboardItem(
+        {
+          category,
+          itemId: item.id,
+        },
+        { delayMs: 800 },
+      ),
+    onSuccess: ({ item: deletedItem }) => {
+      onDelete?.(deletedItem);
+      onClose();
+      showToast("Item deleted successfully.", { variant: "success" });
+    },
+  });
+
+  const isPending = mutation.isPending || deleteMutation.isPending;
 
   function syncFormWithItem() {
     // Keep form values aligned with the latest item payload before toggling modes.
@@ -68,14 +90,32 @@ export function ItemDialogPanel({
     setMode("view");
   }
 
-  function handleRequestDelete() {
-    setDeleteConfirmOpen(true);
-  }
+  async function handleDelete() {
+    if (isPending) {
+      return;
+    }
 
-  function handleConfirmDelete() {
-    onDelete?.(item);
-    setDeleteConfirmOpen(false);
-    onClose();
+    try {
+      // Delete immediately from the item dialog without showing a confirmation modal.
+      await deleteMutation.mutateAsync();
+    } catch (error) {
+      if (error instanceof DashboardItemNotFoundError) {
+        showToast(error.message, { variant: "error" });
+        onClose();
+        return;
+      }
+
+      if (error instanceof MockServerDownError) {
+        showToast("Server is unavailable. Please try again.", {
+          variant: "error",
+        });
+        return;
+      }
+
+      showToast("Failed to delete item. Please try again.", {
+        variant: "error",
+      });
+    }
   }
 
   return (
@@ -83,7 +123,7 @@ export function ItemDialogPanel({
       <ItemDialogHeader
         mode={mode}
         itemLabel={item.label}
-        isPending={mutation.isPending}
+        isPending={isPending}
         onEnterEdit={handleEnterEdit}
         onCancelEdit={handleCancelEdit}
       />
@@ -91,28 +131,18 @@ export function ItemDialogPanel({
       <DialogBody className="flex flex-col gap-5 pb-5 pt-0">
         {/* View mode section */}
         {mode === "view" ? (
-          <ItemDialogViewContent item={item} onDelete={handleRequestDelete} />
+          <ItemDialogViewContent item={item} onDelete={handleDelete} />
         ) : (
           <ItemDialogEditForm
             form={form}
-            isPending={mutation.isPending}
+            isPending={isPending}
             serverError={serverError}
             onSave={handleSave}
             onCancel={handleCancelEdit}
-            onDelete={handleRequestDelete}
+            onDelete={handleDelete}
           />
         )}
       </DialogBody>
-
-      <ConfirmationDialog
-        open={deleteConfirmOpen}
-        onOpenChange={setDeleteConfirmOpen}
-        title="Delete Item"
-        description={`Delete "${item.label}" from this list?`}
-        confirmLabel="Delete"
-        confirmVariant="destructive"
-        onConfirm={handleConfirmDelete}
-      />
     </>
   );
 }

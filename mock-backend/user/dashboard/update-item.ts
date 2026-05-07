@@ -10,6 +10,8 @@ import {
   type DashboardEditableItem,
   type DashboardItemCategory,
 } from "./item-store";
+export { DashboardItemNotFoundError } from "./delete-item";
+import { DashboardItemNotFoundError } from "./delete-item";
 
 export const dashboardItemEditSchema = z.object({
   label: z
@@ -34,13 +36,6 @@ export type UpdateDashboardItemPayload = DashboardItemEditValues & {
 export type UpdateDashboardItemResponse = {
   item: DashboardEditableItem;
 };
-
-export class DashboardItemNotFoundError extends Error {
-  constructor(message = "Dashboard item was not found.") {
-    super(message);
-    this.name = "DashboardItemNotFoundError";
-  }
-}
 
 export async function updateDashboardItem(
   payload: UpdateDashboardItemPayload,

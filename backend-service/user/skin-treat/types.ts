@@ -1,5 +1,8 @@
 // Shared types for skin-treat endpoints
 
+import type { SortDto, FilterDto } from "../common-dto";
+export type { SortDto, FilterDto };
+
 export type SkinTreatCategory = "routine" | "make_up" | "barrier" | "colors" | "scars";
 
 export type SkinTreat = {
@@ -17,13 +20,6 @@ export type SkinTreatListMeta = {
   limit: number;
   total_pages: number;
 };
-
-export type SortDto = {
-  field: string;
-  direction: "ASC" | "DESC";
-};
-
-export type FilterDto = Record<string, unknown>;
 
 export type ListSkinTreatPayload = {
   page?: number;

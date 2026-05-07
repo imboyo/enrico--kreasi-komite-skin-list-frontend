@@ -2,7 +2,15 @@ import { parseOrThrow } from "libs/util/parse-or-throw";
 
 import { fetcher } from "backend-service/util/use-fetcher";
 
-import type { AddSkinGoalPayload, AddSkinGoalResponse } from "./types";
+import type {
+  AddSkinGoalPayload,
+  AddSkinGoalResponse,
+  SkinGoal,
+} from "./types";
+
+type AddSkinGoalApiResponse = AddSkinGoalResponse & {
+  user?: unknown;
+};
 
 // POST /user/skin-goal — creates a new skin goal for the authenticated user
 export async function addSkinGoal(
@@ -13,5 +21,6 @@ export async function addSkinGoal(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-  return parseOrThrow<AddSkinGoalResponse>(res);
+
+  return await parseOrThrow<AddSkinGoalApiResponse>(res);
 }

@@ -1,8 +1,11 @@
-import { useState } from "react";
-import { addSkinGoal } from "@/mock-backend/user/skin-goal/add-goal";
-import { deleteSkinGoal } from "@/mock-backend/user/skin-goal/delete-goal";
+import { useState, useEffect } from "react";
+import {
+  listSkinGoal,
+  addSkinGoal,
+  deleteSkinGoal,
+  type SkinGoal,
+} from "@/backend-service/user/skin-goal";
 import { useToast } from "@/components/provider/Toast";
-import { INITIAL_ACTIVE_GOALS } from "./constants";
 
 function normalizeGoalName(goal: string) {
   return goal.trim().replace(/\s+/g, " ");
@@ -10,23 +13,27 @@ function normalizeGoalName(goal: string) {
 
 export function useSkinGoalsSection() {
   const { showToast } = useToast();
-  const [activeGoals, setActiveGoals] =
-    useState<string[]>(INITIAL_ACTIVE_GOALS);
+  const [activeGoals, setActiveGoals] = useState<SkinGoal[]>([]);
+  const [isLoadingGoals, setIsLoadingGoals] = useState(true);
   const [goalName, setGoalName] = useState("");
-  const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
-  // Tracks which goal is currently being deleted to show per-badge loading state.
+  // Tracks which goal UUID is being deleted to show per-badge loading state.
   const [deletingGoal, setDeletingGoal] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
 
-  function openEditSheet() {
-    setGoalName("");
-    setIsEditSheetOpen(true);
-  }
+  useEffect(() => {
+    async function fetchGoals() {
+      try {
+        const res = await listSkinGoal({ limit: 100 });
+        setActiveGoals(res.data);
+      } catch {
+        showToast("Gagal memuat skin goals. Silakan coba lagi.", { variant: "error" });
+      } finally {
+        setIsLoadingGoals(false);
+      }
+    }
 
-  function closeEditSheet() {
-    setGoalName("");
-    setIsEditSheetOpen(false);
-  }
+    fetchGoals();
+  }, [showToast]);
 
   async function handleAddGoal() {
     const normalized = normalizeGoalName(goalName);
@@ -36,7 +43,7 @@ export function useSkinGoalsSection() {
     }
 
     const alreadyExists = activeGoals.some(
-      (goal) => goal.toLowerCase() === normalized.toLowerCase(),
+      (goal) => goal.name.toLowerCase() === normalized.toLowerCase(),
     );
 
     if (alreadyExists) {
@@ -47,8 +54,8 @@ export function useSkinGoalsSection() {
     setIsAdding(true);
 
     try {
-      await addSkinGoal({ goal: normalized });
-      setActiveGoals((prev) => [...prev, normalized]);
+      const newGoal = await addSkinGoal({ name: normalized });
+      setActiveGoals((prev) => [...prev, newGoal]);
     } catch {
       showToast("Gagal menambahkan skin goal. Silakan coba lagi.", { variant: "error" });
     } finally {
@@ -57,16 +64,16 @@ export function useSkinGoalsSection() {
     }
   }
 
-  async function handleDeleteGoal(goalToDelete: string) {
+  async function handleDeleteGoal(goalUuid: string) {
     if (deletingGoal) {
       return;
     }
 
-    setDeletingGoal(goalToDelete);
+    setDeletingGoal(goalUuid);
 
     try {
-      await deleteSkinGoal({ goal: goalToDelete });
-      setActiveGoals((prev) => prev.filter((goal) => goal !== goalToDelete));
+      await deleteSkinGoal(goalUuid);
+      setActiveGoals((prev) => prev.filter((goal) => goal.uuid !== goalUuid));
     } catch {
       showToast("Gagal menghapus skin goal. Silakan coba lagi.", { variant: "error" });
     } finally {
@@ -76,13 +83,11 @@ export function useSkinGoalsSection() {
 
   return {
     activeGoals,
+    isLoadingGoals,
     goalName,
-    isEditSheetOpen,
     isAdding,
     deletingGoal,
     setGoalName,
-    openEditSheet,
-    closeEditSheet,
     handleAddGoal,
     handleDeleteGoal,
   };

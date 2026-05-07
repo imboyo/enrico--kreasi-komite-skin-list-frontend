@@ -73,6 +73,22 @@ export function updateDashboardItemInStore(
   return { ...updatedItem };
 }
 
+export function deleteDashboardItemFromStore(
+  category: DashboardItemCategory,
+  itemId: string,
+): DashboardEditableItem | null {
+  const collection = dashboardItemCollections[category];
+  const itemIndex = collection.findIndex((item) => item.id === itemId);
+
+  if (itemIndex === -1) {
+    return null;
+  }
+
+  const [deletedItem] = collection.splice(itemIndex, 1);
+
+  return deletedItem ? { ...deletedItem } : null;
+}
+
 export function resetDashboardItemStore() {
   dashboardItemCollections = createDashboardItemCollections();
 }

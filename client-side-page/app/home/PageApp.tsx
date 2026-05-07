@@ -70,6 +70,16 @@ export function PageApp() {
     void queryClient.invalidateQueries({ queryKey: selectedItem.queryKey });
   }
 
+  function handleItemDeleted() {
+    if (!selectedItem) {
+      return;
+    }
+
+    const { queryKey } = selectedItem;
+    setSelectedItem(null);
+    void queryClient.invalidateQueries({ queryKey });
+  }
+
   const renderContent = () => {
     switch (activeTab) {
       case "routines":
@@ -196,6 +206,7 @@ export function PageApp() {
         category={selectedItem?.category ?? null}
         onClose={() => setSelectedItem(null)}
         onSave={handleItemSaved}
+        onDelete={handleItemDeleted}
       />
     </motion.main>
   );
