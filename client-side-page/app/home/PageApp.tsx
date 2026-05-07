@@ -10,152 +10,65 @@ import {
   type DashboardListItem,
 } from "@/components/atomic/organism/dashboard-list";
 import { ItemDialog } from "@/client-side-page/app/home/item-dialog/ItemDialog";
-import { getUserRoutines } from "@/mock-backend/user/dashboard/get-routines";
-import { getUserColors } from "@/mock-backend/user/dashboard/get-colors";
-import { getUserMakeUps } from "@/mock-backend/user/dashboard/get-make-ups";
-import { getUserBarriers } from "@/mock-backend/user/dashboard/get-barriers";
-import { getUserScars } from "@/mock-backend/user/dashboard/get-scars";
+import { AddSkinTreatSheet } from "@/client-side-page/app/home/add-skin-treat-sheet/AddSkinTreatSheet";
 import type {
   DashboardEditableItem,
   DashboardItemCategory,
 } from "@/mock-backend/user/dashboard/item-store";
 
-type TabId = "routines" | "colors" | "make-ups" | "barriers" | "scars";
+import {
+  TABS,
+  SKIN_TREAT_QUERY_KEY,
+  SKIN_TREAT_CACHE_MS,
+  SKIN_TREAT_CATEGORY_BY_TAB,
+  TAB_CONTENT_COPY,
+  type TabId,
+} from "./page-app.constants";
+import { selectSkinTreatByTab, getUserSkinTreats } from "./page-app.utils";
+import { FloatingAddButton } from "@/components/atomic/atom/FloatingAddButton";
 
 type SelectedDashboardItem = {
   category: DashboardItemCategory;
-  queryKey: string[];
+  queryKey: readonly unknown[];
   item: DashboardEditableItem;
 };
-
-const TABS = [
-  { id: "routines", label: "Routines" },
-  { id: "colors", label: "Colors" },
-  { id: "make-ups", label: "Make Up" },
-  { id: "barriers", label: "Barriers" },
-  { id: "scars", label: "Scars" },
-] as const;
 
 export function PageApp() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<TabId>("routines");
-  const [selectedItem, setSelectedItem] = useState<SelectedDashboardItem | null>(null);
+  const [selectedItem, setSelectedItem] =
+    useState<SelectedDashboardItem | null>(null);
+  const [isAddSheetOpen, setIsAddSheetOpen] = useState(false);
 
   function openItemDetails(
     category: DashboardItemCategory,
-    queryKey: string[],
+    queryKey: readonly unknown[],
     item: DashboardListItem,
   ) {
-    setSelectedItem({
-      category,
-      queryKey,
-      item,
-    });
+    setSelectedItem({ category, queryKey, item });
   }
 
   function handleItemSaved(updatedItem: DashboardEditableItem) {
-    if (!selectedItem) {
-      return;
-    }
-
+    if (!selectedItem) return;
     setSelectedItem((previous) =>
-      previous
-        ? {
-            ...previous,
-            item: updatedItem,
-          }
-        : previous,
+      previous ? { ...previous, item: updatedItem } : previous,
     );
-
     void queryClient.invalidateQueries({ queryKey: selectedItem.queryKey });
   }
 
   function handleItemDeleted() {
-    if (!selectedItem) {
-      return;
-    }
-
+    if (!selectedItem) return;
     const { queryKey } = selectedItem;
     setSelectedItem(null);
     void queryClient.invalidateQueries({ queryKey });
   }
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case "routines":
-        return (
-          <DashboardList
-            key="routines"
-            queryKey={["user-dashboard-routines"]}
-            queryFn={() => getUserRoutines()}
-            errorTitle="Routine list is unavailable."
-            emptyTitle="No routines available yet."
-            emptyDescription="Add your routine data or retry the request to load this checklist again."
-            onItemClick={(item) =>
-              openItemDetails("routines", ["user-dashboard-routines"], item)
-            }
-          />
-        );
-      case "colors":
-        return (
-          <DashboardList
-            key="colors"
-            queryKey={["user-dashboard-colors"]}
-            queryFn={() => getUserColors()}
-            errorTitle="Color list is unavailable."
-            emptyTitle="No colors available yet."
-            emptyDescription="Add your color data to load this checklist again."
-            onItemClick={(item) =>
-              openItemDetails("colors", ["user-dashboard-colors"], item)
-            }
-          />
-        );
-      case "make-ups":
-        return (
-          <DashboardList
-            key="make-ups"
-            queryKey={["user-dashboard-make-ups"]}
-            queryFn={() => getUserMakeUps()}
-            errorTitle="Make up list is unavailable."
-            emptyTitle="No make ups available yet."
-            emptyDescription="Add your make up data to load this checklist again."
-            onItemClick={(item) =>
-              openItemDetails("make-ups", ["user-dashboard-make-ups"], item)
-            }
-          />
-        );
-      case "barriers":
-        return (
-          <DashboardList
-            key="barriers"
-            queryKey={["user-dashboard-barriers"]}
-            queryFn={() => getUserBarriers()}
-            errorTitle="Barrier list is unavailable."
-            emptyTitle="No barriers available yet."
-            emptyDescription="Add your barrier data to load this checklist again."
-            onItemClick={(item) =>
-              openItemDetails("barriers", ["user-dashboard-barriers"], item)
-            }
-          />
-        );
-      case "scars":
-        return (
-          <DashboardList
-            key="scars"
-            queryKey={["user-dashboard-scars"]}
-            queryFn={() => getUserScars()}
-            errorTitle="Scar list is unavailable."
-            emptyTitle="No scars available yet."
-            emptyDescription="Add your scar data to load this checklist again."
-            onItemClick={(item) =>
-              openItemDetails("scars", ["user-dashboard-scars"], item)
-            }
-          />
-        );
-      default:
-        return null;
-    }
-  };
+  function handleSkinTreatAdded() {
+    setIsAddSheetOpen(false);
+    void queryClient.invalidateQueries({ queryKey: SKIN_TREAT_QUERY_KEY });
+  }
+
+  const copy = TAB_CONTENT_COPY[activeTab];
 
   return (
     <motion.main
@@ -194,7 +107,20 @@ export function PageApp() {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
             >
-              {renderContent()}
+              <DashboardList
+                key={activeTab}
+                queryKey={SKIN_TREAT_QUERY_KEY}
+                queryFn={getUserSkinTreats}
+                select={selectSkinTreatByTab(activeTab)}
+                staleTime={SKIN_TREAT_CACHE_MS}
+                gcTime={SKIN_TREAT_CACHE_MS}
+                errorTitle={copy.errorTitle}
+                emptyTitle={copy.emptyTitle}
+                emptyDescription={copy.emptyDescription}
+                onItemClick={(item) =>
+                  openItemDetails(activeTab, SKIN_TREAT_QUERY_KEY, item)
+                }
+              />
             </motion.div>
           </AnimatePresence>
         </div>
@@ -207,6 +133,17 @@ export function PageApp() {
         onClose={() => setSelectedItem(null)}
         onSave={handleItemSaved}
         onDelete={handleItemDeleted}
+      />
+
+      {/* Floating action button */}
+      <FloatingAddButton onClick={() => setIsAddSheetOpen(true)} />
+
+      {/* Add skin treat sheet — opened by the FAB */}
+      <AddSkinTreatSheet
+        open={isAddSheetOpen}
+        category={SKIN_TREAT_CATEGORY_BY_TAB[activeTab]}
+        onClose={() => setIsAddSheetOpen(false)}
+        onSuccess={handleSkinTreatAdded}
       />
     </motion.main>
   );
