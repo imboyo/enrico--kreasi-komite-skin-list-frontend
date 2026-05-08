@@ -10,9 +10,11 @@ import { APP_URL } from "@/constant";
 export function PageChat() {
   const {
     errorMessage,
+    handleDeleteConversation,
     hasMore,
     isInitialError,
     isInitialLoading,
+    isDeletingConversation,
     isLoadingOlder,
     isSendingText,
     loadOlderMessages,
@@ -30,7 +32,12 @@ export function PageChat() {
         backHref={APP_URL.APP}
         title="Skin Committee"
         subtitle="Usually replies within an hour"
-        rightSection={<RightSection />}
+        rightSection={
+          <RightSection
+            isDeletingConversation={isDeletingConversation}
+            onDeleteConversation={handleDeleteConversation}
+          />
+        }
       />
 
       {/* Messages section */}
@@ -48,7 +55,7 @@ export function PageChat() {
       {/* Composer section */}
       <ChatInput
         onSendText={handleSendText}
-        disabled={isSendingText}
+        disabled={isSendingText || isDeletingConversation}
       />
     </div>
   );

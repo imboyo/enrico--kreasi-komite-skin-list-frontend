@@ -3,8 +3,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { getMessages, sendMessage } from "backend-service";
+import { cleanMessages, getMessages, sendMessage } from "backend-service";
 
+import { useToast } from "@/components/provider/Toast";
 import type { ChatMessage } from "@/types/chat.types";
 import { appendIncomingMessages } from "@/libs/util/chat/append-incoming-messages";
 import { mapDescendingPageToRenderOrder } from "@/libs/util/chat/map-descending-page-to-render-order";
@@ -17,13 +18,23 @@ type PendingScrollAction =
   | { type: "preserve-prepend"; previousHeight: number }
   | null;
 
+function wasConversationClearedAfterCursor(
+  lastClearedAt: string | null,
+  afterCursor?: string,
+) {
+  if (!lastClearedAt || !afterCursor) return false;
+  return new Date(lastClearedAt) > new Date(afterCursor);
+}
+
 export function usePageChat() {
+  const { showToast } = useToast();
   // Local messages state is the source of truth after initial load — needed for
   // optimistic inserts on send and prepended pages from "load older" pagination.
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(false);
   const [isLoadingOlder, setIsLoadingOlder] = useState(false);
+  const [isDeletingConversation, setIsDeletingConversation] = useState(false);
   const [isSendingText, setIsSendingText] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -88,11 +99,37 @@ export function usePageChat() {
       isPollingRef.current = true;
 
       try {
-        const response = await getMessages({ limit: PAGE_SIZE });
+        const latestServerMessage = [...messagesRef.current]
+          .reverse()
+          .find((message) => message.uuid.startsWith("server-"));
+        const afterCursor = latestServerMessage?.createdAt;
+
+        const response = await getMessages({
+          after: afterCursor,
+          limit: PAGE_SIZE,
+        });
 
         if (cancelled) return;
 
         setErrorMessage(null);
+
+        if (
+          wasConversationClearedAfterCursor(
+            response.meta.last_cleared_at,
+            afterCursor,
+          )
+        ) {
+          const resetMessages = mapDescendingPageToRenderOrder(response.data);
+
+          // A clear invalidates all previously rendered history, so replace the
+          // local list instead of trying to merge fresh messages into stale ones.
+          pendingScrollActionRef.current = { type: "bottom" };
+          messagesRef.current = resetMessages;
+          setMessages(resetMessages);
+          setHasMore(false);
+          setNextCursor(null);
+          return;
+        }
 
         const nextMessages = appendIncomingMessages(
           messagesRef.current,
@@ -164,7 +201,7 @@ export function usePageChat() {
   async function handleSendText(text: string) {
     const trimmedText = text.trim();
 
-    if (!trimmedText) return;
+    if (!trimmedText || isDeletingConversation) return;
 
     const optimisticId = `optimistic-${Date.now()}-${crypto.randomUUID()}`;
 
@@ -212,11 +249,45 @@ export function usePageChat() {
     }
   }
 
+  async function handleDeleteConversation() {
+    if (isDeletingConversation) {
+      return false;
+    }
+
+    setIsDeletingConversation(true);
+    setErrorMessage(null);
+
+    try {
+      await cleanMessages();
+
+      // Resetting pagination and local state immediately keeps the UI aligned
+      // with the backend after the destructive action completes.
+      messagesRef.current = [];
+      pendingScrollActionRef.current = { type: "bottom" };
+      setMessages([]);
+      setHasMore(false);
+      setNextCursor(null);
+
+      showToast("Conversation deleted.", { variant: "success" });
+      return true;
+    } catch {
+      setErrorMessage("Failed to delete conversation.");
+      showToast("Failed to delete conversation. Please try again.", {
+        variant: "error",
+      });
+      return false;
+    } finally {
+      setIsDeletingConversation(false);
+    }
+  }
+
   return {
     errorMessage,
+    handleDeleteConversation,
     hasMore,
     isInitialError,
     isInitialLoading,
+    isDeletingConversation,
     isLoadingOlder,
     isSendingText,
     loadOlderMessages,

@@ -1,7 +1,7 @@
 // Shared types for skin-chat endpoints
 
 export type SkinChatMessage = {
-  uuid: number;
+  uuid: string;
   message: string;
   sender_role: "USER" | "ADMIN";
   created_at: string;
@@ -11,9 +11,11 @@ export type SkinChatMeta = {
   limit: number;
   has_more: boolean;
   next_cursor: string | null;
+  last_cleared_at: string | null;
 };
 
 export type GetMessagesPayload = {
+  after?: string;
   before?: string;
   limit?: number;
 };
