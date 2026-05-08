@@ -1,0 +1,74 @@
+"use client";
+
+import { useCallback } from "react";
+
+import { cleanMessages } from "backend-service";
+
+import type {
+  MessagesRef,
+  SetBoolean,
+  SetMessages,
+  SetNullableString,
+  ShowToast,
+} from "./types";
+
+type UseHandleDeleteConversationParams = {
+  isDeletingConversation: boolean;
+  messagesRef: MessagesRef;
+  scheduleScrollToBottom: () => void;
+  setErrorMessage: SetNullableString;
+  setHasMore: SetBoolean;
+  setIsDeletingConversation: SetBoolean;
+  setMessages: SetMessages;
+  setNextCursor: SetNullableString;
+  showToast: ShowToast;
+};
+
+export function useHandleDeleteConversation({
+  isDeletingConversation,
+  messagesRef,
+  scheduleScrollToBottom,
+  setErrorMessage,
+  setHasMore,
+  setIsDeletingConversation,
+  setMessages,
+  setNextCursor,
+  showToast,
+}: UseHandleDeleteConversationParams) {
+  return useCallback(async () => {
+    if (isDeletingConversation) return false;
+
+    setIsDeletingConversation(true);
+    setErrorMessage(null);
+
+    try {
+      await cleanMessages();
+
+      // Reset the local thread immediately so the UI matches the cleared backend state.
+      messagesRef.current = [];
+      scheduleScrollToBottom();
+      setMessages([]);
+      setHasMore(false);
+      setNextCursor(null);
+
+      showToast("Conversation deleted.", { variant: "success" });
+      return true;
+    } catch {
+      setErrorMessage("Failed to delete conversation.");
+      showToast("Failed to delete conversation. Please try again.", { variant: "error" });
+      return false;
+    } finally {
+      setIsDeletingConversation(false);
+    }
+  }, [
+    isDeletingConversation,
+    messagesRef,
+    scheduleScrollToBottom,
+    setErrorMessage,
+    setHasMore,
+    setIsDeletingConversation,
+    setMessages,
+    setNextCursor,
+    showToast,
+  ]);
+}

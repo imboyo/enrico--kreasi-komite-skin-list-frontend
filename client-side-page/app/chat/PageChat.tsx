@@ -4,7 +4,7 @@ import { ChatInput } from "@/components/atomic/molecule/chat/ChatInput";
 import { ChatTopbar } from "@/components/atomic/organism/topbar/ChatTopbar";
 import { RightSection } from "@/client-side-page/app/chat/RightSection";
 import { MessagesSection } from "client-side-page/app/chat/MessagesSection";
-import { usePageChat } from "@/client-side-page/app/chat/usePageChat";
+import { usePageChat } from "hooks/page-chat/usePageChat";
 import { APP_URL } from "@/constant";
 
 export function PageChat() {
