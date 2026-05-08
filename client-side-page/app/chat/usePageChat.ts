@@ -3,54 +3,19 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import {
-  getMessages,
-  sendMessage,
-  type SkinChatMessage,
-} from "backend-service";
+import { getMessages, sendMessage } from "backend-service";
 
-import type { ChatMessage } from "@/components/atomic/molecule/chat/ChatBubble";
+import type { ChatMessage } from "@/types/chat.types";
+import { appendIncomingMessages } from "@/libs/util/chat/append-incoming-messages";
+import { mapDescendingPageToRenderOrder } from "@/libs/util/chat/map-descending-page-to-render-order";
 
 const PAGE_SIZE = 20;
-const POLL_INTERVAL_MS = 30_000;
+const POLL_INTERVAL_MS = 45_000;
 
 type PendingScrollAction =
   | { type: "bottom" }
   | { type: "preserve-prepend"; previousHeight: number }
   | null;
-
-function mapBackendMessage(message: SkinChatMessage): ChatMessage {
-  return {
-    uuid: `server-${message.id}`,
-    author: message.sender_role,
-    type: "text",
-    text: message.message,
-    // User messages do not currently return read-state metadata, so we keep a
-    // stable sent state instead of inventing delivery information on the client.
-    status: message.sender_role === "USER" ? "sent" : undefined,
-    createdAt: message.created_at,
-  };
-}
-
-function mapDescendingPageToRenderOrder(messages: SkinChatMessage[]) {
-  // The API returns newest-first; reverse each page so the UI still renders from
-  // oldest at the top to newest at the bottom.
-  return [...messages].reverse().map(mapBackendMessage);
-}
-
-function appendIncomingMessages(
-  previousMessages: ChatMessage[],
-  latestPage: SkinChatMessage[],
-) {
-  const knownMessageIds = new Set(previousMessages.map((message) => message.uuid));
-  const incomingMessages = mapDescendingPageToRenderOrder(latestPage).filter(
-    (message) => !knownMessageIds.has(message.uuid),
-  );
-
-  if (incomingMessages.length === 0) return previousMessages;
-
-  return [...previousMessages, ...incomingMessages];
-}
 
 export function usePageChat() {
   // Local messages state is the source of truth after initial load — needed for
@@ -64,6 +29,7 @@ export function usePageChat() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const pendingScrollActionRef = useRef<PendingScrollAction>(null);
+
   // Guard so we only seed local state once from the query result.
   const initializedRef = useRef(false);
   const messagesRef = useRef<ChatMessage[]>([]);
@@ -196,47 +162,48 @@ export function usePageChat() {
   }
 
   async function handleSendText(text: string) {
-    // Optimistically add the message immediately so it appears without waiting
-    // for the network round-trip.
-    const optimisticId = `optimistic-${Date.now()}`;
+    const trimmedText = text.trim();
+
+    if (!trimmedText) return;
+
+    const optimisticId = `optimistic-${Date.now()}-${crypto.randomUUID()}`;
+
     const optimisticMessage: ChatMessage = {
       uuid: optimisticId,
       author: "USER",
-      type: "text",
-      text,
+      text: trimmedText,
       status: "sending",
       createdAt: new Date().toISOString(),
     };
 
     pendingScrollActionRef.current = { type: "bottom" };
-    setMessages((previousMessages) => [
-      ...previousMessages,
-      optimisticMessage,
-    ]);
+
+    setMessages((previousMessages) => [...previousMessages, optimisticMessage]);
+
     setIsSendingText(true);
     setErrorMessage(null);
 
     try {
-      const response = await sendMessage({ message: text });
+      const response = await sendMessage({ message: trimmedText });
 
-      // Swap the optimistic placeholder for the confirmed server message.
+      const serverMessageId = response.message_id;
+
+      const confirmedMessage: ChatMessage = {
+        uuid: serverMessageId ? `server-${serverMessageId}` : optimisticId,
+        author: "USER",
+        text: response.message ?? trimmedText,
+        status: "sent",
+        createdAt: response.created_at ?? optimisticMessage.createdAt,
+      };
+
       setMessages((previousMessages) =>
         previousMessages.map((message) =>
-          message.uuid === optimisticId
-            ? {
-                uuid: `server-${response.message_id}`,
-                author: "USER",
-                type: "text",
-                text: response.message,
-                status: "sent",
-                createdAt: response.created_at,
-              }
-            : message,
+          message.uuid === optimisticId ? confirmedMessage : message,
         ),
       );
     } catch {
       setErrorMessage("Failed to send message.");
-      // Roll back the optimistic message so the user knows it wasn't delivered.
+
       setMessages((previousMessages) =>
         previousMessages.filter((message) => message.uuid !== optimisticId),
       );

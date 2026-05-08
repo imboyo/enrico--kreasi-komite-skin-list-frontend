@@ -1,4 +1,4 @@
-import type { ChatMessage } from "@/components/atomic/molecule/chat/ChatBubble";
+import type { ChatMessage } from "@/types/chat.types";
 import {
   simulateMockRequest,
   type MockControlInput,

@@ -2,11 +2,9 @@
 
 import type { RefObject } from "react";
 
-import { Skeleton } from "@/components/atomic/atom/Skeleton";
-import {
-  ChatBubble,
-  type ChatMessage,
-} from "@/components/atomic/molecule/chat/ChatBubble";
+import { ChatBubble } from "components/atomic/molecule/chat/ChatBubble";
+import { MessagesSkeleton } from "@/components/atomic/molecule/MessageSkeleton";
+import { ChatMessage } from "@/types/chat.types";
 
 interface MessagesSectionProps {
   errorMessage: string | null;
@@ -17,28 +15,6 @@ interface MessagesSectionProps {
   loadOlderMessages: () => Promise<void>;
   messages: ChatMessage[];
   scrollRef: RefObject<HTMLDivElement | null>;
-}
-
-function MessagesSkeleton() {
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-start">
-        <Skeleton className="h-10 w-52 rounded-2xl rounded-bl-sm" />
-      </div>
-      <div className="flex justify-end">
-        <Skeleton className="h-10 w-36 rounded-2xl rounded-br-sm" />
-      </div>
-      <div className="flex justify-start">
-        <Skeleton className="h-16 w-60 rounded-2xl rounded-bl-sm" />
-      </div>
-      <div className="flex justify-end">
-        <Skeleton className="h-10 w-44 rounded-2xl rounded-br-sm" />
-      </div>
-      <div className="flex justify-start">
-        <Skeleton className="h-10 w-48 rounded-2xl rounded-bl-sm" />
-      </div>
-    </div>
-  );
 }
 
 export function MessagesSection({
@@ -52,10 +28,7 @@ export function MessagesSection({
   scrollRef,
 }: MessagesSectionProps) {
   return (
-    <div
-      ref={scrollRef}
-      className="flex-1 overflow-y-auto px-4 py-4"
-    >
+    <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4">
       {/* Load more older messages button — only shown when more history exists */}
       {!isInitialLoading && hasMore && (
         <div className="mb-3 flex justify-center">

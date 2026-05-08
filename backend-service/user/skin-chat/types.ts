@@ -1,7 +1,7 @@
 // Shared types for skin-chat endpoints
 
 export type SkinChatMessage = {
-  id: number;
+  uuid: number;
   message: string;
   sender_role: "USER" | "ADMIN";
   created_at: string;
