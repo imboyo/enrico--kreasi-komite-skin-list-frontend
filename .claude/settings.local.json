@@ -19,7 +19,10 @@
       "Bash(xargs ls)",
       "Bash(git commit *)",
       "Bash(python3 -c \"import json, sys; data = json.load\\(sys.stdin\\); print\\('Summary:', data.get\\('summary', ''\\)\\); print\\('Changed files:', len\\(data.get\\('changed_files', []\\)\\)\\); print\\('Risk score:', data.get\\('risk_score', 'N/A'\\)\\)\")",
-      "Bash(xargs ls -la)"
+      "Bash(xargs ls -la)",
+      "Bash(kill 4290)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3000)"
     ]
   },
   "enableAllProjectMcpServers": true,

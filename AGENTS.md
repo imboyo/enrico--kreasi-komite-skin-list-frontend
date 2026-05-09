@@ -46,27 +46,31 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 3. Use `get_affected_flows` to understand impact.
 4. Use `query_graph` pattern="tests_for" to check coverage.
 
-### Components
-
-- Use Atomic for component categorization
-- Order from small to large -> atom, molecule, organism, template, layout
-- When creating a shared component, please put it in atomic and specify which category it belongs to. components/atomic
-- Provider is for setting up at a layout level like theme or store
-- When creating subchild featured component, create a subfolder for example PageRegister -> default-form || otp-form ||
-  success-form. Then put the child component in the subfolder. then without prefix anymore so default-form/input.tsx. If
-  only one child component don't need to create subfolder
-
 ### Codebase
 - Please add a comment explaining what the logic is for even inside a function or element if it need explanation or
   little complex
-- For `mock-backend`, keep reusable mock controls in `mock-backend/utils` and support the same specification for every
-  mock function: controllable delay/loading plus simulated server-down errors
 - When you found a bug, please fix it and notify me
 - Instead of using `max-w-[260px]` in tailwind use `max-w-65` tailwind. So if 12px it will be max-w-3
 - For JSX Section add a comment what section it is
-- If the component or the logic is too complex or bloated please consider refactoring it
+- If the component or the logic is too complex or bloated please consider refactoring it into a separate component or custom hooks. It can be multiple hooks.
 - If needs additional css when in tailwind can not achieve or too messy please use emotion react in css syntax `css={css`color: green;`}`
 - The codebase must be in english and the app copywrite is in Bahasa Indonesia. The user will see in bahasa but as developer for variable, function and the codebase must be in english
+- One Function must be one responsibility and one file. 
+- One Component must be one responsibility and one file.
 
 ### Moduling / Project Structure
 1. Backend Service use barrel export with naming for example `backend-service/auth/index.ts` and its have index.ts on `backend-service` so in consumer we can choose import directly from `backend-service/auth` or for more readable we can import from `backend-service`
+2. **Client-Side Page** (`client-side-page/`) structure follows the route module hierarchy. For a module like `client-side-page/admin/user/admin`:
+   - **Page root**: The main component must be named `Page{Module}.tsx` (e.g., `PageAdmin.tsx`) and live at the module root.
+   - **Section folders**: Complex page sections or components that own child components are placed in a kebab-case folder named after the section (e.g., `item-list/`, `account-list/`). The primary component for that folder uses PascalCase matching the folder concept (e.g., `ItemList.tsx` inside `item-list/`).
+   - **Nested child folders**: If a section component has specific children, create a further kebab-case subfolder (e.g., `item-card/` inside `item-list/`). Child files inside use short, descriptive PascalCase names scoped to that folder (e.g., `ManagerCard.tsx`, `RoleBadge.tsx`, `ItemActions.tsx`).
+   - **Flat children**: Simple components that do not need children can be placed directly in the module root or section folder without an extra subfolder.
+   - **No barrel exports**: Do not add `index.ts` files inside `client-side-page` folders; import directly from the source file.
+   - **Colocation**: Keep page-specific hooks (`use{Feature}.ts`) and constants (`constants.ts`) inside the section folder they belong to.
+3. **Feature-scoped utilities**: If a utility function, custom hook, or store is only consumed by one feature module, create a `utils/` folder inside that module and place it there (e.g., `client-side-page/app/home/utils/useSomething.ts`). Do not put single-use utilities in the global `hooks/` or `libs/` directories.
+4. **Shared components**: When creating a shared / reusable component, place it under `components/atomic` and assign it to the correct atomic-design tier:
+   - `atom/` — smallest, single-element building blocks (e.g., `Button`, `Input`, `Badge`).
+   - `molecule/` — simple groups of atoms (e.g., `SearchInput`, `MenuDropdown`, `MobilePagination`).
+   - `organism/` — complex sections composed of molecules/atoms (e.g., `AccountCardGridSkeleton`).
+   - `layout/` — page-level shells, providers, or structural wrappers (e.g., `AdminAccountPageShell`).
+   Pick the smallest tier that accurately describes the component.
