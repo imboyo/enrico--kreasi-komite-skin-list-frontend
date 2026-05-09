@@ -11,27 +11,27 @@ import { updateSkinTreat } from "@/backend-service/user/skin-treat";
 
 import { ListItem } from "./ListItem";
 
-export type DashboardListItem = {
+export type SkinTreatListItem = {
   id: string;
   label: string;
   description: string;
   isChecked: boolean;
 };
 
-type DashboardListResponse<TItem extends DashboardListItem> = {
+type SkinTreatListResponse<TItem extends SkinTreatListItem> = {
   data: TItem[];
   meta: {
     mode: string;
   };
 };
 
-type DashboardListProps<
-  TItem extends DashboardListItem,
-  TQueryData = DashboardListResponse<TItem>,
+type SkinTreatListProps<
+  TItem extends SkinTreatListItem,
+  TQueryData = SkinTreatListResponse<TItem>,
 > = {
   queryKey: readonly unknown[];
   queryFn: () => Promise<TQueryData>;
-  select?: (data: TQueryData) => DashboardListResponse<TItem>;
+  select?: (data: TQueryData) => SkinTreatListResponse<TItem>;
   errorTitle: string;
   emptyTitle: string;
   emptyDescription: string;
@@ -94,8 +94,8 @@ function syncChecklistQueryData<TQueryData>(
  * Sends checklist updates directly to the backend and only updates local state
  * after the request succeeds. Each item is locked while its request is in flight.
  */
-function useDashboardChecklistUpdate<
-  TItem extends DashboardListItem,
+function useSkinTreatChecklistUpdate<
+  TItem extends SkinTreatListItem,
   TQueryData,
 >({
   queryKey,
@@ -150,9 +150,9 @@ function useDashboardChecklistUpdate<
   return { updateChecked, syncingItemIds };
 }
 
-export function DashboardList<
-  TItem extends DashboardListItem,
-  TQueryData = DashboardListResponse<TItem>,
+export function SkinTreatList<
+  TItem extends SkinTreatListItem,
+  TQueryData = SkinTreatListResponse<TItem>,
 >({
   queryKey,
   queryFn,
@@ -164,8 +164,8 @@ export function DashboardList<
   gcTime,
   deletingItemId,
   onItemClick,
-}: DashboardListProps<TItem, TQueryData>) {
-  const query = useQuery<TQueryData, Error, DashboardListResponse<TItem>>({
+}: SkinTreatListProps<TItem, TQueryData>) {
+  const query = useQuery<TQueryData, Error, SkinTreatListResponse<TItem>>({
     queryKey,
     queryFn,
     select,
@@ -177,7 +177,7 @@ export function DashboardList<
 
   const { resolvedItems, setChecked } = useCheckableItems(items);
   const incrementCheckCount = useRoutineCheckStore((state) => state.increment);
-  const { updateChecked, syncingItemIds } = useDashboardChecklistUpdate<
+  const { updateChecked, syncingItemIds } = useSkinTreatChecklistUpdate<
     TItem,
     TQueryData
   >({

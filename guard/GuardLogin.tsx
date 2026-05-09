@@ -74,6 +74,7 @@ export default function GuardLogin({
           photoProfile: profile.profile_photo?.uuid ?? null,
           role: backendRole,
           email: profile.email,
+          phoneNumber: profile.phone_number,
         });
         setVerifiedSession({ role: backendRole, sessionKey });
 

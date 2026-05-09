@@ -8,9 +8,9 @@ import debounce from "lodash/debounce";
 import { Tabs } from "@/components/atomic/molecule/Tabs";
 import { MobilePagination } from "@/components/atomic/molecule/MobilePagination";
 import {
-  DashboardList,
-  type DashboardListItem,
-} from "@/components/atomic/organism/dashboard-list";
+  SkinTreatList,
+  type SkinTreatListItem,
+} from "@/components/domain/user/skin-treat-list";
 import { SectionToolbar } from "@/components/atomic/organism/SectionToolbar";
 import { ItemDialog } from "@/client-side-page/app/home/item-dialog/ItemDialog";
 import { AddSkinTreatSheet } from "@/client-side-page/app/home/add-skin-treat-sheet/AddSkinTreatSheet";
@@ -133,7 +133,7 @@ export function PageApp() {
 
   function openItemDetails(
     category: DashboardItemCategory,
-    item: DashboardListItem,
+    item: SkinTreatListItem,
   ) {
     // Ignore taps for the row currently being deleted so the dialog cannot
     // reopen while the backend is still processing removal.
@@ -237,7 +237,7 @@ export function PageApp() {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
             >
-              <DashboardList
+              <SkinTreatList
                 key={`${activeTab}-${searchQuery}-${currentPage}-${sortDirection}`}
                 queryKey={skinTreatQueryKey}
                 queryFn={fetchSkinTreatPage}

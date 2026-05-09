@@ -6,6 +6,7 @@ export type UserInfo = {
   photoProfile: string | null;
   role: AccountRole;
   email: string;
+  phoneNumber?: string | null;
 };
 
 export type AuthStore = {

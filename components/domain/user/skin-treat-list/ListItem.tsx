@@ -39,12 +39,12 @@ export function ListItem({
         isDeleting && "border-destructive/30 bg-destructive/5 opacity-70",
       )}
     >
-      <div className="flex items-center gap-3 px-4 py-4">
+      <div className="flex items-center gap-2.5 px-3.5 py-3">
         {/* Checkbox + label wrapped together for a11y */}
         <label
           htmlFor={checkboxId}
           className={cn(
-            "flex flex-1 items-center gap-3",
+            "flex flex-1 items-center gap-2.5",
             isLocked ? "cursor-not-allowed opacity-70" : "cursor-pointer",
           )}
         >
@@ -58,7 +58,7 @@ export function ListItem({
             onChange={(event) => onCheck(event.currentTarget.checked)}
           />
 
-          <span className="flex-1 text-base font-medium text-foreground">
+          <span className="flex-1 text-sm font-medium text-foreground">
             {label}
           </span>
         </label>
@@ -71,7 +71,7 @@ export function ListItem({
         ) : isSyncing ? (
           <span
             aria-label="Saving checklist item"
-            className="size-2 shrink-0 rounded-full bg-primary/70"
+            className="size-1.5 shrink-0 rounded-full bg-primary/70"
           />
         ) : null}
 
@@ -79,14 +79,14 @@ export function ListItem({
         <button
           type="button"
           aria-label={`Open ${label} details`}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-background/80 text-muted-foreground transition-[background-color,transform] hover:bg-primary/5"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-background/80 text-muted-foreground transition-[background-color,transform] hover:bg-primary/5"
           onClick={onDetailOpen}
           disabled={isDeleting}
         >
           <Icon
             icon="mdi:chevron-right"
-            width={20}
-            height={20}
+            width={16}
+            height={16}
             className="shrink-0 transition-transform"
           />
         </button>

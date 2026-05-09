@@ -12,8 +12,10 @@ import {
 import { HttpError } from "libs/error/http-error";
 import {
   normalizeWhatsappNumber,
+  sanitizeWhatsappNumberInput,
   validateWhatsappField,
 } from "libs/util/whatsapp-number";
+import { useAuthStore } from "@/store/auth/auth.store";
 
 const otpSchema = z
   .string()
@@ -33,13 +35,17 @@ function resolveApiError(error: unknown): string {
 }
 
 export function useEditPhoneNumberFlow() {
+  const { userInfo, setUserInfo } = useAuthStore();
   const [step, setStep] = useState<Step>("phone");
   const [isSuccess, setIsSuccess] = useState(false);
   // Holds the raw input value so it can be shown in the OTP step description.
   const [pendingPhone, setPendingPhone] = useState("");
 
+  // Strip non-digits from stored phone (e.g. "+628..." → "628...") so the input only sees digits.
+  const currentPhone = sanitizeWhatsappNumberInput(userInfo?.phoneNumber ?? "");
+
   const phoneForm = useForm({
-    defaultValues: { phoneNumber: "" },
+    defaultValues: { phoneNumber: currentPhone },
     onSubmit: async ({ value }) => {
       initiateMutation.mutate(value.phoneNumber);
     },
@@ -78,13 +84,19 @@ export function useEditPhoneNumberFlow() {
     onSuccess: () => {
       // After a successful verification, return to the phone form and show a
       // success message below the input instead of keeping a dedicated step.
+      const newPhone = pendingPhone;
       setIsSuccess(true);
       setPendingPhone("");
       setStep("phone");
-      phoneForm.reset({ phoneNumber: "" });
+      // Show the newly saved number so the user can confirm what changed.
+      phoneForm.reset({ phoneNumber: newPhone });
       otpForm.reset({ otp: "" });
       initiateMutation.reset();
       verifyMutation.reset();
+      // Keep the auth store aligned with the updated phone number.
+      if (userInfo) {
+        setUserInfo({ ...userInfo, phoneNumber: normalizeWhatsappNumber(newPhone) });
+      }
     },
   });
 

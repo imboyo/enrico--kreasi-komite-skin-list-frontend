@@ -81,6 +81,7 @@ export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
         photoProfile: profile.profile_photo?.uuid ?? null,
         role,
         email: profile.email,
+        phoneNumber: profile.phone_number,
       });
 
       // Replace the login route after verification so a successful auth lands on
