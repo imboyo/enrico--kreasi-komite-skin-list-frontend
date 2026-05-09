@@ -99,7 +99,7 @@ export function ProfileGlassCard({
             ? "bg-white/12 text-primary-foreground"
             : "bg-foreground/15 text-foreground/90",
         )}
-        aria-label="Edit profile"
+        aria-label="Ubah profil"
       >
         <Icon icon="mdi:pencil" width={16} height={16} />
       </Link>
@@ -127,7 +127,7 @@ export function ProfileGlassCard({
             isHeroTone ? "text-primary-foreground/70" : "text-foreground/50",
           )}
         >
-          Dermal Progress
+          Progres Dermal
         </span>
         <ProgressBar percent={totalPercent} tone={tone} />
       </div>

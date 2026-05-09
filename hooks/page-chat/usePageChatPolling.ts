@@ -87,7 +87,7 @@ export function usePageChatPolling({
         messagesRef.current = nextMessages;
         setMessages(nextMessages);
       } catch {
-        if (!isCancelled) setErrorMessage("Failed to refresh chat.");
+        if (!isCancelled) setErrorMessage("Chat gagal diperbarui.");
       } finally {
         isPollingRef.current = false;
       }

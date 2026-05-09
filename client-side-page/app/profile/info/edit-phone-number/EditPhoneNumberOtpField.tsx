@@ -26,7 +26,7 @@ export function EditPhoneNumberOtpField({
             htmlFor="edit-phone-otp"
             className="text-sm font-medium text-foreground"
           >
-            OTP Code
+            Kode OTP
           </label>
           <OtpInput
             id="edit-phone-otp"

@@ -11,7 +11,7 @@ const OtpInput = forwardRef<HTMLInputElement, OtpInputProps>(
       type = "text",
       inputMode = "numeric",
       maxLength = 6,
-      placeholder = "Enter 6-digit OTP",
+      placeholder = "Masukkan 6 digit OTP",
       autoComplete = "one-time-code",
       startItem = <Icon icon="material-symbols:pin-outline" />,
       onChange,

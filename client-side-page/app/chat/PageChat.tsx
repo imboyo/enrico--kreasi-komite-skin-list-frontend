@@ -30,8 +30,8 @@ export function PageChat() {
       {/* Chat topbar section */}
       <ChatTopbar
         backHref={APP_URL.APP}
-        title="Skin Committee"
-        subtitle="Usually replies within an hour"
+        title="Komite Skin"
+        subtitle="Biasanya membalas dalam satu jam"
         rightSection={
           <RightSection
             isDeletingConversation={isDeletingConversation}

@@ -7,7 +7,7 @@ export function EditPhoneNumberSuccessIndicator() {
         icon="material-symbols:check-circle-outline-rounded"
         className="shrink-0 text-base"
       />
-      Phone number updated successfully.
+      Nomor WhatsApp berhasil diperbarui.
     </div>
   );
 }

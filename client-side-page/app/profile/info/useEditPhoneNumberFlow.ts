@@ -19,19 +19,19 @@ import { useAuthStore } from "@/store/auth/auth.store";
 
 const otpSchema = z
   .string()
-  .min(1, "OTP is required")
-  .regex(/^\d+$/, "OTP must contain numbers only")
-  .length(6, "OTP must be 6 digits");
+  .min(1, "OTP wajib diisi")
+  .regex(/^\d+$/, "OTP hanya boleh berisi angka")
+  .length(6, "OTP harus terdiri dari 6 digit");
 
 type Step = "phone" | "otp";
 
 function resolveApiError(error: unknown): string {
   if (error instanceof HttpError) {
     return error.status >= 500
-      ? "Server is unavailable. Please try again."
+      ? "Server sedang tidak tersedia. Silakan coba lagi."
       : error.message;
   }
-  return "Something went wrong. Please try again.";
+  return "Terjadi kesalahan. Silakan coba lagi.";
 }
 
 export function useEditPhoneNumberFlow() {

@@ -51,11 +51,13 @@ export function useHandleDeleteConversation({
       setHasMore(false);
       setNextCursor(null);
 
-      showToast("Conversation deleted.", { variant: "success" });
+      showToast("Percakapan berhasil dihapus.", { variant: "success" });
       return true;
     } catch {
-      setErrorMessage("Failed to delete conversation.");
-      showToast("Failed to delete conversation. Please try again.", { variant: "error" });
+      setErrorMessage("Percakapan gagal dihapus.");
+      showToast("Percakapan gagal dihapus. Silakan coba lagi.", {
+        variant: "error",
+      });
       return false;
     } finally {
       setIsDeletingConversation(false);

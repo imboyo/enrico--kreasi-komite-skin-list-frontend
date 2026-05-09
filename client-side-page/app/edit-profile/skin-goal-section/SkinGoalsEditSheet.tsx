@@ -70,13 +70,13 @@ export function SkinGoalsEditSheet({ open, onClose, onGoalsChange }: SkinGoalsEd
           iconOnly
           onClick={onClose}
           className="rounded-full text-muted-foreground hover:bg-muted"
-          aria-label="Close"
+          aria-label="Tutup"
         >
           <Icon icon="lucide:x" className="size-4" />
         </Button>
 
         <h3 className="text-sm font-semibold text-foreground">
-          Choose Skin Goals
+          Pilih Skin Goals
         </h3>
       </div>
 
@@ -89,7 +89,7 @@ export function SkinGoalsEditSheet({ open, onClose, onGoalsChange }: SkinGoalsEd
             value={goalName}
             onChange={(event) => setGoalName(event.target.value)}
             onKeyDown={handleGoalNameKeyDown}
-            placeholder="Add a new skin goal"
+            placeholder="Tambahkan Skin Goal baru"
             containerProps={{ className: "rounded-xl" }}
             disabled={isAdding}
           />
@@ -111,13 +111,13 @@ export function SkinGoalsEditSheet({ open, onClose, onGoalsChange }: SkinGoalsEd
               )
             }
           >
-            Add
+            Tambah
           </Button>
         </div>
 
         <p className="px-4 pb-3 text-xs text-muted-foreground">
-          All goals shown here are already active. Use the trash icon to
-          remove a goal from your profile.
+          Semua Goals yang tampil di sini sudah aktif. Gunakan ikon hapus
+          untuk menghapus Goal dari profil kamu.
         </p>
 
         {/* Keep only the list scrollable so the sheet stays at half-screen height. */}
@@ -130,7 +130,7 @@ export function SkinGoalsEditSheet({ open, onClose, onGoalsChange }: SkinGoalsEd
             </div>
           ) : activeGoals.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-border bg-muted/30 px-4 py-6 text-center text-sm text-muted-foreground">
-              Add your first skin goal to start building this list.
+              Tambahkan Skin Goal pertama kamu untuk mulai mengisi daftar ini.
             </div>
           ) : (
             <div className="flex flex-wrap content-start gap-2">
@@ -141,7 +141,7 @@ export function SkinGoalsEditSheet({ open, onClose, onGoalsChange }: SkinGoalsEd
                     key={goal.uuid}
                     label={goal.name}
                     hideAction={false}
-                    actionLabel={`Delete ${goal.name}`}
+                    actionLabel={`Hapus ${goal.name}`}
                     actionIcon={
                       isDeleting ? (
                         <Icon

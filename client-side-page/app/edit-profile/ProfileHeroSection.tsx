@@ -12,10 +12,10 @@ import { uploadPhotoProfile } from "backend-service/account";
 import { useFilePreview } from "@/hooks/useFilePreview";
 
 const MOCK_DERMAL_METRICS = [
-  { label: "Hydration", percent: 72 },
-  { label: "Elasticity", percent: 58 },
-  { label: "Barrier Strength", percent: 65 },
-  { label: "Radiance", percent: 80 },
+  { label: "Hidrasi", percent: 72 },
+  { label: "Elastisitas", percent: 58 },
+  { label: "Kekuatan Barrier", percent: 65 },
+  { label: "Kecerahan", percent: 80 },
 ];
 
 const AVATAR_SIZE = 120;
@@ -71,9 +71,9 @@ export function ProfileHeroSection() {
       />
 
       <HeroSection
-        eyebrow="Profile"
-        title="Keep your details and skin progress up to date."
-        description="Update your avatar, review your account info, and keep your skincare journey aligned in one place."
+        eyebrow="Profil"
+        title="Jaga info akun dan progres skin kamu tetap terbaru."
+        description="Perbarui avatar, cek info akun, dan pastikan perjalanan skincare kamu tetap selaras di satu tempat."
       >
         {/* Profile summary card */}
         <div className="relative flex flex-col items-center pt-2">

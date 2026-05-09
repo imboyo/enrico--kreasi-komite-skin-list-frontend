@@ -21,13 +21,13 @@ export function SkinGoalsSummary({
           onClick={onEdit}
           leadingIcon={<Icon icon="lucide:settings-2" className="size-3.5" />}
         >
-          Edit Goals
+          Ubah Goals
         </Button>
       </div>
 
       <div className="flex flex-wrap gap-2">
         {activeGoals.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No goals selected.</p>
+          <p className="text-sm text-muted-foreground">Belum ada Goals yang dipilih.</p>
         ) : (
           activeGoals.map((goal) => (
             <span

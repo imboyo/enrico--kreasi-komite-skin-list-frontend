@@ -33,7 +33,7 @@ export function ConfirmationDialog({
   title,
   description,
   confirmLabel,
-  cancelLabel = "Cancel",
+  cancelLabel = "Batal",
   confirmVariant = "primary",
   isConfirming = false,
   onConfirm,

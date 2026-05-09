@@ -19,7 +19,7 @@ export function PageInfoProfile() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <h1 className="text-center text-xl font-semibold">Edit Info</h1>
+      <h1 className="text-center text-xl font-semibold">Ubah Info</h1>
 
       <EditNameSection />
       <EditPhoneNumber />
@@ -31,7 +31,7 @@ export function PageInfoProfile() {
         variant="outline"
         onClick={() => router.back()}
       >
-        Back
+        Kembali
       </Button>
     </motion.main>
   );

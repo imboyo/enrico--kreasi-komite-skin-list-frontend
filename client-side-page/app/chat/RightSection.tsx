@@ -35,7 +35,7 @@ export const RightSection = ({
             variant="ghost"
             size="md"
             iconOnly
-            aria-label="Conversation options"
+            aria-label="Opsi percakapan"
             disabled={isDeletingConversation}
             className="rounded-full"
           >
@@ -54,16 +54,16 @@ export const RightSection = ({
             setIsDeleteDialogOpen(true);
           }}
         >
-          Delete conversation
+          Hapus percakapan
         </MenuDropdownItem>
       </MenuDropdown>
 
       <ConfirmationDialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
-        title="Delete conversation"
-        description="This will permanently remove all messages in this conversation."
-        confirmLabel="Delete"
+        title="Hapus percakapan"
+        description="Semua pesan dalam percakapan ini akan dihapus secara permanen."
+        confirmLabel="Hapus"
         confirmVariant="destructive"
         isConfirming={isDeletingConversation}
         onConfirm={handleConfirmDelete}

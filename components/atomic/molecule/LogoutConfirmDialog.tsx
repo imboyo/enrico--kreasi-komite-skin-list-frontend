@@ -39,12 +39,12 @@ export function LogoutConfirmDialog({
           disabled={isConfirming}
           leadingIcon={<Icon icon="material-symbols:logout-rounded" width={20} height={20} />}
         >
-          Logout
+          Keluar
         </Button>
       }
-      title="Logout"
-      description="Are you sure you want to logout? You will need to sign in again to access your account."
-      confirmLabel="Logout"
+      title="Keluar"
+      description="Apakah Anda yakin ingin keluar? Anda perlu masuk lagi untuk mengakses akun Anda."
+      confirmLabel="Keluar"
       confirmVariant="destructive"
       onConfirm={handleConfirm}
     />

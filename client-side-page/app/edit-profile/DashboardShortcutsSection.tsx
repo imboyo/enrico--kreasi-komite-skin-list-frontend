@@ -5,15 +5,15 @@ export function DashboardShortcutsSection() {
     // Two-column grid of quick-access dashboard cards
     <div className="grid grid-cols-2 gap-3">
       <DashboardLinkCard
-        label="Lists"
-        title="Ready to embrace your skin"
+        label="Skin Treat"
+        title="Siap untuk menjaga kesehatan kulitmu?"
         description=""
         href="/app"
       />
       <DashboardLinkCard
         label="Routine"
         title=""
-        description="Your daily foundation. Consistency beats everything."
+        description="Fondasi harian kamu. Konsistensi adalah kuncinya."
         href="/app"
       />
     </div>

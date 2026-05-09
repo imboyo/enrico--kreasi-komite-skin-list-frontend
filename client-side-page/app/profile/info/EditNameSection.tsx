@@ -17,7 +17,7 @@ export function EditNameSection() {
   return (
     /* Name edit section */
     <section className="flex flex-col gap-4 rounded-2xl bg-card p-4">
-      <h2 className="text-base font-semibold">Name</h2>
+      <h2 className="text-base font-semibold">Nama</h2>
 
       {/* Name edit form section */}
       <form
@@ -42,12 +42,12 @@ export function EditNameSection() {
                 htmlFor="edit-name"
                 className="text-sm font-medium text-foreground"
               >
-                Full Name
+                Nama Lengkap
               </label>
               <TextInput
                 id="edit-name"
                 type="text"
-                placeholder="Enter your name"
+                placeholder="Masukkan nama kamu"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -70,7 +70,7 @@ export function EditNameSection() {
           <p className="text-sm text-destructive">{serverError}</p>
         )}
         {isSuccess && (
-          <p className="text-sm text-green-600">Name updated successfully.</p>
+          <p className="text-sm text-green-600">Nama berhasil diperbarui.</p>
         )}
 
         <form.Subscribe
@@ -88,7 +88,7 @@ export function EditNameSection() {
                 (!isValid && form.state.submissionAttempts > 0)
               }
             >
-              Save Name
+              Simpan Nama
             </Button>
           )}
         </form.Subscribe>

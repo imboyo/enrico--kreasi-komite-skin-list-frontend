@@ -37,14 +37,14 @@ export function MessagesSection({
             disabled={isLoadingOlder}
             className="rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground shadow-sm transition-colors hover:bg-muted disabled:opacity-50"
           >
-            {isLoadingOlder ? "Loading..." : "Load older messages"}
+            {isLoadingOlder ? "Memuat..." : "Muat pesan sebelumnya"}
           </button>
         </div>
       )}
 
       {(errorMessage || isInitialError) && (
         <p className="pb-3 text-center text-xs text-destructive">
-          {errorMessage ?? "Failed to load chat history."}
+          {errorMessage ?? "Riwayat chat gagal dimuat."}
         </p>
       )}
 

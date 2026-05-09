@@ -10,7 +10,7 @@ export function EditPhoneNumber() {
   return (
     /* Phone number change section */
     <section className="flex flex-col gap-4 rounded-2xl bg-card p-4">
-      <h2 className="text-base font-semibold">Phone Number</h2>
+      <h2 className="text-base font-semibold">Nomor WhatsApp</h2>
 
       {/* Step 1: enter new phone number */}
       {flow.step === "phone" && (

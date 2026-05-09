@@ -20,7 +20,7 @@ export function EditPassword() {
 
   return (
     <section className="flex flex-col gap-4 rounded-2xl bg-card p-4">
-      <h2 className="text-base font-semibold">Password</h2>
+      <h2 className="text-base font-semibold">Kata Sandi</h2>
 
       <form
         onSubmit={(e) => {
@@ -32,8 +32,8 @@ export function EditPassword() {
         <EditPasswordField
           form={form}
           name="currentPassword"
-          label="Current Password"
-          placeholder="Enter current password"
+          label="Kata Sandi Saat Ini"
+          placeholder="Masukkan kata sandi saat ini"
           autoComplete="current-password"
           visible={showCurrent}
           onToggle={toggleShowCurrent}
@@ -44,8 +44,8 @@ export function EditPassword() {
         <EditPasswordField
           form={form}
           name="newPassword"
-          label="New Password"
-          placeholder="Enter new password"
+          label="Kata Sandi Baru"
+          placeholder="Masukkan kata sandi baru"
           autoComplete="new-password"
           visible={showNew}
           onToggle={toggleShowNew}
@@ -56,8 +56,8 @@ export function EditPassword() {
         <EditPasswordField
           form={form}
           name="confirmPassword"
-          label="Confirm New Password"
-          placeholder="Re-enter new password"
+          label="Konfirmasi Kata Sandi Baru"
+          placeholder="Masukkan ulang kata sandi baru"
           autoComplete="new-password"
           visible={showConfirm}
           onToggle={toggleShowConfirm}
@@ -70,7 +70,7 @@ export function EditPassword() {
         )}
         {isSuccess && (
           <p className="text-sm text-green-600">
-            Password updated successfully.
+            Kata sandi berhasil diperbarui.
           </p>
         )}
 
@@ -95,7 +95,7 @@ export function EditPassword() {
                   (!isValid && form.state.submissionAttempts > 0)
                 }
               >
-                Save Password
+                Simpan Kata Sandi
               </Button>
             );
           }}

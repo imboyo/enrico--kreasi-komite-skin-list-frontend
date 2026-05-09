@@ -22,7 +22,7 @@ export function ChatTopbar({
     <header className="relative flex shrink-0 items-center justify-between gap-3 border-b border-[#b8b8b8] bg-background px-4 py-3">
       <Link
         href={backHref}
-        aria-label="Back"
+        aria-label="Kembali"
         className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-foreground hover:bg-muted"
       >
         <Icon icon="material-symbols:arrow-back-rounded" className="size-5" />

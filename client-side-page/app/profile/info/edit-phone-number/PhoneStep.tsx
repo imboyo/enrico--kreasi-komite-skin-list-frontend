@@ -53,7 +53,7 @@ export function PhoneStep({
               (!isValid && phoneForm.state.submissionAttempts > 0)
             }
           >
-            Send OTP
+            Kirim OTP
           </Button>
         )}
       </phoneForm.Subscribe>

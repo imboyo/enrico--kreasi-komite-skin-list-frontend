@@ -59,7 +59,7 @@ export function useHandleSendText({
           ),
         );
       } catch {
-        setErrorMessage("Failed to send message.");
+        setErrorMessage("Pesan gagal dikirim.");
         // Remove the optimistic row when the request fails so the thread stays honest.
         setMessages((previousMessages) =>
           previousMessages.filter((message) => message.uuid !== optimisticId),

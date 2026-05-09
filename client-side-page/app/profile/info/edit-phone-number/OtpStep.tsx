@@ -30,8 +30,8 @@ export function OtpStep({
     >
       {/* Reminder of which number the OTP was sent to */}
       <p className="text-sm text-muted-foreground">
-        Enter the OTP sent to{" "}
-        <strong className="text-foreground">{pendingPhone}</strong> via
+        Masukkan OTP yang dikirim ke{" "}
+        <strong className="text-foreground">{pendingPhone}</strong> melalui
         WhatsApp.
       </p>
 
@@ -60,7 +60,7 @@ export function OtpStep({
               (!isValid && otpForm.state.submissionAttempts > 0)
             }
           >
-            Verify OTP
+            Verifikasi OTP
           </Button>
         )}
       </otpForm.Subscribe>
@@ -73,7 +73,7 @@ export function OtpStep({
         disabled={verifyMutation.isPending}
         onClick={backToPhone}
       >
-        Back
+        Kembali
       </Button>
     </form>
   );

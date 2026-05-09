@@ -43,7 +43,7 @@ export function EditableAvatar({
         {imageUrl ? (
           <img
             src={imageUrl} 
-            alt="Profile Avatar" 
+            alt="Avatar Profil" 
             className="h-full w-full object-cover"
           />
         ) : (
@@ -58,7 +58,7 @@ export function EditableAvatar({
           <button
             onClick={handleEditClick}
             className="absolute bottom-0 right-0 flex h-10 w-10 items-center justify-center rounded-full border-4 border-background bg-zinc-900 text-white transition-transform hover:scale-105 active:scale-95"
-            aria-label="Edit profile photo"
+            aria-label="Ubah foto profil"
             type="button"
           >
             <Icon icon="mdi:camera" width={20} height={20} />

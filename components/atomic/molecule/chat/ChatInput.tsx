@@ -21,7 +21,7 @@ interface ChatInputProps {
 export function ChatInput({
   onSendText,
   disabled,
-  placeholder = "Type a message…",
+  placeholder = "Ketik pesan…",
 }: ChatInputProps) {
   const [value, setValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -84,7 +84,7 @@ export function ChatInput({
           variant="primary"
           size="md"
           iconOnly
-          aria-label="Send message"
+          aria-label="Kirim pesan"
           className="rounded-full"
           disabled={!canSend}
         >

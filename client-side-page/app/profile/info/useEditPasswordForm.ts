@@ -14,15 +14,15 @@ import { changePassword } from "backend-service/account/password.service";
 
 export const editPasswordSchema = z
   .object({
-    currentPassword: z.string().min(1, "Current password is required"),
+    currentPassword: z.string().min(1, "Kata sandi saat ini wajib diisi"),
     newPassword: z
       .string()
-      .min(1, "New password is required")
-      .min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string().min(1, "Please confirm your new password"),
+      .min(1, "Kata sandi baru wajib diisi")
+      .min(6, "Kata sandi minimal 6 karakter"),
+    confirmPassword: z.string().min(1, "Konfirmasi kata sandi baru wajib diisi"),
   })
   .refine((v) => v.newPassword === v.confirmPassword, {
-    message: "Passwords do not match",
+    message: "Kata sandi tidak cocok",
     path: ["confirmPassword"],
   });
 
@@ -80,7 +80,7 @@ export function useEditPasswordForm() {
   const serverError = mutation.error
     ? mutation.error instanceof Error
       ? mutation.error.message
-      : "Something went wrong. Please try again."
+      : "Terjadi kesalahan. Silakan coba lagi."
     : null;
 
   return {

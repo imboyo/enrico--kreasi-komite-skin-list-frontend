@@ -60,7 +60,7 @@ export function useLoadOlderMessages({
       setHasMore(response.meta.has_more);
       setNextCursor(response.meta.next_cursor);
     } catch {
-      setErrorMessage("Failed to load older messages.");
+      setErrorMessage("Pesan sebelumnya gagal dimuat.");
     } finally {
       setIsLoadingOlder(false);
     }

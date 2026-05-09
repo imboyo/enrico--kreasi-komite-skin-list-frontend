@@ -15,7 +15,7 @@ import { HttpError } from "libs/error/http-error";
 import { useAuthStore } from "@/store/auth/auth.store";
 
 export const editNameSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().min(1, "Nama wajib diisi"),
 });
 
 export type EditNameFormValues = z.infer<typeof editNameSchema>;
@@ -82,9 +82,9 @@ export function useEditNameForm() {
   const serverError = mutation.error
     ? mutation.error instanceof HttpError
       ? mutation.error.status >= 500
-        ? "Server is unavailable. Please try again."
+        ? "Server sedang tidak tersedia. Silakan coba lagi."
         : mutation.error.message
-      : "Something went wrong. Please try again."
+      : "Terjadi kesalahan. Silakan coba lagi."
     : null;
 
   return { form, mutation, serverError, isSuccess };
