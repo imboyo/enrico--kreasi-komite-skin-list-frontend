@@ -22,10 +22,16 @@ export function SidebarMenuItem({
   const close = useSidebarStore((s) => s.close);
   const isActive = exact ? pathname === href : pathname.startsWith(href);
 
+  const handleClick = () => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      close();
+    }
+  };
+
   return (
     <Link
       href={href}
-      onClick={close}
+      onClick={handleClick}
       className={[
         "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
         isActive

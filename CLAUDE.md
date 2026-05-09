@@ -57,9 +57,6 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
   only one child component don't need to create subfolder
 
 ### Codebase
-
-- Currently, I only develop in a mobile version, so maximum size of the main content is 500px then if it exceeds 500px
-  just make a container with the default background color behind it
 - Please add a comment explaining what the logic is for even inside a function or element if it need explanation or
   little complex
 - For `mock-backend`, keep reusable mock controls in `mock-backend/utils` and support the same specification for every
@@ -69,6 +66,7 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 - For JSX Section add a comment what section it is
 - If the component or the logic is too complex or bloated please consider refactoring it
 - If needs additional css when in tailwind can not achieve or too messy please use emotion react in css syntax `css={css`color: green;`}`
+- The codebase must be in english and the app copywrite is in Bahasa Indonesia. The user will see in bahasa but as developer for variable, function and the codebase must be in english
 
 ### Moduling / Project Structure
 1. Backend Service use barrel export with naming for example `backend-service/auth/index.ts` and its have index.ts on `backend-service` so in consumer we can choose import directly from `backend-service/auth` or for more readable we can import from `backend-service`

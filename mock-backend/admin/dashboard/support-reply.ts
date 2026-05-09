@@ -13,8 +13,8 @@ export type AdminSupportConversation = {
 
 export type GetAdminSupportReplySummaryResponse = {
   data: {
-    pendingCount: number;
-    pendingConversations: AdminSupportConversation[];
+    totalCount: number;
+    latestConversations: AdminSupportConversation[];
   };
 };
 
@@ -49,12 +49,9 @@ const SUPPORT_CONVERSATIONS: AdminSupportConversation[] = [
   },
 ];
 
-function getPendingSupportConversations() {
-  // A conversation needs support action when the newest message came from the
-  // user, because that means the admin has not replied yet.
-  return SUPPORT_CONVERSATIONS.filter(
-    (conversation) => conversation.latestMessageAuthor === "user",
-  ).sort(
+function getLatestSupportConversations() {
+  // Return all conversations sorted by the latest message time (newest first).
+  return SUPPORT_CONVERSATIONS.sort(
     (left, right) =>
       new Date(right.latestMessageAt).getTime() -
       new Date(left.latestMessageAt).getTime(),
@@ -66,12 +63,12 @@ export async function getAdminSupportReplySummary(
 ): Promise<GetAdminSupportReplySummaryResponse> {
   await simulateMockRequest(control);
 
-  const pendingConversations = getPendingSupportConversations();
+  const latestConversations = getLatestSupportConversations();
 
   return {
     data: {
-      pendingCount: pendingConversations.length,
-      pendingConversations,
+      totalCount: latestConversations.length,
+      latestConversations,
     },
   };
 }

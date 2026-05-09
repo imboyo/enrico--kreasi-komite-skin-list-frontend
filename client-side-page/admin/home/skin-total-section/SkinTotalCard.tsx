@@ -2,8 +2,15 @@
 
 import { Icon } from "@iconify/react";
 
-import type { SkinTotalCard as SkinTotalCardData } from "@/mock-backend/admin/dashboard/total-skin";
 import { cn } from "libs/util/cn";
+
+export type SkinTotalCardData = {
+  key: string;
+  label: string;
+  icon: string;
+  accentClassName: string;
+  total: number;
+};
 
 type SkinTotalCardProps = {
   card: SkinTotalCardData;

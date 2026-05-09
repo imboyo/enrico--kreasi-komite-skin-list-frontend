@@ -7,11 +7,11 @@ import type {
   ListAdminSkinChatThreadResponse,
 } from "./types";
 
-// POST /admin/skin-chat/thread/list — paginated list of user skin chat threads.
+// POST /admin/skin-chat/thread-list — paginated list of user skin chat threads.
 export async function listAdminSkinChatThread(
   payload: ListAdminSkinChatThreadPayload = {},
 ): Promise<ListAdminSkinChatThreadResponse> {
-  const res = await fetcher("/admin/skin-chat/thread/list", {
+  const res = await fetcher("/admin/skin-chat/thread-list", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),

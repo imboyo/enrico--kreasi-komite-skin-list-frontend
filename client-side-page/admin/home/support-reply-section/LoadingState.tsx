@@ -20,9 +20,9 @@ export const LoadingState = () => {
         </div>
       </div>
 
-      {/* Section: Pending conversation preview skeleton */}
+      {/* Section: Latest conversation preview skeleton */}
       <div className="flex flex-col gap-2">
-        {[0, 1, 2].map((placeholder) => (
+        {Array.from({ length: 10 }).map((_, placeholder) => (
           <div
             key={placeholder}
             className="h-16 rounded-2xl bg-muted/60"

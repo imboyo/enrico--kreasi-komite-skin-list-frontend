@@ -57,9 +57,6 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
   only one child component don't need to create subfolder
 
 ### Codebase
-
-- Currently, I only develop in a mobile version, so maximum size of the main content is 500px then if it exceeds 500px
-  just make a container with the default background color behind it
 - Please add a comment explaining what the logic is for even inside a function or element if it need explanation or
   little complex
 - For `mock-backend`, keep reusable mock controls in `mock-backend/utils` and support the same specification for every

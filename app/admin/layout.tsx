@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 
-import MobileContainer from "@/components/atomic/atom/MobileContainer";
 import { AdminSidebar } from "@/components/atomic/layout/admin/AdminSidebar";
 import { AdminTopbar } from "@/components/atomic/layout/admin/AdminTopbar";
 import GuardLogin from "@/guard/GuardLogin";
@@ -11,15 +10,24 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: Readonly<AdminLayoutProps>) {
   return (
-    // Only ADMIN role — access is always tied to the authenticated account info
     <GuardLogin allowedRoles={["ADMIN"]}>
-      <MobileContainer>
-        <AdminTopbar />
+      <div className="flex min-h-dvh bg-background">
+        {/* Section: Admin Sidebar */}
         <AdminSidebar />
 
-        {/* Section: Admin Page Content */}
-        <main className="flex min-h-0 flex-1 flex-col">{children}</main>
-      </MobileContainer>
+        {/* Section: Admin Page Shell */}
+        <div className="flex min-w-0 flex-1 flex-col">
+          {/* Section: Admin Topbar */}
+          <AdminTopbar />
+
+          {/* Section: Admin Content */}
+          <main className="min-w-0 flex-1 overflow-y-auto">
+            <div className="mx-auto flex min-h-full w-full max-w-125 flex-col px-4 py-4 sm:max-w-160 md:max-w-3xl lg:max-w-240 xl:max-w-7xl">
+              {children}
+            </div>
+          </main>
+        </div>
+      </div>
     </GuardLogin>
   );
 }
