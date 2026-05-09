@@ -1,5 +1,5 @@
 import { Button } from "components/atomic/atom/Button";
-import type { EditPhoneNumberFlowState } from "client-side-page/app/profile/info/useEditPhoneNumberFlow";
+import type { EditPhoneNumberFlowState } from "./useEditPhoneNumberFlow";
 import { EditPhoneNumberOtpField } from "./EditPhoneNumberOtpField";
 
 type Props = Pick<

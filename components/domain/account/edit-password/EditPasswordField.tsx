@@ -1,18 +1,16 @@
 import { Icon } from "@iconify/react";
-import { FormApi } from "@tanstack/react-form";
 
-import { Button } from "components/atomic/atom/Button";
 import { FormFieldError } from "components/atomic/atom/FormFieldError";
 import { TextInput } from "components/atomic/atom/TextInput";
 import { PasswordToggleButton } from "components/atomic/atom/PasswordToggleButton";
 import {
+  type EditPasswordFormApi,
   editPasswordSchema,
   validateEditPasswordField,
-} from "client-side-page/app/profile/info/useEditPasswordForm";
-import type { z } from "zod";
+} from "./useEditPasswordForm";
 
 interface EditPasswordFieldProps {
-  form: FormApi<z.infer<typeof editPasswordSchema>>;
+  form: EditPasswordFormApi;
   name: "currentPassword" | "newPassword" | "confirmPassword";
   label: string;
   placeholder: string;

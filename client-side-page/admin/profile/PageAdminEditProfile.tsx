@@ -1,16 +1,13 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/atomic/atom/Button";
+import { PhotoProfileSection } from "@/components/domain/account/edit-photo/PhotoProfileSection";
 import { EditNameSection } from "@/components/domain/account/edit-name/EditNameSection";
-import { EditPassword } from "@/components/domain/account/edit-password/EditPassword";
 import { EditPhoneNumber } from "@/components/domain/account/edit-phone-number/EditPhoneNumber";
+import { EditPassword } from "@/components/domain/account/edit-password/EditPassword";
 
-export function PageInfoProfile() {
-  const router = useRouter();
-
+export function PageAdminEditProfile() {
   return (
     <motion.main
       className="mx-auto flex w-full max-w-125 flex-col gap-6 px-4 py-4"
@@ -18,20 +15,10 @@ export function PageInfoProfile() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <h1 className="text-center text-xl font-semibold">Ubah Info</h1>
-
+      <PhotoProfileSection />
       <EditNameSection />
       <EditPhoneNumber />
       <EditPassword />
-
-      <Button
-        fullWidth
-        size="lg"
-        variant="outline"
-        onClick={() => router.back()}
-      >
-        Kembali
-      </Button>
     </motion.main>
   );
 }

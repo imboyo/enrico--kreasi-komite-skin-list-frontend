@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "components/atomic/atom/Button";
-import { useEditPasswordForm } from "client-side-page/app/profile/info/useEditPasswordForm";
+import { useEditPasswordForm } from "./useEditPasswordForm";
 import { EditPasswordField } from "./EditPasswordField";
 
 export function EditPassword() {
@@ -19,6 +19,7 @@ export function EditPassword() {
   } = useEditPasswordForm();
 
   return (
+    /* Password edit section */
     <section className="flex flex-col gap-4 rounded-2xl bg-card p-4">
       <h2 className="text-base font-semibold">Kata Sandi</h2>
 

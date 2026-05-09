@@ -1,6 +1,6 @@
 "use client";
 
-import { useEditPhoneNumberFlow } from "client-side-page/app/profile/info/useEditPhoneNumberFlow";
+import { useEditPhoneNumberFlow } from "./useEditPhoneNumberFlow";
 import { OtpStep } from "./OtpStep";
 import { PhoneStep } from "./PhoneStep";
 

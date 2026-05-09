@@ -1,5 +1,5 @@
 import { WhatsappNumberField } from "components/atomic/molecule/WhatsappNumberField";
-import type { EditPhoneNumberFlowState } from "client-side-page/app/profile/info/useEditPhoneNumberFlow";
+import type { EditPhoneNumberFlowState } from "./useEditPhoneNumberFlow";
 
 type Props = Pick<
   EditPhoneNumberFlowState,

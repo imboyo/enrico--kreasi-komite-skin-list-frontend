@@ -1,6 +1,6 @@
 import { FormFieldError } from "components/atomic/atom/FormFieldError";
 import { OtpInput } from "components/atomic/atom/OtpInput";
-import type { EditPhoneNumberFlowState } from "client-side-page/app/profile/info/useEditPhoneNumberFlow";
+import type { EditPhoneNumberFlowState } from "./useEditPhoneNumberFlow";
 
 type Props = Pick<
   EditPhoneNumberFlowState,
