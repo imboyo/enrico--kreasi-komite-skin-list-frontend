@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 
 import { Button } from "@/components/atomic/atom/Button";
@@ -16,27 +17,43 @@ export function PageAskAi() {
     >
       {/* Hero section */}
       <section className="rounded-[28px] border border-border/70 bg-background px-5 py-6 shadow-[0_12px_30px_rgba(60,60,60,0.08)]">
-        <div className="flex flex-col gap-4">
-          <p className="text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground">
-            AI Assistant
-          </p>
-          <h1 className="text-[32px] font-medium leading-tight text-foreground">
-            Coming Soon
-          </h1>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            The Ask AI feature is still under construction. We are preparing a
-            guided assistant experience for your skin-related questions.
-          </p>
+        <div className="flex flex-col items-center gap-5 text-center">
+          {/* Illustration section */}
+          <div className="flex w-full justify-center">
+            <Image
+              src="/coming-soon.svg"
+              alt="Ask AI coming soon illustration"
+              width={280}
+              height={280}
+              priority
+              unoptimized
+              className="h-auto w-full max-w-70"
+            />
+          </div>
 
-          {/* Status section */}
-          <div className="rounded-3xl border border-dashed border-border bg-muted/40 px-4 py-4">
-            <p className="text-sm font-medium text-foreground">
-              This page is not available yet.
+          {/* Content section */}
+          <div className="flex flex-col gap-4">
+            <p className="text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground">
+              AI Assistant
             </p>
-            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-              Please check back later while we finish the feature and connect
-              it to the rest of the dashboard flow.
+            <h1 className="text-[32px] font-medium leading-tight text-foreground">
+              Coming Soon
+            </h1>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              The Ask AI feature is still under construction. We are preparing
+              a guided assistant experience for your skin-related questions.
             </p>
+
+            {/* Status section */}
+            <div className="rounded-3xl border border-dashed border-border bg-muted/40 px-4 py-4">
+              <p className="text-sm font-medium text-foreground">
+                This page is not available yet.
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                Please check back later while we finish the feature and connect
+                it to the rest of the dashboard flow.
+              </p>
+            </div>
           </div>
         </div>
       </section>
