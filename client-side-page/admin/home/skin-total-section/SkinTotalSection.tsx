@@ -121,6 +121,8 @@ export function SkinTotalSection() {
           options={TIME_TAB_OPTIONS}
           activeId={activeTab}
           onChange={setActiveTab}
+          className="lg:flex-row lg:items-center lg:gap-0 lg:rounded-xl lg:p-1"
+          tabClassName="lg:w-auto lg:flex-1 lg:justify-center lg:px-3 lg:py-2"
           layoutId="skin-total-time-tabs"
         />
 

@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 
+import { ChatThreadPreviewLink } from "@/components/atomic/atom/ChatThreadPreviewLink";
 import type { AdminSkinChatThread } from "@/backend-service/admin/skin-chat";
 
 type SuccessStateProps = {
@@ -57,21 +58,13 @@ export const SuccessState = ({ totalCount, threads }: SuccessStateProps) => {
 
         <div className="flex flex-col gap-2">
           {threads.map((thread) => (
-            <div
+            <ChatThreadPreviewLink
               key={thread.uuid}
-              className="flex flex-col gap-2 rounded-2xl border border-border/60 bg-muted/35 px-3 py-3"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <p className="text-sm font-medium">{thread.user.full_name}</p>
-                <span className="shrink-0 text-[11px] text-muted-foreground">
-                  {formatMessageTime(thread.last_message_at)}
-                </span>
-              </div>
-
-              <p className="line-clamp-2 text-sm text-muted-foreground">
-                {getLatestMessageText(thread)}
-              </p>
-            </div>
+              href={`/admin/chats/${thread.uuid}`}
+              customerName={thread.user.full_name}
+              timestampLabel={formatMessageTime(thread.last_message_at)}
+              latestMessage={getLatestMessageText(thread)}
+            />
           ))}
         </div>
       </div>

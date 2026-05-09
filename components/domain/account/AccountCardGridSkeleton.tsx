@@ -1,6 +1,6 @@
-import { Skeleton } from "@/components/atomic/atom/Skeleton";
+import { Skeleton } from "components/atomic/atom/Skeleton";
 
-export function LoadingState() {
+export function AccountCardGridSkeleton() {
   return (
     <div className="flex flex-col gap-3">
       {/* Section: User card skeleton */}

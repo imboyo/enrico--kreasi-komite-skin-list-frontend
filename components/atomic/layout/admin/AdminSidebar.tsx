@@ -15,9 +15,14 @@ const NAV_ITEMS: SidebarMenuItemProps[] = [
     exact: true,
   },
   {
-    label: "User Management",
-    href: APP_URL.ADMIN_USER_MANAGEMENT,
+    label: "Customer Accounts",
+    href: APP_URL.ADMIN_CUSTOMER_ACCOUNTS,
     icon: "material-symbols:manage-accounts-rounded",
+  },
+  {
+    label: "Admin Accounts",
+    href: APP_URL.ADMIN_ADMIN_ACCOUNTS,
+    icon: "material-symbols:admin-panel-settings-rounded",
   },
   {
     label: "Care/ Skin Management",

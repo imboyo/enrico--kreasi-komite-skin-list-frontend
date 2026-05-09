@@ -1,23 +1,22 @@
 "use client";
 
-import { motion } from "motion/react";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 
-import { MobilePagination } from "@/components/atomic/molecule/MobilePagination";
-import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
-import { UserCard } from "@/client-side-page/admin/user/user-card/UserCard";
+import { MobilePagination } from "components/atomic/molecule/MobilePagination";
+import { QueryStateHandler } from "components/atomic/molecule/QueryStateHandler";
+import { ItemCard } from "client-side-page/admin/user/user/account-list/item-card/ItemCard";
 import {
   getAdminUsers,
   type AdminUser,
   type AdminUserStatus,
-} from "@/mock-backend/admin/user/users";
-import { LoadingState } from "@/client-side-page/admin/user/LoadingState";
+} from "mock-backend/admin/user/users";
+import { AccountCardGridSkeleton } from "components/domain/account/AccountCardGridSkeleton";
 import {
   DEFAULT_USER_SORT_VALUE,
-  UserToolbar,
+  CustomerListToolbar,
   type UserSortValue,
-} from "@/client-side-page/admin/user/user-toolbar/UserToolbar";
+} from "client-side-page/admin/user/user/account-list/CustomerListToolbar";
 
 function sortUsers(users: AdminUser[], sortValue: UserSortValue) {
   const sortedUsers = [...users];
@@ -41,7 +40,7 @@ function sortUsers(users: AdminUser[], sortValue: UserSortValue) {
   return sortedUsers;
 }
 
-export function PageAdminUser() {
+export function AccountList() {
   const [dummyPage, setDummyPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [selectedStatuses, setSelectedStatuses] = useState<AdminUserStatus[]>(
@@ -79,22 +78,9 @@ export function PageAdminUser() {
   }, [adminUsers, searchValue, selectedStatuses, sortValue]);
 
   return (
-    <motion.div
-      className="mx-auto flex w-full max-w-125 flex-1 flex-col gap-4 px-4 py-4"
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35 }}
-    >
-      {/* Section: User list header */}
-      <section className="flex flex-col gap-1">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          Admin
-        </p>
-        <h1 className="text-2xl font-semibold text-foreground">User List</h1>
-      </section>
-
-      {/* Section: User list toolbar */}
-      <UserToolbar
+    <div className="flex flex-col gap-4">
+      {/* Section: Customer list toolbar */}
+      <CustomerListToolbar
         searchValue={searchValue}
         onSearchChange={setSearchValue}
         selectedStatuses={selectedStatuses}
@@ -105,15 +91,15 @@ export function PageAdminUser() {
 
       <QueryStateHandler
         query={adminUsersQuery}
-        skeleton={<LoadingState />}
+        skeleton={<AccountCardGridSkeleton />}
         isEmpty={visibleUsers.length === 0}
-        errorTitle="Failed to load users."
-        emptyTitle="No users found."
-        emptyDescription="Try changing the search keyword or filter status."
+        errorTitle="Gagal memuat data pelanggan."
+        emptyTitle="Tidak ada pelanggan ditemukan."
+        emptyDescription="Coba ubah kata kunci pencarian atau filter status."
       >
-        <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
           {visibleUsers.map((user) => (
-            <UserCard key={user.id} user={user} />
+            <ItemCard key={user.id} user={user} />
           ))}
         </div>
       </QueryStateHandler>
@@ -123,6 +109,6 @@ export function PageAdminUser() {
         totalPages={8}
         onPageChange={setDummyPage}
       />
-    </motion.div>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
-import type { AdminUser } from "@/mock-backend/admin/user/users";
-import { ItemActions } from "@/client-side-page/admin/user/user-card/item-actions/ItemActions";
-import { UserStatusBadge } from "@/client-side-page/admin/user/user-card/Badge";
+import type { AdminUser } from "mock-backend/admin/user/users";
+import { ItemActions } from "client-side-page/admin/user/user/account-list/item-card/ItemActions";
+import { StatusBadge } from "client-side-page/admin/user/user/account-list/item-card/StatusBadge";
 
 function getUserInitials(fullName: string) {
   // Use the first two name segments so the avatar remains stable and compact.
@@ -13,7 +13,7 @@ function getUserInitials(fullName: string) {
     .toUpperCase();
 }
 
-export function UserCard({ user }: { user: AdminUser }) {
+export function ItemCard({ user }: { user: AdminUser }) {
   return (
     <article className="rounded-[24px] border border-[#bcbcbc] bg-background p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_6px_14px_rgba(90,90,90,0.08)] transition-all hover:border-primary/40 hover:bg-primary/5">
       {/* Section: User identity and actions */}
@@ -39,7 +39,7 @@ export function UserCard({ user }: { user: AdminUser }) {
         <span className="text-xs font-medium text-muted-foreground">
           Status
         </span>
-        <UserStatusBadge status={user.status} />
+        <StatusBadge status={user.status} />
       </div>
     </article>
   );

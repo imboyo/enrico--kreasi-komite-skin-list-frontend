@@ -1,8 +1,8 @@
 import {
   ListToolbar,
   type ListToolbarOption,
-} from "@/components/atomic/molecule/ListToolbar";
-import type { AdminUserStatus } from "@/mock-backend/admin/user/users";
+} from "components/atomic/molecule/ListToolbar";
+import type { AdminUserStatus } from "mock-backend/admin/user/users";
 
 export type UserSortValue =
   | "name-asc"
@@ -10,7 +10,7 @@ export type UserSortValue =
   | "email-asc"
   | "status-asc";
 
-type UserToolbarProps = {
+type CustomerListToolbarProps = {
   searchValue: string;
   onSearchChange: (value: string) => void;
   selectedStatuses: AdminUserStatus[];
@@ -34,14 +34,14 @@ const USER_SORT_OPTIONS: ListToolbarOption<UserSortValue>[] = [
 
 export const DEFAULT_USER_SORT_VALUE: UserSortValue = "name-asc";
 
-export function UserToolbar({
+export function CustomerListToolbar({
   searchValue,
   onSearchChange,
   selectedStatuses,
   onSelectedStatusesChange,
   sortValue,
   onSortChange,
-}: UserToolbarProps) {
+}: CustomerListToolbarProps) {
   function handleReset() {
     onSearchChange("");
     onSelectedStatusesChange([]);

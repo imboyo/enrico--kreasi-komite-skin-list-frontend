@@ -1,5 +1,5 @@
-import { Badge } from "@/components/atomic/atom/Badge";
-import type { AdminUserStatus } from "@/mock-backend/admin/user/users";
+import { Badge } from "components/atomic/atom/Badge";
+import type { AdminUserStatus } from "mock-backend/admin/user/users";
 import { cn } from "libs/util/cn";
 
 const USER_STATUS_LABEL: Record<AdminUserStatus, string> = {
@@ -20,7 +20,7 @@ const USER_STATUS_LABEL_CLASS_NAME: Record<AdminUserStatus, string> = {
   suspended: "text-rose-700",
 };
 
-export function UserStatusBadge({ status }: { status: AdminUserStatus }) {
+export function StatusBadge({ status }: { status: AdminUserStatus }) {
   return (
     <Badge
       size="sm"

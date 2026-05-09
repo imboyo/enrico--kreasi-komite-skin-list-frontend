@@ -2,13 +2,13 @@
 
 import { Icon } from "@iconify/react";
 
-import { Button } from "@/components/atomic/atom/Button";
+import { Button } from "components/atomic/atom/Button";
 import {
   MenuDropdown,
   MenuDropdownItem,
   MenuDropdownSeparator,
-} from "@/components/atomic/molecule/MenuDropdown";
-import { type AdminUser } from "@/mock-backend/admin/user/users";
+} from "components/atomic/molecule/MenuDropdown";
+import { type AdminUser } from "mock-backend/admin/user/users";
 
 export function ItemActions({ user }: { user: AdminUser }) {
   function handleAction(action: string) {
