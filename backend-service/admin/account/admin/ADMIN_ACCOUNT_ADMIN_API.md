@@ -29,7 +29,11 @@ All fields are optional.
 
 ### Allowed Sort / Filter Fields
 
-`uuid`, `full_name`, `email`, `phone_number`, `role`, `status`, `auth_field_updated_at`, `created_at`, `updated_at`
+`uuid`, `full_name`, `email`, `phone_number`, `role`, `status`, `auth_field_updated_at`, `created_at`, `updated_at`, `profile_photo.original_name`
+
+### Allowed Relations
+
+`profile_photo`
 
 ### Example Request
 
@@ -57,7 +61,17 @@ POST /admin/account/admin/list
       "status": "ACTIVE",
       "auth_field_updated_at": "2026-05-04T02:30:00.000Z",
       "created_at": "2026-05-01T08:00:00.000Z",
-      "updated_at": "2026-05-04T02:30:00.000Z"
+      "updated_at": "2026-05-04T02:30:00.000Z",
+      "profile_photo": {
+        "uuid": "yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy",
+        "original_name": "avatar.png",
+        "category": "profile-photos",
+        "mime_type": "image/png",
+        "size": "204800",
+        "is_public": true,
+        "created_at": "2026-05-01T08:00:00.000Z",
+        "updated_at": "2026-05-01T08:00:00.000Z"
+      }
     }
   ],
   "meta": {
@@ -71,7 +85,43 @@ POST /admin/account/admin/list
 
 ---
 
-## 2. Create Admin Account
+## 2. Get Admin Detail
+
+Retrieve a single admin account by ID, including the profile photo.
+
+- **Method:** `GET`
+- **URL:** `/admin/account/admin/:adminId`
+- **Status:** `200 OK`
+
+### Response `200 OK`
+
+```json
+{
+  "uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "full_name": "Support Admin",
+  "email": "support@example.com",
+  "phone_number": "+6281234567890",
+  "role": "ADMIN",
+  "status": "ACTIVE",
+  "auth_field_updated_at": "2026-05-04T02:30:00.000Z",
+  "created_at": "2026-05-01T08:00:00.000Z",
+  "updated_at": "2026-05-04T02:30:00.000Z",
+  "profile_photo": {
+    "uuid": "yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy",
+    "original_name": "avatar.png",
+    "category": "profile-photos",
+    "mime_type": "image/png",
+    "size": "204800",
+    "is_public": true,
+    "created_at": "2026-05-01T08:00:00.000Z",
+    "updated_at": "2026-05-01T08:00:00.000Z"
+  }
+}
+```
+
+---
+
+## 3. Create Admin Account
 
 Create a new admin account. Email and phone number are validated for uniqueness before insert.
 
@@ -104,7 +154,7 @@ POST /admin/account/admin
 
 ---
 
-## 3. Update Admin Account
+## 4. Update Admin Account
 
 Update admin fields except the password. Unique email and phone number checks are applied when those fields change.
 
@@ -135,7 +185,7 @@ PATCH /admin/account/admin/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 
 ---
 
-## 4. Change Admin Password
+## 5. Change Admin Password
 
 Change the admin password, rotate JWT auth timestamps, and send the new password to the admin's WhatsApp number.
 
@@ -170,7 +220,7 @@ PATCH /admin/account/admin/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/password
 
 ---
 
-## 5. Delete Admin Account
+## 6. Delete Admin Account
 
 Soft-delete an admin account and mark its status as `TO_DELETED`.
 

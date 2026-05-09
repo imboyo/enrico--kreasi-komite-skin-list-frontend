@@ -51,7 +51,7 @@ export function ListToolbar<
   filterTitle = "Filter",
   filterDescription = "Choose which data should be shown.",
   filterOptions,
-  selectedFilterValues,
+  selectedFilterValues = [],
   onFilterValuesChange,
   sortLabel = "Sort by",
   sortDescription = "Choose how the list should be ordered.",
@@ -61,6 +61,7 @@ export function ListToolbar<
   className,
   onReset,
 }: ListToolbarProps<TFilterValue, TSortValue>) {
+  // Guard the toolbar against runtime callers that omit the filter array.
   const activeFilterCount = selectedFilterValues.length;
   const [isSortDialogOpen, setIsSortDialogOpen] = useState(false);
   const selectedSortOption = sortOptions.find(

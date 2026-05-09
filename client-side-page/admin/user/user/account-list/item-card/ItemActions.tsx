@@ -8,9 +8,9 @@ import {
   MenuDropdownItem,
   MenuDropdownSeparator,
 } from "components/atomic/molecule/MenuDropdown";
-import { type AdminUser } from "mock-backend/admin/user/users";
+import { type UserAccount } from "backend-service/admin/account/user";
 
-export function ItemActions({ user }: { user: AdminUser }) {
+export function ItemActions({ user }: { user: UserAccount }) {
   function handleAction(action: string) {
     // Placeholder for the next admin action wiring while keeping row clicks isolated.
     console.log(`Admin user action: ${action}`, user);
@@ -26,7 +26,7 @@ export function ItemActions({ user }: { user: AdminUser }) {
             variant="ghost"
             size="sm"
             iconOnly
-            aria-label={`Open actions for ${user.fullName}`}
+            aria-label={`Open actions for ${user.full_name}`}
             className="rounded-full"
           >
             <Icon icon="material-symbols:more-vert" />

@@ -68,7 +68,8 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
    - **No barrel exports**: Do not add `index.ts` files inside `client-side-page` folders; import directly from the source file.
    - **Colocation**: Keep page-specific hooks (`use{Feature}.ts`) and constants (`constants.ts`) inside the section folder they belong to.
 3. **Feature-scoped utilities**: If a utility function, custom hook, or store is only consumed by one feature module, create a `utils/` folder inside that module and place it there (e.g., `client-side-page/app/home/utils/useSomething.ts`). Do not put single-use utilities in the global `hooks/` or `libs/` directories.
-4. **Shared components**: When creating a shared / reusable component, place it under `components/atomic` and assign it to the correct atomic-design tier:
+4. **Avoid duplicated utilities**: Before creating any new utility function, search the codebase (via graph tools or grep) to check if an equivalent already exists. If a pure helper such as `getUserInitials` is defined inside a component, refactor it into the nearest `utils/` folder and update all callers so the logic is not duplicated.
+5. **Shared components**: When creating a shared / reusable component, place it under `components/atomic` and assign it to the correct atomic-design tier:
    - `atom/` — smallest, single-element building blocks (e.g., `Button`, `Input`, `Badge`).
    - `molecule/` — simple groups of atoms (e.g., `SearchInput`, `MenuDropdown`, `MobilePagination`).
    - `organism/` — complex sections composed of molecules/atoms (e.g., `AccountCardGridSkeleton`).

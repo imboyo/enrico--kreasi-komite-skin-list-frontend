@@ -2,17 +2,18 @@
 
 import { Icon } from "@iconify/react";
 
+import type { AdminAccount } from "backend-service/admin/account/admin";
+
 import { Button } from "components/atomic/atom/Button";
 import {
   MenuDropdown,
   MenuDropdownItem,
   MenuDropdownSeparator,
 } from "components/atomic/molecule/MenuDropdown";
-import type { AdminManager } from "mock-backend/admin/user/admins";
 
-export function ItemActions({ admin }: { admin: AdminManager }) {
+export function ItemActions({ admin }: { admin: AdminAccount }) {
   function handleAction(action: string) {
-    // Placeholder for admin manager action wiring.
+    // Placeholder for admin account action wiring.
     console.log(`Admin manager action: ${action}`, admin);
   }
 
@@ -26,7 +27,7 @@ export function ItemActions({ admin }: { admin: AdminManager }) {
             variant="ghost"
             size="sm"
             iconOnly
-            aria-label={`Open actions for ${admin.fullName}`}
+            aria-label={`Buka aksi untuk ${admin.full_name}`}
             className="rounded-full"
           >
             <Icon icon="material-symbols:more-vert" />
@@ -38,13 +39,13 @@ export function ItemActions({ admin }: { admin: AdminManager }) {
           icon={<Icon icon="material-symbols:edit-outline-rounded" />}
           onSelect={() => handleAction("edit")}
         >
-          Edit admin
+          Ubah admin
         </MenuDropdownItem>
         <MenuDropdownItem
           icon={<Icon icon="material-symbols:shield-outline" />}
           onSelect={() => handleAction("change-role")}
         >
-          Change role
+          Ubah role
         </MenuDropdownItem>
         <MenuDropdownSeparator />
         <MenuDropdownItem
@@ -52,14 +53,14 @@ export function ItemActions({ admin }: { admin: AdminManager }) {
           icon={<Icon icon="material-symbols:person-off-outline" />}
           onSelect={() => handleAction("deactivate")}
         >
-          Deactivate
+          Nonaktifkan
         </MenuDropdownItem>
         <MenuDropdownItem
           destructive
           icon={<Icon icon="material-symbols:delete-outline" />}
           onSelect={() => handleAction("delete")}
         >
-          Delete admin
+          Hapus admin
         </MenuDropdownItem>
       </MenuDropdown>
     </div>

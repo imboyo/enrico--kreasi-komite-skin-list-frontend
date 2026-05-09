@@ -1,46 +1,54 @@
+import type { AdminAccount } from "backend-service/admin/account/admin";
+
 import {
   ListToolbar,
   type ListToolbarOption,
 } from "components/atomic/molecule/ListToolbar";
-import type { AdminManagerRole } from "mock-backend/admin/user/admins";
 
-export type AdminSortValue = "name-asc" | "name-desc" | "email-asc" | "role-asc";
+export type AdminStatusFilterValue = AdminAccount["status"];
+
+export type AdminSortValue =
+  | "full-name-asc"
+  | "full-name-desc"
+  | "email-asc"
+  | "status-asc";
 
 type AdminListToolbarProps = {
   searchValue: string;
   onSearchChange: (value: string) => void;
-  selectedRoles: AdminManagerRole[];
-  onSelectedRolesChange: (roles: AdminManagerRole[]) => void;
+  selectedStatuses: AdminStatusFilterValue[];
+  onSelectedStatusesChange: (statuses: AdminStatusFilterValue[]) => void;
   sortValue: AdminSortValue;
   onSortChange: (value: AdminSortValue) => void;
 };
 
-const ADMIN_ROLE_FILTER_OPTIONS: ListToolbarOption<AdminManagerRole>[] = [
-  { value: "super-admin", label: "Super Admin" },
-  { value: "moderator", label: "Moderator" },
-  { value: "content-manager", label: "Content Manager" },
-];
+const ADMIN_STATUS_FILTER_OPTIONS: ListToolbarOption<AdminStatusFilterValue>[] =
+  [
+    // Only expose the operational admin states that should be filterable here.
+    { value: "ACTIVE", label: "Aktif" },
+    { value: "INACTIVE", label: "Nonaktif" },
+  ];
 
 const ADMIN_SORT_OPTIONS: ListToolbarOption<AdminSortValue>[] = [
-  { value: "name-asc", label: "Name A-Z" },
-  { value: "name-desc", label: "Name Z-A" },
+  { value: "full-name-asc", label: "Nama A-Z" },
+  { value: "full-name-desc", label: "Nama Z-A" },
   { value: "email-asc", label: "Email A-Z" },
-  { value: "role-asc", label: "Role A-Z" },
+  { value: "status-asc", label: "Status A-Z" },
 ];
 
-export const DEFAULT_ADMIN_SORT_VALUE: AdminSortValue = "name-asc";
+export const DEFAULT_ADMIN_SORT_VALUE: AdminSortValue = "full-name-asc";
 
 export function AdminListToolbar({
   searchValue,
   onSearchChange,
-  selectedRoles,
-  onSelectedRolesChange,
+  selectedStatuses,
+  onSelectedStatusesChange,
   sortValue,
   onSortChange,
 }: AdminListToolbarProps) {
   function handleReset() {
     onSearchChange("");
-    onSelectedRolesChange([]);
+    onSelectedStatusesChange([]);
     onSortChange(DEFAULT_ADMIN_SORT_VALUE);
   }
 
@@ -48,13 +56,13 @@ export function AdminListToolbar({
     <ListToolbar
       searchValue={searchValue}
       onSearchChange={onSearchChange}
-      searchPlaceholder="Search admins"
-      filterTitle="Filter admins"
-      filterDescription="Choose which admin roles should be visible."
-      filterOptions={ADMIN_ROLE_FILTER_OPTIONS}
-      selectedFilterValues={selectedRoles}
-      onFilterValuesChange={onSelectedRolesChange}
-      sortLabel="Sort admins"
+      searchPlaceholder="Cari admin"
+      filterTitle="Filter status admin"
+      filterDescription="Pilih status akun admin yang ingin ditampilkan."
+      filterOptions={ADMIN_STATUS_FILTER_OPTIONS}
+      selectedFilterValues={selectedStatuses}
+      onFilterValuesChange={onSelectedStatusesChange}
+      sortLabel="Urutkan admin"
       sortValue={sortValue}
       sortOptions={ADMIN_SORT_OPTIONS}
       onSortChange={onSortChange}

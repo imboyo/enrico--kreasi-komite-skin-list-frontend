@@ -2,33 +2,34 @@ import {
   ListToolbar,
   type ListToolbarOption,
 } from "components/atomic/molecule/ListToolbar";
-import type { AdminUserStatus } from "mock-backend/admin/user/users";
+import type { AccountStatus } from "backend-service/admin/account";
 
 export type UserSortValue =
   | "name-asc"
   | "name-desc"
-  | "email-asc"
+  | "phone-asc"
+  | "phone-desc"
   | "status-asc";
 
 type CustomerListToolbarProps = {
   searchValue: string;
   onSearchChange: (value: string) => void;
-  selectedStatuses: AdminUserStatus[];
-  onSelectedStatusesChange: (statuses: AdminUserStatus[]) => void;
+  selectedStatuses: AccountStatus[];
+  onSelectedStatusesChange: (statuses: AccountStatus[]) => void;
   sortValue: UserSortValue;
   onSortChange: (value: UserSortValue) => void;
 };
 
-const USER_STATUS_FILTER_OPTIONS: ListToolbarOption<AdminUserStatus>[] = [
-  { value: "active", label: "Active" },
-  { value: "inactive", label: "Inactive" },
-  { value: "suspended", label: "Suspended" },
+const USER_STATUS_FILTER_OPTIONS: ListToolbarOption<AccountStatus>[] = [
+  { value: "ACTIVE", label: "Aktif" },
+  { value: "INACTIVE", label: "Tidak Aktif" },
 ];
 
 const USER_SORT_OPTIONS: ListToolbarOption<UserSortValue>[] = [
   { value: "name-asc", label: "Name A-Z" },
   { value: "name-desc", label: "Name Z-A" },
-  { value: "email-asc", label: "Email A-Z" },
+  { value: "phone-asc", label: "Phone A-Z" },
+  { value: "phone-desc", label: "Phone Z-A" },
   { value: "status-asc", label: "Status A-Z" },
 ];
 

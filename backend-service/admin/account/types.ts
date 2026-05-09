@@ -40,7 +40,7 @@ export type AdminAccountFilterDto<TField extends string = string> = {
   or?: AdminAccountFilterItem<TField>[];
 };
 
-export type AdminAccountListField =
+export type BaseAccountListField =
   | "uuid"
   | "full_name"
   | "email"
@@ -51,6 +51,12 @@ export type AdminAccountListField =
   | "created_at"
   | "updated_at";
 
+export type AdminAccountListField =
+  | BaseAccountListField
+  | "profile_photo.original_name";
+
+export type UserAccountListField = BaseAccountListField;
+
 export type AccountListMeta = {
   total: number;
   page: number;
@@ -58,7 +64,7 @@ export type AccountListMeta = {
   total_pages: number;
 };
 
-export type AccountListPayload<TField extends string = AdminAccountListField> = {
+export type AccountListPayload<TField extends string = BaseAccountListField> = {
   page?: number;
   limit?: number;
   search?: string;

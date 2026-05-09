@@ -1,5 +1,3 @@
-"use client";
-
 import { ItemList } from "client-side-page/admin/user/admin/item-list/ItemList";
 import { APP_URL } from "constant";
 
@@ -13,6 +11,7 @@ export function PageAdmin() {
       siblingHref={APP_URL.ADMIN_CUSTOMER_ACCOUNTS}
       siblingLabel="Buka halaman pelanggan"
     >
+      {/* Section: Admin account list */}
       <ItemList />
     </AdminAccountPageShell>
   );

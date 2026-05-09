@@ -49,14 +49,14 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 ### Codebase
 - Please add a comment explaining what the logic is for even inside a function or element if it need explanation or
   little complex
-- For `mock-backend`, keep reusable mock controls in `mock-backend/utils` and support the same specification for every
-  mock function: controllable delay/loading plus simulated server-down errors
 - When you found a bug, please fix it and notify me
 - Instead of using `max-w-[260px]` in tailwind use `max-w-65` tailwind. So if 12px it will be max-w-3
 - For JSX Section add a comment what section it is
-- If the component or the logic is too complex or bloated please consider refactoring it
+- If the component or the logic is too complex or bloated please consider refactoring it into a separate component or custom hooks. It can be multiple hooks.
 - If needs additional css when in tailwind can not achieve or too messy please use emotion react in css syntax `css={css`color: green;`}`
 - The codebase must be in english and the app copywrite is in Bahasa Indonesia. The user will see in bahasa but as developer for variable, function and the codebase must be in english
+- One Function must be one responsibility and one file.
+- One Component must be one responsibility and one file.
 
 ### Moduling / Project Structure
 1. Backend Service use barrel export with naming for example `backend-service/auth/index.ts` and its have index.ts on `backend-service` so in consumer we can choose import directly from `backend-service/auth` or for more readable we can import from `backend-service`
@@ -68,9 +68,10 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
    - **No barrel exports**: Do not add `index.ts` files inside `client-side-page` folders; import directly from the source file.
    - **Colocation**: Keep page-specific hooks (`use{Feature}.ts`) and constants (`constants.ts`) inside the section folder they belong to.
 3. **Feature-scoped utilities**: If a utility function, custom hook, or store is only consumed by one feature module, create a `utils/` folder inside that module and place it there (e.g., `client-side-page/app/home/utils/useSomething.ts`). Do not put single-use utilities in the global `hooks/` or `libs/` directories.
-4. **Shared components**: When creating a shared / reusable component, place it under `components/atomic` and assign it to the correct atomic-design tier:
+4. **Avoid duplicated utilities**: Before creating any new utility function, search the codebase (via graph tools or grep) to check if an equivalent already exists. If a pure helper such as `getUserInitials` is defined inside a component, refactor it into the nearest `utils/` folder and update all callers so the logic is not duplicated.
+5. **Shared components**: When creating a shared / reusable component, place it under `components/atomic` and assign it to the correct atomic-design tier:
    - `atom/` — smallest, single-element building blocks (e.g., `Button`, `Input`, `Badge`).
    - `molecule/` — simple groups of atoms (e.g., `SearchInput`, `MenuDropdown`, `MobilePagination`).
    - `organism/` — complex sections composed of molecules/atoms (e.g., `AccountCardGridSkeleton`).
    - `layout/` — page-level shells, providers, or structural wrappers (e.g., `AdminAccountPageShell`).
-   Pick the smallest tier that accurately describes the component.
+     Pick the smallest tier that accurately describes the component.

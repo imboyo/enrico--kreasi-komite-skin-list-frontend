@@ -6,13 +6,30 @@ import type {
   AccountRecord,
   AccountStatus,
   AdminAccountDeleteResponse,
+  UserAccountListField,
 } from "../types";
 
-export type UserAccount = AccountRecord<"USER">;
+export type UserProfilePhoto = {
+  uuid: string;
+  original_name: string;
+  filename: string;
+  category: string;
+  size: number;
+  mime_type: string;
+  path: string;
+  created_at: string;
+  updated_at: string;
+};
 
-export type ListUserAccountPayload = AccountListPayload;
+export type UserAccount = AccountRecord<"USER"> & {
+  profile_photo: UserProfilePhoto | null;
+};
+
+export type ListUserAccountPayload = AccountListPayload<UserAccountListField>;
 
 export type ListUserAccountResponse = AccountListResponse<UserAccount>;
+
+export type GetUserAccountResponse = UserAccount;
 
 export type UpdateUserAccountPayload = {
   full_name?: string;
