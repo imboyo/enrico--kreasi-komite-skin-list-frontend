@@ -10,7 +10,7 @@ import { MobilePagination } from "@/components/atomic/molecule/MobilePagination"
 import {
   SkinTreatList,
   type SkinTreatListItem,
-} from "@/components/domain/user/skin-treat-list";
+} from "components/atomic/organism/user-skin-treat-list";
 import { SectionToolbar } from "@/components/atomic/organism/SectionToolbar";
 import { ItemDialog } from "@/client-side-page/app/home/item-dialog/ItemDialog";
 import { AddSkinTreatSheet } from "@/client-side-page/app/home/add-skin-treat-sheet/AddSkinTreatSheet";

@@ -2,12 +2,12 @@
 
 import { Icon } from "@iconify/react";
 
-import { useEditPhoneNumberFlow } from "./useEditPhoneNumberFlow";
 import { OtpStep } from "./OtpStep";
 import { PhoneStep } from "./PhoneStep";
+import { useAccountEditPhoneNumberFlow } from "./useAccountEditPhoneNumberFlow";
 
-export function EditPhoneNumber() {
-  const flow = useEditPhoneNumberFlow();
+export function AccountEditPhoneNumber() {
+  const flow = useAccountEditPhoneNumberFlow();
 
   return (
     /* Phone number change section */
@@ -15,10 +15,7 @@ export function EditPhoneNumber() {
       {/* Section header: title + description */}
       <div className="flex flex-col gap-1 md:w-1/3">
         <div className="flex items-center gap-2">
-          <Icon
-            icon="ri:whatsapp-line"
-            className="text-lg text-primary"
-          />
+          <Icon icon="ri:whatsapp-line" className="text-lg text-primary" />
           <h2 className="text-base font-semibold">Nomor WhatsApp</h2>
         </div>
         <p className="text-sm text-muted-foreground">
@@ -26,6 +23,7 @@ export function EditPhoneNumber() {
         </p>
       </div>
 
+      {/* Phone number edit flow */}
       <div className="md:w-2/3">
         {/* Step 1: enter new phone number */}
         {flow.step === "phone" && (

@@ -19,7 +19,7 @@ type SkinCareItemCardProps<TItem extends SkinCareCardItem> = {
   actions?: ReactNode;
 };
 
-export function SkinAdminCard<TItem extends SkinCareCardItem>({
+export function SkinCareAdminCard<TItem extends SkinCareCardItem>({
   item,
   icon = (
     <Icon icon="material-symbols:spa-outline-rounded" className="size-6" />

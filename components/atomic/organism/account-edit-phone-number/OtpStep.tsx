@@ -1,9 +1,9 @@
-import { Button } from "components/atomic/atom/Button";
-import type { EditPhoneNumberFlowState } from "./useEditPhoneNumberFlow";
-import { EditPhoneNumberOtpField } from "./EditPhoneNumberOtpField";
+import { Button } from "@/components/atomic/atom/Button";
+import { OtpField } from "./OtpField";
+import type { AccountEditPhoneNumberFlowState } from "./useAccountEditPhoneNumberFlow";
 
 type Props = Pick<
-  EditPhoneNumberFlowState,
+  AccountEditPhoneNumberFlowState,
   | "otpForm"
   | "verifyMutation"
   | "verifyError"
@@ -22,8 +22,8 @@ export function OtpStep({
 }: Props) {
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
+      onSubmit={(event) => {
+        event.preventDefault();
         void otpForm.handleSubmit();
       }}
       className="flex flex-col gap-3"
@@ -35,18 +35,19 @@ export function OtpStep({
         WhatsApp.
       </p>
 
-      <EditPhoneNumberOtpField
+      <OtpField
         otpForm={otpForm}
         verifyMutation={verifyMutation}
         validateOtpField={validateOtpField}
       />
 
-      {verifyError && (
-        <p className="text-sm text-destructive">{verifyError}</p>
-      )}
+      {verifyError && <p className="text-sm text-destructive">{verifyError}</p>}
 
       <otpForm.Subscribe
-        selector={(s) => ({ isValid: s.isValid, values: s.values })}
+        selector={(state) => ({
+          isValid: state.isValid,
+          values: state.values,
+        })}
       >
         {({ isValid, values }) => (
           <Button

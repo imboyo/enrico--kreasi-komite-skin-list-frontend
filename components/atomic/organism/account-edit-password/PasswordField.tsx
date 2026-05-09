@@ -1,16 +1,16 @@
 import { Icon } from "@iconify/react";
 
-import { FormFieldError } from "components/atomic/atom/FormFieldError";
-import { TextInput } from "components/atomic/atom/TextInput";
-import { PasswordToggleButton } from "components/atomic/atom/PasswordToggleButton";
+import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
+import { PasswordToggleButton } from "@/components/atomic/atom/PasswordToggleButton";
+import { TextInput } from "@/components/atomic/atom/TextInput";
 import {
-  type EditPasswordFormApi,
-  editPasswordSchema,
-  validateEditPasswordField,
-} from "./useEditPasswordForm";
+  type AccountEditPasswordFormApi,
+  accountEditPasswordSchema,
+  validateAccountEditPasswordField,
+} from "./useAccountEditPasswordForm";
 
-interface EditPasswordFieldProps {
-  form: EditPasswordFormApi;
+interface PasswordFieldProps {
+  form: AccountEditPasswordFormApi;
   name: "currentPassword" | "newPassword" | "confirmPassword";
   label: string;
   placeholder: string;
@@ -21,7 +21,7 @@ interface EditPasswordFieldProps {
   inputId: string;
 }
 
-export function EditPasswordField({
+export function PasswordField({
   form,
   name,
   label,
@@ -31,20 +31,29 @@ export function EditPasswordField({
   onToggle,
   disabled,
   inputId,
-}: EditPasswordFieldProps) {
+}: PasswordFieldProps) {
   return (
     <form.Field
       name={name}
       validators={{
         onBlur: ({ value }) =>
-          validateEditPasswordField(editPasswordSchema.shape[name], value),
+          validateAccountEditPasswordField(
+            accountEditPasswordSchema.shape[name],
+            value,
+          ),
         onSubmit: ({ value }) =>
-          validateEditPasswordField(editPasswordSchema.shape[name], value),
+          validateAccountEditPasswordField(
+            accountEditPasswordSchema.shape[name],
+            value,
+          ),
       }}
     >
       {(field) => (
         <div className="flex flex-col gap-1.5">
-          <label htmlFor={inputId} className="text-sm font-medium text-foreground">
+          <label
+            htmlFor={inputId}
+            className="text-sm font-medium text-foreground"
+          >
             {label}
           </label>
           <TextInput
@@ -52,11 +61,13 @@ export function EditPasswordField({
             type={visible ? "text" : "password"}
             placeholder={placeholder}
             value={field.state.value}
-            onChange={(e) => field.handleChange(e.target.value)}
+            onChange={(event) => field.handleChange(event.target.value)}
             onBlur={field.handleBlur}
             autoComplete={autoComplete}
             startItem={<Icon icon="material-symbols:lock-outline" />}
-            endItem={<PasswordToggleButton visible={visible} onToggle={onToggle} />}
+            endItem={
+              <PasswordToggleButton visible={visible} onToggle={onToggle} />
+            }
             disabled={disabled}
             surface="transparent"
           />

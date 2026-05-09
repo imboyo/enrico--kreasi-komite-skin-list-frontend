@@ -2,10 +2,10 @@
 
 import { motion } from "motion/react";
 
-import { PhotoProfileSection } from "@/components/domain/account/edit-photo/PhotoProfileSection";
-import { EditNameSection } from "@/components/domain/account/edit-name/EditNameSection";
-import { EditPhoneNumber } from "@/components/domain/account/edit-phone-number/EditPhoneNumber";
-import { EditPassword } from "@/components/domain/account/edit-password/EditPassword";
+import { AccountEditName } from "@/components/atomic/organism/account-edit-name";
+import { AccountEditPassword } from "@/components/atomic/organism/account-edit-password";
+import { AccountEditPhoneNumber } from "@/components/atomic/organism/account-edit-phone-number";
+import { AccountEditPhoto } from "@/components/atomic/organism/account-edit-photo";
 
 export function PageAdminEditProfile() {
   return (
@@ -16,12 +16,12 @@ export function PageAdminEditProfile() {
       transition={{ duration: 0.4 }}
     >
       <div className="grid w-full gap-6 lg:grid-cols-[20rem_minmax(0,1fr)] lg:items-start">
-        <PhotoProfileSection />
+        <AccountEditPhoto />
 
         <div className="flex min-w-0 flex-col gap-4 lg:gap-6">
-          <EditNameSection />
-          <EditPhoneNumber />
-          <EditPassword />
+          <AccountEditName />
+          <AccountEditPhoneNumber />
+          <AccountEditPassword />
         </div>
       </div>
     </motion.div>

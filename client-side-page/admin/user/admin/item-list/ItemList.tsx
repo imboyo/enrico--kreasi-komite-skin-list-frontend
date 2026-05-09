@@ -5,12 +5,12 @@ import { useMemo, useState } from "react";
 
 import { MobilePagination } from "components/atomic/molecule/MobilePagination";
 import { QueryStateHandler } from "components/atomic/molecule/QueryStateHandler";
+import { AccountCardGridSkeleton } from "components/atomic/organism/AccountCardGridSkeleton";
 import {
   getAdminManagers,
   type AdminManager,
   type AdminManagerRole,
 } from "mock-backend/admin/user/admins";
-import { AccountCardGridSkeleton } from "components/domain/account/AccountCardGridSkeleton";
 import {
   DEFAULT_ADMIN_SORT_VALUE,
   AdminListToolbar,

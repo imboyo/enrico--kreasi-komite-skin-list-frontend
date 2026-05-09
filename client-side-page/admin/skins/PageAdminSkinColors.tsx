@@ -3,7 +3,7 @@
 import { Icon } from "@iconify/react";
 import { useQuery } from "@tanstack/react-query";
 
-import { SkinAdminCard } from "components/domain/skin/SkinAdminCard";
+import { SkinCareAdminCard } from "components/atomic/organism/SkinCareAdminCard";
 import { Button } from "components/atomic/atom/Button";
 import {
   MenuDropdown,
@@ -15,7 +15,7 @@ import {
   getColors,
   type SkinCareColorItem,
 } from "mock-backend/skin-care/get-colors";
-import { SkinAdminSkeleton } from "components/domain/skin/SkinAdminSkeleton";
+import { SkinCareAdminCardSkeleton } from "components/atomic/molecule/SkinCareAdminCardSkeleton";
 
 export function PageAdminSkinColors() {
   const colorsQuery = useQuery({
@@ -45,7 +45,7 @@ export function PageAdminSkinColors() {
 
       <QueryStateHandler
         query={colorsQuery}
-        skeleton={<SkinAdminSkeleton />}
+        skeleton={<SkinCareAdminCardSkeleton />}
         isEmpty={colors.length === 0}
         errorTitle="Failed to load colors."
         emptyTitle="No colors found."
@@ -54,7 +54,7 @@ export function PageAdminSkinColors() {
         {/* Section: Color card list */}
         <div className="flex flex-col gap-3">
           {colors.map((color) => (
-            <SkinAdminCard
+            <SkinCareAdminCard
               key={color.id}
               item={color}
               icon={

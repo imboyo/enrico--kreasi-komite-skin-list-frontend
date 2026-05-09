@@ -34,7 +34,7 @@ function resolveApiError(error: unknown): string {
   return "Terjadi kesalahan. Silakan coba lagi.";
 }
 
-export function useEditPhoneNumberFlow() {
+export function useAccountEditPhoneNumberFlow() {
   const { userInfo, setUserInfo } = useAuthStore();
   const [step, setStep] = useState<Step>("phone");
   const [isSuccess, setIsSuccess] = useState(false);
@@ -95,7 +95,10 @@ export function useEditPhoneNumberFlow() {
       verifyMutation.reset();
       // Keep the auth store aligned with the updated phone number.
       if (userInfo) {
-        setUserInfo({ ...userInfo, phoneNumber: normalizeWhatsappNumber(newPhone) });
+        setUserInfo({
+          ...userInfo,
+          phoneNumber: normalizeWhatsappNumber(newPhone),
+        });
       }
     },
   });
@@ -136,4 +139,6 @@ export function useEditPhoneNumberFlow() {
   };
 }
 
-export type EditPhoneNumberFlowState = ReturnType<typeof useEditPhoneNumberFlow>;
+export type AccountEditPhoneNumberFlowState = ReturnType<
+  typeof useAccountEditPhoneNumberFlow
+>;

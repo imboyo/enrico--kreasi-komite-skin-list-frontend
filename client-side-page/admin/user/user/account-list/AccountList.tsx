@@ -5,13 +5,13 @@ import { useMemo, useState } from "react";
 
 import { MobilePagination } from "components/atomic/molecule/MobilePagination";
 import { QueryStateHandler } from "components/atomic/molecule/QueryStateHandler";
+import { AccountCardGridSkeleton } from "components/atomic/organism/AccountCardGridSkeleton";
 import { ItemCard } from "client-side-page/admin/user/user/account-list/item-card/ItemCard";
 import {
   getAdminUsers,
   type AdminUser,
   type AdminUserStatus,
 } from "mock-backend/admin/user/users";
-import { AccountCardGridSkeleton } from "components/domain/account/AccountCardGridSkeleton";
 import {
   DEFAULT_USER_SORT_VALUE,
   CustomerListToolbar,

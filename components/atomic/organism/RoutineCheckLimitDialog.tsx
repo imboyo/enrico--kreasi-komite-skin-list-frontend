@@ -10,7 +10,7 @@ import Dialog, {
 import { useRoutineCheckStore } from "client-side-page/home/routine-check-store";
 
 /** Automatically opens when the check count hits a multiple of CHECK_LIMIT */
-export function LimitDialog() {
+export function RoutineCheckLimitDialog() {
   const showLimitDialog = useRoutineCheckStore((s) => s.showLimitDialog);
   const dismissLimitDialog = useRoutineCheckStore((s) => s.dismissLimitDialog);
 

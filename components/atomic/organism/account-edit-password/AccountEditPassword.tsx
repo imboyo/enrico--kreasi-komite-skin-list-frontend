@@ -2,11 +2,11 @@
 
 import { Icon } from "@iconify/react";
 
-import { Button } from "components/atomic/atom/Button";
-import { useEditPasswordForm } from "./useEditPasswordForm";
-import { EditPasswordField } from "./EditPasswordField";
+import { Button } from "@/components/atomic/atom/Button";
+import { PasswordField } from "./PasswordField";
+import { useAccountEditPasswordForm } from "./useAccountEditPasswordForm";
 
-export function EditPassword() {
+export function AccountEditPassword() {
   const {
     form,
     mutation,
@@ -18,7 +18,7 @@ export function EditPassword() {
     toggleShowCurrent,
     toggleShowNew,
     toggleShowConfirm,
-  } = useEditPasswordForm();
+  } = useAccountEditPasswordForm();
 
   return (
     /* Password edit section */
@@ -37,14 +37,15 @@ export function EditPassword() {
         </p>
       </div>
 
+      {/* Password edit form section */}
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
+        onSubmit={(event) => {
+          event.preventDefault();
           void form.handleSubmit();
         }}
         className="flex flex-col gap-3 md:w-2/3"
       >
-        <EditPasswordField
+        <PasswordField
           form={form}
           name="currentPassword"
           label="Kata Sandi Saat Ini"
@@ -53,10 +54,10 @@ export function EditPassword() {
           visible={showCurrent}
           onToggle={toggleShowCurrent}
           disabled={mutation.isPending}
-          inputId="edit-current-password"
+          inputId="account-edit-current-password"
         />
 
-        <EditPasswordField
+        <PasswordField
           form={form}
           name="newPassword"
           label="Kata Sandi Baru"
@@ -65,10 +66,10 @@ export function EditPassword() {
           visible={showNew}
           onToggle={toggleShowNew}
           disabled={mutation.isPending}
-          inputId="edit-new-password"
+          inputId="account-edit-new-password"
         />
 
-        <EditPasswordField
+        <PasswordField
           form={form}
           name="confirmPassword"
           label="Konfirmasi Kata Sandi Baru"
@@ -77,7 +78,7 @@ export function EditPassword() {
           visible={showConfirm}
           onToggle={toggleShowConfirm}
           disabled={mutation.isPending}
-          inputId="edit-confirm-password"
+          inputId="account-edit-confirm-password"
         />
 
         {serverError && (
@@ -90,7 +91,10 @@ export function EditPassword() {
         )}
 
         <form.Subscribe
-          selector={(s) => ({ isValid: s.isValid, values: s.values })}
+          selector={(state) => ({
+            isValid: state.isValid,
+            values: state.values,
+          })}
         >
           {({ isValid, values }) => {
             const hasValues =

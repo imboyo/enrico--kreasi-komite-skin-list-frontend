@@ -2,9 +2,9 @@
 
 import {
   useForm,
-  type ReactFormExtendedApi,
-  type FormValidateOrFn,
   type FormAsyncValidateOrFn,
+  type FormValidateOrFn,
+  type ReactFormExtendedApi,
 } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
@@ -14,28 +14,28 @@ import { updateAccountInfo } from "backend-service/account";
 import { HttpError } from "libs/error/http-error";
 import { useAuthStore } from "@/store/auth/auth.store";
 
-export const editNameSchema = z.object({
+export const accountEditNameSchema = z.object({
   name: z.string().min(1, "Nama wajib diisi"),
 });
 
-export type EditNameFormValues = z.infer<typeof editNameSchema>;
+export type AccountEditNameFormValues = z.infer<typeof accountEditNameSchema>;
 
-export type EditNameFormApi = ReactFormExtendedApi<
-  EditNameFormValues,
-  undefined | FormValidateOrFn<EditNameFormValues>,
-  undefined | FormValidateOrFn<EditNameFormValues>,
-  undefined | FormAsyncValidateOrFn<EditNameFormValues>,
-  undefined | FormValidateOrFn<EditNameFormValues>,
-  undefined | FormAsyncValidateOrFn<EditNameFormValues>,
-  undefined | FormValidateOrFn<EditNameFormValues>,
-  undefined | FormAsyncValidateOrFn<EditNameFormValues>,
-  undefined | FormValidateOrFn<EditNameFormValues>,
-  undefined | FormAsyncValidateOrFn<EditNameFormValues>,
-  undefined | FormAsyncValidateOrFn<EditNameFormValues>,
+export type AccountEditNameFormApi = ReactFormExtendedApi<
+  AccountEditNameFormValues,
+  undefined | FormValidateOrFn<AccountEditNameFormValues>,
+  undefined | FormValidateOrFn<AccountEditNameFormValues>,
+  undefined | FormAsyncValidateOrFn<AccountEditNameFormValues>,
+  undefined | FormValidateOrFn<AccountEditNameFormValues>,
+  undefined | FormAsyncValidateOrFn<AccountEditNameFormValues>,
+  undefined | FormValidateOrFn<AccountEditNameFormValues>,
+  undefined | FormAsyncValidateOrFn<AccountEditNameFormValues>,
+  undefined | FormValidateOrFn<AccountEditNameFormValues>,
+  undefined | FormAsyncValidateOrFn<AccountEditNameFormValues>,
+  undefined | FormAsyncValidateOrFn<AccountEditNameFormValues>,
   never
 >;
 
-export function validateEditNameField<T>(
+export function validateAccountEditNameField<T>(
   schema: z.ZodType<T>,
   value: T,
 ): string | undefined {
@@ -45,19 +45,19 @@ export function validateEditNameField<T>(
 
 function resolveSavedName(
   profile: Awaited<ReturnType<typeof updateAccountInfo>>,
-  payload: EditNameFormValues,
+  payload: AccountEditNameFormValues,
 ) {
   const serverName = profile.full_name?.trim() ?? "";
   // Some account update responses can omit or blank the name; keep the submitted value instead.
   return serverName || payload.name.trim();
 }
 
-export function useEditNameForm() {
+export function useAccountEditNameForm() {
   const { userInfo, setUserInfo } = useAuthStore();
   const [isSuccess, setIsSuccess] = useState(false);
 
   const mutation = useMutation({
-    mutationFn: (payload: EditNameFormValues) =>
+    mutationFn: (payload: AccountEditNameFormValues) =>
       updateAccountInfo({ full_name: payload.name }),
     onMutate: () => setIsSuccess(false),
     onSuccess: (profile, payload) => {
@@ -72,7 +72,7 @@ export function useEditNameForm() {
     },
   });
 
-  const form: EditNameFormApi = useForm({
+  const form: AccountEditNameFormApi = useForm({
     defaultValues: { name: userInfo?.fullName ?? "" },
     onSubmit: async ({ value }) => {
       mutation.mutate(value);

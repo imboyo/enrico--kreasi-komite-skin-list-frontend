@@ -3,7 +3,7 @@
 import { Icon } from "@iconify/react";
 import { useQuery } from "@tanstack/react-query";
 
-import { SkinAdminCard } from "components/domain/skin/SkinAdminCard";
+import { SkinCareAdminCard } from "components/atomic/organism/SkinCareAdminCard";
 import { Button } from "components/atomic/atom/Button";
 import {
   MenuDropdown,
@@ -15,7 +15,7 @@ import {
   getRoutines,
   type SkinCareRoutineItem,
 } from "mock-backend/skin-care/get-routines";
-import { SkinAdminSkeleton } from "components/domain/skin/SkinAdminSkeleton";
+import { SkinCareAdminCardSkeleton } from "components/atomic/molecule/SkinCareAdminCardSkeleton";
 
 export function PageAdminSkinRoutines() {
   const routinesQuery = useQuery({
@@ -45,7 +45,7 @@ export function PageAdminSkinRoutines() {
 
       <QueryStateHandler
         query={routinesQuery}
-        skeleton={<SkinAdminSkeleton />}
+        skeleton={<SkinCareAdminCardSkeleton />}
         isEmpty={routines.length === 0}
         errorTitle="Failed to load routines."
         emptyTitle="No routines found."
@@ -54,7 +54,7 @@ export function PageAdminSkinRoutines() {
         {/* Section: Routine card list */}
         <div className="flex flex-col gap-3">
           {routines.map((routine) => (
-            <SkinAdminCard
+            <SkinCareAdminCard
               key={routine.id}
               item={routine}
               icon={

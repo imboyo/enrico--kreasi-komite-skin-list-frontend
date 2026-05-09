@@ -5,7 +5,7 @@ import { HeroCard } from "@/client-side-page/home/HeroCard";
 import { MakeUps } from "@/client-side-page/home/MakeUps";
 import { Routines } from "@/client-side-page/home/Routines";
 import { Scars } from "@/client-side-page/home/Scars";
-import { LimitDialog } from "components/domain/skin/list/LimitDialog";
+import { RoutineCheckLimitDialog } from "components/atomic/organism/RoutineCheckLimitDialog";
 import { useRoutineCheckStore } from "@/client-side-page/home/routine-check-store";
 import { useEffect } from "react";
 import { motion, MotionConfig } from "motion/react";
@@ -38,7 +38,7 @@ export const PageHome = () => {
         variants={pageVariants}
       >
         {/* Renders itself automatically when the check limit is hit */}
-        <LimitDialog />
+        <RoutineCheckLimitDialog />
 
         {/* Hero section */}
         <motion.section className="flex flex-col gap-5 md:gap-6" variants={sectionVariants}>

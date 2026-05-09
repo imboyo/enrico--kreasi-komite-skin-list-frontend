@@ -5,9 +5,9 @@ import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/atomic/atom/Button";
-import { EditNameSection } from "@/components/domain/account/edit-name/EditNameSection";
-import { EditPassword } from "@/components/domain/account/edit-password/EditPassword";
-import { EditPhoneNumber } from "@/components/domain/account/edit-phone-number/EditPhoneNumber";
+import { AccountEditName } from "@/components/atomic/organism/account-edit-name";
+import { AccountEditPassword } from "@/components/atomic/organism/account-edit-password";
+import { AccountEditPhoneNumber } from "@/components/atomic/organism/account-edit-phone-number";
 
 export function PageInfoProfile() {
   const router = useRouter();
@@ -33,9 +33,9 @@ export function PageInfoProfile() {
       </div>
 
       <div className="flex flex-col gap-6 md:gap-8">
-        <EditNameSection />
-        <EditPhoneNumber />
-        <EditPassword />
+        <AccountEditName />
+        <AccountEditPhoneNumber />
+        <AccountEditPassword />
       </div>
 
       <Button

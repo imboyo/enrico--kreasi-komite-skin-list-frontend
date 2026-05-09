@@ -3,13 +3,13 @@
 import { useMemo, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
-import { Skeleton as RoutineListSkeleton } from "components/domain/skin/list/Skeleton";
-import { useCheckableItems } from "@/hooks/useCheckableItems";
-import { useRoutineCheckStore } from "@/client-side-page/home/routine-check-store";
-import { updateSkinTreat } from "@/backend-service/user/skin-treat";
+import { QueryStateHandler } from "components/atomic/molecule/QueryStateHandler";
+import { RoutineListSkeleton } from "components/atomic/molecule/RoutineListSkeleton";
+import { useCheckableItems } from "hooks/useCheckableItems";
+import { useRoutineCheckStore } from "client-side-page/home/routine-check-store";
+import { updateSkinTreat } from "backend-service/user/skin-treat/index";
 
-import { ListItem } from "./ListItem";
+import { ListItem } from "components/atomic/organism/user-skin-treat-list/ListItem";
 
 export type SkinTreatListItem = {
   id: string;

@@ -1,12 +1,12 @@
-import { WhatsappNumberField } from "components/atomic/molecule/WhatsappNumberField";
-import type { EditPhoneNumberFlowState } from "./useEditPhoneNumberFlow";
+import { WhatsappNumberField } from "@/components/atomic/molecule/WhatsappNumberField";
+import type { AccountEditPhoneNumberFlowState } from "./useAccountEditPhoneNumberFlow";
 
 type Props = Pick<
-  EditPhoneNumberFlowState,
+  AccountEditPhoneNumberFlowState,
   "phoneForm" | "initiateMutation" | "validatePhoneField"
 >;
 
-export function EditPhoneNumberWhatsappField({
+export function WhatsappField({
   phoneForm,
   initiateMutation,
   validatePhoneField,
@@ -22,7 +22,7 @@ export function EditPhoneNumberWhatsappField({
       {(field) => (
         <WhatsappNumberField
           field={field}
-          inputId="edit-phone-number"
+          inputId="account-edit-phone-number"
           disabled={initiateMutation.isPending}
         />
       )}

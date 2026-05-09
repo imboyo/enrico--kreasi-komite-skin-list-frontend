@@ -1,13 +1,13 @@
-import { FormFieldError } from "components/atomic/atom/FormFieldError";
-import { OtpInput } from "components/atomic/atom/OtpInput";
-import type { EditPhoneNumberFlowState } from "./useEditPhoneNumberFlow";
+import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
+import { OtpInput } from "@/components/atomic/atom/OtpInput";
+import type { AccountEditPhoneNumberFlowState } from "./useAccountEditPhoneNumberFlow";
 
 type Props = Pick<
-  EditPhoneNumberFlowState,
+  AccountEditPhoneNumberFlowState,
   "otpForm" | "verifyMutation" | "validateOtpField"
 >;
 
-export function EditPhoneNumberOtpField({
+export function OtpField({
   otpForm,
   verifyMutation,
   validateOtpField,
@@ -23,13 +23,13 @@ export function EditPhoneNumberOtpField({
       {(field) => (
         <div className="flex flex-col gap-1.5">
           <label
-            htmlFor="edit-phone-otp"
+            htmlFor="account-edit-phone-otp"
             className="text-sm font-medium text-foreground"
           >
             Kode OTP
           </label>
           <OtpInput
-            id="edit-phone-otp"
+            id="account-edit-phone-otp"
             value={field.state.value}
             onChange={(event) => field.handleChange(event.target.value)}
             onBlur={field.handleBlur}

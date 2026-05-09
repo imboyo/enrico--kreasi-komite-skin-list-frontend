@@ -1,9 +1,9 @@
-import { Skeleton } from "components/atomic/atom/Skeleton";
+import { Skeleton } from "@/components/atomic/atom/Skeleton";
 
-export function SkinAdminSkeleton() {
+export function AccountCardGridSkeleton() {
   return (
     <div className="flex flex-col gap-3">
-      {/* Section: Skin care card skeleton */}
+      {/* Section: User card skeleton */}
       {Array.from({ length: 5 }).map((_, index) => (
         <div
           key={index}
@@ -14,9 +14,11 @@ export function SkinAdminSkeleton() {
             <div className="flex min-w-0 flex-1 flex-col gap-2">
               <Skeleton className="h-5 w-2/3 rounded-lg" />
               <Skeleton className="h-4 w-full rounded-lg" />
-              <Skeleton className="h-4 w-4/5 rounded-lg" />
             </div>
             <Skeleton className="size-8 rounded-full" />
+          </div>
+          <div className="mt-4 flex justify-end">
+            <Skeleton className="h-8 w-20 rounded-lg" />
           </div>
         </div>
       ))}

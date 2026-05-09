@@ -3,8 +3,8 @@
 import { Icon } from "@iconify/react";
 import { useQuery } from "@tanstack/react-query";
 
-import { SkinAdminCard } from "components/domain/skin/SkinAdminCard";
-import { SkinAdminSkeleton } from "components/domain/skin/SkinAdminSkeleton";
+import { SkinCareAdminCard } from "components/atomic/organism/SkinCareAdminCard";
+import { SkinCareAdminCardSkeleton } from "components/atomic/molecule/SkinCareAdminCardSkeleton";
 import { Button } from "components/atomic/atom/Button";
 import {
   MenuDropdown,
@@ -45,7 +45,7 @@ export function PageAdminSkinMakeUps() {
 
       <QueryStateHandler
         query={makeUpsQuery}
-        skeleton={<SkinAdminSkeleton />}
+        skeleton={<SkinCareAdminCardSkeleton />}
         isEmpty={makeUps.length === 0}
         errorTitle="Failed to load make ups."
         emptyTitle="No make ups found."
@@ -54,7 +54,7 @@ export function PageAdminSkinMakeUps() {
         {/* Section: Make up card list */}
         <div className="flex flex-col gap-3">
           {makeUps.map((makeUp) => (
-            <SkinAdminCard
+            <SkinCareAdminCard
               key={makeUp.id}
               item={makeUp}
               icon={

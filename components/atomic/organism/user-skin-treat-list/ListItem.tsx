@@ -2,7 +2,7 @@
 
 import { Icon } from "@iconify/react";
 
-import { Checkbox } from "@/components/atomic/atom/Checkbox";
+import { Checkbox } from "components/atomic/atom/Checkbox";
 import { cn } from "libs/util/cn";
 
 type Props = {

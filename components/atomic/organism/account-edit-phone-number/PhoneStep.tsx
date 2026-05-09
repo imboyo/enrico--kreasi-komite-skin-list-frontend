@@ -1,10 +1,10 @@
-import { Button } from "components/atomic/atom/Button";
-import type { EditPhoneNumberFlowState } from "./useEditPhoneNumberFlow";
-import { EditPhoneNumberSuccessIndicator } from "./EditPhoneNumberSuccessIndicator";
-import { EditPhoneNumberWhatsappField } from "./EditPhoneNumberWhatsappField";
+import { Button } from "@/components/atomic/atom/Button";
+import { SuccessIndicator } from "./SuccessIndicator";
+import { WhatsappField } from "./WhatsappField";
+import type { AccountEditPhoneNumberFlowState } from "./useAccountEditPhoneNumberFlow";
 
 type Props = Pick<
-  EditPhoneNumberFlowState,
+  AccountEditPhoneNumberFlowState,
   | "phoneForm"
   | "initiateMutation"
   | "initiateError"
@@ -21,13 +21,13 @@ export function PhoneStep({
 }: Props) {
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
+      onSubmit={(event) => {
+        event.preventDefault();
         void phoneForm.handleSubmit();
       }}
       className="flex flex-col gap-3"
     >
-      <EditPhoneNumberWhatsappField
+      <WhatsappField
         phoneForm={phoneForm}
         initiateMutation={initiateMutation}
         validatePhoneField={validatePhoneField}
@@ -36,10 +36,13 @@ export function PhoneStep({
       {initiateError && (
         <p className="text-sm text-destructive">{initiateError}</p>
       )}
-      {isSuccess && <EditPhoneNumberSuccessIndicator />}
+      {isSuccess && <SuccessIndicator />}
 
       <phoneForm.Subscribe
-        selector={(s) => ({ isValid: s.isValid, values: s.values })}
+        selector={(state) => ({
+          isValid: state.isValid,
+          values: state.values,
+        })}
       >
         {({ isValid, values }) => (
           <Button

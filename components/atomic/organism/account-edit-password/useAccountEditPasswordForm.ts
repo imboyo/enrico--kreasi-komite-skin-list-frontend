@@ -2,9 +2,9 @@
 
 import {
   useForm,
-  type ReactFormExtendedApi,
-  type FormValidateOrFn,
   type FormAsyncValidateOrFn,
+  type FormValidateOrFn,
+  type ReactFormExtendedApi,
 } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
@@ -12,38 +12,42 @@ import { z } from "zod";
 
 import { changePassword } from "backend-service/account/password.service";
 
-export const editPasswordSchema = z
+export const accountEditPasswordSchema = z
   .object({
     currentPassword: z.string().min(1, "Kata sandi saat ini wajib diisi"),
     newPassword: z
       .string()
       .min(1, "Kata sandi baru wajib diisi")
       .min(6, "Kata sandi minimal 6 karakter"),
-    confirmPassword: z.string().min(1, "Konfirmasi kata sandi baru wajib diisi"),
+    confirmPassword: z
+      .string()
+      .min(1, "Konfirmasi kata sandi baru wajib diisi"),
   })
-  .refine((v) => v.newPassword === v.confirmPassword, {
+  .refine((value) => value.newPassword === value.confirmPassword, {
     message: "Kata sandi tidak cocok",
     path: ["confirmPassword"],
   });
 
-export type EditPasswordFormValues = z.infer<typeof editPasswordSchema>;
+export type AccountEditPasswordFormValues = z.infer<
+  typeof accountEditPasswordSchema
+>;
 
-export type EditPasswordFormApi = ReactFormExtendedApi<
-  EditPasswordFormValues,
-  undefined | FormValidateOrFn<EditPasswordFormValues>,
-  undefined | FormValidateOrFn<EditPasswordFormValues>,
-  undefined | FormAsyncValidateOrFn<EditPasswordFormValues>,
-  undefined | FormValidateOrFn<EditPasswordFormValues>,
-  undefined | FormAsyncValidateOrFn<EditPasswordFormValues>,
-  undefined | FormValidateOrFn<EditPasswordFormValues>,
-  undefined | FormAsyncValidateOrFn<EditPasswordFormValues>,
-  undefined | FormValidateOrFn<EditPasswordFormValues>,
-  undefined | FormAsyncValidateOrFn<EditPasswordFormValues>,
-  undefined | FormAsyncValidateOrFn<EditPasswordFormValues>,
+export type AccountEditPasswordFormApi = ReactFormExtendedApi<
+  AccountEditPasswordFormValues,
+  undefined | FormValidateOrFn<AccountEditPasswordFormValues>,
+  undefined | FormValidateOrFn<AccountEditPasswordFormValues>,
+  undefined | FormAsyncValidateOrFn<AccountEditPasswordFormValues>,
+  undefined | FormValidateOrFn<AccountEditPasswordFormValues>,
+  undefined | FormAsyncValidateOrFn<AccountEditPasswordFormValues>,
+  undefined | FormValidateOrFn<AccountEditPasswordFormValues>,
+  undefined | FormAsyncValidateOrFn<AccountEditPasswordFormValues>,
+  undefined | FormValidateOrFn<AccountEditPasswordFormValues>,
+  undefined | FormAsyncValidateOrFn<AccountEditPasswordFormValues>,
+  undefined | FormAsyncValidateOrFn<AccountEditPasswordFormValues>,
   never
 >;
 
-export function validateEditPasswordField<T>(
+export function validateAccountEditPasswordField<T>(
   schema: z.ZodType<T>,
   value: T,
 ): string | undefined {
@@ -51,14 +55,14 @@ export function validateEditPasswordField<T>(
   return result.success ? undefined : result.error.issues[0]?.message;
 }
 
-export function useEditPasswordForm() {
+export function useAccountEditPasswordForm() {
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
   const mutation = useMutation({
-    mutationFn: (payload: EditPasswordFormValues) =>
+    mutationFn: (payload: AccountEditPasswordFormValues) =>
       changePassword({
         old_password: payload.currentPassword,
         new_password: payload.newPassword,
@@ -66,7 +70,7 @@ export function useEditPasswordForm() {
     onSuccess: () => setIsSuccess(true),
   });
 
-  const form: EditPasswordFormApi = useForm({
+  const form: AccountEditPasswordFormApi = useForm({
     defaultValues: {
       currentPassword: "",
       newPassword: "",
@@ -91,8 +95,8 @@ export function useEditPasswordForm() {
     showCurrent,
     showNew,
     showConfirm,
-    toggleShowCurrent: () => setShowCurrent((p) => !p),
-    toggleShowNew: () => setShowNew((p) => !p),
-    toggleShowConfirm: () => setShowConfirm((p) => !p),
+    toggleShowCurrent: () => setShowCurrent((previous) => !previous),
+    toggleShowNew: () => setShowNew((previous) => !previous),
+    toggleShowConfirm: () => setShowConfirm((previous) => !previous),
   };
 }

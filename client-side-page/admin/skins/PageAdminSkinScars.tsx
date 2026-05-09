@@ -3,8 +3,8 @@
 import { Icon } from "@iconify/react";
 import { useQuery } from "@tanstack/react-query";
 
-import { SkinAdminCard } from "components/domain/skin/SkinAdminCard";
-import { SkinAdminSkeleton } from "components/domain/skin/SkinAdminSkeleton";
+import { SkinCareAdminCard } from "components/atomic/organism/SkinCareAdminCard";
+import { SkinCareAdminCardSkeleton } from "components/atomic/molecule/SkinCareAdminCardSkeleton";
 import { Button } from "components/atomic/atom/Button";
 import {
   MenuDropdown,
@@ -45,7 +45,7 @@ export function PageAdminSkinScars() {
 
       <QueryStateHandler
         query={scarsQuery}
-        skeleton={<SkinAdminSkeleton />}
+        skeleton={<SkinCareAdminCardSkeleton />}
         isEmpty={scars.length === 0}
         errorTitle="Failed to load scars."
         emptyTitle="No scars found."
@@ -54,7 +54,7 @@ export function PageAdminSkinScars() {
         {/* Section: Scar card list */}
         <div className="flex flex-col gap-3">
           {scars.map((scar) => (
-            <SkinAdminCard
+            <SkinCareAdminCard
               key={scar.id}
               item={scar}
               icon={

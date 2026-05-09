@@ -6,13 +6,13 @@ import { Button } from "@/components/atomic/atom/Button";
 import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
 import { TextInput } from "@/components/atomic/atom/TextInput";
 import {
-  editNameSchema,
-  useEditNameForm,
-  validateEditNameField,
-} from "./useEditNameForm";
+  accountEditNameSchema,
+  useAccountEditNameForm,
+  validateAccountEditNameField,
+} from "./useAccountEditNameForm";
 
-export function EditNameSection() {
-  const { form, mutation, serverError, isSuccess } = useEditNameForm();
+export function AccountEditName() {
+  const { form, mutation, serverError, isSuccess } = useAccountEditNameForm();
 
   return (
     /* Name edit section */
@@ -33,8 +33,8 @@ export function EditNameSection() {
 
       {/* Name edit form section */}
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
+        onSubmit={(event) => {
+          event.preventDefault();
           void form.handleSubmit();
         }}
         className="flex flex-col gap-3 md:w-2/3"
@@ -43,25 +43,31 @@ export function EditNameSection() {
           name="name"
           validators={{
             onBlur: ({ value }) =>
-              validateEditNameField(editNameSchema.shape.name, value),
+              validateAccountEditNameField(
+                accountEditNameSchema.shape.name,
+                value,
+              ),
             onSubmit: ({ value }) =>
-              validateEditNameField(editNameSchema.shape.name, value),
+              validateAccountEditNameField(
+                accountEditNameSchema.shape.name,
+                value,
+              ),
           }}
         >
           {(field) => (
             <div className="flex flex-col gap-1.5">
               <label
-                htmlFor="edit-name"
+                htmlFor="account-edit-name"
                 className="text-sm font-medium text-foreground"
               >
                 Nama Lengkap
               </label>
               <TextInput
-                id="edit-name"
+                id="account-edit-name"
                 type="text"
                 placeholder="Masukkan nama kamu"
                 value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
+                onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
                 autoComplete="name"
                 startItem={
@@ -86,7 +92,10 @@ export function EditNameSection() {
         )}
 
         <form.Subscribe
-          selector={(s) => ({ isValid: s.isValid, values: s.values })}
+          selector={(state) => ({
+            isValid: state.isValid,
+            values: state.values,
+          })}
         >
           {({ isValid, values }) => (
             <Button

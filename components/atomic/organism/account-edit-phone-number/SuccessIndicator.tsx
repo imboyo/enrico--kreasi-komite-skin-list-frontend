@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 
-export function EditPhoneNumberSuccessIndicator() {
+export function SuccessIndicator() {
   return (
     <div className="flex items-center gap-2 rounded-xl bg-green-50 px-3 py-2.5 text-sm text-green-700 dark:bg-green-950/30 dark:text-green-400">
       <Icon

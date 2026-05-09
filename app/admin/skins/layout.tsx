@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { SkinsTabNavigation } from "components/domain/skin/SkinsTabNavigation";
+import { AdminSkinTabNavigation } from "components/atomic/organism/AdminSkinTabNavigation";
 
 interface AdminSkinsLayoutProps {
   children: ReactNode;
@@ -12,7 +12,7 @@ export default function AdminSkinsLayout({
   return (
     <section className="mx-auto flex w-full max-w-125 flex-1 flex-col gap-4 px-4 py-4">
       {/* Section: Skins tab navigation */}
-      <SkinsTabNavigation />
+      <AdminSkinTabNavigation />
 
       {/* Section: Skins page content */}
       <div className="flex flex-1 flex-col">{children}</div>

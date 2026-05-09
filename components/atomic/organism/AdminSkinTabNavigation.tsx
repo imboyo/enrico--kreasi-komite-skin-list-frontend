@@ -38,7 +38,7 @@ function getActiveTabId(pathname: string): SkinsTabId {
   return activeTab?.id ?? "routines";
 }
 
-export function SkinsTabNavigation() {
+export function AdminSkinTabNavigation() {
   const pathname = usePathname();
   const router = useRouter();
   const activeTabId = getActiveTabId(pathname);
