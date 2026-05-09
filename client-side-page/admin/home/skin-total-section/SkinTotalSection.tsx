@@ -133,7 +133,7 @@ export function SkinTotalSection() {
           emptyTitle="No skin totals available."
           emptyDescription="The dashboard does not have any skin data yet."
         >
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
             {skinTotalCards.map((card) => (
               <SkinTotalCard key={card.key} card={card} />
             ))}

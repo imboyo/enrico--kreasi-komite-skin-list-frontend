@@ -29,7 +29,7 @@ const LOADING_CARDS = [
 
 export const LoadingState = () => {
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
       {LOADING_CARDS.map((card) => (
         <SkinTotalCard
           key={card.key}

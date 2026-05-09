@@ -33,7 +33,7 @@ export function BaseSidebarShell({
       className={cn(
         "fixed inset-y-0 left-0 z-50 flex h-dvh min-h-0 w-72 flex-col bg-sidebar text-sidebar-foreground shadow-2xl transition-transform duration-300 ease-out",
         isOpen ? "translate-x-0" : "-translate-x-full",
-        "md:relative md:z-auto md:h-auto md:self-stretch md:translate-x-0 md:shadow-none"
+        "md:sticky md:top-0 md:z-auto md:h-dvh md:translate-x-0 md:shadow-none"
       )}
     >
       {/* Section: Sidebar Header */}
