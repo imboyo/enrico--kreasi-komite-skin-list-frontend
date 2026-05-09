@@ -51,8 +51,8 @@ export function OtpStep({
         {({ isValid, values }) => (
           <Button
             type="submit"
-            fullWidth
-            size="lg"
+            className="self-end"
+            size="md"
             isLoading={verifyMutation.isPending}
             disabled={
               verifyMutation.isPending ||
@@ -67,7 +67,7 @@ export function OtpStep({
 
       <Button
         type="button"
-        fullWidth
+        className="w-full md:w-fit md:self-end"
         size="lg"
         variant="outline"
         disabled={verifyMutation.isPending}

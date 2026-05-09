@@ -16,8 +16,20 @@ export function EditNameSection() {
 
   return (
     /* Name edit section */
-    <section className="flex flex-col gap-4 rounded-2xl bg-card p-4">
-      <h2 className="text-base font-semibold">Nama</h2>
+    <section className="flex flex-col gap-4 rounded-2xl bg-card p-4 md:flex-row md:gap-8 md:p-6">
+      {/* Section header: title + description */}
+      <div className="flex flex-col gap-1 md:w-1/3">
+        <div className="flex items-center gap-2">
+          <Icon
+            icon="material-symbols:person-outline-rounded"
+            className="text-lg text-primary"
+          />
+          <h2 className="text-base font-semibold">Nama</h2>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Nama ini akan ditampilkan di profil kamu.
+        </p>
+      </div>
 
       {/* Name edit form section */}
       <form
@@ -25,7 +37,7 @@ export function EditNameSection() {
           e.preventDefault();
           void form.handleSubmit();
         }}
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-3 md:w-2/3"
       >
         <form.Field
           name="name"
@@ -79,8 +91,8 @@ export function EditNameSection() {
           {({ isValid, values }) => (
             <Button
               type="submit"
-              fullWidth
-              size="lg"
+              className="self-end"
+              size="md"
               isLoading={mutation.isPending}
               disabled={
                 mutation.isPending ||

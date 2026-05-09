@@ -39,7 +39,7 @@ export function Tabs<T extends string>({
   return (
     <div
       className={cn(
-        "flex w-full items-center rounded-xl bg-gray-100/80 p-1 backdrop-blur-sm dark:bg-zinc-800/80",
+        "flex items-center w-full rounded-xl bg-gray-100/80 p-1 backdrop-blur-sm dark:bg-zinc-800/80 lg:flex-col lg:items-stretch lg:gap-1 lg:p-2 lg:rounded-lg",
         className
       )}
       role="tablist"
@@ -54,7 +54,7 @@ export function Tabs<T extends string>({
             aria-selected={isActive}
             onClick={() => onChange(option.id)}
             className={cn(
-              "relative flex flex-1 items-center justify-center rounded-lg px-3 py-2 text-sm font-medium transition-colors outline-none",
+              "relative flex flex-1 items-center justify-center rounded-lg px-3 py-2 text-sm font-medium transition-colors outline-none lg:flex-none lg:w-full lg:justify-start lg:px-4 lg:py-3",
               isActive
                 ? "text-gray-900 dark:text-white"
                 : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200",

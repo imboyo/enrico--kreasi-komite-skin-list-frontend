@@ -182,78 +182,89 @@ export function PageApp() {
 
   return (
     <motion.main
-      className="mx-auto flex w-full max-w-125 flex-col gap-6 px-4 py-4"
+      className="mx-auto flex w-full min-h-screen flex-col lg:flex-row gap-6 lg:gap-8 px-4 py-6 lg:py-8 lg:px-8 max-w-screen-2xl lg:max-w-none lg:pr-8"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      {/* Dashboard content section */}
-      <div className="flex flex-col gap-4">
-        {/* Tabs section */}
-        <div className="overflow-x-auto pb-2 -mx-4 px-4 sm:overflow-visible sm:px-0 sm:mx-0 sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {/* Sidebar - Tabs section (vertical on desktop, horizontal on mobile) */}
+      <div className="w-full lg:w-64 lg:shrink-0 lg:sticky lg:top-6 lg:self-start">
+        <div className="overflow-x-auto pb-4 -mx-4 px-4 lg:overflow-visible lg:px-0 lg:mx-0 lg:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Tabs<TabId>
             options={[...TABS]}
             activeId={activeTab}
             onChange={handleTabChange}
-            className="w-max min-w-full sm:w-full"
+            className="w-max min-w-full lg:w-full lg:flex lg:flex-col"
           />
         </div>
+      </div>
 
-        {/* Toolbar section - search, sort, and refresh */}
-        <SectionToolbar
-          searchValue={searchQuery}
-          onSearchChange={handleSearchChange}
-          searchPlaceholder="Cari item..."
-          sortDirection={sortDirection}
-          onSortChange={handleSortChange}
-          onRefresh={handleRefresh}
-          isRefreshing={skinTreatPageQuery.isFetching}
-        />
+      {/* Main content area */}
+      <div className="flex-1 w-full lg:min-w-0">
+        <div className="flex flex-col gap-6">
+          {/* Toolbar section - search, sort, and refresh */}
+          <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm -mx-4 px-4 lg:mx-0 lg:px-0 py-4 lg:py-0 lg:bg-transparent lg:backdrop-blur-none">
+            <SectionToolbar
+              searchValue={searchQuery}
+              onSearchChange={handleSearchChange}
+              searchPlaceholder="Cari item..."
+              sortDirection={sortDirection}
+              onSortChange={handleSortChange}
+              onRefresh={handleRefresh}
+              isRefreshing={skinTreatPageQuery.isFetching}
+            />
+          </div>
 
-        {/* Top pagination section */}
-        {totalPages > 1 && (
-          <MobilePagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
-
-        {/* Tab panel section */}
-        <div>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-            >
-              <SkinTreatList
-                key={`${activeTab}-${searchQuery}-${currentPage}-${sortDirection}`}
-                queryKey={skinTreatQueryKey}
-                queryFn={fetchSkinTreatPage}
-                select={selectSkinTreatPage()}
-                staleTime={SKIN_TREAT_CACHE_MS}
-                gcTime={SKIN_TREAT_CACHE_MS}
-                errorTitle={copy.errorTitle}
-                emptyTitle={copy.emptyTitle}
-                emptyDescription={copy.emptyDescription}
-                deletingItemId={deletingItemId}
-                onItemClick={(item) => openItemDetails(activeTab, item)}
+          {/* Top pagination section */}
+          {totalPages > 1 && (
+            <div className="flex justify-center lg:justify-start">
+              <MobilePagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
               />
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            </div>
+          )}
 
-        {/* Bottom pagination section */}
-        {totalPages > 1 && (
-          <MobilePagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        )}
+          {/* Content section - with proper spacing and background */}
+          <div className="flex-1 bg-white/50 lg:bg-transparent rounded-lg lg:rounded-none border border-gray-100 lg:border-0 p-0 lg:p-0 -mx-4 lg:mx-0 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+                className="h-full"
+              >
+                <SkinTreatList
+                  key={`${activeTab}-${searchQuery}-${currentPage}-${sortDirection}`}
+                  queryKey={skinTreatQueryKey}
+                  queryFn={fetchSkinTreatPage}
+                  select={selectSkinTreatPage()}
+                  staleTime={SKIN_TREAT_CACHE_MS}
+                  gcTime={SKIN_TREAT_CACHE_MS}
+                  errorTitle={copy.errorTitle}
+                  emptyTitle={copy.emptyTitle}
+                  emptyDescription={copy.emptyDescription}
+                  deletingItemId={deletingItemId}
+                  onItemClick={(item) => openItemDetails(activeTab, item)}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Bottom pagination section */}
+          {totalPages > 1 && (
+            <div className="flex justify-center lg:justify-start pb-6">
+              <MobilePagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Item detail dialog section — controlled by this page */}

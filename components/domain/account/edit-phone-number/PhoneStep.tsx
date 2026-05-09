@@ -44,8 +44,8 @@ export function PhoneStep({
         {({ isValid, values }) => (
           <Button
             type="submit"
-            fullWidth
-            size="lg"
+            className="self-end"
+            size="md"
             isLoading={initiateMutation.isPending}
             disabled={
               initiateMutation.isPending ||

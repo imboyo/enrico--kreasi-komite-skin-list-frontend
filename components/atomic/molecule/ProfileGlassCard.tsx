@@ -12,7 +12,7 @@ interface DermalMetric {
 export interface ProfileGlassCardProps {
   fullName: string;
   email: string;
-  dermalMetrics: DermalMetric[];
+  dermalMetrics?: DermalMetric[];
   editProfileHref?: string;
   tone?: "default" | "hero";
   className?: string;
@@ -68,7 +68,7 @@ export function ProfileGlassCard({
   style,
 }: ProfileGlassCardProps) {
   const totalPercent =
-    dermalMetrics.length > 0
+    dermalMetrics && dermalMetrics.length > 0
       ? Math.round(
           dermalMetrics.reduce((sum, m) => sum + m.percent, 0) /
             dermalMetrics.length,
@@ -80,7 +80,7 @@ export function ProfileGlassCard({
   return (
     <div
       className={cn(
-        "relative rounded-3xl px-5 pb-5",
+        "relative rounded-3xl p-5",
         // Use a brighter glass style when the card sits inside a primary hero banner.
         isHeroTone
           ? "border border-white/20 bg-white/12 text-primary-foreground"
@@ -120,17 +120,19 @@ export function ProfileGlassCard({
       </div>
 
       {/* Dermal progress section — single total bar only */}
-      <div className="flex flex-col gap-2">
-        <span
-          className={cn(
-            "text-xs font-medium uppercase tracking-wide",
-            isHeroTone ? "text-primary-foreground/70" : "text-foreground/50",
-          )}
-        >
-          Progres Dermal
-        </span>
-        <ProgressBar percent={totalPercent} tone={tone} />
-      </div>
+      {dermalMetrics && dermalMetrics.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <span
+            className={cn(
+              "text-xs font-medium uppercase tracking-wide",
+              isHeroTone ? "text-primary-foreground/70" : "text-foreground/50",
+            )}
+          >
+            Progres Dermal
+          </span>
+          <ProgressBar percent={totalPercent} tone={tone} />
+        </div>
+      )}
     </div>
   );
 }
