@@ -46,7 +46,7 @@ export function PageLogin() {
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={flow.currentStep}
-          className="w-full"
+          className="w-full max-w-sm"
           // The flow direction keeps OTP/back transitions aligned with register.
           initial={{ opacity: 0, x: transitionX }}
           animate={{ opacity: 1, x: 0 }}

@@ -74,7 +74,7 @@ export type AdminSkinChatMessage = {
 };
 
 export type AdminSkinChatThread = {
-  id: string;
+  uuid: string;
   last_message_at: string | null;
   created_at: string;
   updated_at: string;

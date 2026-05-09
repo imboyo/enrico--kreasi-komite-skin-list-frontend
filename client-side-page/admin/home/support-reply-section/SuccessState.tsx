@@ -51,22 +51,18 @@ export const SuccessState = ({ totalCount, threads }: SuccessStateProps) => {
       {/* Section: Latest conversation preview */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3">
-          <p className="text-sm font-medium text-foreground">
-            Latest 10 chats
-          </p>
+          <p className="text-sm font-medium text-foreground">Latest 10 chats</p>
           <span className="text-xs text-muted-foreground">Newest first</span>
         </div>
 
         <div className="flex flex-col gap-2">
           {threads.map((thread) => (
             <div
-              key={thread.id}
+              key={thread.uuid}
               className="flex flex-col gap-2 rounded-2xl border border-border/60 bg-muted/35 px-3 py-3"
             >
               <div className="flex items-start justify-between gap-3">
-                <p className="text-sm font-medium">
-                  {thread.user.full_name}
-                </p>
+                <p className="text-sm font-medium">{thread.user.full_name}</p>
                 <span className="shrink-0 text-[11px] text-muted-foreground">
                   {formatMessageTime(thread.last_message_at)}
                 </span>

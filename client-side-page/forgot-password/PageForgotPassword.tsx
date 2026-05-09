@@ -33,12 +33,12 @@ export function PageForgotPassword() {
   };
 
   return (
-    <main className="flex min-h-full flex-col items-center px-6 py-10">
+    <main className="flex min-h-full flex-col items-center gap-12 px-6 py-14">
       <LoginAvatar />
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={currentStep}
-          className="w-full"
+          className="w-full max-w-sm rounded-xl border border-gray-200 p-6"
           // The direction from the reusable flow hook keeps back/next motion consistent.
           initial={{ opacity: 0, x: transitionX }}
           animate={{ opacity: 1, x: 0 }}

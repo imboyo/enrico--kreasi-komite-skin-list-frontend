@@ -1,28 +1,33 @@
-import MobileContainer from "@/components/atomic/atom/MobileContainer";
+import type { ReactNode } from "react";
+
+import { NotLoginSidebar } from "@/components/atomic/layout/not-login/NotLoginSidebar";
 import { NotLoginTopbar } from "@/components/atomic/layout/not-login/NotLoginTopbar";
 import GuardNotLogin from "@/guard/GuardNotLogin";
-import { NotLoginSidebar } from "@/components/atomic/layout/not-login/NotLoginSidebar";
-import React from "react";
 
-export default function NotLoginLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+interface NotLoginLayoutProps {
+  children: ReactNode;
+}
+
+export default function NotLoginLayout({ children }: Readonly<NotLoginLayoutProps>) {
   return (
     <GuardNotLogin>
-      <MobileContainer>
-        {/* Topbar section */}
-        <NotLoginTopbar />
-
-        {/* Sidebar section */}
+      <div className="flex min-h-dvh bg-background">
+        {/* Section: Not Login Sidebar */}
         <NotLoginSidebar />
 
-        {/* Main content section */}
-        {/* The content slot grows under the fixed topbar height instead of
-            claiming a second full viewport and creating extra page height. */}
-        <div className="flex-1 min-h-0">{children}</div>
-      </MobileContainer>
+        {/* Section: Not Login Page Shell */}
+        <div className="flex min-w-0 flex-1 flex-col">
+          {/* Section: Not Login Topbar */}
+          <NotLoginTopbar />
+
+          {/* Section: Not Login Content */}
+          <main className="min-w-0 flex-1 overflow-y-auto">
+            <div className="mx-auto flex min-h-full w-full max-w-125 flex-col px-4 py-4 sm:max-w-160 md:max-w-3xl lg:max-w-240 xl:max-w-7xl">
+              {children}
+            </div>
+          </main>
+        </div>
+      </div>
     </GuardNotLogin>
   );
 }

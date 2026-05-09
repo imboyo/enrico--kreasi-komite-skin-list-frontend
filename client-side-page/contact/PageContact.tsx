@@ -4,12 +4,7 @@ import { ContactChannelsSection } from "@/client-side-page/contact/components/Co
 import { ContactHeroSection } from "@/client-side-page/contact/components/ContactHeroSection";
 import { SupportNotesSection } from "@/client-side-page/contact/components/SupportNotesSection";
 import { motion, useReducedMotion } from "motion/react";
-import {
-  headingItemVariants,
-  headingVariants,
-  pageVariants,
-  sectionVariants,
-} from "libs/util/page-motion-variants";
+import { pageVariants, sectionVariants } from "libs/util/page-motion-variants";
 
 export const PageContact = () => {
   const reduceMotion = useReducedMotion();
@@ -25,29 +20,32 @@ export const PageContact = () => {
 
   return (
     <motion.main
-      className="mx-auto flex w-full max-w-125 flex-col gap-6 px-4 py-4"
+      className="flex w-full flex-col gap-6 py-2 md:gap-8 md:py-4 lg:gap-12 lg:py-6"
       initial="initial"
       animate="animate"
       variants={pageVariants}
     >
-      <motion.section className="flex flex-col gap-4" variants={contentVariants}>
-        <motion.div className="flex flex-col gap-1" variants={headingVariants}>
-          <motion.h1 className="text-[40px] font-medium" variants={headingItemVariants}>
-            Contact Us
-          </motion.h1>
-          <motion.h6 className="text-muted-foreground text-sm" variants={headingItemVariants}>
-            Reach the Kreasi Komite team through the channel that fits your question best.
-          </motion.h6>
-        </motion.div>
-
+      {/* Section: Heading + Hero */}
+      <motion.section
+        className="flex flex-col gap-4 lg:gap-5"
+        variants={contentVariants}
+      >
         <ContactHeroSection />
       </motion.section>
 
-      <motion.section className="flex flex-col gap-3" variants={contentVariants}>
+      {/* Section: Contact Channels */}
+      <motion.section
+        className="flex flex-col gap-3 lg:gap-4"
+        variants={contentVariants}
+      >
         <ContactChannelsSection />
       </motion.section>
 
-      <motion.section className="flex flex-col gap-3" variants={contentVariants}>
+      {/* Section: Support Notes */}
+      <motion.section
+        className="flex flex-col gap-3 lg:gap-4"
+        variants={contentVariants}
+      >
         <SupportNotesSection />
       </motion.section>
     </motion.main>

@@ -46,7 +46,7 @@ export function PageRegister() {
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={currentStep}
-          className="w-full"
+          className="w-full max-w-sm"
           // The direction from the reusable flow hook keeps back/next motion consistent.
           initial={{ opacity: 0, x: transitionX }}
           animate={{ opacity: 1, x: 0 }}

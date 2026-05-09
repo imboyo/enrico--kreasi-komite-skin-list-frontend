@@ -135,7 +135,7 @@ export function HomeChecklistSection<TItem extends HomeChecklistItem>({
             emptyTitle={emptyTitle}
             emptyDescription={emptyDescription}
           >
-            <div className="space-y-3">
+              <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
               {resolvedItems.map((item) => (
                 <ChecklistItemCard
                   key={item.id}

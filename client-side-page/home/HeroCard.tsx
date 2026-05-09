@@ -15,13 +15,14 @@ export const HeroCard = () => {
           glow naturally.
         </>
       }
+      description="Track your daily routine, find the right tones, organize your make up, and monitor skin concerns — all in one place."
     >
       {/* Category pills */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 md:gap-3">
         {CATEGORY_LABELS.map((label) => (
           <span
             key={label}
-            className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur-sm"
+            className="rounded-full bg-white/15 px-4 py-1.5 text-xs font-medium backdrop-blur-sm md:px-5 md:py-2 md:text-sm"
           >
             {label}
           </span>
