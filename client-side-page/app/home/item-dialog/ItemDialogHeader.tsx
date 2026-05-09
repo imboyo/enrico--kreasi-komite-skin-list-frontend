@@ -25,16 +25,16 @@ export function ItemDialogHeader({
         <div className="flex flex-col gap-2">
           <p className="text-xs font-medium uppercase tracking-[0.24em] text-dialog-current-muted">
             {isDeleting
-              ? "Deleting Item"
+              ? "Menghapus Item"
               : mode === "edit"
-                ? "Edit Item"
-                : "Selected Item"}
+                ? "Ubah Item"
+                : "Item Terpilih"}
           </p>
           <DialogTitle className="text-2xl font-semibold">
             {isDeleting
-              ? `Deleting ${itemLabel}`
+              ? `Menghapus ${itemLabel}`
               : mode === "edit"
-                ? "Edit Details"
+                ? "Edit Detail"
                 : itemLabel}
           </DialogTitle>
         </div>
@@ -44,7 +44,7 @@ export function ItemDialogHeader({
           {mode === "view" ? (
             <button
               type="button"
-              aria-label="Edit item"
+              aria-label="Ubah item"
               onClick={onEnterEdit}
               disabled={isPending}
               className="flex h-8 w-8 items-center justify-center rounded-xl text-dialog-current-foreground/60 transition-colors hover:bg-primary/5 hover:text-dialog-current-foreground"
@@ -58,7 +58,7 @@ export function ItemDialogHeader({
           ) : (
             <button
               type="button"
-              aria-label="Cancel edit"
+              aria-label="Batal edit"
               onClick={onCancelEdit}
               disabled={isPending}
               className="flex h-8 w-8 items-center justify-center rounded-xl text-dialog-current-foreground/60 transition-colors hover:bg-primary/5 hover:text-dialog-current-foreground"

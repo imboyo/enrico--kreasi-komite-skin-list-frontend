@@ -23,15 +23,15 @@ export const forgotPasswordWhatsappSchema = z.object({
 });
 
 export const forgotPasswordOtpSchema = z.object({
-  otp: z.string().min(1, "OTP is required").length(6, "OTP must be 6 digits"),
+  otp: z.string().min(1, "OTP wajib diisi").length(6, "OTP harus terdiri dari 6 digit"),
 });
 
 export const forgotPasswordResetSchema = z.object({
   newPassword: z
     .string()
-    .min(1, "New password is required")
-    .min(6, "Password must be at least 6 characters"),
-  confirmPassword: z.string().min(1, "Please confirm your password"),
+    .min(1, "Kata sandi baru wajib diisi")
+    .min(6, "Kata sandi minimal 6 karakter"),
+  confirmPassword: z.string().min(1, "Mohon konfirmasi kata sandi Anda"),
 });
 
 export function useForgotPasswordFlow() {
@@ -97,19 +97,19 @@ export function useForgotPasswordFlow() {
   const requestOtpError = requestOtpMutation.error
     ? requestOtpMutation.error instanceof HttpError
       ? requestOtpMutation.error.message
-      : "Something went wrong. Please try again."
+      : "Terjadi kesalahan. Silakan coba lagi."
     : null;
 
   const verifyOtpError = verifyOtpMutation.error
     ? verifyOtpMutation.error instanceof HttpError
       ? verifyOtpMutation.error.message
-      : "Something went wrong. Please try again."
+      : "Terjadi kesalahan. Silakan coba lagi."
     : null;
 
   const resetPasswordError = resetPasswordMutation.error
     ? resetPasswordMutation.error instanceof HttpError
       ? resetPasswordMutation.error.message
-      : "Something went wrong. Please try again."
+      : "Terjadi kesalahan. Silakan coba lagi."
     : null;
 
   return {

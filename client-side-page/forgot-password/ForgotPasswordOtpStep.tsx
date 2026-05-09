@@ -27,10 +27,10 @@ export function ForgotPasswordOtpStep({
     <>
       <div className="mb-6 text-center">
         <h1 className="mb-1 text-2xl font-semibold leading-tight text-foreground">
-          Enter OTP
+          Masukkan OTP
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter the OTP sent to <strong>{pendingWhatsappNumber}</strong>.
+          Masukkan OTP yang dikirim ke <strong>{pendingWhatsappNumber}</strong>.
         </p>
       </div>
 
@@ -54,7 +54,7 @@ export function ForgotPasswordOtpStep({
                 htmlFor="forgot-password-otp"
                 className="text-sm font-medium text-foreground"
               >
-                OTP Code
+                Kode OTP
               </label>
               <OtpInput
                 id="forgot-password-otp"
@@ -91,7 +91,7 @@ export function ForgotPasswordOtpStep({
                 (!isValid && otpForm.state.submissionAttempts > 0)
               }
             >
-              Verify OTP
+              Verifikasi OTP
             </Button>
           )}
         </otpForm.Subscribe>
@@ -104,7 +104,7 @@ export function ForgotPasswordOtpStep({
           disabled={verifyOtpMutation.isPending}
           onClick={backToWhatsapp}
         >
-          Back
+          Kembali
         </Button>
       </form>
     </>

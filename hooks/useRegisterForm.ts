@@ -18,16 +18,16 @@ import { useRegisterMutation } from "./useRegisterMutation";
 
 export const registerSchema = z
   .object({
-    name: z.string().min(1, "Full name is required"),
+    name: z.string().min(1, "Nama lengkap wajib diisi"),
     whatsappNumber: whatsappNumberSchema,
     password: z
       .string()
-      .min(1, "Password is required")
-      .min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string().min(1, "Please confirm your password"),
+      .min(1, "Kata sandi wajib diisi")
+      .min(6, "Kata sandi minimal 6 karakter"),
+    confirmPassword: z.string().min(1, "Mohon konfirmasi kata sandi Anda"),
   })
   .refine((value) => value.password === value.confirmPassword, {
-    message: "Passwords do not match",
+    message: "Konfirmasi kata sandi tidak cocok",
     path: ["confirmPassword"],
   });
 
@@ -79,7 +79,7 @@ export function useRegisterForm() {
   });
 
   const serverError = registerMutation.error
-    ? "Something went wrong. Please try again."
+    ? "Terjadi kesalahan. Silakan coba lagi."
     : null;
 
   return {

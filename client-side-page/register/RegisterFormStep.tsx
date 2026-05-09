@@ -54,7 +54,7 @@ export function RegisterFormStep({ onRegisterSuccess }: RegisterFormStepProps) {
   });
 
   const registerError = registerMutation.error
-    ? "Something went wrong. Please try again."
+    ? "Terjadi kesalahan. Silakan coba lagi."
     : null;
 
   return (
@@ -123,7 +123,7 @@ export function RegisterFormStep({ onRegisterSuccess }: RegisterFormStepProps) {
                   (hasValues ? !isValid && submissionAttempts > 0 : true)
                 }
               >
-                Continue
+                Lanjutkan
               </Button>
             );
           }}
@@ -137,16 +137,16 @@ export function RegisterFormStep({ onRegisterSuccess }: RegisterFormStepProps) {
           disabled={registerMutation.isPending}
           onClick={() => router.back()}
         >
-          Back
+          Kembali
         </Button>
 
         <p className="text-center text-sm text-muted-foreground">
-          Already have an account?{" "}
+          Sudah punya akun?{" "}
           <Link
             href={APP_URL.LOGIN}
             className="font-medium text-primary hover:underline"
           >
-            Log in
+            Masuk
           </Link>
         </p>
       </form>

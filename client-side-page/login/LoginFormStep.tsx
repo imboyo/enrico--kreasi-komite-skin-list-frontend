@@ -45,7 +45,7 @@ export function LoginFormStep({ onLoginChainSuccess }: LoginFormStepProps) {
 
   const loginError = loginChainMutation.error
     ? loginChainMutation.error.message ||
-      "Something went wrong. Please try again."
+      "Terjadi kesalahan. Silakan coba lagi."
     : null;
 
   return (
@@ -100,7 +100,7 @@ export function LoginFormStep({ onLoginChainSuccess }: LoginFormStepProps) {
                   (hasValues ? !isValid && submissionAttempts > 0 : true)
                 }
               >
-                Continue
+                Lanjutkan
               </Button>
             );
           }}
@@ -114,16 +114,16 @@ export function LoginFormStep({ onLoginChainSuccess }: LoginFormStepProps) {
           disabled={loginChainMutation.isPending}
           onClick={() => router.back()}
         >
-          Back
+          Kembali
         </Button>
 
         <p className="text-center text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
+          Belum punya akun?{" "}
           <Link
             href={APP_URL.REGISTER}
             className="font-medium text-primary hover:underline"
           >
-            Sign up
+            Daftar
           </Link>
         </p>
 
@@ -131,7 +131,7 @@ export function LoginFormStep({ onLoginChainSuccess }: LoginFormStepProps) {
           href={APP_URL.FORGOT_PASSWORD}
           className="text-center text-sm font-medium text-primary hover:underline"
         >
-          Forgot your password?
+          Lupa kata sandi?
         </Link>
       </form>
     </>

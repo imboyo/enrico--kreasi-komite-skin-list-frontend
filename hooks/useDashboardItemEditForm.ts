@@ -9,19 +9,22 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 
-import { updateSkinTreat, type SkinTreat } from "@/backend-service/user/skin-treat";
+import {
+  updateSkinTreat,
+  type SkinTreat,
+} from "@/backend-service/user/skin-treat";
 import type { DashboardEditableItem } from "@/mock-backend/user/dashboard/item-store";
 
 export const dashboardItemEditSchema = z.object({
   label: z
     .string()
     .trim()
-    .min(1, "Title is required")
-    .max(60, "Title must be 60 characters or less"),
+    .min(1, "Judul wajib diisi")
+    .max(60, "Judul maksimal 60 karakter"),
   description: z
     .string()
     .trim()
-    .max(280, "Description must be 280 characters or less"),
+    .max(280, "Deskripsi maksimal 280 karakter"),
 });
 
 export type DashboardItemEditValues = z.infer<typeof dashboardItemEditSchema>;
@@ -90,7 +93,7 @@ export function useDashboardItemEditForm({
   });
 
   const serverError = mutation.error
-    ? "Failed to save item changes. Please try again."
+    ? "Gagal menyimpan perubahan item. Silakan coba lagi."
     : null;
 
   function syncFormValues(values: DashboardItemEditValues) {

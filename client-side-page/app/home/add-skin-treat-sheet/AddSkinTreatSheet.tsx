@@ -41,7 +41,11 @@ export function AddSkinTreatSheet({
   }, [open, form]);
 
   return (
-    <BottomSheet open={open} onClose={onClose} panelClassName="h-auto max-h-[70dvh]">
+    <BottomSheet
+      open={open}
+      onClose={onClose}
+      panelClassName="h-auto max-h-[70dvh]"
+    >
       {/* Header section */}
       <div className="flex items-center gap-3 px-4 pt-4 pb-3">
         <Button
@@ -51,12 +55,14 @@ export function AddSkinTreatSheet({
           iconOnly
           onClick={onClose}
           className="rounded-full text-muted-foreground hover:bg-muted"
-          aria-label="Close"
+          aria-label="Tutup"
         >
           <Icon icon="lucide:x" className="size-4" />
         </Button>
 
-        <h3 className="text-sm font-semibold text-foreground">Add Skin Treat</h3>
+        <h3 className="text-sm font-semibold text-foreground">
+          Tambah Skin Treat
+        </h3>
       </div>
 
       <div className="h-px bg-border" />
@@ -84,14 +90,14 @@ export function AddSkinTreatSheet({
                 htmlFor="add-skin-treat-name"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Name
+                Nama
               </label>
               <TextInput
                 id="add-skin-treat-name"
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
-                placeholder="Enter name"
+                placeholder="Masukkan nama"
                 disabled={isPending}
               />
               <FormFieldError
@@ -106,9 +112,15 @@ export function AddSkinTreatSheet({
           name="description"
           validators={{
             onBlur: ({ value }) =>
-              validateAddSkinTreatField(addSkinTreatSchema.shape.description, value),
+              validateAddSkinTreatField(
+                addSkinTreatSchema.shape.description,
+                value,
+              ),
             onSubmit: ({ value }) =>
-              validateAddSkinTreatField(addSkinTreatSchema.shape.description, value),
+              validateAddSkinTreatField(
+                addSkinTreatSchema.shape.description,
+                value,
+              ),
           }}
         >
           {(field) => (
@@ -117,8 +129,8 @@ export function AddSkinTreatSheet({
                 htmlFor="add-skin-treat-description"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Description{" "}
-                <span className="text-muted-foreground/60">(optional)</span>
+                Deskripsi{" "}
+                <span className="text-muted-foreground/60">(opsional)</span>
               </label>
               {/* Textarea mirrors the shared input surface style */}
               <textarea
@@ -126,7 +138,7 @@ export function AddSkinTreatSheet({
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
-                placeholder="Enter description"
+                placeholder="Masukkan deskripsi"
                 rows={3}
                 disabled={isPending}
                 className="w-full rounded-2xl border border-input bg-input-surface px-4 py-3 text-sm text-foreground outline-none placeholder:text-input-placeholder focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
@@ -158,7 +170,7 @@ export function AddSkinTreatSheet({
               isLoading={isPending}
               disabled={isPending || !canSubmit || !values.name.trim()}
             >
-              Add Skin Treat
+              Tambah Skin Treat
             </Button>
           )}
         </form.Subscribe>

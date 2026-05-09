@@ -31,29 +31,33 @@ export const TAB_CONTENT_COPY: Record<
   }
 > = {
   routines: {
-    errorTitle: "Routine list is unavailable.",
-    emptyTitle: "No routines available yet.",
+    errorTitle: "Daftar rutinitas tidak tersedia.",
+    emptyTitle: "Belum ada Routine",
     emptyDescription:
-      "Add your routine data or retry the request to load this checklist again.",
+      "Tambahkan data rutinitasmu atau coba muat ulang permintaan ini untuk menampilkan checklist lagi.",
   },
   colors: {
-    errorTitle: "Color list is unavailable.",
-    emptyTitle: "No colors available yet.",
-    emptyDescription: "Add your color data to load this checklist again.",
+    errorTitle: "Daftar warna tidak tersedia.",
+    emptyTitle: "Belum ada Color",
+    emptyDescription:
+      "Tambahkan data warnamu untuk menampilkan checklist ini lagi.",
   },
   "make-ups": {
-    errorTitle: "Make up list is unavailable.",
-    emptyTitle: "No make ups available yet.",
-    emptyDescription: "Add your make up data to load this checklist again.",
+    errorTitle: "Daftar make up tidak tersedia.",
+    emptyTitle: "Belum ada make up",
+    emptyDescription:
+      "Tambahkan data make up-mu untuk menampilkan checklist ini lagi.",
   },
   barriers: {
-    errorTitle: "Barrier list is unavailable.",
-    emptyTitle: "No barriers available yet.",
-    emptyDescription: "Add your barrier data to load this checklist again.",
+    errorTitle: "Daftar skin barrier tidak tersedia.",
+    emptyTitle: "Belum ada data skin barrier",
+    emptyDescription:
+      "Tambahkan data skin barrier-mu untuk menampilkan checklist ini lagi.",
   },
   scars: {
-    errorTitle: "Scar list is unavailable.",
-    emptyTitle: "No scars available yet.",
-    emptyDescription: "Add your scar data to load this checklist again.",
+    errorTitle: "Daftar bekas luka tidak tersedia.",
+    emptyTitle: "Belum ada data scars",
+    emptyDescription:
+      "Tambahkan data bekas luka-mu untuk menampilkan checklist ini lagi.",
   },
 };

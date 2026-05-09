@@ -42,7 +42,7 @@ export function MobilePagination({
 
   return (
     <nav
-      aria-label="Pagination"
+      aria-label="Paginasi"
       className={cn(
         "flex w-full items-center justify-between gap-2 rounded-2xl bg-transparent p-2",
         className,
@@ -50,7 +50,7 @@ export function MobilePagination({
     >
       {/* Section: Previous page action */}
       <Button
-        aria-label="Go to previous page"
+        aria-label="Ke halaman sebelumnya"
         iconOnly
         size="sm"
         variant="ghost"
@@ -76,7 +76,7 @@ export function MobilePagination({
               ) : null}
               <button
                 type="button"
-                aria-label={`Go to page ${page}`}
+                aria-label={`Ke halaman ${page}`}
                 aria-current={isActive ? "page" : undefined}
                 onClick={() => onPageChange(page)}
                 className={cn(
@@ -95,7 +95,7 @@ export function MobilePagination({
 
       {/* Section: Next page action */}
       <Button
-        aria-label="Go to next page"
+        aria-label="Ke halaman berikutnya"
         iconOnly
         size="sm"
         variant="ghost"

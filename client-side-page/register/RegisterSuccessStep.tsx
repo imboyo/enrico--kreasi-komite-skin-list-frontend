@@ -23,17 +23,17 @@ export function RegisterSuccessStep({
           />
         </div>
         <h1 className="mb-1 text-2xl font-semibold leading-tight text-foreground">
-          Registration complete
+          Pendaftaran berhasil
         </h1>
         <p className="text-sm text-muted-foreground">
-          {registeredUser?.name} is ready to sign in with{" "}
+          {registeredUser?.name} sudah bisa masuk menggunakan{" "}
           <strong>{registeredUser?.whatsappNumber}</strong>.
         </p>
       </div>
 
       <div className="flex w-full flex-col gap-4">
         <Button fullWidth size="lg" onClick={() => router.push(APP_URL.LOGIN)}>
-          Go to Login Page
+          Ke Halaman Masuk
         </Button>
 
         <button
@@ -41,7 +41,7 @@ export function RegisterSuccessStep({
           className="text-sm font-medium text-primary hover:underline"
           onClick={() => router.back()}
         >
-          Back
+          Kembali
         </button>
       </div>
     </>

@@ -17,10 +17,11 @@ export function ForgotPasswordSuccessStep() {
           />
         </div>
         <h1 className="mb-1 text-2xl font-semibold leading-tight text-foreground">
-          Password reset
+          Kata sandi berhasil diatur ulang
         </h1>
         <p className="text-sm text-muted-foreground">
-          Your password has been reset successfully. You can now log in with your new password.
+          Kata sandi Anda berhasil diatur ulang. Sekarang Anda bisa masuk
+          menggunakan kata sandi baru.
         </p>
       </div>
 
@@ -30,7 +31,7 @@ export function ForgotPasswordSuccessStep() {
           size="lg"
           onClick={() => router.push(APP_URL.LOGIN)}
         >
-          Back to Login
+          Kembali ke Halaman Masuk
         </Button>
       </div>
     </>

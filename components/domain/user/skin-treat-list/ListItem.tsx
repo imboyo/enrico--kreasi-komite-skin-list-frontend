@@ -52,7 +52,7 @@ export function ListItem({
             id={checkboxId}
             checked={isChecked}
             disabled={isLocked}
-            aria-label={`Mark ${label} as completed`}
+            aria-label={`Tandai ${label} sebagai selesai`}
             aria-busy={isLocked}
             className="self-center"
             onChange={(event) => onCheck(event.currentTarget.checked)}
@@ -66,11 +66,11 @@ export function ListItem({
         {/* Sync state section */}
         {isDeleting ? (
           <span className="text-xs font-medium text-destructive">
-            Deleting...
+            Menghapus...
           </span>
         ) : isSyncing ? (
           <span
-            aria-label="Saving checklist item"
+            aria-label="Menyimpan item checklist"
             className="size-1.5 shrink-0 rounded-full bg-primary/70"
           />
         ) : null}
@@ -78,7 +78,7 @@ export function ListItem({
         {/* Detail button — isolated so it never toggles the checkbox */}
         <button
           type="button"
-          aria-label={`Open ${label} details`}
+          aria-label={`Buka detail ${label}`}
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-background/80 text-muted-foreground transition-[background-color,transform] hover:bg-primary/5"
           onClick={onDetailOpen}
           disabled={isDeleting}

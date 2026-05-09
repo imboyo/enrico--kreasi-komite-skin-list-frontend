@@ -25,12 +25,12 @@ export function RegisterConfirmPasswordField({
         onBlur: ({ value, fieldApi }) => {
           // Re-run the cross-field check here so confirm-password errors update after either field changes.
           if (!value) {
-            return "Please confirm your password";
+            return "Mohon konfirmasi kata sandi Anda";
           }
 
           return value === fieldApi.form.getFieldValue("password")
             ? undefined
-            : "Passwords do not match";
+            : "Konfirmasi kata sandi tidak cocok";
         },
         onChange: ({ value, fieldApi }) => {
           if (!value) {
@@ -39,12 +39,12 @@ export function RegisterConfirmPasswordField({
 
           return value === fieldApi.form.getFieldValue("password")
             ? undefined
-            : "Passwords do not match";
+            : "Konfirmasi kata sandi tidak cocok";
         },
         onSubmit: ({ value, fieldApi }) =>
           value === fieldApi.form.getFieldValue("password")
             ? undefined
-            : "Passwords do not match",
+            : "Konfirmasi kata sandi tidak cocok",
       }}
     >
       {(field) => (
@@ -53,12 +53,12 @@ export function RegisterConfirmPasswordField({
             htmlFor="register-confirm-password"
             className="text-sm font-medium text-foreground"
           >
-            Confirm Password
+            Konfirmasi Kata Sandi
           </label>
           <TextInput
             id="register-confirm-password"
             type={showPassword ? "text" : "password"}
-            placeholder="Re-enter your password"
+            placeholder="Masukkan ulang kata sandi Anda"
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
             onBlur={field.handleBlur}
@@ -67,7 +67,11 @@ export function RegisterConfirmPasswordField({
             endItem={
               <button
                 type="button"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={
+                  showPassword
+                    ? "Sembunyikan kata sandi"
+                    : "Tampilkan kata sandi"
+                }
                 onClick={onToggleShowPassword}
                 className="text-input-placeholder transition-colors hover:text-foreground"
               >

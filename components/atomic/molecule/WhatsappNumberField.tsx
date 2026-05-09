@@ -27,22 +27,22 @@ interface Props {
 function NumberFormatHint() {
   return (
     <div className="-mx-3 -my-2 flex flex-col gap-1 rounded-lg border border-border bg-popover px-3 py-2 text-popover-foreground">
-      <p className="font-semibold">Accepted formats:</p>
+      <p className="font-semibold">Format yang diterima:</p>
       <ul className="list-disc pl-3 space-y-0.5 text-popover-foreground/80">
         <li>
-          Local: <span className="font-mono text-popover-foreground">08XXXXXXXXXX</span>
+          Lokal: <span className="font-mono text-popover-foreground">08XXXXXXXXXX</span>
         </li>
         <li>
-          Without prefix:{" "}
+          Tanpa awalan:{" "}
           <span className="font-mono text-popover-foreground">8XXXXXXXXXX</span>
         </li>
         <li>
-          International:{" "}
+          Internasional:{" "}
           <span className="font-mono text-popover-foreground">628XXXXXXXXXX</span>
         </li>
       </ul>
       <p className="mt-1 text-popover-foreground/60">
-        Numbers only, no spaces or dashes.
+        Angka saja, tanpa spasi atau tanda hubung.
       </p>
     </div>
   );
@@ -56,7 +56,7 @@ export function WhatsappNumberField({ field, inputId, disabled }: Props) {
           htmlFor={inputId}
           className="text-sm font-medium text-foreground"
         >
-          WhatsApp Number
+          Nomor WhatsApp
         </label>
 
         {/* Info popover: tells the user which number formats are accepted */}
@@ -64,7 +64,7 @@ export function WhatsappNumberField({ field, inputId, disabled }: Props) {
           trigger={
             <button
               type="button"
-              aria-label="WhatsApp number format help"
+              aria-label="Bantuan format nomor WhatsApp"
               className="text-foreground/50 hover:text-foreground transition-colors"
             >
               <Icon icon="ri:information-line" className="text-base" />
@@ -79,7 +79,7 @@ export function WhatsappNumberField({ field, inputId, disabled }: Props) {
       <TextInput
         id={inputId}
         type="text"
-        placeholder="e.g. 08123456789"
+        placeholder="cth. 08123456789"
         value={field.state.value}
         onChange={(e) => {
           // Store only digits in form state so pasted formatting never bypasses the field rule.

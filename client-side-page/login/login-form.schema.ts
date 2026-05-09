@@ -13,8 +13,8 @@ export const loginSchema = z.object({
   whatsappNumber: whatsappNumberSchema,
   password: z
     .string()
-    .min(1, "Password is required")
-    .min(6, "Password must be at least 6 characters"),
+    .min(1, "Kata sandi wajib diisi")
+    .min(6, "Kata sandi minimal 6 karakter"),
 });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;

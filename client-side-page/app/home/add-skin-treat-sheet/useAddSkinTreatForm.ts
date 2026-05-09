@@ -4,18 +4,21 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 
-import { createSkinTreat, type SkinTreatCategory } from "@/backend-service/user/skin-treat";
+import {
+  createSkinTreat,
+  type SkinTreatCategory,
+} from "@/backend-service/user/skin-treat";
 
 export const addSkinTreatSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(1, "Name is required")
-    .max(60, "Name must be 60 characters or less"),
+    .min(1, "Nama wajib diisi")
+    .max(60, "Nama maksimal 60 karakter"),
   description: z
     .string()
     .trim()
-    .max(280, "Description must be 280 characters or less"),
+    .max(280, "Deskripsi maksimal 280 karakter"),
 });
 
 export type AddSkinTreatValues = z.infer<typeof addSkinTreatSchema>;
@@ -33,7 +36,10 @@ type UseAddSkinTreatFormParams = {
   onSuccess?: () => void;
 };
 
-export function useAddSkinTreatForm({ category, onSuccess }: UseAddSkinTreatFormParams) {
+export function useAddSkinTreatForm({
+  category,
+  onSuccess,
+}: UseAddSkinTreatFormParams) {
   const mutation = useMutation({
     mutationFn: (values: AddSkinTreatValues) =>
       createSkinTreat({
@@ -56,7 +62,7 @@ export function useAddSkinTreatForm({ category, onSuccess }: UseAddSkinTreatForm
   });
 
   const serverError = mutation.error
-    ? "Failed to add skin treat. Please try again."
+    ? "Gagal menambahkan skin treat. Silakan coba lagi."
     : null;
 
   return {

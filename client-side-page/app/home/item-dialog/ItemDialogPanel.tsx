@@ -35,7 +35,7 @@ export function ItemDialogPanel({
         });
         onSave?.(updatedItem);
         setMode("view");
-        showToast("Item updated successfully.", { variant: "success" });
+        showToast("Item berhasil diperbarui.", { variant: "success" });
       },
     });
 
@@ -44,7 +44,7 @@ export function ItemDialogPanel({
     onSuccess: () => {
       onDelete?.(item);
       onClose();
-      showToast("Item deleted successfully.", { variant: "success" });
+      showToast("Item berhasil dihapus.", { variant: "success" });
     },
   });
 
@@ -69,7 +69,7 @@ export function ItemDialogPanel({
     try {
       await form.handleSubmit();
     } catch {
-      showToast("Failed to update item. Please try again.", {
+      showToast("Gagal memperbarui item. Silakan coba lagi.", {
         variant: "error",
       });
     }
@@ -91,7 +91,7 @@ export function ItemDialogPanel({
       await deleteMutation.mutateAsync();
     } catch {
       onDeleteError?.(item);
-      showToast("Failed to delete item. Please try again.", {
+      showToast("Gagal menghapus item. Silakan coba lagi.", {
         variant: "error",
       });
     }

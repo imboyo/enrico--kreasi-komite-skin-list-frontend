@@ -37,12 +37,12 @@ export function RegisterPasswordField({
             htmlFor="register-password"
             className="text-sm font-medium text-foreground"
           >
-            Password
+            Kata Sandi
           </label>
           <TextInput
             id="register-password"
             type={showPassword ? "text" : "password"}
-            placeholder="Create your password"
+            placeholder="Buat kata sandi Anda"
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
             onBlur={field.handleBlur}
@@ -51,7 +51,11 @@ export function RegisterPasswordField({
             endItem={
               <button
                 type="button"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={
+                  showPassword
+                    ? "Sembunyikan kata sandi"
+                    : "Tampilkan kata sandi"
+                }
                 onClick={onToggleShowPassword}
                 className="text-input-placeholder transition-colors hover:text-foreground"
               >

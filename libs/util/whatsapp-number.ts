@@ -37,17 +37,17 @@ export function normalizeWhatsappNumber(value: string): string {
 export const whatsappNumberSchema = z
   .string()
   .trim()
-  .min(1, "WhatsApp number is required")
-  .regex(/^\d+$/, "WhatsApp number must contain numbers only")
+  .min(1, "Nomor WhatsApp wajib diisi")
+  .regex(/^\d+$/, "Nomor WhatsApp hanya boleh berisi angka")
   .min(
     WHATSAPP_MIN_LENGTH,
-    `WhatsApp number must be ${WHATSAPP_MIN_LENGTH}-${WHATSAPP_MAX_LENGTH} digits`,
+    `Nomor WhatsApp harus terdiri dari ${WHATSAPP_MIN_LENGTH}-${WHATSAPP_MAX_LENGTH} digit`,
   )
   .max(
     WHATSAPP_MAX_LENGTH,
-    `WhatsApp number must be ${WHATSAPP_MIN_LENGTH}-${WHATSAPP_MAX_LENGTH} digits`,
+    `Nomor WhatsApp harus terdiri dari ${WHATSAPP_MIN_LENGTH}-${WHATSAPP_MAX_LENGTH} digit`,
   )
-  .refine(isValidWhatsappNumber, "Enter a valid WhatsApp number");
+  .refine(isValidWhatsappNumber, "Masukkan nomor WhatsApp yang valid");
 
 export function validateWhatsappField(value: string): string | undefined {
   const result = whatsappNumberSchema.safeParse(value);

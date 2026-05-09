@@ -18,7 +18,10 @@ import {
 import { normalizeWhatsappNumber } from "libs/util/whatsapp-number";
 
 const otpSchema = z.object({
-  otp: z.string().min(1, "OTP is required").length(6, "OTP must be 6 digits"),
+  otp: z
+    .string()
+    .min(1, "Kode OTP wajib diisi")
+    .length(6, "Kode OTP harus terdiri dari 6 digit"),
 });
 
 type OtpValues = z.infer<typeof otpSchema>;
@@ -87,7 +90,7 @@ export function RegisterOtpStep({
     validateRegisterField(otpSchema.shape.otp, value);
 
   const verifyError = verifyOtpMutation.error
-    ? "Something went wrong. Please try again."
+    ? "Terjadi kesalahan. Silakan coba lagi."
     : null;
 
   return (
@@ -95,10 +98,10 @@ export function RegisterOtpStep({
       {/* Heading */}
       <div className="mb-6 text-center">
         <h1 className="mb-1 text-2xl font-semibold leading-tight text-foreground">
-          Verify your account
+          Verifikasi akun Anda
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter the OTP sent to{" "}
+          Masukkan OTP yang dikirim ke{" "}
           <strong>{pendingRegistration?.whatsappNumber}</strong>.
         </p>
       </div>
@@ -124,7 +127,7 @@ export function RegisterOtpStep({
                 htmlFor="register-otp"
                 className="text-sm font-medium text-foreground"
               >
-                OTP Code
+                Kode OTP
               </label>
               <OtpInput
                 id="register-otp"
@@ -143,7 +146,7 @@ export function RegisterOtpStep({
         </otpForm.Field>
 
         <p className="text-xs text-muted-foreground">
-          Enter the latest 6-digit OTP sent to your WhatsApp number.
+          Masukkan 6 digit OTP terbaru yang dikirim ke nomor WhatsApp Anda.
         </p>
 
         {verifyError && (
@@ -168,7 +171,7 @@ export function RegisterOtpStep({
                 (!isValid && otpForm.state.submissionAttempts > 0)
               }
             >
-              Verify OTP
+              Verifikasi OTP
             </Button>
           )}
         </otpForm.Subscribe>
@@ -181,7 +184,7 @@ export function RegisterOtpStep({
           disabled={verifyOtpMutation.isPending}
           onClick={backToRegister}
         >
-          Back
+          Kembali
         </Button>
       </form>
     </>

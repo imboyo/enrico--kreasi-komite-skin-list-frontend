@@ -25,7 +25,7 @@ export type SectionToolbarProps = {
 export function SectionToolbar({
   searchValue,
   onSearchChange,
-  searchPlaceholder = "Search",
+  searchPlaceholder = "Cari",
   sortDirection = "DESC",
   onSortChange,
   onRefresh,
@@ -57,7 +57,7 @@ export function SectionToolbar({
             searchValue ? (
               <button
                 type="button"
-                aria-label="Clear search"
+                aria-label="Hapus pencarian"
                 onClick={() => onSearchChange("")}
                 className="flex size-6 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
@@ -76,10 +76,16 @@ export function SectionToolbar({
           size="md"
           iconOnly
           aria-label={
-            sortDirection === "DESC" ? "Sorted: newest first" : "Sorted: oldest first"
+            sortDirection === "DESC"
+              ? "Urutan: terbaru lebih dulu"
+              : "Urutan: terlama lebih dulu"
           }
           onClick={toggleSort}
-          title={sortDirection === "DESC" ? "Newest first" : "Oldest first"}
+          title={
+            sortDirection === "DESC"
+              ? "Terbaru lebih dulu"
+              : "Terlama lebih dulu"
+          }
         >
           <Icon
             icon={
@@ -98,7 +104,7 @@ export function SectionToolbar({
           variant="outline"
           size="md"
           iconOnly
-          aria-label={isRefreshing ? "Refreshing..." : "Refresh"}
+          aria-label={isRefreshing ? "Menyegarkan..." : "Segarkan"}
           onClick={onRefresh}
           disabled={isRefreshing}
         >

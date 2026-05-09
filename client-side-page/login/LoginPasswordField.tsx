@@ -38,12 +38,12 @@ export function LoginPasswordField({
             htmlFor="login-password"
             className="text-sm font-medium text-foreground"
           >
-            Password
+            Kata Sandi
           </label>
           <TextInput
             id="login-password"
             type={showPassword ? "text" : "password"}
-            placeholder="Enter your password"
+            placeholder="Masukkan kata sandi Anda"
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
             onBlur={field.handleBlur}
@@ -52,7 +52,7 @@ export function LoginPasswordField({
             endItem={
               <button
                 type="button"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
                 onClick={onToggleShowPassword}
                 className="text-input-placeholder transition-colors hover:text-foreground"
               >

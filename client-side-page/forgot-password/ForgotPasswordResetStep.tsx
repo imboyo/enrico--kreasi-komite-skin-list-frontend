@@ -37,10 +37,10 @@ export function ForgotPasswordResetStep({
     <>
       <div className="mb-6 text-center">
         <h1 className="mb-1 text-2xl font-semibold leading-tight text-foreground">
-          Reset password
+          Atur ulang kata sandi
         </h1>
         <p className="text-sm text-muted-foreground">
-          Create a new password for your account.
+          Buat kata sandi baru untuk akun Anda.
         </p>
       </div>
 
@@ -67,12 +67,12 @@ export function ForgotPasswordResetStep({
                 htmlFor="forgot-password-new-password"
                 className="text-sm font-medium text-foreground"
               >
-                New Password
+                Kata Sandi Baru
               </label>
               <TextInput
                 id="forgot-password-new-password"
                 type={showNewPassword ? "text" : "password"}
-                placeholder="Create new password"
+                placeholder="Buat kata sandi baru"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -81,7 +81,11 @@ export function ForgotPasswordResetStep({
                 endItem={
                   <button
                     type="button"
-                    aria-label={showNewPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showNewPassword
+                        ? "Sembunyikan kata sandi"
+                        : "Tampilkan kata sandi"
+                    }
                     onClick={toggleShowNewPassword}
                     className="text-input-placeholder transition-colors hover:text-foreground"
                   >
@@ -112,21 +116,21 @@ export function ForgotPasswordResetStep({
           validators={{
             onChangeListenTo: ["newPassword"],
             onBlur: ({ value, fieldApi }) => {
-              if (!value) return "Please confirm your password";
+              if (!value) return "Mohon konfirmasi kata sandi Anda";
               return value === fieldApi.form.getFieldValue("newPassword")
                 ? undefined
-                : "Passwords do not match";
+                : "Konfirmasi kata sandi tidak cocok";
             },
             onChange: ({ value, fieldApi }) => {
               if (!value) return undefined;
               return value === fieldApi.form.getFieldValue("newPassword")
                 ? undefined
-                : "Passwords do not match";
+                : "Konfirmasi kata sandi tidak cocok";
             },
             onSubmit: ({ value, fieldApi }) =>
               value === fieldApi.form.getFieldValue("newPassword")
                 ? undefined
-                : "Passwords do not match",
+                : "Konfirmasi kata sandi tidak cocok",
           }}
         >
           {(field) => (
@@ -135,12 +139,12 @@ export function ForgotPasswordResetStep({
                 htmlFor="forgot-password-confirm-password"
                 className="text-sm font-medium text-foreground"
               >
-                Confirm Password
+                Konfirmasi Kata Sandi
               </label>
               <TextInput
                 id="forgot-password-confirm-password"
                 type={showConfirmPassword ? "text" : "password"}
-                placeholder="Re-enter new password"
+                placeholder="Masukkan ulang kata sandi baru"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -149,7 +153,11 @@ export function ForgotPasswordResetStep({
                 endItem={
                   <button
                     type="button"
-                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showConfirmPassword
+                        ? "Sembunyikan kata sandi"
+                        : "Tampilkan kata sandi"
+                    }
                     onClick={toggleShowConfirmPassword}
                     className="text-input-placeholder transition-colors hover:text-foreground"
                   >
@@ -200,7 +208,7 @@ export function ForgotPasswordResetStep({
                   (hasValues ? !isValid && submissionAttempts > 0 : true)
                 }
               >
-                Reset Password
+                Atur Ulang Kata Sandi
               </Button>
             );
           }}
@@ -214,7 +222,7 @@ export function ForgotPasswordResetStep({
           disabled={resetPasswordMutation.isPending}
           onClick={backToOtp}
         >
-          Back
+          Kembali
         </Button>
       </form>
     </>

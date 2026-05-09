@@ -29,12 +29,12 @@ export function RegisterNameField({ form, disabled }: Props) {
             htmlFor="register-name"
             className="text-sm font-medium text-foreground"
           >
-            Full Name
+            Nama Lengkap
           </label>
           <TextInput
             id="register-name"
             type="text"
-            placeholder="Enter your full name"
+            placeholder="Masukkan nama lengkap Anda"
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
             onBlur={field.handleBlur}

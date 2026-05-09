@@ -189,14 +189,6 @@ export function PageApp() {
     >
       {/* Dashboard content section */}
       <div className="flex flex-col gap-4">
-        {/* Page header section */}
-        <div className="flex flex-col gap-1">
-          <h1 className="text-[40px] font-medium">Dashboard</h1>
-          <h6 className="text-muted-foreground text-sm">
-            &#34;Manage your personalized skin checklists.&#34;
-          </h6>
-        </div>
-
         {/* Tabs section */}
         <div className="overflow-x-auto pb-2 -mx-4 px-4 sm:overflow-visible sm:px-0 sm:mx-0 sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Tabs<TabId>
@@ -211,7 +203,7 @@ export function PageApp() {
         <SectionToolbar
           searchValue={searchQuery}
           onSearchChange={handleSearchChange}
-          searchPlaceholder="Search items..."
+          searchPlaceholder="Cari item..."
           sortDirection={sortDirection}
           onSortChange={handleSortChange}
           onRefresh={handleRefresh}

@@ -50,14 +50,14 @@ export function ItemDialogEditForm({
                 htmlFor="dashboard-item-title"
                 className="text-xs font-medium text-dialog-current-muted"
               >
-                Title
+                Judul
               </label>
               <TextInput
                 id="dashboard-item-title"
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
-                placeholder="Enter title"
+                placeholder="Masukkan judul"
                 disabled={isPending}
               />
               <FormFieldError
@@ -89,7 +89,7 @@ export function ItemDialogEditForm({
                 htmlFor="dashboard-item-description"
                 className="text-xs font-medium text-dialog-current-muted"
               >
-                Description
+                Deskripsi
               </label>
               {/* Match textarea styling with the project input surface while supporting multi-line content. */}
               <textarea
@@ -97,7 +97,7 @@ export function ItemDialogEditForm({
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
-                placeholder="Enter description"
+                placeholder="Masukkan deskripsi"
                 rows={4}
                 disabled={isPending}
                 className="w-full rounded-2xl border border-input bg-input-surface px-4 py-3 text-sm text-foreground outline-none placeholder:text-input-placeholder focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
@@ -138,7 +138,7 @@ export function ItemDialogEditForm({
                 (!isValid && submissionAttempts > 0)
               }
             >
-              Save Changes
+              Simpan Perubahan
             </Button>
           )}
         </form.Subscribe>
@@ -151,7 +151,7 @@ export function ItemDialogEditForm({
           onClick={onCancel}
           disabled={isPending}
         >
-          Cancel
+          Batal
         </Button>
 
         {/* Destructive delete action */}
@@ -165,7 +165,7 @@ export function ItemDialogEditForm({
           disabled={isPending}
           isLoading={isDeleting}
         >
-          {isDeleting ? "Deleting..." : "Delete"}
+          {isDeleting ? "Menghapus..." : "Hapus"}
         </Button>
       </div>
     </form>

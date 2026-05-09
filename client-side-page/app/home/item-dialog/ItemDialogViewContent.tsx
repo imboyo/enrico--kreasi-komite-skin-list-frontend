@@ -21,11 +21,11 @@ export function ItemDialogViewContent({
       {/* Description section */}
       <div className="flex flex-col gap-2 rounded-2xl bg-primary/5 px-4 py-3">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-dialog-current-muted">
-          Description
+          Deskripsi
         </p>
         {/* Show a readable fallback so empty descriptions do not collapse the dialog content. */}
         <p className="text-sm leading-relaxed text-dialog-current-foreground/80">
-          {itemDescription || "No description added for this item yet."}
+          {itemDescription || "Belum ada deskripsi untuk item ini."}
         </p>
       </div>
 
@@ -43,7 +43,7 @@ export function ItemDialogViewContent({
                   <Icon icon="material-symbols:chat-outline-rounded" />
                 }
               >
-                Consultation
+                Konsultasi
               </Button>
             </Link>
           </DialogClose>
@@ -58,7 +58,7 @@ export function ItemDialogViewContent({
                   <Icon icon="material-symbols:auto-awesome-outline-rounded" />
                 }
               >
-                Ask with AI
+                Tanya AI
               </Button>
             </Link>
           </DialogClose>
@@ -75,7 +75,7 @@ export function ItemDialogViewContent({
           isLoading={isDeleting}
           leadingIcon={<Icon icon="material-symbols:delete-outline-rounded" />}
         >
-          {isDeleting ? "Deleting..." : "Delete item"}
+          {isDeleting ? "Menghapus..." : "Hapus item"}
         </Button>
       </div>
     </>

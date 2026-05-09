@@ -22,7 +22,7 @@ import { normalizeWhatsappNumber } from "libs/util/whatsapp-number";
 import { type LoginFormValues, validateLoginField } from "./login-form.schema";
 
 const otpSchema = z.object({
-  otp: z.string().min(1, "OTP is required").length(6, "OTP must be 6 digits"),
+  otp: z.string().min(1, "OTP wajib diisi").length(6, "OTP harus 6 digit"),
 });
 
 type OtpValues = z.infer<typeof otpSchema>;
@@ -57,7 +57,7 @@ export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
   const verifyOtpMutation = useMutation({
     mutationFn: async (otp: string) => {
       if (!pendingLogin) {
-        throw new Error("Missing pending login data.");
+        throw new Error("Data login tidak ditemukan.");
       }
 
       const tokens = await loginVerify({
@@ -102,7 +102,7 @@ export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
 
   const verifyError = verifyOtpMutation.error
     ? verifyOtpMutation.error.message ||
-      "Something went wrong. Please try again."
+      "Terjadi kesalahan. Silakan coba lagi."
     : null;
 
   return (
@@ -110,10 +110,10 @@ export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
       {/* Heading */}
       <div className="mb-6 text-center">
         <h1 className="mb-1 text-2xl font-semibold leading-tight text-foreground">
-          Verify your login
+          Verifikasi Login Anda
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter the OTP sent to <strong>{pendingLogin?.whatsappNumber}</strong>.
+          Masukkan OTP yang dikirim ke <strong>{pendingLogin?.whatsappNumber}</strong>.
         </p>
       </div>
 
@@ -138,7 +138,7 @@ export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
                 htmlFor="login-otp"
                 className="text-sm font-medium text-foreground"
               >
-                OTP Code
+                Kode OTP
               </label>
               <OtpInput
                 id="login-otp"
@@ -157,7 +157,7 @@ export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
         </otpForm.Field>
 
         <p className="text-xs text-muted-foreground">
-          Enter the latest 6-digit OTP sent to your WhatsApp number.
+          Masukkan 6 digit OTP terbaru yang dikirim ke nomor WhatsApp Anda.
         </p>
 
         {verifyError && (
@@ -182,7 +182,7 @@ export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
                 (!isValid && otpForm.state.submissionAttempts > 0)
               }
             >
-              Verify OTP
+              Verifikasi OTP
             </Button>
           )}
         </otpForm.Subscribe>
@@ -195,7 +195,7 @@ export function LoginOtpStep({ pendingLogin, backToLogin }: LoginOtpStepProps) {
           disabled={verifyOtpMutation.isPending}
           onClick={backToLogin}
         >
-          Back
+          Kembali
         </Button>
       </form>
     </>
