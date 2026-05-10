@@ -14,3 +14,7 @@ export const appConfig = {
 } as const;
 
 export const NEXT_PUBLIC_BACKEND_HOST = process.env.NEXT_PUBLIC_BACKEND_HOST ?? "http://localhost:3000";
+
+export const CHAT_REFRESH_INTERVAL_MS = 5000;
+export const CHAT_PAGE_SIZE = 50;
+export const ADMIN_CHAT_PAGE_SIZE = 100;

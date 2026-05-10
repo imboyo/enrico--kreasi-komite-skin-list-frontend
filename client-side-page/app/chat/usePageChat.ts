@@ -10,9 +10,7 @@ import type { ChatMessage } from "types/chat.types";
 
 import { mapDescendingPageToRenderOrder } from "libs/util/chat/map-descending-page-to-render-order";
 import { useDeferredScroll } from "@/hooks/useDeferredScroll";
-
-const REFRESH_INTERVAL_MS = 5000;
-const PAGE_SIZE = 50;
+import { CHAT_REFRESH_INTERVAL_MS, CHAT_PAGE_SIZE } from "config";
 
 export function usePageChat() {
   const { showToast } = useToast();
@@ -38,8 +36,8 @@ export function usePageChat() {
     isError: isInitialError,
   } = useQuery({
     queryKey: ["skin-chat-messages"],
-    queryFn: () => getMessages({ limit: PAGE_SIZE }),
-    refetchInterval: REFRESH_INTERVAL_MS,
+    queryFn: () => getMessages({ limit: CHAT_PAGE_SIZE }),
+    refetchInterval: CHAT_REFRESH_INTERVAL_MS,
     refetchOnWindowFocus: false,
     retry: 1,
   });
@@ -74,7 +72,7 @@ export function usePageChat() {
     try {
       const response = await getMessages({
         before: nextCursor,
-        limit: PAGE_SIZE,
+        limit: CHAT_PAGE_SIZE,
       });
       const olderMessages = mapDescendingPageToRenderOrder(response.data);
 

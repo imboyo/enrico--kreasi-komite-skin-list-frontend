@@ -8,9 +8,7 @@ import { replyAdminSkinChatThread } from "backend-service/admin/skin-chat";
 
 import type { AdminSkinChatMessage } from "backend-service/admin/skin-chat";
 import { useDeferredScroll } from "@/hooks/useDeferredScroll";
-
-const PAGE_SIZE = 100;
-const REFRESH_INTERVAL_MS = 5000;
+import { CHAT_PAGE_SIZE, CHAT_REFRESH_INTERVAL_MS } from "config";
 
 export function useAdminChatDetail(threadUuid: string) {
   const [messages, setMessages] = useState<AdminSkinChatMessage[]>([]);
@@ -32,8 +30,8 @@ export function useAdminChatDetail(threadUuid: string) {
   } = useQuery({
     queryKey: ["admin-skin-chat-messages", threadUuid],
     queryFn: () =>
-      getAdminSkinChatThreadMessages(threadUuid, { limit: PAGE_SIZE }),
-    refetchInterval: REFRESH_INTERVAL_MS,
+      getAdminSkinChatThreadMessages(threadUuid, { limit: CHAT_PAGE_SIZE }),
+    refetchInterval: CHAT_REFRESH_INTERVAL_MS,
     refetchOnWindowFocus: false,
     retry: 1,
   });
@@ -44,6 +42,7 @@ export function useAdminChatDetail(threadUuid: string) {
 
     const freshMessages = [...queryData.data].reverse();
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMessages(freshMessages);
     setHasMore(queryData.meta.has_more);
     setNextCursor(queryData.meta.next_cursor);
@@ -67,7 +66,7 @@ export function useAdminChatDetail(threadUuid: string) {
     try {
       const response = await getAdminSkinChatThreadMessages(threadUuid, {
         before: nextCursor,
-        limit: PAGE_SIZE,
+        limit: CHAT_PAGE_SIZE,
       });
 
       const olderMessages = [...response.data].reverse();
