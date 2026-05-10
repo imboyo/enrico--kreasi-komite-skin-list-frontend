@@ -6,7 +6,7 @@ import type { ChangeEvent } from "react";
 import { FormFieldError } from "components/atomic/atom/FormFieldError";
 import { TextInput } from "components/atomic/atom/TextInput";
 
-type EditAdminEmailFieldProps = {
+type PhoneNumberFieldProps = {
   adminUuid: string;
   value: string;
   error?: string;
@@ -14,28 +14,28 @@ type EditAdminEmailFieldProps = {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function EditAdminEmailField({
+export function PhoneNumberField({
   adminUuid,
   value,
   error,
   disabled,
   onChange,
-}: EditAdminEmailFieldProps) {
-  const fieldId = `edit-admin-email-${adminUuid}`;
+}: PhoneNumberFieldProps) {
+  const fieldId = `edit-admin-phone-${adminUuid}`;
 
   return (
     <div className="flex flex-col gap-1.5">
       <label htmlFor={fieldId} className="text-sm font-medium">
-        Email
+        Nomor telepon
       </label>
       <TextInput
         id={fieldId}
-        type="email"
+        type="tel"
         value={value}
         onChange={onChange}
-        placeholder="Masukkan email admin"
-        autoComplete="email"
-        startItem={<Icon icon="material-symbols:mail-outline-rounded" />}
+        placeholder="Masukkan nomor telepon"
+        autoComplete="tel"
+        startItem={<Icon icon="material-symbols:call-outline-rounded" />}
         disabled={disabled}
         surface="transparent"
       />

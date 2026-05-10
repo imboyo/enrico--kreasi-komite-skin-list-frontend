@@ -6,13 +6,13 @@ import type { VisibleAccountStatus } from "backend-service/admin/account";
 import { FormFieldError } from "components/atomic/atom/FormFieldError";
 
 import {
-  addAdminFormSchema,
-  type AddAdminFormApi,
-  validateAddAdminField,
-} from "./useAddAdminForm";
+  dialogFormSchema,
+  type DialogFormApi,
+  validateDialogField,
+} from "./useDialogForm";
 
-type AddAdminStatusFieldProps = {
-  form: AddAdminFormApi;
+type StatusFieldProps = {
+  form: DialogFormApi;
   fieldId: string;
   disabled: boolean;
 };
@@ -22,19 +22,19 @@ const ADMIN_STATUS_OPTIONS: { value: VisibleAccountStatus; label: string }[] = [
   { value: "INACTIVE", label: "Tidak aktif" },
 ];
 
-export function AddAdminStatusField({
+export function StatusField({
   form,
   fieldId,
   disabled,
-}: AddAdminStatusFieldProps) {
+}: StatusFieldProps) {
   return (
     <form.Field
       name="status"
       validators={{
         onBlur: ({ value }) =>
-          validateAddAdminField(addAdminFormSchema.shape.status, value),
+          validateDialogField(dialogFormSchema.shape.status, value),
         onSubmit: ({ value }) =>
-          validateAddAdminField(addAdminFormSchema.shape.status, value),
+          validateDialogField(dialogFormSchema.shape.status, value),
       }}
     >
       {(field) => (

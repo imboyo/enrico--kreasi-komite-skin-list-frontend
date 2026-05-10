@@ -4,30 +4,30 @@ import { Icon } from "@iconify/react";
 import { useId, useState } from "react";
 
 import { Button } from "components/atomic/atom/Button";
-import Dialog, {
+import BaseDialog, {
   DialogBody,
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "components/atomic/molecule/Dialog";
 
-import { AddAdminDialogFooter } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/AddAdminDialogFooter";
-import { AddAdminEmailField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/AddAdminEmailField";
-import { AddAdminFullNameField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/AddAdminFullNameField";
-import { AddAdminPasswordField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/AddAdminPasswordField";
-import { AddAdminPhoneNumberField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/AddAdminPhoneNumberField";
-import { AddAdminStatusField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/AddAdminStatusField";
-import { useAddAdminForm } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/useAddAdminForm";
+import { DialogFooter } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/DialogFooter";
+import { EmailField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/EmailField";
+import { FullNameField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/FullNameField";
+import { PasswordField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/PasswordField";
+import { PhoneNumberField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/PhoneNumberField";
+import { StatusField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/StatusField";
+import { useDialogForm } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/useDialogForm";
 
-type AddAdminDialogProps = {
+type DialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export function AddAdminDialog({ open, onOpenChange }: AddAdminDialogProps) {
+export function Dialog({ open, onOpenChange }: DialogProps) {
   const formId = useId();
   const [showPassword, setShowPassword] = useState(false);
-  const { form, isPending, serverError, resetForm } = useAddAdminForm({
+  const { form, isPending, serverError, resetForm } = useDialogForm({
     onSuccess: () => {
       setShowPassword(false);
       resetForm();
@@ -36,6 +36,7 @@ export function AddAdminDialog({ open, onOpenChange }: AddAdminDialogProps) {
   });
 
   function handleDialogOpenChange(nextOpen: boolean) {
+    // Reset transient form state only after the dialog is actually closing.
     if (!nextOpen && !isPending) {
       setShowPassword(false);
       resetForm();
@@ -44,7 +45,7 @@ export function AddAdminDialog({ open, onOpenChange }: AddAdminDialogProps) {
   }
 
   return (
-    <Dialog
+    <BaseDialog
       open={open}
       onOpenChange={handleDialogOpenChange}
       surface="dialog-2"
@@ -79,29 +80,29 @@ export function AddAdminDialog({ open, onOpenChange }: AddAdminDialogProps) {
       >
         <DialogBody className="flex flex-col gap-4">
           {/* Section: Add admin fields */}
-          <AddAdminFullNameField
+          <FullNameField
             form={form}
             fieldId={`${formId}-full-name`}
             disabled={isPending}
           />
-          <AddAdminEmailField
+          <EmailField
             form={form}
             fieldId={`${formId}-email`}
             disabled={isPending}
           />
-          <AddAdminPhoneNumberField
+          <PhoneNumberField
             form={form}
             fieldId={`${formId}-phone-number`}
             disabled={isPending}
           />
-          <AddAdminPasswordField
+          <PasswordField
             form={form}
             inputId={`${formId}-password`}
             visible={showPassword}
             onToggle={() => setShowPassword((current) => !current)}
             disabled={isPending}
           />
-          <AddAdminStatusField
+          <StatusField
             form={form}
             fieldId={`${formId}-status`}
             disabled={isPending}
@@ -112,11 +113,11 @@ export function AddAdminDialog({ open, onOpenChange }: AddAdminDialogProps) {
           ) : null}
         </DialogBody>
 
-        <AddAdminDialogFooter
+        <DialogFooter
           isPending={isPending}
           onCancel={() => handleDialogOpenChange(false)}
         />
       </form>
-    </Dialog>
+    </BaseDialog>
   );
 }

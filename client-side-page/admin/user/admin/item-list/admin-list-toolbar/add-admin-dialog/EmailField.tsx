@@ -6,30 +6,30 @@ import { FormFieldError } from "components/atomic/atom/FormFieldError";
 import { TextInput } from "components/atomic/atom/TextInput";
 
 import {
-  addAdminFormSchema,
-  type AddAdminFormApi,
-  validateAddAdminField,
-} from "./useAddAdminForm";
+  dialogFormSchema,
+  type DialogFormApi,
+  validateDialogField,
+} from "./useDialogForm";
 
-type AddAdminEmailFieldProps = {
-  form: AddAdminFormApi;
+type EmailFieldProps = {
+  form: DialogFormApi;
   fieldId: string;
   disabled: boolean;
 };
 
-export function AddAdminEmailField({
+export function EmailField({
   form,
   fieldId,
   disabled,
-}: AddAdminEmailFieldProps) {
+}: EmailFieldProps) {
   return (
     <form.Field
       name="email"
       validators={{
         onBlur: ({ value }) =>
-          validateAddAdminField(addAdminFormSchema.shape.email, value),
+          validateDialogField(dialogFormSchema.shape.email, value),
         onSubmit: ({ value }) =>
-          validateAddAdminField(addAdminFormSchema.shape.email, value),
+          validateDialogField(dialogFormSchema.shape.email, value),
       }}
     >
       {(field) => (

@@ -14,16 +14,16 @@ import { useToast } from "components/provider/Toast";
 import { HttpError } from "libs/error/http-error";
 import { ADMIN_ACCOUNT_QUERY_KEY } from "client-side-page/admin/user/admin/item-list/useAdminAccountList";
 
-type EditAdminFormValues = {
+type FormValues = {
   fullName: string;
   email: string;
   phoneNumber: string;
   status: VisibleAccountStatus;
 };
 
-type EditAdminFormErrors = Partial<Record<keyof EditAdminFormValues, string>>;
+type FormErrors = Partial<Record<keyof FormValues, string>>;
 
-const editAdminFormSchema = z.object({
+const formSchema = z.object({
   fullName: z
     .string()
     .trim()
@@ -38,7 +38,7 @@ const editAdminFormSchema = z.object({
   status: z.enum(["ACTIVE", "INACTIVE"]),
 });
 
-function getInitialValues(admin: AdminAccount): EditAdminFormValues {
+function getInitialValues(admin: AdminAccount): FormValues {
   return {
     fullName: admin.full_name,
     email: admin.email ?? "",
@@ -48,7 +48,7 @@ function getInitialValues(admin: AdminAccount): EditAdminFormValues {
 }
 
 function buildUpdatePayload(
-  values: EditAdminFormValues,
+  values: FormValues,
 ): UpdateAdminAccountPayload {
   return {
     full_name: values.fullName.trim(),
@@ -70,7 +70,7 @@ function getServerErrorMessage(error: unknown) {
   return "Terjadi kesalahan. Silakan coba lagi.";
 }
 
-export function useEditAdminForm({
+export function useForm({
   admin,
   onSuccess,
 }: {
@@ -79,10 +79,10 @@ export function useEditAdminForm({
 }) {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
-  const [values, setValues] = useState<EditAdminFormValues>(() =>
+  const [values, setValues] = useState<FormValues>(() =>
     getInitialValues(admin),
   );
-  const [errors, setErrors] = useState<EditAdminFormErrors>({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   const mutation = useMutation({
     mutationFn: (payload: UpdateAdminAccountPayload) =>
@@ -120,7 +120,7 @@ export function useEditAdminForm({
   }
 
   async function handleSubmit() {
-    const result = editAdminFormSchema.safeParse(values);
+    const result = formSchema.safeParse(values);
 
     if (!result.success) {
       const nextErrors: EditAdminFormErrors = {};

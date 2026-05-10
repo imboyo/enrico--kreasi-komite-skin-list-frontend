@@ -3,15 +3,15 @@
 import { Button } from "components/atomic/atom/Button";
 import { DialogFooter } from "components/atomic/molecule/Dialog";
 
-type AddAdminDialogFooterProps = {
+type DialogFooterProps = {
   isPending: boolean;
   onCancel: () => void;
 };
 
-export function AddAdminDialogFooter({
+export function DialogFooter({
   isPending,
   onCancel,
-}: AddAdminDialogFooterProps) {
+}: DialogFooterProps) {
   return (
     <DialogFooter>
       <Button
@@ -23,7 +23,7 @@ export function AddAdminDialogFooter({
         Batal
       </Button>
       <Button type="submit" isLoading={isPending}>
-        Tambah admin
+        Simpan admin
       </Button>
     </DialogFooter>
   );

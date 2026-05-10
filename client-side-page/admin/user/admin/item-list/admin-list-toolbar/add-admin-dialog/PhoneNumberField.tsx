@@ -3,19 +3,19 @@
 import { WhatsappNumberField } from "components/atomic/molecule/WhatsappNumberField";
 import { validateWhatsappField } from "libs/util/whatsapp-number";
 
-import type { AddAdminFormApi } from "./useAddAdminForm";
+import type { DialogFormApi } from "./useDialogForm";
 
-type AddAdminPhoneNumberFieldProps = {
-  form: AddAdminFormApi;
+type PhoneNumberFieldProps = {
+  form: DialogFormApi;
   fieldId: string;
   disabled: boolean;
 };
 
-export function AddAdminPhoneNumberField({
+export function PhoneNumberField({
   form,
   fieldId,
   disabled,
-}: AddAdminPhoneNumberFieldProps) {
+}: PhoneNumberFieldProps) {
   return (
     <form.Field
       name="phoneNumber"

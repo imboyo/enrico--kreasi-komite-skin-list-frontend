@@ -11,25 +11,25 @@ import Dialog, {
   DialogTitle,
 } from "components/atomic/molecule/Dialog";
 
-import { EditAdminDialogFooter } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/EditAdminDialogFooter";
-import { EditAdminEmailField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/EditAdminEmailField";
-import { EditAdminFullNameField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/EditAdminFullNameField";
-import { EditAdminPhoneNumberField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/EditAdminPhoneNumberField";
-import { EditAdminStatusField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/EditAdminStatusField";
-import { useEditAdminForm } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/useEditAdminForm";
+import { DialogFooter } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/DialogFooter";
+import { EmailField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/EmailField";
+import { FullNameField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/FullNameField";
+import { PhoneNumberField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/PhoneNumberField";
+import { StatusField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/StatusField";
+import { useForm } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/useForm";
 import type { SyntheticEvent } from "react";
 
-type EditAdminDialogProps = {
+type DialogProps = {
   admin: AdminAccount;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export function EditAdminDialog({
+export function Dialog({
   admin,
   open,
   onOpenChange,
-}: EditAdminDialogProps) {
+}: DialogProps) {
   const {
     values,
     errors,
@@ -39,7 +39,7 @@ export function EditAdminDialog({
     handleStatusChange,
     handleSubmit,
     resetForm,
-  } = useEditAdminForm({
+  } = useForm({
     admin,
     onSuccess: () => onOpenChange(false),
   });
@@ -91,28 +91,28 @@ export function EditAdminDialog({
       <form onSubmit={handleFormSubmit}>
         <DialogBody className="flex flex-col gap-4">
           {/* Section: Edit admin fields */}
-          <EditAdminFullNameField
+          <FullNameField
             adminUuid={admin.uuid}
             value={values.fullName}
             error={errors.fullName}
             onChange={handleTextChange("fullName")}
             disabled={mutation.isPending}
           />
-          <EditAdminEmailField
+          <EmailField
             adminUuid={admin.uuid}
             value={values.email}
             error={errors.email}
             onChange={handleTextChange("email")}
             disabled={mutation.isPending}
           />
-          <EditAdminPhoneNumberField
+          <PhoneNumberField
             adminUuid={admin.uuid}
             value={values.phoneNumber}
             error={errors.phoneNumber}
             onChange={handleTextChange("phoneNumber")}
             disabled={mutation.isPending}
           />
-          <EditAdminStatusField
+          <StatusField
             adminUuid={admin.uuid}
             value={values.status}
             error={errors.status}
@@ -125,7 +125,7 @@ export function EditAdminDialog({
           ) : null}
         </DialogBody>
 
-        <EditAdminDialogFooter
+        <DialogFooter
           isPending={mutation.isPending}
           onCancel={() => handleDialogOpenChange(false)}
         />

@@ -10,7 +10,7 @@ import {
   ListToolbar,
   type ListToolbarOption,
 } from "components/atomic/molecule/ListToolbar";
-import { AddAdminDialog } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/AddAdminDialog";
+import { Dialog as AddDialog } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/Dialog";
 
 export type AdminStatusFilterValue = AdminAccount["status"];
 
@@ -53,7 +53,7 @@ export function AdminListToolbar({
   sortValue,
   onSortChange,
 }: AdminListToolbarProps) {
-  const [isAddAdminDialogOpen, setIsAddAdminDialogOpen] = useState(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   function handleReset() {
     onSearchChange("");
@@ -83,14 +83,14 @@ export function AdminListToolbar({
             size="md"
             leadingIcon={<Icon icon="material-symbols:person-add-rounded" />}
             className="w-full sm:ml-auto sm:w-auto"
-            onClick={() => setIsAddAdminDialogOpen(true)}
+            onClick={() => setIsAddDialogOpen(true)}
           >
             Tambah admin
           </Button>
 
-          <AddAdminDialog
-            open={isAddAdminDialogOpen}
-            onOpenChange={setIsAddAdminDialogOpen}
+          <AddDialog
+            open={isAddDialogOpen}
+            onOpenChange={setIsAddDialogOpen}
           />
         </>
       }

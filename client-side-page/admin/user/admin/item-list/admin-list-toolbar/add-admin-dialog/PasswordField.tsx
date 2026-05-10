@@ -3,26 +3,26 @@
 import { PasswordField } from "@/components/atomic/organism/account-edit-password/PasswordField";
 
 import {
-  addAdminFormSchema,
-  type AddAdminFormApi,
-  validateAddAdminField,
-} from "./useAddAdminForm";
+  dialogFormSchema,
+  type DialogFormApi,
+  validateDialogField,
+} from "./useDialogForm";
 
-interface AddAdminPasswordFieldProps {
-  form: AddAdminFormApi;
+interface PasswordFieldProps {
+  form: DialogFormApi;
   inputId: string;
   disabled: boolean;
   visible: boolean;
   onToggle: () => void;
 }
 
-export function AddAdminPasswordField({
+export function PasswordField({
   form,
   inputId,
   disabled,
   visible,
   onToggle,
-}: AddAdminPasswordFieldProps) {
+}: PasswordFieldProps) {
   return (
     <PasswordField
       form={form}
@@ -39,9 +39,7 @@ export function AddAdminPasswordField({
           Gunakan minimal 8 karakter untuk password awal admin.
         </p>
       }
-      validate={(value) =>
-        validateAddAdminField(addAdminFormSchema.shape.password, value)
-      }
+      validate={(value) => validateDialogField(dialogFormSchema.shape.password, value)}
     />
   );
 }

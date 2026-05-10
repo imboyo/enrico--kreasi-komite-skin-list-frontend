@@ -23,7 +23,7 @@ import {
 
 import { ADMIN_ACCOUNT_QUERY_KEY } from "client-side-page/admin/user/admin/item-list/useAdminAccountList";
 
-export type AddAdminFormValues = {
+export type DialogFormValues = {
   fullName: string;
   email: string;
   phoneNumber: string;
@@ -31,7 +31,7 @@ export type AddAdminFormValues = {
   status: VisibleAccountStatus;
 };
 
-const DEFAULT_VALUES: AddAdminFormValues = {
+const DEFAULT_VALUES: DialogFormValues = {
   fullName: "",
   email: "",
   phoneNumber: "",
@@ -39,7 +39,7 @@ const DEFAULT_VALUES: AddAdminFormValues = {
   status: "ACTIVE",
 };
 
-export const addAdminFormSchema = z.object({
+export const dialogFormSchema = z.object({
   fullName: z
     .string()
     .trim()
@@ -54,22 +54,22 @@ export const addAdminFormSchema = z.object({
   status: z.enum(["ACTIVE", "INACTIVE"]),
 });
 
-export type AddAdminFormApi = ReactFormExtendedApi<
-  AddAdminFormValues,
-  undefined | FormValidateOrFn<AddAdminFormValues>,
-  undefined | FormValidateOrFn<AddAdminFormValues>,
-  undefined | FormAsyncValidateOrFn<AddAdminFormValues>,
-  undefined | FormValidateOrFn<AddAdminFormValues>,
-  undefined | FormAsyncValidateOrFn<AddAdminFormValues>,
-  undefined | FormValidateOrFn<AddAdminFormValues>,
-  undefined | FormAsyncValidateOrFn<AddAdminFormValues>,
-  undefined | FormValidateOrFn<AddAdminFormValues>,
-  undefined | FormAsyncValidateOrFn<AddAdminFormValues>,
-  undefined | FormAsyncValidateOrFn<AddAdminFormValues>,
+export type DialogFormApi = ReactFormExtendedApi<
+  DialogFormValues,
+  undefined | FormValidateOrFn<DialogFormValues>,
+  undefined | FormValidateOrFn<DialogFormValues>,
+  undefined | FormAsyncValidateOrFn<DialogFormValues>,
+  undefined | FormValidateOrFn<DialogFormValues>,
+  undefined | FormAsyncValidateOrFn<DialogFormValues>,
+  undefined | FormValidateOrFn<DialogFormValues>,
+  undefined | FormAsyncValidateOrFn<DialogFormValues>,
+  undefined | FormValidateOrFn<DialogFormValues>,
+  undefined | FormAsyncValidateOrFn<DialogFormValues>,
+  undefined | FormAsyncValidateOrFn<DialogFormValues>,
   never
 >;
 
-export function validateAddAdminField<T>(
+export function validateDialogField<T>(
   schema: z.ZodType<T>,
   value: T,
 ): string | undefined {
@@ -78,7 +78,7 @@ export function validateAddAdminField<T>(
 }
 
 function buildCreatePayload(
-  values: AddAdminFormValues,
+  values: DialogFormValues,
 ): CreateAdminAccountPayload {
   return {
     full_name: values.fullName.trim(),
@@ -101,11 +101,11 @@ function getServerErrorMessage(error: unknown) {
   return "Terjadi kesalahan. Silakan coba lagi.";
 }
 
-type UseAddAdminFormParams = {
+type UseDialogFormParams = {
   onSuccess: () => void;
 };
 
-export function useAddAdminForm({ onSuccess }: UseAddAdminFormParams) {
+export function useDialogForm({ onSuccess }: UseDialogFormParams) {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 
@@ -121,7 +121,7 @@ export function useAddAdminForm({ onSuccess }: UseAddAdminFormParams) {
     },
   });
 
-  const form: AddAdminFormApi = useForm({
+  const form: DialogFormApi = useForm({
     defaultValues: DEFAULT_VALUES,
     onSubmit: ({ value }) => {
       mutation.mutate(buildCreatePayload(value));

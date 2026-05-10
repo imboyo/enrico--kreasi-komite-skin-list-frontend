@@ -6,7 +6,7 @@ import type { ChangeEvent } from "react";
 import { FormFieldError } from "components/atomic/atom/FormFieldError";
 import { TextInput } from "components/atomic/atom/TextInput";
 
-type EditAdminFullNameFieldProps = {
+type FullNameFieldProps = {
   adminUuid: string;
   value: string;
   error?: string;
@@ -14,13 +14,13 @@ type EditAdminFullNameFieldProps = {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function EditAdminFullNameField({
+export function FullNameField({
   adminUuid,
   value,
   error,
   disabled,
   onChange,
-}: EditAdminFullNameFieldProps) {
+}: FullNameFieldProps) {
   const fieldId = `edit-admin-name-${adminUuid}`;
 
   return (

@@ -6,7 +6,7 @@ import type { ChangeEvent } from "react";
 import type { VisibleAccountStatus } from "@/backend-service/index";
 import { FormFieldError } from "components/atomic/atom/FormFieldError";
 
-type EditAdminStatusFieldProps = {
+type StatusFieldProps = {
   adminUuid: string;
   value: VisibleAccountStatus;
   error?: string;
@@ -19,13 +19,13 @@ const ADMIN_STATUS_OPTIONS: { value: VisibleAccountStatus; label: string }[] = [
   { value: "INACTIVE", label: "Tidak aktif" },
 ];
 
-export function EditAdminStatusField({
+export function StatusField({
   adminUuid,
   value,
   error,
   disabled,
   onChange,
-}: EditAdminStatusFieldProps) {
+}: StatusFieldProps) {
   const fieldId = `edit-admin-status-${adminUuid}`;
 
   return (
