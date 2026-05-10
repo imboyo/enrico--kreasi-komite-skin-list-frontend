@@ -1,0 +1,16 @@
+backend-service/admin/analytic/types.ts
+backend-service/admin/account/admin/ADMIN_ACCOUNT_ADMIN_API.md
+backend-service/admin/account/user/ADMIN_ACCOUNT_USER_API.md
+backend-service/admin/analytic/ADMIN_ANALYTIC_API.md
+backend-service/auth/index.ts
+backend-service/auth/add-admin-account.service.ts
+backend-service/auth/login-chain.service.ts
+backend-service/auth/login-verify.service.ts
+backend-service/auth/register.service.ts
+backend-service/auth/types.ts
+backend-service/auth/register-verify.service.ts
+backend-service/file/download-file.service.ts
+backend-service/file/index.ts
+backend-service/file/stream-file.service.ts
+backend-service/file/FILE_API.md
+backend-service/index.ts

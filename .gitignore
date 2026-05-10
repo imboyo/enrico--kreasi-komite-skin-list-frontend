@@ -43,4 +43,3 @@ next-env.d.ts
 .code-review-graph/
 .venv
 .idea
-graphify-out
