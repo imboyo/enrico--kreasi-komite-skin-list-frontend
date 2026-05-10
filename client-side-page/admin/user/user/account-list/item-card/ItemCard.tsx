@@ -1,7 +1,7 @@
 "use client";
 
 import type { UserAccount } from "backend-service/admin/account/user";
-import { ItemActions } from "client-side-page/admin/user/user/account-list/item-card/ItemActions";
+import { ItemActions } from "client-side-page/admin/user/user/account-list/item-card/item-actions/ItemActions";
 import { StatusBadge } from "client-side-page/admin/user/user/account-list/item-card/StatusBadge";
 import { getInitials } from "@/libs/util/get-initials";
 import { formatPhoneNumber } from "@/libs/util/format-phone-number";
@@ -31,7 +31,7 @@ export function ItemCard({ user }: { user: UserAccount }) {
             {user.full_name}
           </h2>
           <p className="mt-1 truncate text-sm text-muted-foreground">
-            {user.email ?? "-"}
+            {user.email ?? "Belum Ada Email"}
           </p>
           <p className="mt-0.5 truncate text-sm text-muted-foreground">
             {formatPhoneNumber(user.phone_number)}
@@ -42,10 +42,7 @@ export function ItemCard({ user }: { user: UserAccount }) {
       </div>
 
       {/* Section: User metadata */}
-      <div className="mt-4 flex items-center justify-between gap-3">
-        <span className="text-xs font-medium text-muted-foreground">
-          Status
-        </span>
+      <div className="mt-4 flex items-center justify-end gap-3">
         <StatusBadge status={user.status} />
       </div>
     </article>

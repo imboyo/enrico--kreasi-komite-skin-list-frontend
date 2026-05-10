@@ -5,14 +5,14 @@ import { useMemo, useState, type ChangeEvent } from "react";
 import { z } from "zod";
 
 import {
-  updateAdminAccount,
-  type AdminAccount,
-  type UpdateAdminAccountPayload,
-} from "backend-service/admin/account/admin/index";
-import type { VisibleAccountStatus } from "backend-service/admin/account/index";
+  updateUserAccount,
+  type UpdateUserAccountPayload,
+  type UserAccount,
+} from "backend-service/admin/account/user";
+import type { VisibleAccountStatus } from "backend-service/admin/account";
 import { useToast } from "components/provider/Toast";
-import { HttpError } from "libs/error/http-error";
-import { ADMIN_ACCOUNT_QUERY_KEY } from "client-side-page/admin/user/admin/item-list/useAdminAccountList";
+import { USER_ACCOUNT_QUERY_KEY } from "client-side-page/admin/user/user/account-list/useUserAccountList";
+import { getServerErrorMessage } from "client-side-page/admin/user/user/account-list/item-card/item-actions/utils/getServerErrorMessage";
 
 type FormValues = {
   fullName: string;
@@ -38,18 +38,16 @@ const formSchema = z.object({
   status: z.enum(["ACTIVE", "INACTIVE"]),
 });
 
-function getInitialValues(admin: AdminAccount): FormValues {
+function getInitialValues(user: UserAccount): FormValues {
   return {
-    fullName: admin.full_name,
-    email: admin.email ?? "",
-    phoneNumber: admin.phone_number,
-    status: admin.status,
+    fullName: user.full_name,
+    email: user.email ?? "",
+    phoneNumber: user.phone_number,
+    status: user.status,
   };
 }
 
-function buildUpdatePayload(
-  values: FormValues,
-): UpdateAdminAccountPayload {
+function buildUpdatePayload(values: FormValues): UpdateUserAccountPayload {
   return {
     full_name: values.fullName.trim(),
     email: values.email.trim() || null,
@@ -58,40 +56,26 @@ function buildUpdatePayload(
   };
 }
 
-function getServerErrorMessage(error: unknown) {
-  if (!error) return null;
-
-  if (error instanceof HttpError) {
-    return error.status >= 500
-      ? "Server sedang tidak tersedia. Silakan coba lagi."
-      : error.message;
-  }
-
-  return "Terjadi kesalahan. Silakan coba lagi.";
-}
-
 export function useForm({
-  admin,
+  user,
   onSuccess,
 }: {
-  admin: AdminAccount;
+  user: UserAccount;
   onSuccess: () => void;
 }) {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
-  const [values, setValues] = useState<FormValues>(() =>
-    getInitialValues(admin),
-  );
+  const [values, setValues] = useState<FormValues>(() => getInitialValues(user));
   const [errors, setErrors] = useState<FormErrors>({});
 
   const mutation = useMutation({
-    mutationFn: (payload: UpdateAdminAccountPayload) =>
-      updateAdminAccount(admin.uuid, payload),
+    mutationFn: (payload: UpdateUserAccountPayload) =>
+      updateUserAccount(user.uuid, payload),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ADMIN_ACCOUNT_QUERY_KEY,
+        queryKey: USER_ACCOUNT_QUERY_KEY,
       });
-      showToast("Admin berhasil diperbarui.", { variant: "success" });
+      showToast("Pelanggan berhasil diperbarui.", { variant: "success" });
       onSuccess();
     },
   });
@@ -103,6 +87,7 @@ export function useForm({
 
   function handleTextChange(field: "fullName" | "email" | "phoneNumber") {
     return (event: ChangeEvent<HTMLInputElement>) => {
+      mutation.reset();
       setValues((currentValues) => ({
         ...currentValues,
         [field]: event.target.value,
@@ -112,6 +97,7 @@ export function useForm({
   }
 
   function handleStatusChange(event: ChangeEvent<HTMLSelectElement>) {
+    mutation.reset();
     setValues((currentValues) => ({
       ...currentValues,
       status: event.target.value as VisibleAccountStatus,
@@ -124,7 +110,7 @@ export function useForm({
 
     if (!result.success) {
       const nextErrors: FormErrors = {};
-      // Show the first validation issue for each field so the form stays compact.
+      // Show the first validation issue per field so the dialog stays concise.
       result.error.issues.forEach((issue) => {
         const field = issue.path[0] as keyof FormValues | undefined;
         if (field && !nextErrors[field]) {
@@ -139,8 +125,9 @@ export function useForm({
   }
 
   function resetForm() {
-    setValues(getInitialValues(admin));
+    setValues(getInitialValues(user));
     setErrors({});
+    mutation.reset();
   }
 
   return {

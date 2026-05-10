@@ -31,6 +31,16 @@ export type ListUserAccountResponse = AccountListResponse<UserAccount>;
 
 export type GetUserAccountResponse = UserAccount;
 
+export type CreateUserAccountPayload = {
+  full_name: string;
+  email?: string | null;
+  phone_number: string;
+  password: string;
+  status?: VisibleAccountStatus;
+};
+
+export type CreateUserAccountResponse = UserAccount;
+
 export type UpdateUserAccountPayload = {
   full_name?: string;
   email?: string | null;

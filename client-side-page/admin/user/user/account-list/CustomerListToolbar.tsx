@@ -2,7 +2,7 @@ import {
   ListToolbar,
   type ListToolbarOption,
 } from "components/atomic/molecule/ListToolbar";
-import type { AccountStatus } from "backend-service/admin/account";
+import type { AccountStatus } from "backend-service/admin/account/index";
 
 export type UserSortValue =
   | "name-asc"
@@ -26,10 +26,10 @@ const USER_STATUS_FILTER_OPTIONS: ListToolbarOption<AccountStatus>[] = [
 ];
 
 const USER_SORT_OPTIONS: ListToolbarOption<UserSortValue>[] = [
-  { value: "name-asc", label: "Name A-Z" },
-  { value: "name-desc", label: "Name Z-A" },
-  { value: "phone-asc", label: "Phone A-Z" },
-  { value: "phone-desc", label: "Phone Z-A" },
+  { value: "name-asc", label: "Nama A-Z" },
+  { value: "name-desc", label: "Nama Z-A" },
+  { value: "phone-asc", label: "Telepon A-Z" },
+  { value: "phone-desc", label: "Telepon Z-A" },
   { value: "status-asc", label: "Status A-Z" },
 ];
 
@@ -53,13 +53,13 @@ export function CustomerListToolbar({
     <ListToolbar
       searchValue={searchValue}
       onSearchChange={onSearchChange}
-      searchPlaceholder="Search users"
-      filterTitle="Filter users"
-      filterDescription="Choose which user statuses should be visible."
+      searchPlaceholder="Cari pelanggan"
+      filterTitle="Filter pelanggan"
+      filterDescription="Pilih status pelanggan yang ingin ditampilkan."
       filterOptions={USER_STATUS_FILTER_OPTIONS}
       selectedFilterValues={selectedStatuses}
       onFilterValuesChange={onSelectedStatusesChange}
-      sortLabel="Sort users"
+      sortLabel="Urutkan pelanggan"
       sortValue={sortValue}
       sortOptions={USER_SORT_OPTIONS}
       onSortChange={onSortChange}
