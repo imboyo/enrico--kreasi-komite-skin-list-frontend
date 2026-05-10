@@ -2,12 +2,14 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import type { SkinCareCardItem } from "@/components/atomic/organism/SkinCareAdminCard";
+import {
+  listDefaultSkinCare,
+  type AdminDefaultSkinCare,
+} from "backend-service/admin/default-skin-care";
 
 import {
-  ADMIN_SKIN_CATEGORY_QUERY_KEY,
-  getAdminSkinCategoryCollection,
   getAdminSkinCategoryConfig,
+  getAdminSkinCategoryQueryKey,
   type AdminSkinCategoryConfig,
   type AdminSkinCategoryId,
 } from "./skinCategory";
@@ -16,9 +18,24 @@ const CACHE_TIME_MS = 5 * 60 * 1000;
 
 export function useAdminSkinCategories(activeCategory: AdminSkinCategoryId) {
   const adminSkinCategoriesQuery = useQuery({
-    queryKey: [...ADMIN_SKIN_CATEGORY_QUERY_KEY],
+    queryKey: getAdminSkinCategoryQueryKey(activeCategory),
     queryFn: async () => {
-      return await getAdminSkinCategoryCollection();
+      // Query only the active backend category so the page shape stays aligned
+      // with the real API contract instead of a stitched mock collection.
+      return await listDefaultSkinCare({
+        page: 1,
+        limit: 100,
+        sort: [{ field: "updated_at", direction: "DESC" }],
+        filter: {
+          and: [
+            {
+              field: "category",
+              operator: "eq",
+              value: activeCategory,
+            },
+          ],
+        },
+      });
     },
     staleTime: CACHE_TIME_MS,
     gcTime: CACHE_TIME_MS,
@@ -26,11 +43,11 @@ export function useAdminSkinCategories(activeCategory: AdminSkinCategoryId) {
 
   return {
     activeCategoryConfig: getAdminSkinCategoryConfig(activeCategory),
-    activeItems: adminSkinCategoriesQuery.data?.[activeCategory] ?? [],
+    activeItems: adminSkinCategoriesQuery.data?.data ?? [],
     adminSkinCategoriesQuery,
   } satisfies {
     activeCategoryConfig: AdminSkinCategoryConfig;
-    activeItems: SkinCareCardItem[];
+    activeItems: AdminDefaultSkinCare[];
     adminSkinCategoriesQuery: typeof adminSkinCategoriesQuery;
   };
 }

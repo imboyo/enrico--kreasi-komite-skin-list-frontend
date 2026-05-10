@@ -1,34 +1,17 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { Fragment } from "react";
-
-import { Button } from "@/components/atomic/atom/Button";
 import { SkinCareAdminCard } from "@/components/atomic/organism/SkinCareAdminCard";
 import { AdminSkinTabNavigation } from "@/components/atomic/organism/AdminSkinTabNavigation";
-import {
-  MenuDropdown,
-  MenuDropdownItem,
-  MenuDropdownSeparator,
-} from "@/components/atomic/molecule/MenuDropdown";
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { SkinCareAdminCardSkeleton } from "@/components/atomic/molecule/SkinCareAdminCardSkeleton";
 
+import { ItemActions } from "./item-actions/ItemActions";
 import { useAdminSkinCategories } from "./utils/useAdminSkinCategories";
-import type {
-  AdminSkinActionId,
-  AdminSkinCategoryAction,
-  AdminSkinCategoryId,
-} from "./utils/skinCategory";
+import type { AdminSkinCategoryId } from "./utils/skinCategory";
 
 interface PageAdminSkinsProps {
   activeCategory: AdminSkinCategoryId;
-}
-
-function getFirstDestructiveActionIndex(
-  actions: AdminSkinCategoryAction[],
-): number {
-  return actions.findIndex((action) => action.destructive);
 }
 
 export function PageAdminSkins({
@@ -37,32 +20,10 @@ export function PageAdminSkins({
   const { activeCategoryConfig, activeItems, adminSkinCategoriesQuery } =
     useAdminSkinCategories(activeCategory);
 
-  const firstDestructiveActionIndex = getFirstDestructiveActionIndex(
-    activeCategoryConfig.actions,
-  );
-
-  function handleSkinAction(action: AdminSkinActionId, itemId: string) {
-    // Keep the action boundary explicit so edit / hide / delete can later be
-    // wired to different admin mutations without reshaping the page flow again.
-    console.log(`Admin ${activeCategoryConfig.singularLabel} action: ${action}`, {
-      itemId,
-    });
-  }
-
   return (
     <div className="flex flex-col gap-4">
-      {/* Section: Skin category tab navigation */}
+      {/* Section: Skin care category tabs */}
       <AdminSkinTabNavigation activeTabId={activeCategory} />
-
-      {/* Section: Active skin category header */}
-      <section className="flex flex-col gap-1">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          Skin Management
-        </p>
-        <h1 className="text-2xl font-semibold text-foreground">
-          {activeCategoryConfig.label}
-        </h1>
-      </section>
 
       <QueryStateHandler
         query={adminSkinCategoriesQuery}
@@ -76,44 +37,10 @@ export function PageAdminSkins({
         <div className="flex flex-col gap-3">
           {activeItems.map((item) => (
             <SkinCareAdminCard
-              key={item.id}
+              key={item.uuid}
               item={item}
               icon={<Icon icon={activeCategoryConfig.icon} className="size-6" />}
-              actions={
-                <MenuDropdown
-                  align="start"
-                  side="bottom"
-                  trigger={
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      iconOnly
-                      aria-label={`Open actions for ${item.label}`}
-                      className="rounded-full"
-                    >
-                      <Icon icon="material-symbols:more-vert" />
-                    </Button>
-                  }
-                >
-                  {/* Section: Active skin category row actions */}
-                  {activeCategoryConfig.actions.map((action, index) => (
-                    <Fragment key={action.id}>
-                      {/* Separate destructive actions so delete/hide stays visually distinct. */}
-                      {index === firstDestructiveActionIndex &&
-                      firstDestructiveActionIndex > 0 ? (
-                        <MenuDropdownSeparator />
-                      ) : null}
-                      <MenuDropdownItem
-                        destructive={action.destructive}
-                        icon={<Icon icon={action.icon} />}
-                        onSelect={() => handleSkinAction(action.id, item.id)}
-                      >
-                        {action.label}
-                      </MenuDropdownItem>
-                    </Fragment>
-                  ))}
-                </MenuDropdown>
-              }
+              actions={<ItemActions item={item} actions={activeCategoryConfig.actions} />}
             />
           ))}
         </div>
