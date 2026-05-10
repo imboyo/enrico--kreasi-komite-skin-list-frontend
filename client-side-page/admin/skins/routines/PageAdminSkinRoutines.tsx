@@ -89,15 +89,6 @@ export function PageAdminSkinRoutines() {
                   <MenuDropdownSeparator />
                   <MenuDropdownItem
                     destructive
-                    icon={
-                      <Icon icon="material-symbols:visibility-off-outline-rounded" />
-                    }
-                    onSelect={() => handleRoutineAction("hide", routine)}
-                  >
-                    Hide routine
-                  </MenuDropdownItem>
-                  <MenuDropdownItem
-                    destructive
                     icon={<Icon icon="material-symbols:delete-outline" />}
                     onSelect={() => handleRoutineAction("delete", routine)}
                   >

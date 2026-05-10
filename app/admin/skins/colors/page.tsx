@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { PageAdminSkinColors } from "client-side-page/admin/skins/PageAdminSkinColors";
+import { PageAdminSkinColors } from "client-side-page/admin/skins/colors/PageAdminSkinColors";
 
 export const metadata: Metadata = {
   title: "Skin Colors",
