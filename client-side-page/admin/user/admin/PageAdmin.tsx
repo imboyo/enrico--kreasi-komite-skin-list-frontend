@@ -11,7 +11,6 @@ export function PageAdmin() {
       siblingHref={APP_URL.ADMIN_CUSTOMER_ACCOUNTS}
       siblingLabel="Buka halaman pelanggan"
     >
-      {/* Section: Admin account list */}
       <ItemList />
     </AdminAccountPageShell>
   );

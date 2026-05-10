@@ -3,16 +3,14 @@
 import type { AdminAccount } from "backend-service/admin/account/admin";
 
 import { StatusBadge } from "client-side-page/admin/user/admin/item-list/item-card/StatusBadge";
-import { ItemActions } from "client-side-page/admin/user/admin/item-list/item-card/ItemActions";
+import { ItemActions } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/ItemActions";
 import { cn } from "libs/util/cn";
 import { getInitials } from "@/libs/util/get-initials";
 import { useFilePreview } from "@/hooks/useFilePreview";
 
 const STATUS_DOT_CLASS: Record<AdminAccount["status"], string> = {
-  INITIALIZING: "bg-amber-500",
   ACTIVE: "bg-emerald-500",
   INACTIVE: "bg-slate-400",
-  TO_DELETED: "bg-rose-500",
 };
 
 export function ItemCard({ admin }: { admin: AdminAccount }) {

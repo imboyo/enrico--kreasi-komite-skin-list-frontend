@@ -6,6 +6,8 @@ export type AccountStatus =
   | "INACTIVE"
   | "TO_DELETED";
 
+export type VisibleAccountStatus = Extract<AccountStatus, "ACTIVE" | "INACTIVE">;
+
 export type AdminAccountSortDirection = "ASC" | "DESC";
 
 export type AdminAccountSortDto<TField extends string = string> = {
@@ -82,6 +84,12 @@ export type AccountRecord<TRole extends AccountRole = AccountRole> = {
   auth_field_updated_at: string;
   created_at: string;
   updated_at: string;
+};
+
+export type VisibleAccountRecord<
+  TRole extends AccountRole = AccountRole,
+> = Omit<AccountRecord<TRole>, "status"> & {
+  status: VisibleAccountStatus;
 };
 
 export type AccountListResponse<TAccount extends AccountRecord = AccountRecord> = {

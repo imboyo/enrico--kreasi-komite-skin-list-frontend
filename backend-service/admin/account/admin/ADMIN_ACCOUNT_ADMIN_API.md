@@ -11,6 +11,8 @@ Base URL: `/admin/account/admin`
 
 Retrieve a paginated list of admin accounts. Supports the shared `ListQueryDto` contract for search, sort, and filter.
 
+> **Visibility rule** — Only accounts with `ACTIVE` or `INACTIVE` status are returned. Accounts with `INITIALIZING` or `TO_DELETED` status are hidden from the list.
+
 - **Method:** `POST`
 - **URL:** `/admin/account/admin/list`
 - **Status:** `200 OK`
@@ -89,6 +91,8 @@ POST /admin/account/admin/list
 
 Retrieve a single admin account by ID, including the profile photo.
 
+> **Visibility rule** — Only accounts with `ACTIVE` or `INACTIVE` status can be retrieved. Accounts with `INITIALIZING` or `TO_DELETED` status will return `404 Not Found`.
+
 - **Method:** `GET`
 - **URL:** `/admin/account/admin/:adminId`
 - **Status:** `200 OK`
@@ -158,6 +162,8 @@ POST /admin/account/admin
 
 Update admin fields except the password. Unique email and phone number checks are applied when those fields change.
 
+> **Visibility rule** — Only accounts with `ACTIVE` or `INACTIVE` status can be updated. Attempting to update an account with `INITIALIZING` or `TO_DELETED` status will return `404 Not Found`.
+
 - **Method:** `PATCH`
 - **URL:** `/admin/account/admin/:adminId`
 - **Status:** `200 OK`
@@ -171,7 +177,7 @@ All fields are optional.
 | `full_name`    | string | Max `150` chars |
 | `email`        | string | Valid email, unique when provided |
 | `phone_number` | string | Valid phone number, unique when provided |
-| `status`       | enum   | `INITIALIZING`, `ACTIVE`, `INACTIVE`, `TO_DELETED` |
+| `status`       | enum   | `ACTIVE`, `INACTIVE` |
 
 ### Example Request
 

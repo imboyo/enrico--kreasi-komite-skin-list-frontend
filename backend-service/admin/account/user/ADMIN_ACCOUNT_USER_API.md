@@ -11,6 +11,8 @@ Base URL: `/admin/account/user`
 
 Retrieve a paginated list of user accounts. Supports the shared `ListQueryDto` contract for search, sort, and filter. The listing is always scoped to accounts with the `USER` role.
 
+> **Visibility rule** — Only accounts with `ACTIVE` or `INACTIVE` status are returned. Accounts with `INITIALIZING` or `TO_DELETED` status are hidden from the list.
+
 - **Method:** `POST`
 - **URL:** `/admin/account/user/list`
 - **Status:** `200 OK`
@@ -86,6 +88,8 @@ POST /admin/account/user/list
 
 Retrieve detailed information for a single user account, including the profile photo.
 
+> **Visibility rule** — Only accounts with `ACTIVE` or `INACTIVE` status can be retrieved. Accounts with `INITIALIZING` or `TO_DELETED` status will return `404 Not Found`.
+
 - **Method:** `GET`
 - **URL:** `/admin/account/user/:userId`
 - **Status:** `200 OK`
@@ -139,6 +143,8 @@ GET /admin/account/user/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 
 Update user profile fields except the password. Unique email and phone number checks are applied when those fields change.
 
+> **Visibility rule** — Only accounts with `ACTIVE` or `INACTIVE` status can be updated. Attempting to update an account with `INITIALIZING` or `TO_DELETED` status will return `404 Not Found`.
+
 - **Method:** `PATCH`
 - **URL:** `/admin/account/user/:userId`
 - **Status:** `200 OK`
@@ -152,7 +158,7 @@ All fields are optional.
 | `full_name`    | string | Min `1`, max `150` chars |
 | `email`        | string | Valid email, max `150` chars, unique when provided |
 | `phone_number` | string | Valid phone number, max `30` chars, unique when provided |
-| `status`       | enum   | `INITIALIZING`, `ACTIVE`, `INACTIVE`, `TO_DELETED` |
+| `status`       | enum   | `ACTIVE`, `INACTIVE` |
 
 ### Example Request
 

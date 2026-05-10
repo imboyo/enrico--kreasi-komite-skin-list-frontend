@@ -7,4 +7,4 @@ export * from "./email-chain.service";
 export * from "./email-verify.service";
 export * from "./phone-number-chain.service";
 export * from "./phone-number-verify.service";
-export * from "./account.service";
+export * from "backend-service/account/delete-account.service";

@@ -2,6 +2,7 @@
 
 import { Icon } from "@iconify/react";
 import { useState } from "react";
+import type { ReactNode } from "react";
 
 import { Button } from "@/components/atomic/atom/Button";
 import { Checkbox } from "@/components/atomic/atom/Checkbox";
@@ -38,6 +39,7 @@ export type ListToolbarProps<
   sortOptions: ListToolbarOption<TSortValue>[];
   onSortChange: (value: TSortValue) => void;
   onReset?: () => void;
+  actions?: ReactNode;
   className?: string;
 };
 
@@ -60,6 +62,7 @@ export function ListToolbar<
   onSortChange,
   className,
   onReset,
+  actions,
 }: ListToolbarProps<TFilterValue, TSortValue>) {
   // Guard the toolbar against runtime callers that omit the filter array.
   const activeFilterCount = selectedFilterValues.length;
@@ -114,7 +117,7 @@ export function ListToolbar<
       />
 
       {/* Section: Filter and sort controls */}
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <Dialog
           trigger={
             <Button
@@ -258,6 +261,8 @@ export function ListToolbar<
             <Icon icon="lucide:rotate-ccw" />
           </Button>
         ) : null}
+
+        {actions ? actions : null}
       </div>
     </section>
   );

@@ -1,9 +1,16 @@
-import type { AdminAccount } from "backend-service/admin/account/admin";
+"use client";
+
+import { Icon } from "@iconify/react";
+import { useState } from "react";
+
+import type { AdminAccount } from "@/backend-service/index";
+import { Button } from "components/atomic/atom/Button";
 
 import {
   ListToolbar,
   type ListToolbarOption,
 } from "components/atomic/molecule/ListToolbar";
+import { AddAdminDialog } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/AddAdminDialog";
 
 export type AdminStatusFilterValue = AdminAccount["status"];
 
@@ -46,6 +53,8 @@ export function AdminListToolbar({
   sortValue,
   onSortChange,
 }: AdminListToolbarProps) {
+  const [isAddAdminDialogOpen, setIsAddAdminDialogOpen] = useState(false);
+
   function handleReset() {
     onSearchChange("");
     onSelectedStatusesChange([]);
@@ -67,6 +76,24 @@ export function AdminListToolbar({
       sortOptions={ADMIN_SORT_OPTIONS}
       onSortChange={onSortChange}
       onReset={handleReset}
+      actions={
+        <>
+          <Button
+            type="button"
+            size="md"
+            leadingIcon={<Icon icon="material-symbols:person-add-rounded" />}
+            className="w-full sm:ml-auto sm:w-auto"
+            onClick={() => setIsAddAdminDialogOpen(true)}
+          >
+            Tambah admin
+          </Button>
+
+          <AddAdminDialog
+            open={isAddAdminDialogOpen}
+            onOpenChange={setIsAddAdminDialogOpen}
+          />
+        </>
+      }
     />
   );
 }

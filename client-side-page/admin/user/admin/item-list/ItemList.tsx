@@ -3,7 +3,7 @@
 import { QueryStateHandler } from "components/atomic/molecule/QueryStateHandler";
 import { AccountCardGridSkeleton } from "components/atomic/organism/AccountCardGridSkeleton";
 import { MobilePagination } from "components/atomic/molecule/MobilePagination";
-import { AdminListToolbar } from "client-side-page/admin/user/admin/item-list/AdminListToolbar";
+import { AdminListToolbar } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/AdminListToolbar";
 import { useAdminAccountList } from "client-side-page/admin/user/admin/item-list/useAdminAccountList";
 import { ItemCard } from "client-side-page/admin/user/admin/item-list/item-card/ItemCard";
 
@@ -24,7 +24,6 @@ export function ItemList() {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Section: Admin list toolbar */}
       <AdminListToolbar
         searchValue={searchValue}
         onSearchChange={handleSearchChange}

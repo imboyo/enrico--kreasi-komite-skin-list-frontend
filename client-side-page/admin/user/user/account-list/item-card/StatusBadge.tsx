@@ -1,29 +1,23 @@
 import { Badge } from "components/atomic/atom/Badge";
-import type { AccountStatus } from "backend-service/admin/account";
+import type { UserAccount } from "backend-service/admin/account/user";
 import { cn } from "libs/util/cn";
 
-const USER_STATUS_LABEL: Record<AccountStatus, string> = {
-  INITIALIZING: "Inisialisasi",
+const USER_STATUS_LABEL: Record<UserAccount["status"], string> = {
   ACTIVE: "Aktif",
   INACTIVE: "Tidak Aktif",
-  TO_DELETED: "Akan Dihapus",
 };
 
-const USER_STATUS_CLASS_NAME: Record<AccountStatus, string> = {
-  INITIALIZING: "border-amber-500/30 bg-amber-500/10",
+const USER_STATUS_CLASS_NAME: Record<UserAccount["status"], string> = {
   ACTIVE: "border-emerald-500/30 bg-emerald-500/10",
   INACTIVE: "border-slate-400/30 bg-slate-500/10",
-  TO_DELETED: "border-rose-500/30 bg-rose-500/10",
 };
 
-const USER_STATUS_LABEL_CLASS_NAME: Record<AccountStatus, string> = {
-  INITIALIZING: "text-amber-700",
+const USER_STATUS_LABEL_CLASS_NAME: Record<UserAccount["status"], string> = {
   ACTIVE: "text-emerald-700",
   INACTIVE: "text-slate-600",
-  TO_DELETED: "text-rose-700",
 };
 
-export function StatusBadge({ status }: { status: AccountStatus }) {
+export function StatusBadge({ status }: { status: UserAccount["status"] }) {
   return (
     <Badge
       size="sm"

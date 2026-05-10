@@ -3,10 +3,10 @@ import type {
   AccountListResponse,
   AccountPasswordPayload,
   AccountPasswordResponse,
-  AccountRecord,
-  AccountStatus,
   AdminAccountDeleteResponse,
   AdminAccountListField,
+  VisibleAccountRecord,
+  VisibleAccountStatus,
 } from "../types";
 
 export type AdminProfilePhoto = {
@@ -20,7 +20,7 @@ export type AdminProfilePhoto = {
   updated_at: string;
 };
 
-export type AdminAccount = AccountRecord<"ADMIN"> & {
+export type AdminAccount = VisibleAccountRecord<"ADMIN"> & {
   profile_photo: AdminProfilePhoto | null;
 };
 
@@ -35,7 +35,7 @@ export type CreateAdminAccountPayload = {
   email?: string | null;
   phone_number: string;
   password: string;
-  status?: AccountStatus;
+  status?: VisibleAccountStatus;
 };
 
 export type CreateAdminAccountResponse = AdminAccount;
@@ -44,7 +44,7 @@ export type UpdateAdminAccountPayload = {
   full_name?: string;
   email?: string | null;
   phone_number?: string;
-  status?: AccountStatus;
+  status?: VisibleAccountStatus;
 };
 
 export type UpdateAdminAccountResponse = AdminAccount;

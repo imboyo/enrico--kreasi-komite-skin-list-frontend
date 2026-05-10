@@ -13,9 +13,9 @@ import {
   DEFAULT_ADMIN_SORT_VALUE,
   type AdminSortValue,
   type AdminStatusFilterValue,
-} from "client-side-page/admin/user/admin/item-list/AdminListToolbar";
+} from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/AdminListToolbar";
 
-const ADMIN_ACCOUNT_QUERY_KEY = ["admin-account-list"] as const;
+export const ADMIN_ACCOUNT_QUERY_KEY = ["admin-account-list"] as const;
 const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_PAGE_LIMIT = 10;
 
@@ -162,9 +162,7 @@ export function useAdminAccountList() {
     sortValue: AdminSortValue;
     handlePageChange: (page: number) => void;
     handleSearchChange: (value: string) => void;
-    handleSelectedStatusesChange: (
-      statuses: AdminStatusFilterValue[],
-    ) => void;
+    handleSelectedStatusesChange: (statuses: AdminStatusFilterValue[]) => void;
     handleSortChange: (nextSortValue: AdminSortValue) => void;
   };
 }

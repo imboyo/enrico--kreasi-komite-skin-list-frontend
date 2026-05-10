@@ -4,7 +4,11 @@ import { Icon } from "@iconify/react";
 
 import { Button } from "@/components/atomic/atom/Button";
 import { PasswordField } from "./PasswordField";
-import { useAccountEditPasswordForm } from "./useAccountEditPasswordForm";
+import {
+  accountEditPasswordSchema,
+  useAccountEditPasswordForm,
+  validateAccountEditPasswordField,
+} from "./useAccountEditPasswordForm";
 
 export function AccountEditPassword() {
   const {
@@ -55,6 +59,12 @@ export function AccountEditPassword() {
           onToggle={toggleShowCurrent}
           disabled={mutation.isPending}
           inputId="account-edit-current-password"
+          validate={(value) =>
+            validateAccountEditPasswordField(
+              accountEditPasswordSchema.shape.currentPassword,
+              value,
+            )
+          }
         />
 
         <PasswordField
@@ -67,6 +77,12 @@ export function AccountEditPassword() {
           onToggle={toggleShowNew}
           disabled={mutation.isPending}
           inputId="account-edit-new-password"
+          validate={(value) =>
+            validateAccountEditPasswordField(
+              accountEditPasswordSchema.shape.newPassword,
+              value,
+            )
+          }
         />
 
         <PasswordField
@@ -79,6 +95,12 @@ export function AccountEditPassword() {
           onToggle={toggleShowConfirm}
           disabled={mutation.isPending}
           inputId="account-edit-confirm-password"
+          validate={(value) =>
+            validateAccountEditPasswordField(
+              accountEditPasswordSchema.shape.confirmPassword,
+              value,
+            )
+          }
         />
 
         {serverError && (

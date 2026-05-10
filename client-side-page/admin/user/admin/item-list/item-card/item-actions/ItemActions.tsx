@@ -1,6 +1,7 @@
 "use client";
 
 import { Icon } from "@iconify/react";
+import { useState } from "react";
 
 import type { AdminAccount } from "backend-service/admin/account/admin";
 
@@ -11,7 +12,11 @@ import {
   MenuDropdownSeparator,
 } from "components/atomic/molecule/MenuDropdown";
 
+import { EditAdminDialog } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/EditAdminDialog";
+
 export function ItemActions({ admin }: { admin: AdminAccount }) {
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
   function handleAction(action: string) {
     // Placeholder for admin account action wiring.
     console.log(`Admin manager action: ${action}`, admin);
@@ -19,6 +24,7 @@ export function ItemActions({ admin }: { admin: AdminAccount }) {
 
   return (
     <div onClick={(event) => event.stopPropagation()}>
+      {/* Section: Admin actions menu */}
       <MenuDropdown
         align="start"
         side="bottom"
@@ -34,18 +40,18 @@ export function ItemActions({ admin }: { admin: AdminAccount }) {
           </Button>
         }
       >
-        {/* Section: Admin row actions */}
         <MenuDropdownItem
           icon={<Icon icon="material-symbols:edit-outline-rounded" />}
-          onSelect={() => handleAction("edit")}
+          onSelect={() => setIsEditDialogOpen(true)}
         >
           Ubah admin
         </MenuDropdownItem>
+
         <MenuDropdownItem
-          icon={<Icon icon="material-symbols:shield-outline" />}
-          onSelect={() => handleAction("change-role")}
+          icon={<Icon icon="material-symbols:lock-outline" />}
+          onSelect={() => handleAction("change_password")}
         >
-          Ubah role
+          Ubah password
         </MenuDropdownItem>
         <MenuDropdownSeparator />
         <MenuDropdownItem
@@ -63,6 +69,13 @@ export function ItemActions({ admin }: { admin: AdminAccount }) {
           Hapus admin
         </MenuDropdownItem>
       </MenuDropdown>
+
+      {/* Keep the dialog outside the dropdown content so menu close does not unmount it before first render. */}
+      <EditAdminDialog
+        admin={admin}
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+      />
     </div>
   );
 }

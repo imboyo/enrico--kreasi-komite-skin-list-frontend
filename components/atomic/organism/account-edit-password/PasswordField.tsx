@@ -1,17 +1,48 @@
 import { Icon } from "@iconify/react";
+import type { ReactNode } from "react";
+import type {
+  DeepKeys,
+  DeepValue,
+  FormAsyncValidateOrFn,
+  FormValidateOrFn,
+  ReactFormExtendedApi,
+} from "@tanstack/react-form";
 
 import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
 import { PasswordToggleButton } from "@/components/atomic/atom/PasswordToggleButton";
 import { TextInput } from "@/components/atomic/atom/TextInput";
-import {
-  type AccountEditPasswordFormApi,
-  accountEditPasswordSchema,
-  validateAccountEditPasswordField,
-} from "./useAccountEditPasswordForm";
 
-interface PasswordFieldProps {
-  form: AccountEditPasswordFormApi;
-  name: "currentPassword" | "newPassword" | "confirmPassword";
+type SharedPasswordFieldFormApi<TFormValues extends Record<string, unknown>> =
+  ReactFormExtendedApi<
+    TFormValues,
+    undefined | FormValidateOrFn<TFormValues>,
+    undefined | FormValidateOrFn<TFormValues>,
+    undefined | FormAsyncValidateOrFn<TFormValues>,
+    undefined | FormValidateOrFn<TFormValues>,
+    undefined | FormAsyncValidateOrFn<TFormValues>,
+    undefined | FormValidateOrFn<TFormValues>,
+    undefined | FormAsyncValidateOrFn<TFormValues>,
+    undefined | FormValidateOrFn<TFormValues>,
+    undefined | FormAsyncValidateOrFn<TFormValues>,
+    undefined | FormAsyncValidateOrFn<TFormValues>,
+    never
+  >;
+
+type StringFieldName<TFormValues extends Record<string, unknown>> = {
+  [TFieldName in DeepKeys<TFormValues>]: DeepValue<
+    TFormValues,
+    TFieldName
+  > extends string
+    ? TFieldName
+    : never;
+}[DeepKeys<TFormValues>];
+
+interface PasswordFieldProps<
+  TFormValues extends Record<string, unknown>,
+  TFieldName extends StringFieldName<TFormValues>,
+> {
+  form: SharedPasswordFieldFormApi<TFormValues>;
+  name: TFieldName;
   label: string;
   placeholder: string;
   autoComplete: string;
@@ -19,9 +50,14 @@ interface PasswordFieldProps {
   onToggle: () => void;
   disabled: boolean;
   inputId: string;
+  helperText?: ReactNode;
+  validate: (value: DeepValue<TFormValues, TFieldName>) => string | undefined;
 }
 
-export function PasswordField({
+export function PasswordField<
+  TFormValues extends Record<string, unknown>,
+  TFieldName extends StringFieldName<TFormValues>,
+>({
   form,
   name,
   label,
@@ -31,24 +67,20 @@ export function PasswordField({
   onToggle,
   disabled,
   inputId,
-}: PasswordFieldProps) {
+  helperText,
+  validate,
+}: PasswordFieldProps<TFormValues, TFieldName>) {
   return (
     <form.Field
       name={name}
       validators={{
-        onBlur: ({ value }) =>
-          validateAccountEditPasswordField(
-            accountEditPasswordSchema.shape[name],
-            value,
-          ),
-        onSubmit: ({ value }) =>
-          validateAccountEditPasswordField(
-            accountEditPasswordSchema.shape[name],
-            value,
-          ),
+        // Reuse the caller's field-level validator so each form keeps its own schema.
+        onBlur: ({ value }) => validate(value),
+        onSubmit: ({ value }) => validate(value),
       }}
     >
       {(field) => (
+        /* Shared password input field */
         <div className="flex flex-col gap-1.5">
           <label
             htmlFor={inputId}
@@ -60,8 +92,13 @@ export function PasswordField({
             id={inputId}
             type={visible ? "text" : "password"}
             placeholder={placeholder}
-            value={field.state.value}
-            onChange={(event) => field.handleChange(event.target.value)}
+            /* StringFieldName guarantees this field is a string. */
+            value={field.state.value as string}
+            onChange={(event) =>
+              field.handleChange(
+                event.target.value as DeepValue<TFormValues, TFieldName>,
+              )
+            }
             onBlur={field.handleBlur}
             autoComplete={autoComplete}
             startItem={<Icon icon="material-symbols:lock-outline" />}
@@ -71,6 +108,7 @@ export function PasswordField({
             disabled={disabled}
             surface="transparent"
           />
+          {helperText}
           <FormFieldError
             isTouched={field.state.meta.isTouched}
             error={field.state.meta.errors[0]}
