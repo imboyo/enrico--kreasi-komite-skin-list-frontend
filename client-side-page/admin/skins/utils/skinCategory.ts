@@ -79,7 +79,7 @@ const ADMIN_SKIN_CATEGORY_CONFIG: Record<
   colors: {
     id: "colors",
     label: "Colors",
-    icon: "material-symbols:palette-outline-rounded",
+    icon: "material-symbols:water-drop-outline",
     errorTitle: "Gagal memuat colors.",
     emptyTitle: "Belum ada colors.",
     emptyDescription:

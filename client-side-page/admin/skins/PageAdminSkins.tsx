@@ -6,8 +6,9 @@ import { AdminSkinTabNavigation } from "@/components/atomic/organism/AdminSkinTa
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { SkinCareAdminCardSkeleton } from "@/components/atomic/molecule/SkinCareAdminCardSkeleton";
 
+import { AdminSkinToolbar } from "./toolbar/AdminSkinToolbar";
 import { ItemActions } from "./item-actions/ItemActions";
-import { useAdminSkinCategories } from "./utils/useAdminSkinCategories";
+import { useAdminSkinList } from "./utils/useAdminSkinList";
 import type { AdminSkinCategoryId } from "./utils/skinCategory";
 
 interface PageAdminSkinsProps {
@@ -17,16 +18,33 @@ interface PageAdminSkinsProps {
 export function PageAdminSkins({
   activeCategory,
 }: Readonly<PageAdminSkinsProps>) {
-  const { activeCategoryConfig, activeItems, adminSkinCategoriesQuery } =
-    useAdminSkinCategories(activeCategory);
+  const {
+    activeCategoryConfig,
+    activeItems,
+    adminSkinListQuery,
+    searchValue,
+    sortValue,
+    handleSearchChange,
+    handleSortChange,
+  } = useAdminSkinList(activeCategory);
 
   return (
     <div className="flex flex-col gap-4">
       {/* Section: Skin care category tabs */}
       <AdminSkinTabNavigation activeTabId={activeCategory} />
 
+      {/* Section: Toolbar with search, sort and add new skin care */}
+      <AdminSkinToolbar
+        activeCategory={activeCategory}
+        activeCategoryConfig={activeCategoryConfig}
+        searchValue={searchValue}
+        onSearchChange={handleSearchChange}
+        sortValue={sortValue}
+        onSortChange={handleSortChange}
+      />
+
       <QueryStateHandler
-        query={adminSkinCategoriesQuery}
+        query={adminSkinListQuery}
         skeleton={<SkinCareAdminCardSkeleton />}
         isEmpty={activeItems.length === 0}
         errorTitle={activeCategoryConfig.errorTitle}
@@ -39,8 +57,15 @@ export function PageAdminSkins({
             <SkinCareAdminCard
               key={item.uuid}
               item={item}
-              icon={<Icon icon={activeCategoryConfig.icon} className="size-6" />}
-              actions={<ItemActions item={item} actions={activeCategoryConfig.actions} />}
+              icon={
+                <Icon icon={activeCategoryConfig.icon} className="size-6" />
+              }
+              actions={
+                <ItemActions
+                  item={item}
+                  actions={activeCategoryConfig.actions}
+                />
+              }
             />
           ))}
         </div>

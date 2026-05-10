@@ -15,6 +15,7 @@ import {
 } from "components/atomic/molecule/MenuDropdown";
 import { useToast } from "components/provider/Toast";
 
+import { EditSkinCareDialog } from "./edit-skin-care-dialog/EditSkinCareDialog";
 import {
   ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY,
   type AdminSkinActionId,
@@ -33,6 +34,7 @@ function getFirstDestructiveActionIndex(
 }
 
 export function ItemActions({ item, actions }: Readonly<ItemActionsProps>) {
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const queryClient = useQueryClient();
@@ -57,16 +59,14 @@ export function ItemActions({ item, actions }: Readonly<ItemActionsProps>) {
   });
 
   function handleActionSelect(actionId: AdminSkinActionId) {
-    if (actionId === "delete") {
-      setIsDeleteDialogOpen(true);
+    if (actionId === "edit") {
+      setIsEditDialogOpen(true);
       return;
     }
 
-    // Keep the edit action visible because the backend supports it, but make
-    // the current UI limitation explicit instead of silently doing nothing.
-    showToast("Fitur ubah skin care belum tersedia di halaman ini.", {
-      variant: "normal",
-    });
+    if (actionId === "delete") {
+      setIsDeleteDialogOpen(true);
+    }
   }
 
   return (
@@ -104,6 +104,13 @@ export function ItemActions({ item, actions }: Readonly<ItemActionsProps>) {
           </Fragment>
         ))}
       </MenuDropdown>
+
+      {/* Keep the dialog outside the dropdown content so menu close does not unmount it before first render. */}
+      <EditSkinCareDialog
+        item={item}
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+      />
 
       {/* Section: Delete skin care confirmation dialog */}
       <ConfirmationDialog
