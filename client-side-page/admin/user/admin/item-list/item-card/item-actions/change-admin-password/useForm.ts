@@ -36,10 +36,7 @@ export const formSchema = z.object({
 
 export type FormApi = ReactFormExtendedApi<
   FormValues,
-  undefined | FormValidateOrFn<ChangeAdminPasswordFormValues>,
   undefined | FormValidateOrFn<FormValues>,
-  undefined | FormValidateOrFn<FormValues>,
-  undefined | FormAsyncValidateOrFn<FormValues>,
   undefined | FormValidateOrFn<FormValues>,
   undefined | FormAsyncValidateOrFn<FormValues>,
   undefined | FormValidateOrFn<FormValues>,
