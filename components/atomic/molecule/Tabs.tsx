@@ -13,6 +13,7 @@ export interface TabsProps<T extends string> {
   options: TabOption<T>[];
   activeId: T;
   onChange: (id: T) => void;
+  orientation?: "horizontal" | "responsive";
   className?: string;
   tabClassName?: string;
   activeTabClassName?: string;
@@ -27,6 +28,7 @@ export function Tabs<T extends string>({
   options,
   activeId,
   onChange,
+  orientation = "responsive",
   className,
   tabClassName,
   activeTabClassName,
@@ -35,11 +37,15 @@ export function Tabs<T extends string>({
   // Generate a unique ID so multiple tab components on the same page don't share the layoutId
   const reactId = React.useId();
   const layoutId = customLayoutId || reactId;
+  const isResponsiveOrientation = orientation === "responsive";
 
   return (
     <div
       className={cn(
-        "flex items-center w-full rounded-xl bg-gray-100/80 p-1 backdrop-blur-sm dark:bg-zinc-800/80 lg:flex-col lg:items-stretch lg:gap-1 lg:p-2 lg:rounded-lg",
+        "flex w-full rounded-xl bg-gray-100/80 p-1 backdrop-blur-sm dark:bg-zinc-800/80",
+        isResponsiveOrientation
+          ? "items-center lg:flex-col lg:items-stretch lg:gap-1 lg:rounded-lg lg:p-2"
+          : "items-center",
         className
       )}
       role="tablist"
@@ -54,7 +60,9 @@ export function Tabs<T extends string>({
             aria-selected={isActive}
             onClick={() => onChange(option.id)}
             className={cn(
-              "relative flex flex-1 items-center justify-center rounded-lg px-3 py-2 text-sm font-medium transition-colors outline-none lg:flex-none lg:w-full lg:justify-start lg:px-4 lg:py-3",
+              "relative flex flex-1 items-center justify-center rounded-lg px-3 py-2 text-sm font-medium transition-colors outline-none",
+              isResponsiveOrientation &&
+                "lg:flex-none lg:w-full lg:justify-start lg:px-4 lg:py-3",
               isActive
                 ? "text-gray-900 dark:text-white"
                 : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200",

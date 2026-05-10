@@ -1,19 +1,71 @@
 "use client";
 
 import { Icon } from "@iconify/react";
+import Link from "next/link";
 import { cn } from "libs/util/cn";
 import { formatTimeChat } from "libs/util/chat/format-time-chat";
 import { ChatMessage } from "@/types/chat.types";
+import type { AdminChatMessage } from "@/mock-backend/admin/chat/chats";
+
+type ChatBubbleMessage = ChatMessage | AdminChatMessage;
 
 interface ChatBubbleProps {
-  message: ChatMessage;
+  message: ChatBubbleMessage;
   // Which role is "self" (right-aligned, green bubble).
   // Defaults to "user" for the user-facing page; pass "admin" for the admin page.
-  selfRole?: "USER" | "ADMIN";
+  selfRole?: "USER" | "ADMIN" | "user" | "admin";
+}
+
+function renderMessageContent(message: ChatBubbleMessage) {
+  if ("type" in message && message.type === "image" && message.imageUrl) {
+    return (
+      <div className="flex flex-col gap-2">
+        {/* Local object URLs and arbitrary uploaded files are not a good fit for next/image here. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={message.imageUrl}
+          alt={message.imageAlt ?? "Chat attachment"}
+          className="max-h-60 w-full rounded-xl object-cover"
+        />
+        {message.text ? (
+          <p className="whitespace-pre-wrap wrap-break-word leading-relaxed">
+            {message.text}
+          </p>
+        ) : null}
+      </div>
+    );
+  }
+
+  if ("type" in message && message.type === "file" && message.fileUrl) {
+    return (
+      <div className="flex flex-col gap-2">
+        <Link
+          href={message.fileUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-black/10 px-3 py-2 text-sm font-medium underline-offset-4 hover:underline"
+        >
+          <Icon icon="material-symbols:attach-file-rounded" className="size-4" />
+          <span className="truncate">{message.fileName ?? "Attachment"}</span>
+        </Link>
+        {message.text ? (
+          <p className="whitespace-pre-wrap wrap-break-word leading-relaxed">
+            {message.text}
+          </p>
+        ) : null}
+      </div>
+    );
+  }
+
+  return (
+    <p className="whitespace-pre-wrap wrap-break-word leading-relaxed">
+      {message.text}
+    </p>
+  );
 }
 
 export function ChatBubble({ message, selfRole = "USER" }: ChatBubbleProps) {
-  const isSelf = message.author === selfRole;
+  const isSelf = message.author.toLowerCase() === selfRole.toLowerCase();
 
   return (
     <div
@@ -31,9 +83,7 @@ export function ChatBubble({ message, selfRole = "USER" }: ChatBubbleProps) {
             : "rounded-bl-sm bg-[#E1E3E4] text-foreground",
         )}
       >
-        <p className="whitespace-pre-wrap wrap-break-word leading-relaxed">
-          {message.text}
-        </p>
+        {renderMessageContent(message)}
       </div>
 
       {/* suppressHydrationWarning: locale-based time formatting differs between server and client */}
@@ -52,7 +102,10 @@ export function ChatBubble({ message, selfRole = "USER" }: ChatBubbleProps) {
             className="size-3 text-muted-foreground"
           />
         )}
-        {isSelf && message.status === "sent" && (
+        {isSelf &&
+          (message.status === "sent" ||
+            message.status === "delivered" ||
+            message.status === "read") && (
           <Icon
             icon="material-symbols:check-rounded"
             className="size-3 text-muted-foreground"

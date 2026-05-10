@@ -1,15 +1,28 @@
-import type { ChatMessage } from "@/types/chat.types";
 import {
   simulateMockRequest,
   type MockControlInput,
 } from "@/mock-backend/utils/mock-control";
+
+export type AdminChatMessage = {
+  id: string;
+  author: "admin" | "user";
+  type: "text" | "image" | "file";
+  text?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  fileUrl?: string;
+  fileName?: string;
+  fileSizeBytes?: number;
+  status?: "sending" | "sent" | "delivered" | "read";
+  createdAt: string;
+};
 
 export type AdminChatConversation = {
   id: string;
   fullName: string;
   email: string;
   lastSeenLabel: string;
-  messages: ChatMessage[];
+  messages: AdminChatMessage[];
 };
 
 export type GetAdminChatsResponse = {

@@ -2,9 +2,7 @@
 
 import { useCallback, useState } from "react";
 
-import type {
-  ChatMessage,
-} from "@/components/atomic/molecule/chat/ChatBubble";
+import type { AdminChatMessage } from "@/mock-backend/admin/chat/chats";
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -15,10 +13,10 @@ function createId() {
  * Holds the message list locally and exposes senders for text / image / file.
  * Replace with an API-backed implementation when the backend is ready.
  */
-export function useChatConversation(initialMessages: ChatMessage[] = []) {
-  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+export function useChatConversation(initialMessages: AdminChatMessage[] = []) {
+  const [messages, setMessages] = useState<AdminChatMessage[]>(initialMessages);
 
-  const append = useCallback((message: ChatMessage) => {
+  const append = useCallback((message: AdminChatMessage) => {
     setMessages((prev) => [...prev, message]);
   }, []);
 

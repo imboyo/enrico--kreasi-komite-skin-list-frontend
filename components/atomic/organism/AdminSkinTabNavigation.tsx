@@ -1,63 +1,39 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-import { Tabs, type TabOption } from "components/atomic/molecule/Tabs";
-import { APP_URL } from "constant";
+import {
+  ADMIN_SKIN_TAB_OPTIONS,
+  getAdminSkinCategoryHref,
+  type AdminSkinCategoryId,
+} from "@/client-side-page/admin/skins/utils/skinCategory";
+import { Tabs } from "components/atomic/molecule/Tabs";
 
-type SkinsTabId = "routines" | "colors" | "scars" | "make-ups";
-
-const SKINS_TABS: Array<TabOption<SkinsTabId> & { href: string }> = [
-  {
-    id: "routines",
-    label: "Routines",
-    href: `${APP_URL.ADMIN_CARE_SKIN_MANAGEMENT}/routines`,
-  },
-  {
-    id: "colors",
-    label: "Colors",
-    href: `${APP_URL.ADMIN_CARE_SKIN_MANAGEMENT}/colors`,
-  },
-  {
-    id: "scars",
-    label: "Scars",
-    href: `${APP_URL.ADMIN_CARE_SKIN_MANAGEMENT}/scars`,
-  },
-  {
-    id: "make-ups",
-    label: "Make Ups",
-    href: `${APP_URL.ADMIN_CARE_SKIN_MANAGEMENT}/make-ups`,
-  },
-];
-
-function getActiveTabId(pathname: string): SkinsTabId {
-  const activeTab = SKINS_TABS.find((tab) => {
-    return pathname.startsWith(tab.href);
-  });
-
-  return activeTab?.id ?? "routines";
+interface AdminSkinTabNavigationProps {
+  activeTabId: AdminSkinCategoryId;
 }
 
-export function AdminSkinTabNavigation() {
-  const pathname = usePathname();
+export function AdminSkinTabNavigation({
+  activeTabId,
+}: Readonly<AdminSkinTabNavigationProps>) {
   const router = useRouter();
-  const activeTabId = getActiveTabId(pathname);
 
-  function handleTabChange(tabId: SkinsTabId) {
-    const nextTab = SKINS_TABS.find((tab) => tab.id === tabId);
-
-    if (!nextTab || nextTab.href === pathname) {
+  function handleTabChange(tabId: AdminSkinCategoryId) {
+    // Stay on one page and switch category through the query string so the
+    // shared React Query cache remains warm across tab changes.
+    if (tabId === activeTabId) {
       return;
     }
 
-    router.push(nextTab.href);
+    router.push(getAdminSkinCategoryHref(tabId));
   }
 
   return (
     <Tabs
-      options={SKINS_TABS}
+      options={ADMIN_SKIN_TAB_OPTIONS}
       activeId={activeTabId}
       onChange={handleTabChange}
+      orientation="horizontal"
       className="overflow-x-auto"
       tabClassName="min-w-fit whitespace-nowrap px-4"
       layoutId="admin-skins-tabs"
