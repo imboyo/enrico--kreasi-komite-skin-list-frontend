@@ -1,1 +1,0 @@
-client-side-page/terms/PageTerms.tsx
