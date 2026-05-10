@@ -6,17 +6,32 @@ import { cn } from "libs/util/cn";
 import { formatTimeChat } from "libs/util/chat/format-time-chat";
 import { ChatMessage } from "@/types/chat.types";
 import type { AdminChatMessage } from "@/mock-backend/admin/chat/chats";
+import type { AdminSkinChatMessage } from "backend-service/admin/skin-chat";
 
-type ChatBubbleMessage = ChatMessage | AdminChatMessage;
+type ChatBubbleMessage = ChatMessage | AdminChatMessage | AdminSkinChatMessage;
 
 interface ChatBubbleProps {
   message: ChatBubbleMessage;
   // Which role is "self" (right-aligned, green bubble).
-  // Defaults to "user" for the user-facing page; pass "admin" for the admin page.
+  // Defaults to "USER" for the user-facing page; pass "ADMIN" for the admin page.
   selfRole?: "USER" | "ADMIN" | "user" | "admin";
 }
 
+function isSkinChatMessage(
+  message: ChatBubbleMessage,
+): message is AdminSkinChatMessage {
+  return "sender_role" in message;
+}
+
 function renderMessageContent(message: ChatBubbleMessage) {
+  if (isSkinChatMessage(message)) {
+    return (
+      <p className="whitespace-pre-wrap wrap-break-word leading-relaxed">
+        {message.message}
+      </p>
+    );
+  }
+
   if ("type" in message && message.type === "image" && message.imageUrl) {
     return (
       <div className="flex flex-col gap-2">
@@ -65,7 +80,13 @@ function renderMessageContent(message: ChatBubbleMessage) {
 }
 
 export function ChatBubble({ message, selfRole = "USER" }: ChatBubbleProps) {
-  const isSelf = message.author.toLowerCase() === selfRole.toLowerCase();
+  const isSelf = isSkinChatMessage(message)
+    ? message.sender_role.toLowerCase() === selfRole.toLowerCase()
+    : message.author.toLowerCase() === selfRole.toLowerCase();
+
+  const createdAt = isSkinChatMessage(message)
+    ? message.created_at
+    : message.createdAt;
 
   return (
     <div
@@ -92,17 +113,18 @@ export function ChatBubble({ message, selfRole = "USER" }: ChatBubbleProps) {
           className="text-[10px] text-muted-foreground"
           suppressHydrationWarning
         >
-          {formatTimeChat(message.createdAt)}
+          {formatTimeChat(createdAt)}
         </span>
 
-        {/* Read status icons — only shown on outgoing (self) messages */}
-        {isSelf && message.status === "sending" && (
+        {/* Read status icons — only shown on outgoing (self) messages and only for non-skin-chat messages */}
+        {isSelf && !isSkinChatMessage(message) && message.status === "sending" && (
           <Icon
             icon="material-symbols:schedule-outline-rounded"
             className="size-3 text-muted-foreground"
           />
         )}
         {isSelf &&
+          !isSkinChatMessage(message) &&
           (message.status === "sent" ||
             message.status === "delivered" ||
             message.status === "read") && (

@@ -22,7 +22,8 @@
       "Bash(xargs ls -la)",
       "Bash(kill 4290)",
       "Bash(npm run *)",
-      "Bash(curl -s http://localhost:3000)"
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(git checkout *)"
     ]
   },
   "enableAllProjectMcpServers": true,

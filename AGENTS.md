@@ -17,6 +17,7 @@ the relevant guide in `node_modules/next/dist/docs/` before writing any code. He
 - The codebase must be in english and the app copywrite is in Bahasa Indonesia. The user will see in bahasa but as developer for variable, function and the codebase must be in english
 - One Function must be one responsibility and one file. 
 - One Component must be one responsibility and one file.
+- Form and Validation is using zod and useForm @tanstack/react-form. So will use useForm and form.Field
 
 ### Moduling / Project Structure
 1. Backend Service use barrel export with naming for example `backend-service/auth/index.ts` and its have index.ts on `backend-service` so in consumer we can choose import directly from `backend-service/auth` or for more readable we can import from `backend-service`

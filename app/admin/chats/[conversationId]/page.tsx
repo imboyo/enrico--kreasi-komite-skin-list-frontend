@@ -16,5 +16,5 @@ export default async function AdminChatDetailPage({
 }: AdminChatDetailPageProps) {
   const { conversationId } = await params;
 
-  return <PageAdminChatDetail conversationId={conversationId} />;
+  return <PageAdminChatDetail threadUuid={conversationId} />;
 }

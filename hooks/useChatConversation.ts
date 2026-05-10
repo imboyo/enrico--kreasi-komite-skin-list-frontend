@@ -2,70 +2,51 @@
 
 import { useCallback, useState } from "react";
 
-import type { AdminChatMessage } from "@/mock-backend/admin/chat/chats";
+import type { AdminSkinChatMessage } from "backend-service/admin/skin-chat";
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-/**
- * Manages a single admin conversation for the current user.
- * Holds the message list locally and exposes senders for text / image / file.
- * Replace with an API-backed implementation when the backend is ready.
- */
-export function useChatConversation(initialMessages: AdminChatMessage[] = []) {
-  const [messages, setMessages] = useState<AdminChatMessage[]>(initialMessages);
+type UseChatConversationParams = {
+  initialMessages: AdminSkinChatMessage[];
+  onSendText: (text: string) => Promise<AdminSkinChatMessage>;
+};
 
-  const append = useCallback((message: AdminChatMessage) => {
-    setMessages((prev) => [...prev, message]);
-  }, []);
+/**
+ * Manages local chat state with backend integration for sending replies.
+ * Optimistically appends the sent message and replaces it with the server response on success.
+ */
+export function useChatConversation({
+  initialMessages,
+  onSendText,
+}: UseChatConversationParams) {
+  const [messages, setMessages] = useState<AdminSkinChatMessage[]>(initialMessages);
 
   const sendText = useCallback(
-    (text: string) => {
-      append({
-        id: createId(),
-        author: "user",
-        type: "text",
-        text,
-        createdAt: new Date().toISOString(),
-      });
+    async (text: string) => {
+      const optimisticId = createId();
+      const optimisticMessage: AdminSkinChatMessage = {
+        id: optimisticId,
+        message: text,
+        created_at: new Date().toISOString(),
+        sender_role: "ADMIN",
+      };
+
+      setMessages((prev) => [...prev, optimisticMessage]);
+
+      try {
+        const serverMessage = await onSendText(text);
+        setMessages((prev) =>
+          prev.map((msg) => (msg.id === optimisticId ? serverMessage : msg)),
+        );
+      } catch {
+        // Leave the optimistic message in place so the user sees their text,
+        // even if the server call failed.
+      }
     },
-    [append],
+    [onSendText],
   );
 
-  const sendImage = useCallback(
-    (file: File) => {
-      // TODO: upload file to API and replace imageUrl with the returned URL.
-      // Local object URL lets us preview instantly; swap for the uploaded URL after the API call.
-      const imageUrl = URL.createObjectURL(file);
-      append({
-        id: createId(),
-        author: "user",
-        type: "image",
-        imageUrl,
-        imageAlt: file.name,
-        createdAt: new Date().toISOString(),
-      });
-    },
-    [append],
-  );
-
-  const sendFile = useCallback(
-    (file: File) => {
-      // TODO: upload file to API and replace fileUrl with the returned URL.
-      const fileUrl = URL.createObjectURL(file);
-      append({
-        id: createId(),
-        author: "user",
-        type: "file",
-        fileUrl,
-        fileName: file.name,
-        fileSizeBytes: file.size,
-        createdAt: new Date().toISOString(),
-      });
-    },
-    [append],
-  );
-
-  return { messages, sendText, sendImage, sendFile };
+  return { messages, sendText };
 }

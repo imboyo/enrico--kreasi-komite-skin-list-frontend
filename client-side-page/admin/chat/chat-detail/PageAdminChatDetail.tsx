@@ -4,23 +4,23 @@ import { useAdminChats } from "@/client-side-page/admin/chat/useAdminChats";
 import { useMemo } from "react";
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { AdminChatThread } from "client-side-page/admin/chat/chat-detail/AdminChatThread";
-import { LoadingState } from "@/client-side-page/admin/chat/LoadingState";
+import { LoadingState } from "client-side-page/admin/chat/chat-list/LoadingState";
 import { motion } from "motion/react";
 
 type PageAdminChatDetailProps = {
-  conversationId: string;
+  threadUuid: string;
 };
 
 export function PageAdminChatDetail({
-  conversationId,
+  threadUuid,
 }: PageAdminChatDetailProps) {
   const { adminChatsQuery, conversations } = useAdminChats();
 
-  const activeConversation = useMemo(() => {
+  const activeThread = useMemo(() => {
     return conversations.find(
-      (conversation) => conversation.id === conversationId,
+      (thread) => thread.uuid === threadUuid,
     );
-  }, [conversationId, conversations]);
+  }, [threadUuid, conversations]);
 
   return (
     <motion.div
@@ -33,16 +33,16 @@ export function PageAdminChatDetail({
       <QueryStateHandler
         query={adminChatsQuery}
         skeleton={<LoadingState />}
-        isEmpty={!activeConversation}
+        isEmpty={!activeThread}
         errorTitle="Failed to load chat."
         emptyTitle="Chat not found."
         emptyDescription="Go back to the chat list and choose another conversation."
         contentClassName="flex min-h-0 flex-1 flex-col overflow-hidden"
       >
-        {activeConversation ? (
+        {activeThread ? (
           <AdminChatThread
-            key={activeConversation.id}
-            conversation={activeConversation}
+            key={activeThread.uuid}
+            thread={activeThread}
           />
         ) : null}
       </QueryStateHandler>

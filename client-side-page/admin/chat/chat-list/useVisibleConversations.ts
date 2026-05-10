@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 
-import type { AdminChatConversation } from "@/mock-backend/admin/chat/chats";
+import type { AdminSkinChatThread } from "backend-service/admin/skin-chat/index";
 
 type UseVisibleConversationsParams = {
-  conversations: AdminChatConversation[];
+  conversations: AdminSkinChatThread[];
   searchValue: string;
 };
 
@@ -18,10 +18,10 @@ export function useVisibleConversations({
 
     // Admin chat search is intentionally scoped to identity fields so message
     // content does not unexpectedly hide or reveal conversations.
-    return conversations.filter((conversation) => {
+    return conversations.filter((thread) => {
       return (
-        conversation.fullName.toLowerCase().includes(normalizedSearch) ||
-        conversation.email.toLowerCase().includes(normalizedSearch)
+        thread.user.full_name.toLowerCase().includes(normalizedSearch) ||
+        (thread.user.email ?? "").toLowerCase().includes(normalizedSearch)
       );
     });
   }, [conversations, searchValue]);

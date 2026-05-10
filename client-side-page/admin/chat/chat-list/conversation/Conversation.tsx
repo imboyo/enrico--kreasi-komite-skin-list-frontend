@@ -1,12 +1,13 @@
-import type { AdminChatConversation } from "@/mock-backend/admin/chat/chats";
+import type { AdminSkinChatThread } from "backend-service/admin/skin-chat/index";
 
-import { ConversationList } from "./ConversationList";
+import { ConversationList } from "client-side-page/admin/chat/chat-list/conversation/ConversationList";
 
 type ConversationSectionProps = {
-  conversations: AdminChatConversation[];
+  conversations: AdminSkinChatThread[];
+  totalCount: number;
 };
 
-export function ConversationSection({ conversations }: ConversationSectionProps) {
+export function Conversation({ conversations, totalCount }: ConversationSectionProps) {
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-4">
       <section className="flex min-h-0 flex-1 flex-col gap-2">
@@ -16,7 +17,7 @@ export function ConversationSection({ conversations }: ConversationSectionProps)
             Conversations
           </h2>
           <span className="text-xs text-muted-foreground">
-            {conversations.length} result{conversations.length === 1 ? "" : "s"}
+            {totalCount} result{totalCount === 1 ? "" : "s"}
           </span>
         </div>
 

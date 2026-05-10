@@ -1,8 +1,8 @@
-import { Skeleton } from "@/components/atomic/atom/Skeleton";
+import { Skeleton } from "components/atomic/atom/Skeleton";
 
 export function LoadingState() {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
       {/* Section: Chat conversation skeleton */}
       {Array.from({ length: 4 }).map((_, index) => (
         <div key={index} className="rounded-2xl p-3">

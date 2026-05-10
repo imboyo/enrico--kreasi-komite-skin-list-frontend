@@ -3,6 +3,7 @@
 import { Icon } from "@iconify/react";
 import { SkinCareAdminCard } from "@/components/atomic/organism/SkinCareAdminCard";
 import { AdminSkinTabNavigation } from "@/components/atomic/organism/AdminSkinTabNavigation";
+import { MobilePagination } from "@/components/atomic/molecule/MobilePagination";
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { SkinCareAdminCardSkeleton } from "@/components/atomic/molecule/SkinCareAdminCardSkeleton";
 
@@ -22,8 +23,11 @@ export function PageAdminSkins({
     activeCategoryConfig,
     activeItems,
     adminSkinListQuery,
+    currentPage,
     searchValue,
     sortValue,
+    totalPages,
+    handlePageChange,
     handleSearchChange,
     handleSortChange,
   } = useAdminSkinList(activeCategory);
@@ -70,6 +74,12 @@ export function PageAdminSkins({
           ))}
         </div>
       </QueryStateHandler>
+
+      <MobilePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }

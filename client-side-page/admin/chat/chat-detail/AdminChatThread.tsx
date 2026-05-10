@@ -8,16 +8,29 @@ import { ChatInput } from "components/atomic/molecule/chat/ChatInput";
 import { ChatTopbar } from "components/atomic/organism/topbar/ChatTopbar";
 import { APP_URL } from "constant";
 import { useChatConversation } from "hooks/useChatConversation";
-import type { AdminChatConversation } from "mock-backend/admin/chat/chats";
+import { replyAdminSkinChatThread } from "backend-service/admin/skin-chat";
+import type { AdminSkinChatThread } from "backend-service/admin/skin-chat";
 
 type AdminChatThreadProps = {
-  conversation: AdminChatConversation;
+  thread: AdminSkinChatThread;
 };
 
-export function AdminChatThread({ conversation }: AdminChatThreadProps) {
-  const { messages, sendText, sendImage, sendFile } = useChatConversation(
-    conversation.messages,
-  );
+export function AdminChatThread({ thread }: AdminChatThreadProps) {
+  const { messages, sendText } = useChatConversation({
+    initialMessages: thread.messages,
+    onSendText: async (text) => {
+      const response = await replyAdminSkinChatThread(thread.uuid, {
+        message: text,
+      });
+      return {
+        id: response.message_id,
+        message: response.message,
+        created_at: response.created_at,
+        sender_role: "ADMIN" as const,
+        thread_id: response.thread_id,
+      };
+    },
+  });
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,8 +43,8 @@ export function AdminChatThread({ conversation }: AdminChatThreadProps) {
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-border/70 bg-background">
       <ChatTopbar
         backHref={APP_URL.ADMIN_CHATS}
-        title={conversation.fullName}
-        subtitle={conversation.lastSeenLabel}
+        title={thread.user.full_name}
+        subtitle={thread.user.email}
         rightSection={
           <span className="flex size-8 items-center justify-center rounded-full bg-primary/10 text-primary">
             <Icon icon="material-symbols:admin-panel-settings-outline-rounded" />
@@ -46,7 +59,7 @@ export function AdminChatThread({ conversation }: AdminChatThreadProps) {
       >
         <div className="flex flex-col gap-3 pb-4">
           {messages.map((message) => (
-            <ChatBubble key={message.id} message={message} selfRole="user" />
+            <ChatBubble key={message.id} message={message} selfRole="ADMIN" />
           ))}
         </div>
       </div>
@@ -55,9 +68,7 @@ export function AdminChatThread({ conversation }: AdminChatThreadProps) {
       <div className="fixed bottom-0 left-1/2 z-20 w-full max-w-125 -translate-x-1/2 px-4">
         <ChatInput
           onSendText={sendText}
-          onSendImage={sendImage}
-          onSendFile={sendFile}
-          placeholder={`Reply to ${conversation.fullName}`}
+          placeholder={`Reply to ${thread.user.full_name}`}
         />
       </div>
     </div>

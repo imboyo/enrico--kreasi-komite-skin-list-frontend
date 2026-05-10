@@ -2,7 +2,7 @@
 
 import { Icon } from "@iconify/react";
 
-import { TextInput } from "@/components/atomic/atom/TextInput";
+import { TextInput } from "components/atomic/atom/TextInput";
 
 type ChatSearchInputProps = {
   value: string;
