@@ -57,7 +57,7 @@ export type AdminSkinChatThreadFilterField =
   | "user.status";
 
 export type AdminSkinChatUser = {
-  id: string;
+  uuid: string;
   full_name: string;
   email: string | null;
   phone_number: string;
@@ -66,7 +66,7 @@ export type AdminSkinChatUser = {
 };
 
 export type AdminSkinChatMessage = {
-  id: string;
+  uuid: string;
   message: string;
   created_at: string;
   sender_role: AdminSkinChatAccountRole;

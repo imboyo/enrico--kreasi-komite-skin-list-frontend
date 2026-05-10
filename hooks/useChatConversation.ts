@@ -27,7 +27,7 @@ export function useChatConversation({
     async (text: string) => {
       const optimisticId = createId();
       const optimisticMessage: AdminSkinChatMessage = {
-        id: optimisticId,
+        uuid: optimisticId,
         message: text,
         created_at: new Date().toISOString(),
         sender_role: "ADMIN",
@@ -38,7 +38,7 @@ export function useChatConversation({
       try {
         const serverMessage = await onSendText(text);
         setMessages((prev) =>
-          prev.map((msg) => (msg.id === optimisticId ? serverMessage : msg)),
+          prev.map((msg) => (msg.uuid === optimisticId ? serverMessage : msg)),
         );
       } catch {
         // Leave the optimistic message in place so the user sees their text,

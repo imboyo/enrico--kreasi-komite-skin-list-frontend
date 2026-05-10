@@ -72,7 +72,7 @@ export function AdminChatThread({ thread }: AdminChatThreadProps) {
           <div className="flex flex-col gap-3 pb-4">
             {messages.map((message) => (
               <ChatBubble
-                key={message.id}
+                key={message.uuid}
                 message={message}
                 selfRole="ADMIN"
               />

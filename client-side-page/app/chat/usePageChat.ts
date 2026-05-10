@@ -3,22 +3,28 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { getAdminSkinChatThreadMessages } from "backend-service/admin/skin-chat";
-import { replyAdminSkinChatThread } from "backend-service/admin/skin-chat";
+import { cleanMessages, getMessages, sendMessage } from "backend-service/index";
 
-import type { AdminSkinChatMessage } from "backend-service/admin/skin-chat";
+import { useToast } from "components/provider/Toast";
+import type { ChatMessage } from "types/chat.types";
 
+import { mapDescendingPageToRenderOrder } from "libs/util/chat/map-descending-page-to-render-order";
 import { useDeferredScroll } from "hooks/chat/page-chat/useDeferredScroll";
 
-const PAGE_SIZE = 100;
 const REFRESH_INTERVAL_MS = 5000;
+const PAGE_SIZE = 50;
 
-export function useAdminChatDetail(threadUuid: string) {
-  const [messages, setMessages] = useState<AdminSkinChatMessage[]>([]);
+export function usePageChat() {
+  const { showToast } = useToast();
+
+  // Local state owns the thread after the first query resolves so optimistic
+  // inserts, refresh replacements, and pagination can all be coordinated in one place.
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(false);
   const [isLoadingOlder, setIsLoadingOlder] = useState(false);
   const [isSendingText, setIsSendingText] = useState(false);
+  const [isDeletingConversation, setIsDeletingConversation] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { scrollRef, scheduleScrollPreservePrepend, scheduleScrollToBottom } =
@@ -31,9 +37,8 @@ export function useAdminChatDetail(threadUuid: string) {
     isLoading: isInitialLoading,
     isError: isInitialError,
   } = useQuery({
-    queryKey: ["admin-skin-chat-messages", threadUuid],
-    queryFn: () =>
-      getAdminSkinChatThreadMessages(threadUuid, { limit: PAGE_SIZE }),
+    queryKey: ["skin-chat-messages"],
+    queryFn: () => getMessages({ limit: PAGE_SIZE }),
     refetchInterval: REFRESH_INTERVAL_MS,
     refetchOnWindowFocus: false,
     retry: 1,
@@ -43,7 +48,7 @@ export function useAdminChatDetail(threadUuid: string) {
   useEffect(() => {
     if (!queryData) return;
 
-    const freshMessages = [...queryData.data].reverse();
+    const freshMessages = mapDescendingPageToRenderOrder(queryData.data);
 
     setMessages(freshMessages);
     setHasMore(queryData.meta.has_more);
@@ -60,18 +65,18 @@ export function useAdminChatDetail(threadUuid: string) {
   async function loadOlderMessages() {
     if (isLoadingOlder || !hasMore || !nextCursor) return;
 
+    // Capture the current height so we can restore the viewport after the prepend.
     const previousHeight = scrollRef.current?.scrollHeight ?? 0;
 
     setIsLoadingOlder(true);
     setErrorMessage(null);
 
     try {
-      const response = await getAdminSkinChatThreadMessages(threadUuid, {
+      const response = await getMessages({
         before: nextCursor,
         limit: PAGE_SIZE,
       });
-
-      const olderMessages = [...response.data].reverse();
+      const olderMessages = mapDescendingPageToRenderOrder(response.data);
 
       if (olderMessages.length > 0) {
         scheduleScrollPreservePrepend(previousHeight);
@@ -87,17 +92,19 @@ export function useAdminChatDetail(threadUuid: string) {
     }
   }
 
-  // Send a text reply as admin.
+  // Send a text message as user.
   async function handleSendText(text: string) {
-    const trimmed = text.trim();
-    if (!trimmed) return;
+    const trimmedText = text.trim();
+    if (!trimmedText || isDeletingConversation) return;
 
+    // Render the outgoing message immediately, then reconcile it on success.
     const optimisticId = `optimistic-${Date.now()}-${crypto.randomUUID()}`;
-    const optimisticMessage: AdminSkinChatMessage = {
+    const optimisticMessage: ChatMessage = {
       uuid: optimisticId,
-      message: trimmed,
-      created_at: new Date().toISOString(),
-      sender_role: "ADMIN",
+      author: "USER",
+      text: trimmedText,
+      status: "sending",
+      createdAt: new Date().toISOString(),
     };
 
     scheduleScrollToBottom();
@@ -106,16 +113,15 @@ export function useAdminChatDetail(threadUuid: string) {
     setErrorMessage(null);
 
     try {
-      const response = await replyAdminSkinChatThread(threadUuid, {
-        message: trimmed,
-      });
-
-      const confirmedMessage: AdminSkinChatMessage = {
-        uuid: response.message_id,
-        message: response.message,
-        created_at: response.created_at,
-        sender_role: "ADMIN",
-        thread_id: response.thread_id,
+      const response = await sendMessage({ message: trimmedText });
+      const confirmedMessage: ChatMessage = {
+        uuid: response.message_id
+          ? `server-${response.message_id}`
+          : optimisticId,
+        author: "USER",
+        text: response.message ?? trimmedText,
+        status: "sent",
+        createdAt: response.created_at ?? optimisticMessage.createdAt,
       };
 
       setMessages((prev) =>
@@ -123,16 +129,48 @@ export function useAdminChatDetail(threadUuid: string) {
       );
     } catch {
       setErrorMessage("Pesan gagal dikirim.");
+      // Remove the optimistic row when the request fails so the thread stays honest.
       setMessages((prev) => prev.filter((m) => m.uuid !== optimisticId));
     } finally {
       setIsSendingText(false);
     }
   }
 
+  // Delete the entire conversation.
+  async function handleDeleteConversation() {
+    if (isDeletingConversation) return false;
+
+    setIsDeletingConversation(true);
+    setErrorMessage(null);
+
+    try {
+      await cleanMessages();
+
+      // Reset the local thread immediately so the UI matches the cleared backend state.
+      setMessages([]);
+      setHasMore(false);
+      setNextCursor(null);
+      scheduleScrollToBottom();
+
+      showToast("Percakapan berhasil dihapus.", { variant: "success" });
+      return true;
+    } catch {
+      setErrorMessage("Percakapan gagal dihapus.");
+      showToast("Percakapan gagal dihapus. Silakan coba lagi.", {
+        variant: "error",
+      });
+      return false;
+    } finally {
+      setIsDeletingConversation(false);
+    }
+  }
+
   return {
     errorMessage,
+    handleDeleteConversation,
     handleSendText,
     hasMore,
+    isDeletingConversation,
     isInitialError,
     isInitialLoading,
     isLoadingOlder,
