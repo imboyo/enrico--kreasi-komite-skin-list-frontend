@@ -25,7 +25,7 @@ export function PageAdminChatDetail({
 
   return (
     <motion.div
-      className="mx-auto flex h-[calc(100dvh-65px)] min-h-0 w-full max-w-125 flex-1 flex-col overflow-hidden px-4 py-4"
+      className="mx-auto flex h-[calc(100dvh-65px)] min-h-0 w-full max-w-125 flex-col overflow-hidden px-4 py-4"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}

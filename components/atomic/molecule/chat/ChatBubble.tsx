@@ -1,5 +1,6 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { cn } from "libs/util/cn";
@@ -88,6 +89,16 @@ export function ChatBubble({ message, selfRole = "USER" }: ChatBubbleProps) {
     ? message.created_at
     : message.createdAt;
 
+  // Defer time formatting to client-only so toLocaleTimeString respects the
+  // browser's timezone instead of the server's during SSR.
+  const isClient = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+
+  const formattedTime = isClient ? formatTimeChat(createdAt) : "";
+
   return (
     <div
       className={cn(
@@ -107,13 +118,9 @@ export function ChatBubble({ message, selfRole = "USER" }: ChatBubbleProps) {
         {renderMessageContent(message)}
       </div>
 
-      {/* suppressHydrationWarning: locale-based time formatting differs between server and client */}
       <div className="flex items-center gap-1 px-1">
-        <span
-          className="text-[10px] text-muted-foreground"
-          suppressHydrationWarning
-        >
-          {formatTimeChat(createdAt)}
+        <span className="text-[10px] text-muted-foreground">
+          {formattedTime}
         </span>
 
         {/* Read status icons — only shown on outgoing (self) messages and only for non-skin-chat messages */}

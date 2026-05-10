@@ -1,14 +1,21 @@
 "use client";
 
 import { Icon } from "@iconify/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
+import { cleanAdminSkinChatThread } from "backend-service/admin/skin-chat";
+import type { AdminSkinChatThread } from "backend-service/admin/skin-chat";
+import { Button } from "components/atomic/atom/Button";
+import { ConfirmationDialog } from "components/atomic/molecule/ConfirmationDialog";
+import { MenuDropdown, MenuDropdownItem } from "components/atomic/molecule/MenuDropdown";
 import { ChatBubble } from "components/atomic/molecule/chat/ChatBubble";
 import { ChatInput } from "components/atomic/molecule/chat/ChatInput";
 import { ChatTopbar } from "components/atomic/organism/topbar/ChatTopbar";
 import { MessagesSkeleton } from "components/atomic/molecule/MessageSkeleton";
+import { useToast } from "components/provider/Toast";
 import { APP_URL } from "constant";
-
-import type { AdminSkinChatThread } from "backend-service/admin/skin-chat";
 
 import { useAdminChatDetail } from "./useAdminChatDetail";
 
@@ -30,16 +37,58 @@ export function AdminChatThread({ thread }: AdminChatThreadProps) {
     scrollRef,
   } = useAdminChatDetail(thread.uuid);
 
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { showToast } = useToast();
+
+  const deleteMutation = useMutation({
+    mutationFn: () => cleanAdminSkinChatThread(thread.uuid),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["admin-skin-chat-threads"],
+      });
+      showToast("Percakapan berhasil dihapus.", { variant: "success" });
+      router.push(APP_URL.ADMIN_CHATS);
+    },
+    onError: () => {
+      showToast("Gagal menghapus percakapan. Silakan coba lagi.", {
+        variant: "error",
+      });
+    },
+  });
+
   return (
-    <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-border/70 bg-background">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-border/70 bg-background">
       <ChatTopbar
         backHref={APP_URL.ADMIN_CHATS}
         title={thread.user.full_name}
         subtitle={thread.user.email}
         rightSection={
-          <span className="flex size-8 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <Icon icon="material-symbols:admin-panel-settings-outline-rounded" />
-          </span>
+          <MenuDropdown
+            align="end"
+            side="bottom"
+            trigger={
+              <Button
+                variant="ghost"
+                size="sm"
+                iconOnly
+                aria-label={`Buka aksi untuk percakapan ${thread.user.full_name}`}
+                className="rounded-full"
+              >
+                <Icon icon="material-symbols:more-vert" />
+              </Button>
+            }
+          >
+            <MenuDropdownItem
+              destructive
+              icon={<Icon icon="material-symbols:delete-outline-rounded" />}
+              onSelect={() => setIsDeleteDialogOpen(true)}
+            >
+              Hapus Percakapan
+            </MenuDropdownItem>
+          </MenuDropdown>
         }
       />
 
@@ -89,6 +138,24 @@ export function AdminChatThread({ thread }: AdminChatThreadProps) {
           placeholder={`Balas ke ${thread.user.full_name}`}
         />
       </div>
+
+      {/* Section: Delete conversation confirmation dialog — kept outside the dropdown so menu close does not unmount it */}
+      <ConfirmationDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        title="Hapus Percakapan"
+        description={
+          <span>
+            Apakah Anda yakin ingin menghapus percakapan dengan{" "}
+            <strong>{thread.user.full_name}</strong>? Tindakan ini akan
+            menghapus semua pesan secara permanen dan tidak dapat dibatalkan.
+          </span>
+        }
+        confirmLabel="Hapus"
+        confirmVariant="destructive"
+        isConfirming={deleteMutation.isPending}
+        onConfirm={() => deleteMutation.mutate()}
+      />
     </div>
   );
 }
