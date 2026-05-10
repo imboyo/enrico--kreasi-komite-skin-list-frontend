@@ -2,17 +2,17 @@
 
 import { useCallback } from "react";
 
-import { getMessages } from "backend-service";
+import { getMessages } from "backend-service/index";
 
 import { mapDescendingPageToRenderOrder } from "libs/util/chat/map-descending-page-to-render-order";
 
-import { PAGE_SIZE } from "./constants";
+import { PAGE_SIZE } from "hooks/chat/page-chat/constants";
 import type {
   ScrollContainerRef,
   SetBoolean,
   SetMessages,
   SetNullableString,
-} from "./types";
+} from "hooks/chat/page-chat/types";
 
 type UseLoadOlderMessagesParams = {
   hasMore: boolean;

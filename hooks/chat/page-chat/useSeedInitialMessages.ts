@@ -10,7 +10,7 @@ import type {
   SetBoolean,
   SetMessages,
   SetNullableString,
-} from "./types";
+} from "hooks/chat/page-chat/types";
 
 type UseSeedInitialMessagesParams = {
   initializedRef: MutableRefObject<boolean>;

@@ -2,11 +2,11 @@
 
 import { useCallback } from "react";
 
-import { sendMessage } from "backend-service";
+import { sendMessage } from "backend-service/index";
 
 import type { ChatMessage } from "types/chat.types";
 
-import type { SetBoolean, SetMessages, SetNullableString } from "./types";
+import type { SetBoolean, SetMessages, SetNullableString } from "hooks/chat/page-chat/types";
 
 type UseHandleSendTextParams = {
   isDeletingConversation: boolean;

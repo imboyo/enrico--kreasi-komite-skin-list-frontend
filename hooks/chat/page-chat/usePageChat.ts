@@ -3,18 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { getMessages } from "backend-service";
+import { getMessages } from "backend-service/index";
 
 import { useToast } from "components/provider/Toast";
 import type { ChatMessage } from "types/chat.types";
 
-import { PAGE_SIZE } from "./constants";
-import { useDeferredScroll } from "./useDeferredScroll";
-import { useHandleDeleteConversation } from "./useHandleDeleteConversation";
-import { useHandleSendText } from "./useHandleSendText";
-import { useLoadOlderMessages } from "./useLoadOlderMessages";
-import { usePageChatPolling } from "./usePageChatPolling";
-import { useSeedInitialMessages } from "./useSeedInitialMessages";
+import { PAGE_SIZE } from "hooks/chat/page-chat/constants";
+import { useDeferredScroll } from "hooks/chat/page-chat/useDeferredScroll";
+import { useHandleDeleteConversation } from "hooks/chat/page-chat/useHandleDeleteConversation";
+import { useHandleSendText } from "hooks/chat/page-chat/useHandleSendText";
+import { useLoadOlderMessages } from "hooks/chat/page-chat/useLoadOlderMessages";
+import { usePageChatPolling } from "hooks/chat/page-chat/usePageChatPolling";
+import { useSeedInitialMessages } from "hooks/chat/page-chat/useSeedInitialMessages";
 
 export function usePageChat() {
   const { showToast } = useToast();

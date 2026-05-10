@@ -1,11 +1,12 @@
 "use client";
 
-import { useAdminChats } from "@/client-side-page/admin/chat/useAdminChats";
 import { useMemo } from "react";
+import { motion } from "motion/react";
+
+import { useAdminChats } from "@/client-side-page/admin/chat/useAdminChats";
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { AdminChatThread } from "client-side-page/admin/chat/chat-detail/AdminChatThread";
 import { LoadingState } from "client-side-page/admin/chat/chat-list/LoadingState";
-import { motion } from "motion/react";
 
 type PageAdminChatDetailProps = {
   threadUuid: string;
@@ -29,14 +30,14 @@ export function PageAdminChatDetail({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
     >
-      {/* Section: Chat detail */}
+      {/* Section: Chat detail — AdminChatThread handles its own message loading, error, and send states */}
       <QueryStateHandler
         query={adminChatsQuery}
         skeleton={<LoadingState />}
-        isEmpty={!activeThread}
-        errorTitle="Failed to load chat."
-        emptyTitle="Chat not found."
-        emptyDescription="Go back to the chat list and choose another conversation."
+        isEmpty={conversations.length > 0 && !activeThread}
+        errorTitle="Gagal memuat chat."
+        emptyTitle="Chat tidak ditemukan."
+        emptyDescription="Kembali ke daftar chat dan pilih percakapan lain."
         contentClassName="flex min-h-0 flex-1 flex-col overflow-hidden"
       >
         {activeThread ? (

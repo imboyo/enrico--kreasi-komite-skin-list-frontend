@@ -1,7 +1,7 @@
 import type { Dispatch, MutableRefObject, SetStateAction } from "react";
 
-import type { GetMessagesResponse } from "backend-service";
-import type { ShowToastOptions } from "@/components/provider/toast-context";
+import type { GetMessagesResponse } from "backend-service/index";
+import type { ShowToastOptions } from "components/provider/toast-context";
 
 import type { ChatMessage } from "types/chat.types";
 

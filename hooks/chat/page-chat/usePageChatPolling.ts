@@ -2,12 +2,12 @@
 
 import { useEffect } from "react";
 
-import { getMessages } from "backend-service";
+import { getMessages } from "backend-service/index";
 
 import { appendIncomingMessages } from "libs/util/chat/append-incoming-messages";
 import { mapDescendingPageToRenderOrder } from "libs/util/chat/map-descending-page-to-render-order";
 
-import { PAGE_SIZE, POLL_INTERVAL_MS } from "./constants";
+import { PAGE_SIZE, POLL_INTERVAL_MS } from "hooks/chat/page-chat/constants";
 import type {
   BooleanRef,
   MessagesQueryData,
@@ -15,7 +15,7 @@ import type {
   SetBoolean,
   SetMessages,
   SetNullableString,
-} from "./types";
+} from "hooks/chat/page-chat/types";
 
 type UsePageChatPollingParams = {
   initializedRef: BooleanRef;

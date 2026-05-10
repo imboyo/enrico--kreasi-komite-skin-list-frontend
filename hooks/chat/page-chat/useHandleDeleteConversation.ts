@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 
-import { cleanMessages } from "backend-service";
+import { cleanMessages } from "backend-service/index";
 
 import type {
   MessagesRef,
@@ -10,7 +10,7 @@ import type {
   SetMessages,
   SetNullableString,
   ShowToast,
-} from "./types";
+} from "hooks/chat/page-chat/types";
 
 type UseHandleDeleteConversationParams = {
   isDeletingConversation: boolean;

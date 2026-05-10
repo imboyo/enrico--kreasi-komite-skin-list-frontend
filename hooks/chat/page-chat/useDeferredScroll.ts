@@ -2,14 +2,12 @@
 
 import { useCallback, useLayoutEffect, useRef } from "react";
 
-import type { ChatMessage } from "types/chat.types";
-
 type PendingScrollAction =
   | { type: "bottom" }
   | { type: "preserve-prepend"; previousHeight: number }
   | null;
 
-export function useDeferredScroll(messages: ChatMessage[]) {
+export function useDeferredScroll(messages: Array<unknown>) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const pendingScrollActionRef = useRef<PendingScrollAction>(null);
 
