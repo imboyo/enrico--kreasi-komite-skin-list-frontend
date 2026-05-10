@@ -11,7 +11,7 @@ import Dialog, {
   DialogTitle,
 } from "components/atomic/molecule/Dialog";
 
-import { DialogFooter } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/DialogFooter";
+import { EditAdminDialogFooter } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/EditAdminDialogFooter";
 import { EmailField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/EmailField";
 import { FullNameField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/FullNameField";
 import { PhoneNumberField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/PhoneNumberField";
@@ -25,7 +25,7 @@ type DialogProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-export function Dialog({
+export function EditAdminDialog({
   admin,
   open,
   onOpenChange,
@@ -125,7 +125,7 @@ export function Dialog({
           ) : null}
         </DialogBody>
 
-        <DialogFooter
+        <EditAdminDialogFooter
           isPending={mutation.isPending}
           onCancel={() => handleDialogOpenChange(false)}
         />

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "components/atomic/atom/Button";
-import { DialogFooter } from "components/atomic/molecule/Dialog";
+import { DialogFooter as SharedDialogFooter } from "components/atomic/molecule/Dialog";
 
 type FooterProps = {
   isPending: boolean;
@@ -13,7 +13,7 @@ export function DialogFooter({
   onCancel,
 }: FooterProps) {
   return (
-    <DialogFooter>
+    <SharedDialogFooter>
       <Button
         type="button"
         variant="ghost"
@@ -25,6 +25,6 @@ export function DialogFooter({
       <Button type="submit" isLoading={isPending}>
         Tambah admin
       </Button>
-    </DialogFooter>
+    </SharedDialogFooter>
   );
 }

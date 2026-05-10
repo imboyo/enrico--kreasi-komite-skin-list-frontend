@@ -8,10 +8,7 @@ type DialogFooterProps = {
   onCancel: () => void;
 };
 
-export function DialogFooter({
-  isPending,
-  onCancel,
-}: DialogFooterProps) {
+export function EditAdminDialogFooter({ isPending, onCancel }: DialogFooterProps) {
   return (
     <DialogFooter>
       <Button
@@ -23,7 +20,7 @@ export function DialogFooter({
         Batal
       </Button>
       <Button type="submit" isLoading={isPending}>
-        Simpan password
+        Simpan admin
       </Button>
     </DialogFooter>
   );

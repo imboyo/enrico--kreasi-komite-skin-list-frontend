@@ -12,8 +12,8 @@ import Dialog, {
   DialogTitle,
 } from "components/atomic/molecule/Dialog";
 
-import { DialogFooter } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/change-admin-password/DialogFooter";
-import { PasswordField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/change-admin-password/PasswordField";
+import { ChangeAdminPasswordDialogFooter } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/change-admin-password/ChangeAdminPasswordDialogFooter";
+import { ChangeAdminPasswordField } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/change-admin-password/PasswordField";
 import { useForm } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/change-admin-password/useForm";
 
 type DialogProps = {
@@ -22,22 +22,17 @@ type DialogProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-export function Dialog({
-  admin,
-  open,
-  onOpenChange,
-}: DialogProps) {
+export function ChangeAdminPasswordDialog({ admin, open, onOpenChange }: DialogProps) {
   const formId = useId();
   const [showPassword, setShowPassword] = useState(false);
-  const { form, isPending, serverError, resetForm } =
-    useForm({
-      admin,
-      onSuccess: () => {
-        setShowPassword(false);
-        resetForm();
-        onOpenChange(false);
-      },
-    });
+  const { form, isPending, serverError, resetForm } = useForm({
+    admin,
+    onSuccess: () => {
+      setShowPassword(false);
+      resetForm();
+      onOpenChange(false);
+    },
+  });
 
   function handleDialogOpenChange(nextOpen: boolean) {
     if (!nextOpen && !isPending) {
@@ -83,7 +78,7 @@ export function Dialog({
       >
         <DialogBody className="flex flex-col gap-4">
           {/* Section: Change admin password fields */}
-          <PasswordField
+          <ChangeAdminPasswordField
             form={form}
             inputId={`${formId}-password`}
             visible={showPassword}
@@ -96,7 +91,7 @@ export function Dialog({
           ) : null}
         </DialogBody>
 
-        <DialogFooter
+        <ChangeAdminPasswordDialogFooter
           isPending={isPending}
           onCancel={() => handleDialogOpenChange(false)}
         />

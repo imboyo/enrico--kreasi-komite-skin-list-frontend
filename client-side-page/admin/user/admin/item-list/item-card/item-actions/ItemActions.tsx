@@ -19,8 +19,8 @@ import {
 import { useToast } from "components/provider/Toast";
 import { ADMIN_ACCOUNT_QUERY_KEY } from "client-side-page/admin/user/admin/item-list/useAdminAccountList";
 
-import { Dialog as ChangePasswordDialog } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/change-admin-password/Dialog";
-import { Dialog as EditAdminDialog } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/Dialog";
+import { ChangeAdminPasswordDialog } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/change-admin-password/ChangeAdminPasswordDialog";
+import { EditAdminDialog } from "client-side-page/admin/user/admin/item-list/item-card/item-actions/edit-admin/EditAdminDialog";
 
 export function ItemActions({ admin }: { admin: AdminAccount }) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -119,7 +119,7 @@ export function ItemActions({ admin }: { admin: AdminAccount }) {
       />
 
       {/* Section: Change admin password dialog */}
-      <ChangePasswordDialog
+      <ChangeAdminPasswordDialog
         admin={admin}
         open={isChangePasswordDialogOpen}
         onOpenChange={setIsChangePasswordDialogOpen}

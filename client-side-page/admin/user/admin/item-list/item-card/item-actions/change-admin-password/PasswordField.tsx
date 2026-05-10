@@ -1,6 +1,6 @@
 "use client";
 
-import { PasswordField } from "components/atomic/organism/account-edit-password/PasswordField";
+import { PasswordField as BasePasswordField } from "components/atomic/organism/account-edit-password/PasswordField";
 
 import {
   formSchema,
@@ -16,7 +16,7 @@ type PasswordFieldProps = {
   onToggle: () => void;
 };
 
-export function PasswordField({
+export function ChangeAdminPasswordField({
   form,
   inputId,
   disabled,
@@ -24,7 +24,7 @@ export function PasswordField({
   onToggle,
 }: PasswordFieldProps) {
   return (
-    <PasswordField
+    <BasePasswordField
       form={form}
       name="password"
       inputId={inputId}

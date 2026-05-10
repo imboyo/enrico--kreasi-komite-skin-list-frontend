@@ -14,7 +14,7 @@ import BaseDialog, {
 import { DialogFooter } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/DialogFooter";
 import { EmailField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/EmailField";
 import { FullNameField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/FullNameField";
-import { PasswordField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/PasswordField";
+import { AddAdminPasswordField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/PasswordField";
 import { PhoneNumberField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/PhoneNumberField";
 import { StatusField } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/StatusField";
 import { useDialogForm } from "client-side-page/admin/user/admin/item-list/admin-list-toolbar/add-admin-dialog/useDialogForm";
@@ -95,7 +95,7 @@ export function Dialog({ open, onOpenChange }: DialogProps) {
             fieldId={`${formId}-phone-number`}
             disabled={isPending}
           />
-          <PasswordField
+          <AddAdminPasswordField
             form={form}
             inputId={`${formId}-password`}
             visible={showPassword}

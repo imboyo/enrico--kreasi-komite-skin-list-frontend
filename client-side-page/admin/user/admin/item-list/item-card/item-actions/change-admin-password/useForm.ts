@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  useForm,
+  useForm as useTanstackForm,
   type FormAsyncValidateOrFn,
   type FormValidateOrFn,
   type ReactFormExtendedApi,
@@ -106,7 +106,7 @@ export function useForm({
     },
   });
 
-  const form: FormApi = useForm({
+  const form: FormApi = useTanstackForm({
     defaultValues: DEFAULT_VALUES,
     onSubmit: ({ value }) => {
       mutation.mutate(buildChangePasswordPayload(value));
