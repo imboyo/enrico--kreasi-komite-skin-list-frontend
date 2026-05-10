@@ -9,7 +9,7 @@ import { useToast } from "components/provider/Toast";
 import type { ChatMessage } from "types/chat.types";
 
 import { mapDescendingPageToRenderOrder } from "libs/util/chat/map-descending-page-to-render-order";
-import { useDeferredScroll } from "hooks/chat/page-chat/useDeferredScroll";
+import { useDeferredScroll } from "@/hooks/useDeferredScroll";
 
 const REFRESH_INTERVAL_MS = 5000;
 const PAGE_SIZE = 50;

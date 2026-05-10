@@ -7,8 +7,7 @@ import { getAdminSkinChatThreadMessages } from "backend-service/admin/skin-chat"
 import { replyAdminSkinChatThread } from "backend-service/admin/skin-chat";
 
 import type { AdminSkinChatMessage } from "backend-service/admin/skin-chat";
-
-import { useDeferredScroll } from "hooks/chat/page-chat/useDeferredScroll";
+import { useDeferredScroll } from "@/hooks/useDeferredScroll";
 
 const PAGE_SIZE = 100;
 const REFRESH_INTERVAL_MS = 5000;
