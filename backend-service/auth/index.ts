@@ -1,4 +1,5 @@
 export * from "./types";
+export * from "./login.service";
 export * from "./login-chain.service";
 export * from "./login-verify.service";
 export * from "./refresh-token.service";
@@ -7,4 +8,5 @@ export * from "./forgot-password-verify.service";
 export * from "./forgot-password-reset.service";
 export * from "./add-admin-account.service";
 export * from "./register.service";
+export * from "./register-direct.service";
 export * from "./register-verify.service";

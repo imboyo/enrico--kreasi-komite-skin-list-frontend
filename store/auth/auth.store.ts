@@ -1,7 +1,7 @@
 "use client";
 
 import { create } from "zustand";
-import { LOCAL_STORAGE_KEY } from "constant";
+import { APP_URL, LOCAL_STORAGE_KEY } from "constant";
 import { isBrowser } from "libs/util/is-browser";
 import type { AuthStore } from "./auth.types";
 import { readStoredUserInfo } from "@/store/auth/read-stored-user-info";
@@ -60,6 +60,11 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       adminAccessToken: null,
       adminRefreshToken: null,
     });
+
+    // Redirect to the beta login-direct page after logout
+    if (isBrowser()) {
+      window.location.href = APP_URL.LOGIN_DIRECT;
+    }
   },
 
   startImpersonation: (userAccessToken, userRefreshToken) => {

@@ -20,12 +20,12 @@ export function NotLoginSidebar() {
         <>
           <SidebarMenuItem
             label="Login"
-            href={APP_URL.LOGIN}
+            href={APP_URL.LOGIN_DIRECT}
             icon="material-symbols:person-outline-rounded"
           />
           <SidebarMenuItem
             label="Sign Up"
-            href={APP_URL.REGISTER}
+            href={APP_URL.REGISTER_DIRECT}
             icon="material-symbols:person-add-outline-rounded"
           />
         </>

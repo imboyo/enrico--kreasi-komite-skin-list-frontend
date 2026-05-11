@@ -1,3 +1,14 @@
+export type LoginPayload = {
+  email?: string;
+  phone_number?: string;
+  password: string;
+};
+
+export type LoginResponse = {
+  access_token: string;
+  refresh_token: string;
+};
+
 export type LoginChainPayload = {
   email?: string;
   phone_number?: string;
@@ -77,6 +88,17 @@ export type RegisterPayload = {
 
 export type RegisterResponse = {
   message: string;
+};
+
+export type RegisterDirectPayload = {
+  full_name: string;
+  phone_number: string;
+  password: string;
+};
+
+export type RegisterDirectResponse = {
+  access_token: string;
+  refresh_token: string;
 };
 
 export type RegisterVerifyPayload = {
