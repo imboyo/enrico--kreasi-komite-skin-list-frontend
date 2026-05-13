@@ -53,6 +53,7 @@ export function SectionToolbar({
           aria-label={searchPlaceholder}
           containerProps={{ className: "flex-1 min-w-0" }}
           startItem={<Icon icon="lucide:search" />}
+          surface="transparent"
           endItem={
             searchValue ? (
               <button

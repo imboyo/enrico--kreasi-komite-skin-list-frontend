@@ -63,6 +63,7 @@ export function PageApp() {
               value: tab.id,
               label: tab.label,
             }))}
+            surface="transparent"
           />
         </div>
 
