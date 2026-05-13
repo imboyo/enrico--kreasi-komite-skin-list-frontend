@@ -70,6 +70,7 @@ export function PageUserSkinTreat({
                   <Icon icon={activeCategoryConfig.icon} className="size-6" />
                 }
                 actions={<ItemActions item={item} />}
+                isChecked={item.is_check}
               />
             ))}
           </div>
