@@ -1,3 +1,5 @@
+import type { FilterOperator } from "../../user/common-dto";
+
 export type AdminDefaultSkinCareCategory =
   | "routine"
   | "make_up"
@@ -12,21 +14,7 @@ export type AdminDefaultSkinCareSortDto<TField extends string = string> = {
   direction: AdminDefaultSkinCareSortDirection;
 };
 
-export type AdminDefaultSkinCareFilterOperator =
-  | "eq"
-  | "neq"
-  | "gt"
-  | "gte"
-  | "lt"
-  | "lte"
-  | "like"
-  | "ilike"
-  | "in"
-  | "notIn"
-  | "isNull"
-  | "isNotNull"
-  | "between"
-  | "notBetween";
+export type AdminDefaultSkinCareFilterOperator = FilterOperator;
 
 export type AdminDefaultSkinCareFilterItem<TField extends string = string> = {
   field: TField;

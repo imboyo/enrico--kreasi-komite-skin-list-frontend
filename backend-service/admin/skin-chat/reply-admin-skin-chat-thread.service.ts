@@ -7,12 +7,12 @@ import type {
   ReplyAdminSkinChatThreadResponse,
 } from "./types";
 
-// POST /admin/skin-chat/thread-reply/:threadId — sends an admin reply to a thread.
+// POST /admin/skin-chat/thread-reply/:userUuid — sends an admin reply to a user's thread.
 export async function replyAdminSkinChatThread(
-  threadId: string,
+  userUuid: string,
   payload: ReplyAdminSkinChatThreadPayload,
 ): Promise<ReplyAdminSkinChatThreadResponse> {
-  const res = await fetcher(`/admin/skin-chat/thread-reply/${threadId}`, {
+  const res = await fetcher(`/admin/skin-chat/thread-reply/${userUuid}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),

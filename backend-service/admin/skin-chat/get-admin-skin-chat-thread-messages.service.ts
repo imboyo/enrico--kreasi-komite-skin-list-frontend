@@ -7,9 +7,9 @@ import type {
   GetAdminSkinChatThreadMessagesResponse,
 } from "./types";
 
-// POST /admin/skin-chat/thread-messages/:threadId — cursor-paginated messages for a thread.
+// POST /admin/skin-chat/thread-messages/:userUuid — cursor-paginated messages for a user's thread.
 export async function getAdminSkinChatThreadMessages(
-  threadId: string,
+  userUuid: string,
   payload: GetAdminSkinChatThreadMessagesPayload = {},
 ): Promise<GetAdminSkinChatThreadMessagesResponse> {
   const normalizedPayload = {
@@ -21,7 +21,7 @@ export async function getAdminSkinChatThreadMessages(
         : undefined,
   };
 
-  const res = await fetcher(`/admin/skin-chat/thread-messages/${threadId}`, {
+  const res = await fetcher(`/admin/skin-chat/thread-messages/${userUuid}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(normalizedPayload),

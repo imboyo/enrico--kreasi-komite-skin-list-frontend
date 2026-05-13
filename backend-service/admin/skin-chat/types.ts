@@ -1,3 +1,5 @@
+import type { FilterOperator } from "../../user/common-dto";
+
 export type AdminSkinChatAccountRole = "ADMIN" | "USER";
 
 export type AdminSkinChatAccountStatus =
@@ -13,21 +15,7 @@ export type AdminSkinChatSortDto<TField extends string = string> = {
   direction: AdminSkinChatSortDirection;
 };
 
-export type AdminSkinChatFilterOperator =
-  | "eq"
-  | "neq"
-  | "gt"
-  | "gte"
-  | "lt"
-  | "lte"
-  | "like"
-  | "ilike"
-  | "in"
-  | "notIn"
-  | "isNull"
-  | "isNotNull"
-  | "between"
-  | "notBetween";
+export type AdminSkinChatFilterOperator = FilterOperator;
 
 export type AdminSkinChatFilterItem<TField extends string = string> = {
   field: TField;
@@ -112,6 +100,7 @@ export type AdminSkinChatThreadMessagesMeta = {
   limit: number;
   has_more: boolean;
   next_cursor: string | null;
+  last_cleared_at: string | null;
 };
 
 export type GetAdminSkinChatThreadMessagesResponse = {
@@ -120,7 +109,7 @@ export type GetAdminSkinChatThreadMessagesResponse = {
 };
 
 export type CleanAdminSkinChatThreadResponse = {
-  thread_id: string;
+  thread_id: string | null;
   deleted_count: number;
 };
 

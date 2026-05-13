@@ -1,3 +1,5 @@
+import type { FilterOperator } from "../../user/common-dto";
+
 export type AccountRole = "ADMIN" | "USER";
 
 export type AccountStatus =
@@ -15,21 +17,7 @@ export type AdminAccountSortDto<TField extends string = string> = {
   direction: AdminAccountSortDirection;
 };
 
-export type AdminAccountFilterOperator =
-  | "eq"
-  | "neq"
-  | "gt"
-  | "gte"
-  | "lt"
-  | "lte"
-  | "like"
-  | "ilike"
-  | "in"
-  | "notIn"
-  | "isNull"
-  | "isNotNull"
-  | "between"
-  | "notBetween";
+export type AdminAccountFilterOperator = FilterOperator;
 
 export type AdminAccountFilterItem<TField extends string = string> = {
   field: TField;
