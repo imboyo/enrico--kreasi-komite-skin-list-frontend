@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Select } from "components/atomic/atom/Select";
 import { Tabs } from "@/components/atomic/molecule/Tabs";
 import { MobilePagination } from "@/components/atomic/molecule/MobilePagination";
-import { SkinTreatList } from "components/atomic/organism/user-skin-treat-list";
+import { SkinTreatList } from "client-side-page/app/home/skin-treat-list/index";
 import { SectionToolbar } from "@/components/atomic/organism/SectionToolbar";
 import { ItemDialog } from "@/client-side-page/app/home/item-dialog/ItemDialog";
 import { AddSkinTreatSheet } from "@/client-side-page/app/home/add-skin-treat-sheet/AddSkinTreatSheet";

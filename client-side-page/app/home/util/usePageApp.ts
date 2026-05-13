@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import debounce from "lodash/debounce";
 
-import type { SkinTreatListItem } from "components/atomic/organism/user-skin-treat-list";
+import type { SkinTreatListItem } from "client-side-page/app/home/skin-treat-list/index";
 import type { SkinTreatCategory } from "@/backend-service/user/skin-treat";
 import type { DashboardEditableItem } from "@/mock-backend/user/dashboard/item-store";
 
