@@ -40,6 +40,30 @@ export const SKIN_TOTAL_CARDS = [
     accentClassName: "bg-rose-500/10 text-rose-600",
     category: "scars",
   },
+  {
+    key: "contours",
+    label: "Contour",
+    icon: "mdi:face-man-shimmer-outline",
+    queryKey: ["admin-skin-contours-total"],
+    accentClassName: "bg-amber-500/10 text-amber-600",
+    category: "contours",
+  },
+  {
+    key: "fats",
+    label: "Fats",
+    icon: "mdi:water-outline",
+    queryKey: ["admin-skin-fats-total"],
+    accentClassName: "bg-teal-500/10 text-teal-600",
+    category: "fats",
+  },
+  {
+    key: "hairs",
+    label: "Hairs",
+    icon: "mdi:hair-dryer-outline",
+    queryKey: ["admin-skin-hairs-total"],
+    accentClassName: "bg-indigo-500/10 text-indigo-600",
+    category: "hairs",
+  },
 ] as const satisfies readonly {
   key: string;
   label: string;

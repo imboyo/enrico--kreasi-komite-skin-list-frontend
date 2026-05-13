@@ -9,19 +9,17 @@ import { AdminChatThread } from "client-side-page/admin/chat/chat-detail/AdminCh
 import { LoadingState } from "client-side-page/admin/chat/chat-list/LoadingState";
 
 type PageAdminChatDetailProps = {
-  threadUuid: string;
+  userUuid: string;
 };
 
-export function PageAdminChatDetail({
-  threadUuid,
-}: PageAdminChatDetailProps) {
+export function PageAdminChatDetail({ userUuid }: PageAdminChatDetailProps) {
   const { adminChatsQuery, conversations } = useAdminChats();
 
   const activeThread = useMemo(() => {
     return conversations.find(
-      (thread) => thread.uuid === threadUuid,
+      (thread) => thread.user.uuid === userUuid || thread.uuid === userUuid,
     );
-  }, [threadUuid, conversations]);
+  }, [userUuid, conversations]);
 
   return (
     <motion.div
@@ -41,10 +39,7 @@ export function PageAdminChatDetail({
         contentClassName="flex min-h-0 flex-1 flex-col overflow-hidden"
       >
         {activeThread ? (
-          <AdminChatThread
-            key={activeThread.uuid}
-            thread={activeThread}
-          />
+          <AdminChatThread key={activeThread.uuid} thread={activeThread} />
         ) : null}
       </QueryStateHandler>
     </motion.div>

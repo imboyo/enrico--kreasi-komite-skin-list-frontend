@@ -121,7 +121,7 @@ All fields are optional.
 |---------------|---------|-------|
 | `name`        | string  | Min `1`, max `255` chars |
 | `description` | string  | Send empty string or `null` to clear |
-| `category`    | enum    | One of `routine`, `make_up`, `barrier`, `colors`, `scars` |
+| `category`    | enum    | One of `routine`, `make_up`, `barrier`, `colors`, `scars`, `contour`, `fats`, `hairs` |
 | `is_check`    | boolean | Mark whether the item is checked |
 
 ### Error Responses

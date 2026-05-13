@@ -12,7 +12,16 @@ import {
 } from "./item-store";
 
 export const dashboardItemDeleteSchema = z.object({
-  category: z.enum(["routines", "colors", "make-ups", "barriers", "scars"]),
+  category: z.enum([
+    "routines",
+    "colors",
+    "make-ups",
+    "barriers",
+    "scars",
+    "contours",
+    "fats",
+    "hairs",
+  ]),
   itemId: z.string().trim().min(1, "Item id is required"),
 });
 

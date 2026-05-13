@@ -1,6 +1,7 @@
 "use client";
 
 import { ClassNames, keyframes } from "@emotion/react";
+import Link from "next/link";
 import { DropdownMenu as RadixDropdownMenu } from "radix-ui";
 import { type ComponentPropsWithoutRef, type ReactNode } from "react";
 
@@ -18,6 +19,11 @@ type MenuDropdownProps = {
 type MenuDropdownItemProps = ComponentPropsWithoutRef<
   typeof RadixDropdownMenu.Item
 > & {
+  icon?: ReactNode;
+  destructive?: boolean;
+};
+
+type MenuDropdownLinkItemProps = ComponentPropsWithoutRef<typeof Link> & {
   icon?: ReactNode;
   destructive?: boolean;
 };
@@ -123,14 +129,7 @@ export function MenuDropdownItem({
 }: MenuDropdownItemProps) {
   return (
     <RadixDropdownMenu.Item
-      className={cn(
-        "flex cursor-pointer select-none items-center gap-2 rounded-md px-3 py-2 text-sm outline-none transition-colors duration-150",
-        "hover:bg-foreground/10 focus:bg-foreground/10 data-disabled:pointer-events-none data-disabled:opacity-50",
-        destructive
-          ? "text-destructive hover:bg-destructive/10 focus:bg-destructive/10"
-          : "text-foreground",
-        className,
-      )}
+      className={getMenuDropdownItemClassName(destructive, className)}
       {...props}
     >
       {/* Optional icon slot */}
@@ -144,10 +143,49 @@ export function MenuDropdownItem({
   );
 }
 
+export function MenuDropdownLinkItem({
+  icon,
+  destructive,
+  children,
+  className,
+  ...props
+}: MenuDropdownLinkItemProps) {
+  return (
+    <RadixDropdownMenu.Item asChild>
+      <Link
+        className={getMenuDropdownItemClassName(destructive, className)}
+        {...props}
+      >
+        {/* Optional icon slot */}
+        {icon ? (
+          <span className="inline-flex size-5 shrink-0 items-center justify-center">
+            {icon}
+          </span>
+        ) : null}
+        <span className="min-w-0 flex-1">{children}</span>
+      </Link>
+    </RadixDropdownMenu.Item>
+  );
+}
+
 export function MenuDropdownSeparator({ className }: { className?: string }) {
   return (
     <RadixDropdownMenu.Separator
       className={cn("my-1 h-px bg-border", className)}
     />
+  );
+}
+
+function getMenuDropdownItemClassName(
+  destructive?: boolean,
+  className?: string,
+) {
+  return cn(
+    "flex cursor-pointer select-none items-center gap-2 rounded-md px-3 py-2 text-sm outline-none transition-colors duration-150",
+    "hover:bg-foreground/10 focus:bg-foreground/10 data-disabled:pointer-events-none data-disabled:opacity-50",
+    destructive
+      ? "text-destructive hover:bg-destructive/10 focus:bg-destructive/10"
+      : "text-foreground",
+    className,
   );
 }

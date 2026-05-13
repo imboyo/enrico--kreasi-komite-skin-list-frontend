@@ -67,6 +67,27 @@ function getCategoryConfig(
         icon: "mdi:face-woman-shimmer",
         accentClassName: "bg-purple-500/10 text-purple-600",
       };
+    case "contour":
+    case "contours":
+      return {
+        label: "Contour",
+        icon: "mdi:face-man-shimmer-outline",
+        accentClassName: "bg-amber-500/10 text-amber-600",
+      };
+    case "fat":
+    case "fats":
+      return {
+        label: "Fats",
+        icon: "mdi:water-outline",
+        accentClassName: "bg-teal-500/10 text-teal-600",
+      };
+    case "hair":
+    case "hairs":
+      return {
+        label: "Hairs",
+        icon: "mdi:hair-dryer-outline",
+        accentClassName: "bg-indigo-500/10 text-indigo-600",
+      };
     default:
       return {
         label: category,
@@ -135,7 +156,7 @@ export function SkinTotalSection() {
           emptyTitle="No skin totals available."
           emptyDescription="The dashboard does not have any skin data yet."
         >
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4">
             {skinTotalCards.map((card) => (
               <SkinTotalCard key={card.key} card={card} />
             ))}

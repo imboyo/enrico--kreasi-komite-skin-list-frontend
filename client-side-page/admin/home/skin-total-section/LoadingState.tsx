@@ -25,11 +25,29 @@ const LOADING_CARDS = [
     icon: "mdi:bandage",
     accentClassName: "bg-rose-500/10 text-rose-600",
   },
+  {
+    key: "contours",
+    label: "Contour",
+    icon: "mdi:face-man-shimmer-outline",
+    accentClassName: "bg-amber-500/10 text-amber-600",
+  },
+  {
+    key: "fats",
+    label: "Fats",
+    icon: "mdi:water-outline",
+    accentClassName: "bg-teal-500/10 text-teal-600",
+  },
+  {
+    key: "hairs",
+    label: "Hairs",
+    icon: "mdi:hair-dryer-outline",
+    accentClassName: "bg-indigo-500/10 text-indigo-600",
+  },
 ];
 
 export const LoadingState = () => {
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4">
       {LOADING_CARDS.map((card) => (
         <SkinTotalCard
           key={card.key}

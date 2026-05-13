@@ -35,7 +35,7 @@ export function AdminChatThread({ thread }: AdminChatThreadProps) {
     loadOlderMessages,
     messages,
     scrollRef,
-  } = useAdminChatDetail(thread.uuid);
+  } = useAdminChatDetail(thread.user.uuid);
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -44,7 +44,7 @@ export function AdminChatThread({ thread }: AdminChatThreadProps) {
   const { showToast } = useToast();
 
   const deleteMutation = useMutation({
-    mutationFn: () => cleanAdminSkinChatThread(thread.uuid),
+    mutationFn: () => cleanAdminSkinChatThread(thread.user.uuid),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["admin-skin-chat-threads"],

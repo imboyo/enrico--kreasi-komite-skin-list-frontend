@@ -1,6 +1,14 @@
 import type { SkinTreatCategory } from "@/backend-service/user/skin-treat";
 
-export type TabId = "routines" | "colors" | "make-ups" | "barriers" | "scars";
+export type TabId =
+  | "routines"
+  | "colors"
+  | "make-ups"
+  | "barriers"
+  | "scars"
+  | "contours"
+  | "fats"
+  | "hairs";
 
 export const TABS = [
   { id: "routines", label: "Routines" },
@@ -8,6 +16,9 @@ export const TABS = [
   { id: "make-ups", label: "Make Up" },
   { id: "barriers", label: "Barriers" },
   { id: "scars", label: "Scars" },
+  { id: "contours", label: "Contour" },
+  { id: "fats", label: "Fats" },
+  { id: "hairs", label: "Hairs" },
 ] as const;
 
 export const SKIN_TREAT_QUERY_KEY = ["user-skin-treats"] as const;
@@ -20,7 +31,15 @@ export const SKIN_TREAT_CATEGORY_BY_TAB: Record<TabId, SkinTreatCategory> = {
   "make-ups": "make_up",
   barriers: "barrier",
   scars: "scars",
+  contours: "contour",
+  fats: "fats",
+  hairs: "hairs",
 };
+
+export const SKIN_TREAT_CATEGORY_OPTIONS = TABS.map((tab) => ({
+  label: tab.label,
+  value: SKIN_TREAT_CATEGORY_BY_TAB[tab.id],
+}));
 
 export const TAB_CONTENT_COPY: Record<
   TabId,
@@ -59,5 +78,23 @@ export const TAB_CONTENT_COPY: Record<
     emptyTitle: "Belum ada data scars",
     emptyDescription:
       "Tambahkan data bekas luka-mu untuk menampilkan checklist ini lagi.",
+  },
+  contours: {
+    errorTitle: "Daftar contour tidak tersedia.",
+    emptyTitle: "Belum ada data contour",
+    emptyDescription:
+      "Tambahkan data contour-mu untuk menampilkan checklist ini lagi.",
+  },
+  fats: {
+    errorTitle: "Daftar fats tidak tersedia.",
+    emptyTitle: "Belum ada data fats",
+    emptyDescription:
+      "Tambahkan data fats-mu untuk menampilkan checklist ini lagi.",
+  },
+  hairs: {
+    errorTitle: "Daftar hairs tidak tersedia.",
+    emptyTitle: "Belum ada data hairs",
+    emptyDescription:
+      "Tambahkan data hairs-mu untuk menampilkan checklist ini lagi.",
   },
 };

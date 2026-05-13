@@ -25,7 +25,10 @@ export type DashboardItemCategory =
   | "colors"
   | "make-ups"
   | "barriers"
-  | "scars";
+  | "scars"
+  | "contours"
+  | "fats"
+  | "hairs";
 
 type DashboardItemCollections = Record<DashboardItemCategory, DashboardEditableItem[]>;
 
@@ -40,6 +43,9 @@ function createDashboardItemCollections(): DashboardItemCollections {
     "make-ups": cloneItems(MAKE_UPS),
     barriers: cloneItems(BARRIERS),
     scars: cloneItems(SCARS),
+    contours: [],
+    fats: [],
+    hairs: [],
   };
 }
 

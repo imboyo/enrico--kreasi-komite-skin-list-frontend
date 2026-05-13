@@ -6,7 +6,10 @@ export type AdminUserSkinTreatCategory =
   | "make_up"
   | "barrier"
   | "colors"
-  | "scars";
+  | "scars"
+  | "contour"
+  | "fats"
+  | "hairs";
 
 export type AdminUserSkinTreatSortDirection = "ASC" | "DESC";
 

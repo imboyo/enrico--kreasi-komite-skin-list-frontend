@@ -9,7 +9,7 @@ import {
   SKIN_TREAT_CATEGORY_BY_TAB,
   UI_PAGE_SIZE,
   type TabId,
-} from "./page-app.constants";
+} from "../page-app.constants";
 
 export type SortDirection = "ASC" | "DESC";
 

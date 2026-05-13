@@ -67,6 +67,9 @@ export function useAdminDefaultSkinTreatList(
     barrier: DEFAULT_PAGE_NUMBER,
     colors: DEFAULT_PAGE_NUMBER,
     scars: DEFAULT_PAGE_NUMBER,
+    contour: DEFAULT_PAGE_NUMBER,
+    fats: DEFAULT_PAGE_NUMBER,
+    hairs: DEFAULT_PAGE_NUMBER,
   });
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");

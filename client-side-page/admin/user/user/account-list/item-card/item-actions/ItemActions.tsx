@@ -14,12 +14,14 @@ import { ConfirmationDialog } from "components/atomic/molecule/ConfirmationDialo
 import {
   MenuDropdown,
   MenuDropdownItem,
+  MenuDropdownLinkItem,
   MenuDropdownSeparator,
 } from "components/atomic/molecule/MenuDropdown";
 import { useToast } from "components/provider/Toast";
 import { ChangeUserPasswordDialog } from "client-side-page/admin/user/user/account-list/item-card/item-actions/change-user-password/ChangeUserPasswordDialog";
 import { EditUserDialog } from "client-side-page/admin/user/user/account-list/item-card/item-actions/edit-user/EditUserDialog";
 import { USER_ACCOUNT_QUERY_KEY } from "client-side-page/admin/user/user/account-list/useUserAccountList";
+import { APP_URL } from "constant";
 
 export function ItemActions({ user }: { user: UserAccount }) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -95,6 +97,12 @@ export function ItemActions({ user }: { user: UserAccount }) {
         >
           Ubah password
         </MenuDropdownItem>
+        <MenuDropdownLinkItem
+          href={`${APP_URL.ADMIN_CHATS}/${user.uuid}`}
+          icon={<Icon icon="material-symbols:chat-outline-rounded" />}
+        >
+          Lihat chat
+        </MenuDropdownLinkItem>
         <MenuDropdownSeparator />
         <MenuDropdownItem
           destructive

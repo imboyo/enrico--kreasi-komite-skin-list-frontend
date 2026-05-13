@@ -4,7 +4,7 @@ import { fetcher } from "backend-service/util/use-fetcher";
 
 import type { UpdateSkinTreatPayload, UpdateSkinTreatResponse } from "./types";
 
-// PATCH /user/skin-treat/:skinTreatId — updates name/description; category is immutable after creation
+// PATCH /user/skin-treat/:skinTreatId — updates skin treat fields for the authenticated user
 export async function updateSkinTreat(
   skinTreatId: string,
   payload: UpdateSkinTreatPayload,

@@ -15,6 +15,7 @@ import type { DialogMode, ItemDialogPanelProps } from "./types";
 
 export function ItemDialogPanel({
   item,
+  category,
   isDeleting = false,
   onClose,
   onSave,
@@ -28,12 +29,14 @@ export function ItemDialogPanel({
   const { form, mutation, serverError, syncFormValues } =
     useDashboardItemEditForm({
       item,
-      onSuccess: (updatedItem) => {
+      category,
+      onSuccess: ({ item: updatedItem, category: updatedCategory }) => {
         syncFormValues({
           label: updatedItem.label,
           description: updatedItem.description,
+          category: updatedCategory,
         });
-        onSave?.(updatedItem);
+        onSave?.(updatedItem, updatedCategory);
         setMode("view");
         showToast("Item berhasil diperbarui.", { variant: "success" });
       },
@@ -55,6 +58,7 @@ export function ItemDialogPanel({
     syncFormValues({
       label: item.label,
       description: item.description,
+      category,
     });
   }
 

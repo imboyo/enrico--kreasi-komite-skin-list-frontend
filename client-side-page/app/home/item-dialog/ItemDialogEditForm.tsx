@@ -3,6 +3,8 @@
 import { Button } from "@/components/atomic/atom/Button";
 import { FormFieldError } from "@/components/atomic/atom/FormFieldError";
 import { TextInput } from "@/components/atomic/atom/TextInput";
+import { SKIN_TREAT_CATEGORY_OPTIONS } from "@/client-side-page/app/home/page-app.constants";
+import type { SkinTreatCategory } from "@/backend-service/user/skin-treat";
 import {
   dashboardItemEditSchema,
   validateDashboardItemField,
@@ -102,6 +104,53 @@ export function ItemDialogEditForm({
                 disabled={isPending}
                 className="w-full rounded-2xl border border-input bg-input-surface px-4 py-3 text-sm text-foreground outline-none placeholder:text-input-placeholder focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
               />
+              <FormFieldError
+                isTouched={field.state.meta.isTouched}
+                error={field.state.meta.errors[0]}
+              />
+            </div>
+          )}
+        </form.Field>
+
+        <form.Field
+          name="category"
+          validators={{
+            onBlur: ({ value }) =>
+              validateDashboardItemField(
+                dashboardItemEditSchema.shape.category,
+                value,
+              ),
+            onSubmit: ({ value }) =>
+              validateDashboardItemField(
+                dashboardItemEditSchema.shape.category,
+                value,
+              ),
+          }}
+        >
+          {(field) => (
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="dashboard-item-category"
+                className="text-xs font-medium text-dialog-current-muted"
+              >
+                Kategori
+              </label>
+              <select
+                id="dashboard-item-category"
+                value={field.state.value}
+                onChange={(event) =>
+                  field.handleChange(event.target.value as SkinTreatCategory)
+                }
+                onBlur={field.handleBlur}
+                disabled={isPending}
+                className="w-full rounded-2xl border border-input bg-input-surface px-4 py-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {SKIN_TREAT_CATEGORY_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
               <FormFieldError
                 isTouched={field.state.meta.isTouched}
                 error={field.state.meta.errors[0]}

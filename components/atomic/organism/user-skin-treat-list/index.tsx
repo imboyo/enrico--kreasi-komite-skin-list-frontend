@@ -97,10 +97,7 @@ function syncChecklistQueryData<TQueryData>(
 function useSkinTreatChecklistUpdate<
   TItem extends SkinTreatListItem,
   TQueryData,
->({
-  queryKey,
-  setChecked,
-}: ChecklistSyncParams) {
+>({ queryKey, setChecked }: ChecklistSyncParams) {
   const queryClient = useQueryClient();
   const [syncingItemIds, setSyncingItemIds] = useState<Set<string>>(
     () => new Set(),
@@ -186,45 +183,40 @@ export function SkinTreatList<
   });
 
   return (
-    <div className="mt-4">
-      {/* Query state section */}
-      <QueryStateHandler
-        query={query}
-        skeleton={<RoutineListSkeleton />}
-        isEmpty={resolvedItems.length === 0}
-        errorTitle={errorTitle}
-        emptyTitle={emptyTitle}
-        emptyDescription={emptyDescription}
-      >
-        {/* Checklist section */}
-        <div className="space-y-3">
-          {resolvedItems.map((item) => (
-            <ListItem
-              key={item.id}
-              id={item.id}
-              label={item.label}
-              isChecked={item.isChecked}
-              isSyncing={syncingItemIds.has(item.id)}
-              isDeleting={deletingItemId === item.id}
-              checkboxId={`${queryKey.join("-")}-${item.id}`}
-              onCheck={(checked) => {
-                void updateChecked(item, checked).then((didUpdate) => {
-                  if (didUpdate) {
-                    incrementCheckCount();
-                  }
-                });
-              }}
-              onDetailOpen={() => {
-                if (deletingItemId === item.id) {
-                  return;
-                }
+    <QueryStateHandler
+      query={query}
+      skeleton={<RoutineListSkeleton />}
+      isEmpty={resolvedItems.length === 0}
+      errorTitle={errorTitle}
+      emptyTitle={emptyTitle}
+      emptyDescription={emptyDescription}
+      contentClassName="flex flex-col gap-2.5"
+    >
+      {resolvedItems.map((item) => (
+        <ListItem
+          key={item.id}
+          id={item.id}
+          label={item.label}
+          isChecked={item.isChecked}
+          isSyncing={syncingItemIds.has(item.id)}
+          isDeleting={deletingItemId === item.id}
+          checkboxId={`${queryKey.join("-")}-${item.id}`}
+          onCheck={(checked) => {
+            void updateChecked(item, checked).then((didUpdate) => {
+              if (didUpdate) {
+                incrementCheckCount();
+              }
+            });
+          }}
+          onDetailOpen={() => {
+            if (deletingItemId === item.id) {
+              return;
+            }
 
-                onItemClick(item);
-              }}
-            />
-          ))}
-        </div>
-      </QueryStateHandler>
-    </div>
+            onItemClick(item);
+          }}
+        />
+      ))}
+    </QueryStateHandler>
   );
 }

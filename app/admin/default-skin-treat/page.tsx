@@ -49,7 +49,8 @@ export default async function AdminDefaultSkinTreatsPage({
         </h1>
         <p className="max-w-3xl text-sm text-muted-foreground">
           Kelola daftar skin care default yang digunakan pelanggan sebagai
-          pilihan awal rutinitas, make up, barrier, warna, dan scars.
+          pilihan awal rutinitas, make up, barrier, warna, scars, contour,
+          fats, dan hairs.
         </p>
       </div>
 

@@ -1,17 +1,15 @@
 import type { DashboardItemEditFormApi } from "@/hooks/useDashboardItemEditForm";
-import type {
-  DashboardEditableItem,
-  DashboardItemCategory,
-} from "@/mock-backend/user/dashboard/item-store";
+import type { SkinTreatCategory } from "@/backend-service/user/skin-treat";
+import type { DashboardEditableItem } from "@/mock-backend/user/dashboard/item-store";
 
 export type DialogMode = "view" | "edit";
 
 export type ItemDialogProps = {
   item: DashboardEditableItem | null;
-  category: DashboardItemCategory | null;
+  category: SkinTreatCategory | null;
   isDeleting?: boolean;
   onClose: () => void;
-  onSave?: (updated: DashboardEditableItem) => void;
+  onSave?: (updated: DashboardEditableItem, category: SkinTreatCategory) => void;
   onDeleteStart?: (item: DashboardEditableItem) => void;
   onDelete?: (item: DashboardEditableItem) => void;
   onDeleteError?: (item: DashboardEditableItem) => void;
@@ -44,10 +42,10 @@ export type ItemDialogEditFormProps = {
 
 export type ItemDialogPanelProps = {
   item: DashboardEditableItem;
-  category: DashboardItemCategory;
+  category: SkinTreatCategory;
   isDeleting?: boolean;
   onClose: () => void;
-  onSave?: (updated: DashboardEditableItem) => void;
+  onSave?: (updated: DashboardEditableItem, category: SkinTreatCategory) => void;
   onDeleteStart?: (item: DashboardEditableItem) => void;
   onDelete?: (item: DashboardEditableItem) => void;
   onDeleteError?: (item: DashboardEditableItem) => void;

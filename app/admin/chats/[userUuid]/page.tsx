@@ -7,14 +7,14 @@ export const metadata: Metadata = {
 
 type AdminChatDetailPageProps = {
   params: Promise<{
-    conversationId: string;
+    userUuid: string;
   }>;
 };
 
 export default async function AdminChatDetailPage({
   params,
 }: AdminChatDetailPageProps) {
-  const { conversationId } = await params;
+  const { userUuid } = await params;
 
-  return <PageAdminChatDetail threadUuid={conversationId} />;
+  return <PageAdminChatDetail userUuid={userUuid} />;
 }

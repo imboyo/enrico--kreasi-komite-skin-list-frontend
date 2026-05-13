@@ -10,9 +10,7 @@ type ConversationListItemProps = {
   thread: AdminSkinChatThread;
 };
 
-export function ConversationListItem({
-  thread,
-}: ConversationListItemProps) {
+export function ConversationListItem({ thread }: ConversationListItemProps) {
   return (
     <Link
       href={`${APP_URL.ADMIN_CHATS}/${thread.uuid}`}

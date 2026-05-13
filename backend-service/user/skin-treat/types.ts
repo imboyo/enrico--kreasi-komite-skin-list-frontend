@@ -3,7 +3,15 @@
 import type { SortDto, FilterDto, FilterItem, FilterOperator } from "../common-dto";
 export type { SortDto, FilterDto, FilterItem, FilterOperator };
 
-export type SkinTreatCategory = "routine" | "make_up" | "barrier" | "colors" | "scars";
+export type SkinTreatCategory =
+  | "routine"
+  | "make_up"
+  | "barrier"
+  | "colors"
+  | "scars"
+  | "contour"
+  | "fats"
+  | "hairs";
 
 export type SkinTreat = {
   uuid: string;
@@ -46,6 +54,7 @@ export type CreateSkinTreatResponse = SkinTreat;
 export type UpdateSkinTreatPayload = {
   name?: string;
   description?: string | null;
+  category?: SkinTreatCategory;
   is_check?: boolean;
 };
 

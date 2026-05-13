@@ -116,7 +116,7 @@ Create a new skin treat record for the authenticated user.
 |---------------|--------|----------|--------------------------------------------------------------------------|
 | `name`        | string | Yes      | Name of the skin treat item. Min 1, max 255 characters.                  |
 | `description` | string | No       | Optional description.                                                    |
-| `category`    | enum   | Yes      | One of: `routine`, `make_up`, `barrier`, `colors`, `scars`              |
+| `category`    | enum   | Yes      | One of: `routine`, `make_up`, `barrier`, `colors`, `scars`, `contour`, `fats`, `hairs` |
 
 ### Example Request
 
@@ -147,7 +147,7 @@ POST /user/skin-treat
 
 ## 3. Update Skin Treat
 
-Update an existing skin treat record. Only `name` and `description` can be changed; `category` cannot be modified after creation.
+Update an existing skin treat record.
 
 - **Method:** `PATCH`
 - **URL:** `/user/skin-treat/:skinTreatId`
@@ -168,6 +168,7 @@ All fields are optional.
 |---------------|---------|----------------------------------------------------|
 | `name`        | string  | New name. Min 1, max 255 characters.               |
 | `description` | string  | New description. Pass `null` to clear it.          |
+| `category`    | enum    | New category. One of: `routine`, `make_up`, `barrier`, `colors`, `scars`, `contour`, `fats`, `hairs`. |
 | `is_check`    | boolean | Mark whether the skin treat has been checked.      |
 
 ### Example Request
@@ -177,6 +178,7 @@ PATCH /user/skin-treat/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 {
   "name": "Morning Cleanser",
   "description": null,
+  "category": "routine",
   "is_check": true
 }
 ```

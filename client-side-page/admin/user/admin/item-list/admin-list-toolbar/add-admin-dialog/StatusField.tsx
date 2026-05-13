@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 
 import type { VisibleAccountStatus } from "backend-service/admin/account";
 import { FormFieldError } from "components/atomic/atom/FormFieldError";
+import { Select } from "components/atomic/atom/Select";
 
 import {
   dialogFormSchema,
@@ -42,27 +43,22 @@ export function StatusField({
           <label htmlFor={fieldId} className="text-sm font-medium">
             Status
           </label>
-          <div className="flex min-h-12 items-center gap-3 rounded-2xl border border-input bg-transparent px-4 transition-shadow duration-150 focus-within:ring-2 focus-within:ring-ring">
-            <Icon
-              icon="material-symbols:verified-user-outline-rounded"
-              className="size-5 shrink-0 text-input-placeholder"
-            />
-            <select
-              id={fieldId}
-              value={field.state.value}
-              onChange={(event) =>
-                field.handleChange(event.target.value as VisibleAccountStatus)
-              }
-              disabled={disabled}
-              className="w-full border-none bg-transparent py-3 text-sm text-foreground outline-none disabled:cursor-not-allowed"
-            >
-              {ADMIN_STATUS_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          <Select
+            id={fieldId}
+            value={field.state.value}
+            onChange={(event) =>
+              field.handleChange(event.target.value as VisibleAccountStatus)
+            }
+            disabled={disabled}
+            surface="transparent"
+            startItem={
+              <Icon
+                icon="material-symbols:verified-user-outline-rounded"
+                className="size-5 shrink-0"
+              />
+            }
+            options={ADMIN_STATUS_OPTIONS}
+          />
           <FormFieldError
             isTouched={field.state.meta.isTouched}
             error={field.state.meta.errors[0]}

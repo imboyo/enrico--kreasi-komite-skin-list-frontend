@@ -86,7 +86,7 @@ Create a new default skin care record.
 |---------------|--------|----------|-------|
 | `name`        | string | yes      | Max 255 chars |
 | `description` | string | no       | Nullable |
-| `category`    | enum   | yes      | One of `routine`, `make_up`, `barrier`, `colors`, `scars` |
+| `category`    | enum   | yes      | One of `routine`, `make_up`, `barrier`, `colors`, `scars`, `contour`, `fats`, `hairs` |
 
 ### Example Request
 

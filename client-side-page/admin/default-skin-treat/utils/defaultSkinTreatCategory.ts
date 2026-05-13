@@ -143,6 +143,72 @@ const ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_CONFIG: Record<
       },
     ],
   },
+  contour: {
+    id: "contour",
+    label: "Contour",
+    icon: "material-symbols:face-4-outline-rounded",
+    errorTitle: "Gagal memuat contour.",
+    emptyTitle: "Belum ada contour.",
+    emptyDescription:
+      "Tambahkan data contour untuk mulai mengelola daftar skin care default.",
+    actions: [
+      {
+        id: "edit",
+        label: "Ubah contour",
+        icon: "material-symbols:edit-outline-rounded",
+      },
+      {
+        id: "delete",
+        label: "Hapus contour",
+        icon: "material-symbols:delete-outline",
+        destructive: true,
+      },
+    ],
+  },
+  fats: {
+    id: "fats",
+    label: "Fats",
+    icon: "material-symbols:water-full-outline-rounded",
+    errorTitle: "Gagal memuat fats.",
+    emptyTitle: "Belum ada fats.",
+    emptyDescription:
+      "Tambahkan data fats untuk mulai mengelola daftar skin care default.",
+    actions: [
+      {
+        id: "edit",
+        label: "Ubah fats",
+        icon: "material-symbols:edit-outline-rounded",
+      },
+      {
+        id: "delete",
+        label: "Hapus fats",
+        icon: "material-symbols:delete-outline",
+        destructive: true,
+      },
+    ],
+  },
+  hairs: {
+    id: "hairs",
+    label: "Hairs",
+    icon: "material-symbols:airwave-rounded",
+    errorTitle: "Gagal memuat hairs.",
+    emptyTitle: "Belum ada hairs.",
+    emptyDescription:
+      "Tambahkan data hairs untuk mulai mengelola daftar skin care default.",
+    actions: [
+      {
+        id: "edit",
+        label: "Ubah hairs",
+        icon: "material-symbols:edit-outline-rounded",
+      },
+      {
+        id: "delete",
+        label: "Hapus hairs",
+        icon: "material-symbols:delete-outline",
+        destructive: true,
+      },
+    ],
+  },
 };
 
 export const ADMIN_DEFAULT_SKIN_TREAT_TAB_OPTIONS = (
@@ -162,7 +228,10 @@ export function isAdminDefaultSkinTreatCategoryId(
     value === "barrier" ||
     value === "colors" ||
     value === "scars" ||
-    value === "make_up"
+    value === "make_up" ||
+    value === "contour" ||
+    value === "fats" ||
+    value === "hairs"
   );
 }
 

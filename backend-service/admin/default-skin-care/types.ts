@@ -5,7 +5,10 @@ export type AdminDefaultSkinCareCategory =
   | "make_up"
   | "barrier"
   | "colors"
-  | "scars";
+  | "scars"
+  | "contour"
+  | "fats"
+  | "hairs";
 
 export type AdminDefaultSkinCareSortDirection = "ASC" | "DESC";
 

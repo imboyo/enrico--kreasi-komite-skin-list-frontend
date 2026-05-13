@@ -11,6 +11,7 @@ import { z } from "zod";
 
 import {
   updateSkinTreat,
+  type SkinTreatCategory,
   type SkinTreat,
 } from "@/backend-service/user/skin-treat";
 import type { DashboardEditableItem } from "@/mock-backend/user/dashboard/item-store";
@@ -25,9 +26,23 @@ export const dashboardItemEditSchema = z.object({
     .string()
     .trim()
     .max(280, "Deskripsi maksimal 280 karakter"),
+  category: z.enum([
+    "routine",
+    "make_up",
+    "barrier",
+    "colors",
+    "scars",
+    "contour",
+    "fats",
+    "hairs",
+  ]),
 });
 
 export type DashboardItemEditValues = z.infer<typeof dashboardItemEditSchema>;
+export type DashboardItemEditSuccessPayload = {
+  item: DashboardEditableItem;
+  category: SkinTreatCategory;
+};
 
 export type DashboardItemEditFormApi = ReactFormExtendedApi<
   DashboardItemEditValues,
@@ -46,7 +61,8 @@ export type DashboardItemEditFormApi = ReactFormExtendedApi<
 
 type UseDashboardItemEditFormParams = {
   item: DashboardEditableItem;
-  onSuccess?: (updatedItem: DashboardEditableItem) => void;
+  category: SkinTreatCategory;
+  onSuccess?: (payload: DashboardItemEditSuccessPayload) => void;
 };
 
 function mapSkinTreatToDashboardItem(treat: SkinTreat): DashboardEditableItem {
@@ -68,6 +84,7 @@ export function validateDashboardItemField<T>(
 
 export function useDashboardItemEditForm({
   item,
+  category,
   onSuccess,
 }: UseDashboardItemEditFormParams) {
   const mutation = useMutation({
@@ -76,9 +93,13 @@ export function useDashboardItemEditForm({
         name: payload.label,
         // Send null for empty description so edit behavior matches the add flow and nullable backend contract.
         description: payload.description.trim() || null,
+        category: payload.category,
       }),
     onSuccess: (updatedTreat) => {
-      onSuccess?.(mapSkinTreatToDashboardItem(updatedTreat));
+      onSuccess?.({
+        item: mapSkinTreatToDashboardItem(updatedTreat),
+        category: updatedTreat.category,
+      });
     },
   });
 
@@ -86,6 +107,7 @@ export function useDashboardItemEditForm({
     defaultValues: {
       label: item.label,
       description: item.description,
+      category,
     },
     onSubmit: async ({ value }) => {
       await mutation.mutateAsync(value);
