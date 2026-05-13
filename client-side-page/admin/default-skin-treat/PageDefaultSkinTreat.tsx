@@ -33,53 +33,55 @@ export function PageDefaultSkinTreat({
   } = useAdminDefaultSkinTreatList(activeCategory);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
       {/* Section: Skin care category tabs */}
       <AdminDefaultSkinTreatTabNavigation activeTabId={activeCategory} />
 
-      {/* Section: Toolbar with search, sort and add new skin care */}
-      <AdminDefaultSkinTreatToolbar
-        activeCategory={activeCategory}
-        activeCategoryConfig={activeCategoryConfig}
-        searchValue={searchValue}
-        onSearchChange={handleSearchChange}
-        sortValue={sortValue}
-        onSortChange={handleSortChange}
-      />
+      <div className="flex flex-col gap-4 w-full">
+        {/* Section: Toolbar with search, sort and add new skin care */}
+        <AdminDefaultSkinTreatToolbar
+          activeCategory={activeCategory}
+          activeCategoryConfig={activeCategoryConfig}
+          searchValue={searchValue}
+          onSearchChange={handleSearchChange}
+          sortValue={sortValue}
+          onSortChange={handleSortChange}
+        />
 
-      <QueryStateHandler
-        query={adminDefaultSkinTreatListQuery}
-        skeleton={<SkinCareAdminCardSkeleton />}
-        isEmpty={activeItems.length === 0}
-        errorTitle={activeCategoryConfig.errorTitle}
-        emptyTitle={activeCategoryConfig.emptyTitle}
-        emptyDescription={activeCategoryConfig.emptyDescription}
-      >
-        {/* Section: Active skin category card list */}
-        <div className="flex flex-col gap-3">
-          {activeItems.map((item) => (
-            <SkinCareAdminCard
-              key={item.uuid}
-              item={item}
-              icon={
-                <Icon icon={activeCategoryConfig.icon} className="size-6" />
-              }
-              actions={
-                <ItemActions
-                  item={item}
-                  actions={activeCategoryConfig.actions}
-                />
-              }
-            />
-          ))}
-        </div>
-      </QueryStateHandler>
+        <QueryStateHandler
+          query={adminDefaultSkinTreatListQuery}
+          skeleton={<SkinCareAdminCardSkeleton />}
+          isEmpty={activeItems.length === 0}
+          errorTitle={activeCategoryConfig.errorTitle}
+          emptyTitle={activeCategoryConfig.emptyTitle}
+          emptyDescription={activeCategoryConfig.emptyDescription}
+        >
+          {/* Section: Active skin category card list */}
+          <div className="flex flex-col gap-3">
+            {activeItems.map((item) => (
+              <SkinCareAdminCard
+                key={item.uuid}
+                item={item}
+                icon={
+                  <Icon icon={activeCategoryConfig.icon} className="size-6" />
+                }
+                actions={
+                  <ItemActions
+                    item={item}
+                    actions={activeCategoryConfig.actions}
+                  />
+                }
+              />
+            ))}
+          </div>
+        </QueryStateHandler>
 
-      <MobilePagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+        <MobilePagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 }

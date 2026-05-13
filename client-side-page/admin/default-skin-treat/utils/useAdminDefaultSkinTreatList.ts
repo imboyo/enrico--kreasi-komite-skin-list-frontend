@@ -12,6 +12,7 @@ import {
 
 import {
   ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY,
+  ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_IDS,
   getAdminDefaultSkinTreatCategoryConfig,
   type AdminDefaultSkinTreatCategoryConfig,
   type AdminDefaultSkinTreatCategoryId,
@@ -61,16 +62,15 @@ export function useAdminDefaultSkinTreatList(
 ) {
   const [pageByCategory, setPageByCategory] = useState<
     Record<AdminDefaultSkinTreatCategoryId, number>
-  >({
-    routine: DEFAULT_PAGE_NUMBER,
-    make_up: DEFAULT_PAGE_NUMBER,
-    barrier: DEFAULT_PAGE_NUMBER,
-    colors: DEFAULT_PAGE_NUMBER,
-    scars: DEFAULT_PAGE_NUMBER,
-    contour: DEFAULT_PAGE_NUMBER,
-    fats: DEFAULT_PAGE_NUMBER,
-    hairs: DEFAULT_PAGE_NUMBER,
-  });
+  >(() =>
+    ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_IDS.reduce(
+      (result, categoryId) => {
+        result[categoryId] = DEFAULT_PAGE_NUMBER;
+        return result;
+      },
+      {} as Record<AdminDefaultSkinTreatCategoryId, number>,
+    ),
+  );
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
   const [sortValue, setSortValue] = useState<AdminDefaultSkinTreatSortValue>(

@@ -55,6 +55,28 @@ const ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_CONFIG: Record<
       },
     ],
   },
+  make_up: {
+    id: "make_up",
+    label: "Make Up",
+    icon: "material-symbols:face-retouching-natural-outline-rounded",
+    errorTitle: "Gagal memuat make up.",
+    emptyTitle: "Belum ada make up.",
+    emptyDescription:
+      "Tambahkan data make up untuk mulai mengelola daftar skin care default.",
+    actions: [
+      {
+        id: "edit",
+        label: "Ubah make up",
+        icon: "material-symbols:edit-outline-rounded",
+      },
+      {
+        id: "delete",
+        label: "Hapus make up",
+        icon: "material-symbols:delete-outline",
+        destructive: true,
+      },
+    ],
+  },
   barrier: {
     id: "barrier",
     label: "Barrier",
@@ -116,28 +138,6 @@ const ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_CONFIG: Record<
       {
         id: "delete",
         label: "Hapus scars",
-        icon: "material-symbols:delete-outline",
-        destructive: true,
-      },
-    ],
-  },
-  make_up: {
-    id: "make_up",
-    label: "Make Up",
-    icon: "material-symbols:face-retouching-natural-outline-rounded",
-    errorTitle: "Gagal memuat make up.",
-    emptyTitle: "Belum ada make up.",
-    emptyDescription:
-      "Tambahkan data make up untuk mulai mengelola daftar skin care default.",
-    actions: [
-      {
-        id: "edit",
-        label: "Ubah make up",
-        icon: "material-symbols:edit-outline-rounded",
-      },
-      {
-        id: "delete",
-        label: "Hapus make up",
         icon: "material-symbols:delete-outline",
         destructive: true,
       },
@@ -211,6 +211,10 @@ const ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_CONFIG: Record<
   },
 };
 
+export const ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_IDS = Object.keys(
+  ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_CONFIG,
+) as AdminDefaultSkinTreatCategoryId[];
+
 export const ADMIN_DEFAULT_SKIN_TREAT_TAB_OPTIONS = (
   Object.values(
     ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_CONFIG,
@@ -223,16 +227,7 @@ export const ADMIN_DEFAULT_SKIN_TREAT_TAB_OPTIONS = (
 export function isAdminDefaultSkinTreatCategoryId(
   value: string | null | undefined,
 ): value is AdminDefaultSkinTreatCategoryId {
-  return (
-    value === "routine" ||
-    value === "barrier" ||
-    value === "colors" ||
-    value === "scars" ||
-    value === "make_up" ||
-    value === "contour" ||
-    value === "fats" ||
-    value === "hairs"
-  );
+  return value != null && ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_IDS.includes(value as AdminDefaultSkinTreatCategoryId);
 }
 
 export function getAdminDefaultSkinTreatCategoryConfig(

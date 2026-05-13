@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
+import { Select } from "components/atomic/atom/Select";
 import {
   ADMIN_DEFAULT_SKIN_TREAT_TAB_OPTIONS,
   getAdminDefaultSkinTreatCategoryHref,
@@ -29,14 +30,31 @@ export function AdminDefaultSkinTreatTabNavigation({
   }
 
   return (
-    <Tabs
-      options={ADMIN_DEFAULT_SKIN_TREAT_TAB_OPTIONS}
-      activeId={activeTabId}
-      onChange={handleTabChange}
-      orientation="horizontal"
-      className="overflow-x-auto"
-      tabClassName="min-w-fit whitespace-nowrap px-4"
-      layoutId="admin-default-skin-treat-tabs"
-    />
+    <div className="w-full lg:w-64 lg:shrink-0">
+      <div className="lg:hidden">
+        <Select
+          id="admin-default-skin-treat-category-select"
+          value={activeTabId}
+          onChange={(event) =>
+            handleTabChange(event.target.value as AdminDefaultSkinTreatCategoryId)
+          }
+          options={ADMIN_DEFAULT_SKIN_TREAT_TAB_OPTIONS.map((option) => ({
+            value: option.id,
+            label: option.label,
+          }))}
+          surface="transparent"
+        />
+      </div>
+
+      <div className="hidden lg:block">
+        <Tabs
+          options={ADMIN_DEFAULT_SKIN_TREAT_TAB_OPTIONS}
+          activeId={activeTabId}
+          onChange={handleTabChange}
+          className="w-full lg:flex lg:flex-col"
+          layoutId="admin-default-skin-treat-tabs"
+        />
+      </div>
+    </div>
   );
 }
