@@ -8,6 +8,7 @@ import {
   ListToolbar,
   type ListToolbarOption,
 } from "components/atomic/molecule/ListToolbar";
+import { mapSkinTreatLabel } from "libs/util/mapSkinTreatLabel";
 
 import { AddSkinCareDialog } from "./add-skin-care-dialog/AddSkinCareDialog";
 import type {
@@ -33,7 +34,7 @@ const EMPTY_FILTER_OPTIONS: ListToolbarOption<never>[] = [];
 const EMPTY_FILTER_VALUES: never[] = [];
 
 function getSearchPlaceholder(categoryLabel: string) {
-  return `Cari ${categoryLabel.toLowerCase()}`;
+  return `Cari ${mapSkinTreatLabel(categoryLabel).toLowerCase()}`;
 }
 
 export function AdminDefaultSkinTreatToolbar({
@@ -60,7 +61,7 @@ export function AdminDefaultSkinTreatToolbar({
         filterOptions={EMPTY_FILTER_OPTIONS}
         selectedFilterValues={EMPTY_FILTER_VALUES}
         onFilterValuesChange={() => undefined}
-        sortLabel={`Urutkan ${activeCategoryConfig.label.toLowerCase()}`}
+        sortLabel={`Urutkan ${mapSkinTreatLabel(activeCategoryConfig.label).toLowerCase()}`}
         sortDescription="Pilih urutan data skin care pada kategori ini."
         sortValue={sortValue}
         sortOptions={ADMIN_DEFAULT_SKIN_TREAT_SORT_OPTIONS}
@@ -74,7 +75,7 @@ export function AdminDefaultSkinTreatToolbar({
             className="w-full sm:ml-auto sm:w-auto"
             onClick={() => setIsAddDialogOpen(true)}
           >
-            {`Tambah ${activeCategoryConfig.label}`}
+            {`Tambah ${mapSkinTreatLabel(activeCategoryConfig.label)}`}
           </Button>
         }
       />
@@ -82,7 +83,7 @@ export function AdminDefaultSkinTreatToolbar({
       <AddSkinCareDialog
         open={isAddDialogOpen}
         category={activeCategory}
-        categoryLabel={activeCategoryConfig.label}
+        categoryLabel={mapSkinTreatLabel(activeCategoryConfig.label)}
         onOpenChange={setIsAddDialogOpen}
       />
     </>

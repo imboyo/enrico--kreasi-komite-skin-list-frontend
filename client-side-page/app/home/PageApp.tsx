@@ -2,16 +2,16 @@
 
 import { AnimatePresence, motion } from "motion/react";
 
-import { Select } from "components/atomic/atom/Select";
-import { Tabs } from "@/components/atomic/molecule/Tabs";
 import { MobilePagination } from "@/components/atomic/molecule/MobilePagination";
 import { SkinTreatList } from "client-side-page/app/home/skin-treat-list/index";
 import { SectionToolbar } from "@/components/atomic/organism/SectionToolbar";
 import { ItemDialog } from "@/client-side-page/app/home/item-dialog/ItemDialog";
 import { AddSkinTreatSheet } from "@/client-side-page/app/home/add-skin-treat-sheet/AddSkinTreatSheet";
 import { FloatingAddButton } from "@/components/atomic/atom/FloatingAddButton";
+import { SkinTreatTabNavigation } from "@/components/atomic/organism/SkinTreatTabNavigation";
+import { mapSkinTreatLabel } from "libs/util/mapSkinTreatLabel";
 
-import { TABS, SKIN_TREAT_CACHE_MS, type TabId } from "./page-app.constants";
+import { TABS, SKIN_TREAT_CACHE_MS } from "./page-app.constants";
 import { usePageApp } from "./util/usePageApp";
 
 export function PageApp() {
@@ -53,29 +53,13 @@ export function PageApp() {
       transition={{ duration: 0.4 }}
     >
       {/* Sidebar - Tabs section (vertical on desktop, horizontal on mobile) */}
-      <div className="w-full lg:w-64 lg:shrink-0 lg:sticky lg:top-6 lg:self-start">
-        <div className="lg:hidden">
-          <Select
-            id="category-select"
-            value={activeTab}
-            onChange={(event) => handleTabChange(event.target.value as TabId)}
-            options={TABS.map((tab) => ({
-              value: tab.id,
-              label: tab.label,
-            }))}
-            surface="transparent"
-          />
-        </div>
-
-        <div className="hidden lg:block">
-          <Tabs<TabId>
-            options={[...TABS]}
-            activeId={activeTab}
-            onChange={handleTabChange}
-            className="w-full lg:flex lg:flex-col"
-          />
-        </div>
-      </div>
+      <SkinTreatTabNavigation
+        activeTabId={activeTab}
+        options={TABS}
+        onChange={handleTabChange}
+        selectId="category-select"
+        className="lg:sticky lg:top-6 lg:self-start"
+      />
 
       {/* Main content area */}
       <div className="flex-1 w-full lg:min-w-0">
@@ -85,7 +69,7 @@ export function PageApp() {
             <SectionToolbar
               searchValue={searchQuery}
               onSearchChange={handleSearchChange}
-              searchPlaceholder="Cari item..."
+              searchPlaceholder={`Cari ${mapSkinTreatLabel(TABS.find((tab) => tab.id === activeTab)?.label ?? "item").toLowerCase()}...`}
               sortDirection={sortDirection}
               onSortChange={handleSortChange}
               onRefresh={handleRefresh}

@@ -20,6 +20,7 @@ export const APP_URL = {
   ADMIN_PROFILE: "/admin/profile",
   ADMIN_DEFAULT_SKIN_TREAT: "/admin/default-skin-treat",
   ADMIN_CHATS: "/admin/chats",
+  ADMIN_USER_SKIN_TREAT: "/admin/user/skin-treat",
 };
 
 export const LOCAL_STORAGE_KEY = {

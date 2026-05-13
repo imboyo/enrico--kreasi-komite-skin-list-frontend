@@ -103,6 +103,12 @@ export function ItemActions({ user }: { user: UserAccount }) {
         >
           Lihat chat
         </MenuDropdownLinkItem>
+        <MenuDropdownLinkItem
+          href={`${APP_URL.ADMIN_USER_SKIN_TREAT}/${user.uuid}`}
+          icon={<Icon icon="material-symbols:spa-outline" />}
+        >
+          Lihat skin treat
+        </MenuDropdownLinkItem>
         <MenuDropdownSeparator />
         <MenuDropdownItem
           destructive
