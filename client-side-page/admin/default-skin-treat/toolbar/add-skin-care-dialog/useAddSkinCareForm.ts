@@ -15,7 +15,7 @@ import {
 } from "backend-service/admin/default-skin-care";
 import { useToast } from "components/provider/Toast";
 
-import { ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY } from "../../utils/skinCategory";
+import { ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY } from "../../utils/defaultSkinTreatCategory";
 import {
   EMPTY_SKIN_CARE_FORM_VALUES,
   getSkinCareFormServerErrorMessage,

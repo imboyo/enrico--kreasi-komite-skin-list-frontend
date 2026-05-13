@@ -10,20 +10,23 @@ import {
 } from "components/atomic/molecule/ListToolbar";
 
 import { AddSkinCareDialog } from "./add-skin-care-dialog/AddSkinCareDialog";
-import type { AdminSkinCategoryConfig, AdminSkinCategoryId } from "../utils/skinCategory";
+import type {
+  AdminDefaultSkinTreatCategoryConfig,
+  AdminDefaultSkinTreatCategoryId,
+} from "../utils/defaultSkinTreatCategory";
 import {
-  ADMIN_SKIN_SORT_OPTIONS,
-  DEFAULT_ADMIN_SKIN_SORT_VALUE,
-  type AdminSkinSortValue,
-} from "../utils/skinListSort";
+  ADMIN_DEFAULT_SKIN_TREAT_SORT_OPTIONS,
+  DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_SORT_VALUE,
+  type AdminDefaultSkinTreatSortValue,
+} from "../utils/defaultSkinTreatListSort";
 
-type AdminSkinToolbarProps = {
-  activeCategory: AdminSkinCategoryId;
-  activeCategoryConfig: AdminSkinCategoryConfig;
+type AdminDefaultSkinTreatToolbarProps = {
+  activeCategory: AdminDefaultSkinTreatCategoryId;
+  activeCategoryConfig: AdminDefaultSkinTreatCategoryConfig;
   searchValue: string;
   onSearchChange: (value: string) => void;
-  sortValue: AdminSkinSortValue;
-  onSortChange: (value: AdminSkinSortValue) => void;
+  sortValue: AdminDefaultSkinTreatSortValue;
+  onSortChange: (value: AdminDefaultSkinTreatSortValue) => void;
 };
 
 const EMPTY_FILTER_OPTIONS: ListToolbarOption<never>[] = [];
@@ -33,19 +36,19 @@ function getSearchPlaceholder(categoryLabel: string) {
   return `Cari ${categoryLabel.toLowerCase()}`;
 }
 
-export function AdminSkinToolbar({
+export function AdminDefaultSkinTreatToolbar({
   activeCategory,
   activeCategoryConfig,
   searchValue,
   onSearchChange,
   sortValue,
   onSortChange,
-}: AdminSkinToolbarProps) {
+}: AdminDefaultSkinTreatToolbarProps) {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
   function handleReset() {
     onSearchChange("");
-    onSortChange(DEFAULT_ADMIN_SKIN_SORT_VALUE);
+    onSortChange(DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_SORT_VALUE);
   }
 
   return (
@@ -60,7 +63,7 @@ export function AdminSkinToolbar({
         sortLabel={`Urutkan ${activeCategoryConfig.label.toLowerCase()}`}
         sortDescription="Pilih urutan data skin care pada kategori ini."
         sortValue={sortValue}
-        sortOptions={ADMIN_SKIN_SORT_OPTIONS}
+        sortOptions={ADMIN_DEFAULT_SKIN_TREAT_SORT_OPTIONS}
         onSortChange={onSortChange}
         onReset={handleReset}
         actions={

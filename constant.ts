@@ -18,7 +18,7 @@ export const APP_URL = {
   ADMIN_CUSTOMER_ACCOUNTS: "/admin/user/customer",
   ADMIN_ADMIN_ACCOUNTS: "/admin/user/admin",
   ADMIN_PROFILE: "/admin/profile",
-  ADMIN_CARE_SKIN_MANAGEMENT: "/admin/skins",
+  ADMIN_DEFAULT_SKIN_TREAT: "/admin/default-skin-treat",
   ADMIN_CHATS: "/admin/chats",
 };
 

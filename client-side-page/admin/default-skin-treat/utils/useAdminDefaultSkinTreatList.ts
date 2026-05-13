@@ -12,36 +12,36 @@ import {
 
 import {
   ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY,
-  getAdminSkinCategoryConfig,
-  type AdminSkinCategoryConfig,
-  type AdminSkinCategoryId,
-} from "./skinCategory";
+  getAdminDefaultSkinTreatCategoryConfig,
+  type AdminDefaultSkinTreatCategoryConfig,
+  type AdminDefaultSkinTreatCategoryId,
+} from "./defaultSkinTreatCategory";
 import {
-  DEFAULT_ADMIN_SKIN_SORT_VALUE,
-  getAdminSkinSortRequest,
-  type AdminSkinSortValue,
-} from "./skinListSort";
+  DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_SORT_VALUE,
+  getAdminDefaultSkinTreatSortRequest,
+  type AdminDefaultSkinTreatSortValue,
+} from "./defaultSkinTreatListSort";
 
 const CACHE_TIME_MS = 5 * 60 * 1000;
 const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_PAGE_LIMIT = 20;
 
-function buildAdminSkinListPayload({
+function buildAdminDefaultSkinTreatListPayload({
   activeCategory,
   currentPage,
   debouncedSearchValue,
   sortValue,
 }: {
-  activeCategory: AdminSkinCategoryId;
+  activeCategory: AdminDefaultSkinTreatCategoryId;
   currentPage: number;
   debouncedSearchValue: string;
-  sortValue: AdminSkinSortValue;
+  sortValue: AdminDefaultSkinTreatSortValue;
 }): ListAdminDefaultSkinCarePayload {
   return {
     page: currentPage,
     limit: DEFAULT_PAGE_LIMIT,
     search: debouncedSearchValue || undefined,
-    sort: [getAdminSkinSortRequest(sortValue)],
+    sort: [getAdminDefaultSkinTreatSortRequest(sortValue)],
     // Keep the active tab category as a hard backend filter so search and sort
     // always operate inside the selected category instead of a client slice.
     filter: {
@@ -56,9 +56,11 @@ function buildAdminSkinListPayload({
   };
 }
 
-export function useAdminSkinList(activeCategory: AdminSkinCategoryId) {
+export function useAdminDefaultSkinTreatList(
+  activeCategory: AdminDefaultSkinTreatCategoryId,
+) {
   const [pageByCategory, setPageByCategory] = useState<
-    Record<AdminSkinCategoryId, number>
+    Record<AdminDefaultSkinTreatCategoryId, number>
   >({
     routine: DEFAULT_PAGE_NUMBER,
     make_up: DEFAULT_PAGE_NUMBER,
@@ -68,8 +70,8 @@ export function useAdminSkinList(activeCategory: AdminSkinCategoryId) {
   });
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
-  const [sortValue, setSortValue] = useState<AdminSkinSortValue>(
-    DEFAULT_ADMIN_SKIN_SORT_VALUE,
+  const [sortValue, setSortValue] = useState<AdminDefaultSkinTreatSortValue>(
+    DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_SORT_VALUE,
   );
   const currentPage = pageByCategory[activeCategory];
 
@@ -89,7 +91,7 @@ export function useAdminSkinList(activeCategory: AdminSkinCategoryId) {
 
   useEffect(() => () => applyDebouncedSearch.cancel(), [applyDebouncedSearch]);
 
-  const adminSkinListQuery = useQuery({
+  const adminDefaultSkinTreatListQuery = useQuery({
     queryKey: [
       ...ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY,
       activeCategory,
@@ -99,7 +101,7 @@ export function useAdminSkinList(activeCategory: AdminSkinCategoryId) {
     ],
     queryFn: async () => {
       return await listDefaultSkinCare(
-        buildAdminSkinListPayload({
+        buildAdminDefaultSkinTreatListPayload({
           activeCategory,
           currentPage,
           debouncedSearchValue,
@@ -114,7 +116,8 @@ export function useAdminSkinList(activeCategory: AdminSkinCategoryId) {
 
   const totalPages = Math.max(
     DEFAULT_PAGE_NUMBER,
-    adminSkinListQuery.data?.meta.total_pages ?? DEFAULT_PAGE_NUMBER,
+    adminDefaultSkinTreatListQuery.data?.meta.total_pages ??
+      DEFAULT_PAGE_NUMBER,
   );
 
   function handlePageChange(page: number) {
@@ -132,7 +135,7 @@ export function useAdminSkinList(activeCategory: AdminSkinCategoryId) {
     applyDebouncedSearch(value);
   }
 
-  function handleSortChange(nextSortValue: AdminSkinSortValue) {
+  function handleSortChange(nextSortValue: AdminDefaultSkinTreatSortValue) {
     setSortValue(nextSortValue);
     setPageByCategory((previousPageByCategory) => ({
       ...previousPageByCategory,
@@ -141,9 +144,10 @@ export function useAdminSkinList(activeCategory: AdminSkinCategoryId) {
   }
 
   return {
-    activeCategoryConfig: getAdminSkinCategoryConfig(activeCategory),
-    activeItems: adminSkinListQuery.data?.data ?? [],
-    adminSkinListQuery,
+    activeCategoryConfig:
+      getAdminDefaultSkinTreatCategoryConfig(activeCategory),
+    activeItems: adminDefaultSkinTreatListQuery.data?.data ?? [],
+    adminDefaultSkinTreatListQuery,
     currentPage: Math.min(currentPage, totalPages),
     totalPages,
     searchValue,
@@ -152,15 +156,15 @@ export function useAdminSkinList(activeCategory: AdminSkinCategoryId) {
     handleSearchChange,
     handleSortChange,
   } satisfies {
-    activeCategoryConfig: AdminSkinCategoryConfig;
+    activeCategoryConfig: AdminDefaultSkinTreatCategoryConfig;
     activeItems: AdminDefaultSkinCare[];
-    adminSkinListQuery: typeof adminSkinListQuery;
+    adminDefaultSkinTreatListQuery: typeof adminDefaultSkinTreatListQuery;
     currentPage: number;
     totalPages: number;
     searchValue: string;
-    sortValue: AdminSkinSortValue;
+    sortValue: AdminDefaultSkinTreatSortValue;
     handlePageChange: (page: number) => void;
     handleSearchChange: (value: string) => void;
-    handleSortChange: (value: AdminSkinSortValue) => void;
+    handleSortChange: (value: AdminDefaultSkinTreatSortValue) => void;
   };
 }

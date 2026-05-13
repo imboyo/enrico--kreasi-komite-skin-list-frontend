@@ -2,27 +2,27 @@
 
 import { Icon } from "@iconify/react";
 import { SkinCareAdminCard } from "@/components/atomic/organism/SkinCareAdminCard";
-import { AdminSkinTabNavigation } from "@/components/atomic/organism/AdminSkinTabNavigation";
+import { AdminDefaultSkinTreatTabNavigation } from "@/components/atomic/organism/AdminDefaultSkinTreatTabNavigation";
 import { MobilePagination } from "@/components/atomic/molecule/MobilePagination";
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { SkinCareAdminCardSkeleton } from "@/components/atomic/molecule/SkinCareAdminCardSkeleton";
 
-import { AdminSkinToolbar } from "./toolbar/AdminSkinToolbar";
+import { AdminDefaultSkinTreatToolbar } from "./toolbar/AdminDefaultSkinTreatToolbar";
 import { ItemActions } from "./item-actions/ItemActions";
-import { useAdminSkinList } from "./utils/useAdminSkinList";
-import type { AdminSkinCategoryId } from "./utils/skinCategory";
+import { useAdminDefaultSkinTreatList } from "./utils/useAdminDefaultSkinTreatList";
+import type { AdminDefaultSkinTreatCategoryId } from "./utils/defaultSkinTreatCategory";
 
-interface PageAdminSkinsProps {
-  activeCategory: AdminSkinCategoryId;
+interface PageDefaultSkinTreatProps {
+  activeCategory: AdminDefaultSkinTreatCategoryId;
 }
 
-export function PageAdminSkins({
+export function PageDefaultSkinTreat({
   activeCategory,
-}: Readonly<PageAdminSkinsProps>) {
+}: Readonly<PageDefaultSkinTreatProps>) {
   const {
     activeCategoryConfig,
     activeItems,
-    adminSkinListQuery,
+    adminDefaultSkinTreatListQuery,
     currentPage,
     searchValue,
     sortValue,
@@ -30,15 +30,15 @@ export function PageAdminSkins({
     handlePageChange,
     handleSearchChange,
     handleSortChange,
-  } = useAdminSkinList(activeCategory);
+  } = useAdminDefaultSkinTreatList(activeCategory);
 
   return (
     <div className="flex flex-col gap-4">
       {/* Section: Skin care category tabs */}
-      <AdminSkinTabNavigation activeTabId={activeCategory} />
+      <AdminDefaultSkinTreatTabNavigation activeTabId={activeCategory} />
 
       {/* Section: Toolbar with search, sort and add new skin care */}
-      <AdminSkinToolbar
+      <AdminDefaultSkinTreatToolbar
         activeCategory={activeCategory}
         activeCategoryConfig={activeCategoryConfig}
         searchValue={searchValue}
@@ -48,7 +48,7 @@ export function PageAdminSkins({
       />
 
       <QueryStateHandler
-        query={adminSkinListQuery}
+        query={adminDefaultSkinTreatListQuery}
         skeleton={<SkinCareAdminCardSkeleton />}
         isEmpty={activeItems.length === 0}
         errorTitle={activeCategoryConfig.errorTitle}

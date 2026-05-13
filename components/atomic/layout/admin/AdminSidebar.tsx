@@ -25,8 +25,8 @@ const NAV_ITEMS: SidebarMenuItemProps[] = [
     icon: "material-symbols:admin-panel-settings-rounded",
   },
   {
-    label: "Care/ Skin Management",
-    href: APP_URL.ADMIN_CARE_SKIN_MANAGEMENT,
+    label: "Default Skin Treat",
+    href: APP_URL.ADMIN_DEFAULT_SKIN_TREAT,
     icon: "material-symbols:spa-rounded",
   },
   {

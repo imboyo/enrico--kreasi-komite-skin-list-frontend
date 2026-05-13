@@ -1,36 +1,37 @@
 import { APP_URL } from "@/constant";
 import type { AdminDefaultSkinCareCategory } from "backend-service/admin/default-skin-care";
 
-export type AdminSkinCategoryId = AdminDefaultSkinCareCategory;
+export type AdminDefaultSkinTreatCategoryId = AdminDefaultSkinCareCategory;
 
-export type AdminSkinActionId = "edit" | "delete";
+export type AdminDefaultSkinTreatActionId = "edit" | "delete";
 
-export type AdminSkinCategoryAction = {
-  id: AdminSkinActionId;
+export type AdminDefaultSkinTreatCategoryAction = {
+  id: AdminDefaultSkinTreatActionId;
   label: string;
   icon: string;
   destructive?: boolean;
 };
 
-export type AdminSkinCategoryConfig = {
-  id: AdminSkinCategoryId;
+export type AdminDefaultSkinTreatCategoryConfig = {
+  id: AdminDefaultSkinTreatCategoryId;
   label: string;
   icon: string;
   errorTitle: string;
   emptyTitle: string;
   emptyDescription: string;
-  actions: AdminSkinCategoryAction[];
+  actions: AdminDefaultSkinTreatCategoryAction[];
 };
 
 export const ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY = [
   "admin-default-skin-care",
 ] as const;
-export const ADMIN_SKIN_CATEGORY_PARAM_KEY = "category";
-export const DEFAULT_ADMIN_SKIN_CATEGORY: AdminSkinCategoryId = "routine";
+export const ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_PARAM_KEY = "category";
+export const DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_CATEGORY: AdminDefaultSkinTreatCategoryId =
+  "routine";
 
-const ADMIN_SKIN_CATEGORY_CONFIG: Record<
-  AdminSkinCategoryId,
-  AdminSkinCategoryConfig
+const ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_CONFIG: Record<
+  AdminDefaultSkinTreatCategoryId,
+  AdminDefaultSkinTreatCategoryConfig
 > = {
   routine: {
     id: "routine",
@@ -144,35 +145,41 @@ const ADMIN_SKIN_CATEGORY_CONFIG: Record<
   },
 };
 
-export const ADMIN_SKIN_TAB_OPTIONS = (
-  Object.values(ADMIN_SKIN_CATEGORY_CONFIG) as AdminSkinCategoryConfig[]
+export const ADMIN_DEFAULT_SKIN_TREAT_TAB_OPTIONS = (
+  Object.values(
+    ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_CONFIG,
+  ) as AdminDefaultSkinTreatCategoryConfig[]
 ).map(({ id, label }) => ({
   id,
   label,
 }));
 
-export function isAdminSkinCategoryId(
+export function isAdminDefaultSkinTreatCategoryId(
   value: string | null | undefined,
-): value is AdminSkinCategoryId {
-  return value === "routine" ||
+): value is AdminDefaultSkinTreatCategoryId {
+  return (
+    value === "routine" ||
     value === "barrier" ||
     value === "colors" ||
     value === "scars" ||
-    value === "make_up";
+    value === "make_up"
+  );
 }
 
-export function getAdminSkinCategoryConfig(
-  category: AdminSkinCategoryId,
-): AdminSkinCategoryConfig {
-  return ADMIN_SKIN_CATEGORY_CONFIG[category];
+export function getAdminDefaultSkinTreatCategoryConfig(
+  category: AdminDefaultSkinTreatCategoryId,
+): AdminDefaultSkinTreatCategoryConfig {
+  return ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_CONFIG[category];
 }
 
-export function getAdminSkinCategoryHref(
-  category: AdminSkinCategoryId,
+export function getAdminDefaultSkinTreatCategoryHref(
+  category: AdminDefaultSkinTreatCategoryId,
 ): string {
-  return `${APP_URL.ADMIN_CARE_SKIN_MANAGEMENT}?${ADMIN_SKIN_CATEGORY_PARAM_KEY}=${category}`;
+  return `${APP_URL.ADMIN_DEFAULT_SKIN_TREAT}?${ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_PARAM_KEY}=${category}`;
 }
 
-export function getAdminSkinCategoryQueryKey(category: AdminSkinCategoryId) {
+export function getAdminDefaultSkinTreatCategoryQueryKey(
+  category: AdminDefaultSkinTreatCategoryId,
+) {
   return [...ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY, category] as const;
 }

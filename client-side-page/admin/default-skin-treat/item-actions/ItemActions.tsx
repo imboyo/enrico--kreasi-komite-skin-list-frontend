@@ -18,17 +18,17 @@ import { useToast } from "components/provider/Toast";
 import { EditSkinCareDialog } from "./edit-skin-care-dialog/EditSkinCareDialog";
 import {
   ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY,
-  type AdminSkinActionId,
-  type AdminSkinCategoryAction,
-} from "../utils/skinCategory";
+  type AdminDefaultSkinTreatActionId,
+  type AdminDefaultSkinTreatCategoryAction,
+} from "../utils/defaultSkinTreatCategory";
 
 interface ItemActionsProps {
   item: AdminDefaultSkinCare;
-  actions: AdminSkinCategoryAction[];
+  actions: AdminDefaultSkinTreatCategoryAction[];
 }
 
 function getFirstDestructiveActionIndex(
-  actions: AdminSkinCategoryAction[],
+  actions: AdminDefaultSkinTreatCategoryAction[],
 ): number {
   return actions.findIndex((action) => action.destructive);
 }
@@ -58,7 +58,7 @@ export function ItemActions({ item, actions }: Readonly<ItemActionsProps>) {
     },
   });
 
-  function handleActionSelect(actionId: AdminSkinActionId) {
+  function handleActionSelect(actionId: AdminDefaultSkinTreatActionId) {
     if (actionId === "edit") {
       setIsEditDialogOpen(true);
       return;

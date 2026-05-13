@@ -47,16 +47,27 @@ export function usePageChat() {
     if (!queryData) return;
 
     const freshMessages = mapDescendingPageToRenderOrder(queryData.data);
+    let isCurrentQuery = true;
 
-    setMessages(freshMessages);
-    setHasMore(queryData.meta.has_more);
-    setNextCursor(queryData.meta.next_cursor);
-    setErrorMessage(null);
+    // Defer the local mirror update so the effect does not synchronously cascade
+    // renders while React Query publishes fresh server state.
+    queueMicrotask(() => {
+      if (!isCurrentQuery) return;
 
-    if (isFirstLoadRef.current) {
-      isFirstLoadRef.current = false;
-      scheduleScrollToBottom();
-    }
+      setMessages(freshMessages);
+      setHasMore(queryData.meta.has_more);
+      setNextCursor(queryData.meta.next_cursor);
+      setErrorMessage(null);
+
+      if (isFirstLoadRef.current) {
+        isFirstLoadRef.current = false;
+        scheduleScrollToBottom();
+      }
+    });
+
+    return () => {
+      isCurrentQuery = false;
+    };
   }, [queryData, scheduleScrollToBottom]);
 
   // Load older messages (pagination backward).

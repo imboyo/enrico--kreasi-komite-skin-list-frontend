@@ -18,10 +18,7 @@ export const skinCareFormSchema = z.object({
     .trim()
     .min(1, "Nama wajib diisi")
     .max(60, "Nama maksimal 60 karakter"),
-  description: z
-    .string()
-    .trim()
-    .max(280, "Deskripsi maksimal 280 karakter"),
+  description: z.string().trim().max(280, "Deskripsi maksimal 280 karakter"),
 });
 
 export function validateSkinCareField<T>(

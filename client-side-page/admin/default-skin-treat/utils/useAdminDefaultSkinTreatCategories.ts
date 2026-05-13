@@ -8,17 +8,19 @@ import {
 } from "backend-service/admin/default-skin-care";
 
 import {
-  getAdminSkinCategoryConfig,
-  getAdminSkinCategoryQueryKey,
-  type AdminSkinCategoryConfig,
-  type AdminSkinCategoryId,
-} from "./skinCategory";
+  getAdminDefaultSkinTreatCategoryConfig,
+  getAdminDefaultSkinTreatCategoryQueryKey,
+  type AdminDefaultSkinTreatCategoryConfig,
+  type AdminDefaultSkinTreatCategoryId,
+} from "./defaultSkinTreatCategory";
 
 const CACHE_TIME_MS = 5 * 60 * 1000;
 
-export function useAdminSkinCategories(activeCategory: AdminSkinCategoryId) {
-  const adminSkinCategoriesQuery = useQuery({
-    queryKey: getAdminSkinCategoryQueryKey(activeCategory),
+export function useAdminDefaultSkinTreatCategories(
+  activeCategory: AdminDefaultSkinTreatCategoryId,
+) {
+  const adminDefaultSkinTreatCategoriesQuery = useQuery({
+    queryKey: getAdminDefaultSkinTreatCategoryQueryKey(activeCategory),
     queryFn: async () => {
       // Query only the active backend category so the page shape stays aligned
       // with the real API contract instead of a stitched mock collection.
@@ -42,12 +44,13 @@ export function useAdminSkinCategories(activeCategory: AdminSkinCategoryId) {
   });
 
   return {
-    activeCategoryConfig: getAdminSkinCategoryConfig(activeCategory),
-    activeItems: adminSkinCategoriesQuery.data?.data ?? [],
-    adminSkinCategoriesQuery,
+    activeCategoryConfig:
+      getAdminDefaultSkinTreatCategoryConfig(activeCategory),
+    activeItems: adminDefaultSkinTreatCategoriesQuery.data?.data ?? [],
+    adminDefaultSkinTreatCategoriesQuery,
   } satisfies {
-    activeCategoryConfig: AdminSkinCategoryConfig;
+    activeCategoryConfig: AdminDefaultSkinTreatCategoryConfig;
     activeItems: AdminDefaultSkinCare[];
-    adminSkinCategoriesQuery: typeof adminSkinCategoriesQuery;
+    adminDefaultSkinTreatCategoriesQuery: typeof adminDefaultSkinTreatCategoriesQuery;
   };
 }

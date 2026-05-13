@@ -84,9 +84,15 @@ export function EditSkinCareDialog({
             name="name"
             validators={{
               onBlur: ({ value }) =>
-                validateEditSkinCareField(editSkinCareFormSchema.shape.name, value),
+                validateEditSkinCareField(
+                  editSkinCareFormSchema.shape.name,
+                  value,
+                ),
               onSubmit: ({ value }) =>
-                validateEditSkinCareField(editSkinCareFormSchema.shape.name, value),
+                validateEditSkinCareField(
+                  editSkinCareFormSchema.shape.name,
+                  value,
+                ),
             }}
           >
             {(field) => (
@@ -136,7 +142,9 @@ export function EditSkinCareDialog({
                   className="text-xs font-medium text-dialog-current-muted"
                 >
                   Deskripsi{" "}
-                  <span className="text-dialog-current-muted/70">(opsional)</span>
+                  <span className="text-dialog-current-muted/70">
+                    (opsional)
+                  </span>
                 </label>
                 {/* Keep the textarea styles aligned with the add form so both dialogs feel consistent. */}
                 <textarea

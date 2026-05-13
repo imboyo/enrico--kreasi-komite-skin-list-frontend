@@ -1,16 +1,16 @@
 import type { ListAdminDefaultSkinCarePayload } from "backend-service/admin/default-skin-care";
 import type { ListToolbarOption } from "components/atomic/molecule/ListToolbar";
 
-export type AdminSkinSortValue =
+export type AdminDefaultSkinTreatSortValue =
   | "updated-at-desc"
   | "updated-at-asc"
   | "name-asc"
   | "name-desc";
 
-export const DEFAULT_ADMIN_SKIN_SORT_VALUE: AdminSkinSortValue =
+export const DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_SORT_VALUE: AdminDefaultSkinTreatSortValue =
   "updated-at-desc";
 
-export const ADMIN_SKIN_SORT_OPTIONS: ListToolbarOption<AdminSkinSortValue>[] =
+export const ADMIN_DEFAULT_SKIN_TREAT_SORT_OPTIONS: ListToolbarOption<AdminDefaultSkinTreatSortValue>[] =
   [
     { value: "updated-at-desc", label: "Terbaru diperbarui" },
     { value: "updated-at-asc", label: "Terlama diperbarui" },
@@ -18,8 +18,8 @@ export const ADMIN_SKIN_SORT_OPTIONS: ListToolbarOption<AdminSkinSortValue>[] =
     { value: "name-desc", label: "Nama Z-A" },
   ];
 
-const ADMIN_SKIN_SORT_REQUEST_MAP: Record<
-  AdminSkinSortValue,
+const ADMIN_DEFAULT_SKIN_TREAT_SORT_REQUEST_MAP: Record<
+  AdminDefaultSkinTreatSortValue,
   NonNullable<ListAdminDefaultSkinCarePayload["sort"]>[number]
 > = {
   "updated-at-desc": {
@@ -40,6 +40,8 @@ const ADMIN_SKIN_SORT_REQUEST_MAP: Record<
   },
 };
 
-export function getAdminSkinSortRequest(sortValue: AdminSkinSortValue) {
-  return ADMIN_SKIN_SORT_REQUEST_MAP[sortValue];
+export function getAdminDefaultSkinTreatSortRequest(
+  sortValue: AdminDefaultSkinTreatSortValue,
+) {
+  return ADMIN_DEFAULT_SKIN_TREAT_SORT_REQUEST_MAP[sortValue];
 }

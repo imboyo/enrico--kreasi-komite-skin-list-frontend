@@ -14,12 +14,16 @@ import BaseDialog, {
   DialogTitle,
 } from "components/atomic/molecule/Dialog";
 
-import { useAddSkinCareForm, addSkinCareFormSchema, validateAddSkinCareField } from "./useAddSkinCareForm";
-import type { AdminSkinCategoryId } from "../../utils/skinCategory";
+import {
+  useAddSkinCareForm,
+  addSkinCareFormSchema,
+  validateAddSkinCareField,
+} from "./useAddSkinCareForm";
+import type { AdminDefaultSkinTreatCategoryId } from "../../utils/defaultSkinTreatCategory";
 
 type AddSkinCareDialogProps = {
   open: boolean;
-  category: AdminSkinCategoryId;
+  category: AdminDefaultSkinTreatCategoryId;
   categoryLabel: string;
   onOpenChange: (open: boolean) => void;
 };
@@ -89,9 +93,15 @@ export function AddSkinCareDialog({
             name="name"
             validators={{
               onBlur: ({ value }) =>
-                validateAddSkinCareField(addSkinCareFormSchema.shape.name, value),
+                validateAddSkinCareField(
+                  addSkinCareFormSchema.shape.name,
+                  value,
+                ),
               onSubmit: ({ value }) =>
-                validateAddSkinCareField(addSkinCareFormSchema.shape.name, value),
+                validateAddSkinCareField(
+                  addSkinCareFormSchema.shape.name,
+                  value,
+                ),
             }}
           >
             {(field) => (
