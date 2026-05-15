@@ -6,6 +6,7 @@ import {
   isAdminDefaultSkinTreatCategoryId,
   type AdminDefaultSkinTreatCategoryId,
 } from "@/client-side-page/admin/default-skin-treat/utils/defaultSkinTreatCategory";
+import { PageLevelStoreProvider } from "@/client-side-page/admin/default-skin-treat/page-level.store";
 
 export const metadata: Metadata = {
   title: "Default Skin Treat Management",
@@ -38,23 +39,25 @@ export default async function AdminDefaultSkinTreatsPage({
   const activeCategory = resolveActiveCategory(resolvedSearchParams.category);
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 px-4 py-4 lg:px-8 lg:py-6">
-      {/* Section: Default skin treat page title */}
-      <div className="flex flex-col gap-1">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          Manajemen Admin
-        </p>
-        <h1 className="text-2xl font-semibold text-foreground">
-          Default Skin Treat
-        </h1>
-        <p className="max-w-3xl text-sm text-muted-foreground">
-          Kelola daftar skin care default yang digunakan pelanggan sebagai
-          pilihan awal rutinitas, make up, barrier, warna, scars, contour,
-          fats, dan hairs.
-        </p>
-      </div>
+    <PageLevelStoreProvider initialActiveCategory={activeCategory}>
+      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 px-4 py-4 lg:px-8 lg:py-6">
+        {/* Section: Default skin treat page title */}
+        <div className="flex flex-col gap-1">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Manajemen Admin
+          </p>
+          <h1 className="text-2xl font-semibold text-foreground">
+            Default Skin Treat
+          </h1>
+          <p className="max-w-3xl text-sm text-muted-foreground">
+            Kelola daftar skin care default yang digunakan pelanggan sebagai
+            pilihan awal rutinitas, make up, barrier, warna, scars, contour,
+            fats, dan hairs.
+          </p>
+        </div>
 
-      <PageDefaultSkinTreat activeCategory={activeCategory} />
-    </div>
+        <PageDefaultSkinTreat activeCategory={activeCategory} />
+      </div>
+    </PageLevelStoreProvider>
   );
 }

@@ -3,7 +3,7 @@
 import { Icon } from "@iconify/react";
 import { useId } from "react";
 
-import type { DefaultSkinTreat } from "backend-service/default-skin-treat";
+import type { AdminDefaultSkinTreat } from "backend-service/admin/default-skin-care";
 import { Button } from "components/atomic/atom/Button";
 import { FormFieldError } from "components/atomic/atom/FormFieldError";
 import { TextInput } from "components/atomic/atom/TextInput";
@@ -16,30 +16,31 @@ import Dialog, {
 } from "components/atomic/molecule/Dialog";
 
 import {
-  useEditSkinCareForm,
-  editSkinCareFormSchema,
-  validateEditSkinCareField,
-} from "./useEditSkinCareForm";
+  editSkinTreatFormSchema,
+  useEditSkinTreatForm,
+  validateEditSkinTreatField,
+} from "./useEditSkinTreatForm";
 
-type EditSkinCareDialogProps = {
-  item: DefaultSkinTreat;
+type EditSkinTreatDialogProps = {
+  item: AdminDefaultSkinTreat;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export function EditSkinCareDialog({
+export function EditSkinTreatDialog({
   item,
   open,
   onOpenChange,
-}: EditSkinCareDialogProps) {
+}: Readonly<EditSkinTreatDialogProps>) {
   const formId = useId();
-  const { form, isPending, serverError, resetForm } = useEditSkinCareForm(item);
+  const { form, isPending, serverError, resetForm } = useEditSkinTreatForm(item);
 
   function handleDialogOpenChange(nextOpen: boolean) {
     // Reset only after the mutation is idle so the dialog does not clear during submission.
     if (!nextOpen && !isPending) {
       resetForm();
     }
+
     onOpenChange(nextOpen);
   }
 
@@ -49,12 +50,12 @@ export function EditSkinCareDialog({
       onOpenChange={handleDialogOpenChange}
       surface="dialog-2"
     >
-      {/* Section: Edit skin care dialog header */}
+      {/* Section: Edit skin treat dialog header */}
       <DialogHeader className="items-start">
         <div className="flex flex-col gap-1">
-          <DialogTitle>Ubah skin care</DialogTitle>
+          <DialogTitle>Ubah skin treat</DialogTitle>
           <DialogDescription>
-            Perbarui nama dan deskripsi skin care tanpa mengubah kategorinya.
+            Perbarui nama dan deskripsi skin treat tanpa mengubah kategorinya.
           </DialogDescription>
         </div>
 
@@ -71,7 +72,7 @@ export function EditSkinCareDialog({
         </Button>
       </DialogHeader>
 
-      {/* Section: Edit skin care form */}
+      {/* Section: Edit skin treat form */}
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -79,18 +80,18 @@ export function EditSkinCareDialog({
         }}
       >
         <DialogBody className="flex flex-col gap-4">
-          {/* Section: Skin care name field */}
+          {/* Section: Skin treat name field */}
           <form.Field
             name="name"
             validators={{
               onBlur: ({ value }) =>
-                validateEditSkinCareField(
-                  editSkinCareFormSchema.shape.name,
+                validateEditSkinTreatField(
+                  editSkinTreatFormSchema.shape.name,
                   value,
                 ),
               onSubmit: ({ value }) =>
-                validateEditSkinCareField(
-                  editSkinCareFormSchema.shape.name,
+                validateEditSkinTreatField(
+                  editSkinTreatFormSchema.shape.name,
                   value,
                 ),
             }}
@@ -108,7 +109,7 @@ export function EditSkinCareDialog({
                   value={field.state.value}
                   onChange={(event) => field.handleChange(event.target.value)}
                   onBlur={field.handleBlur}
-                  placeholder="Masukkan nama skin care"
+                  placeholder="Masukkan nama skin treat"
                   disabled={isPending}
                 />
                 <FormFieldError
@@ -119,18 +120,18 @@ export function EditSkinCareDialog({
             )}
           </form.Field>
 
-          {/* Section: Skin care description field */}
+          {/* Section: Skin treat description field */}
           <form.Field
             name="description"
             validators={{
               onBlur: ({ value }) =>
-                validateEditSkinCareField(
-                  editSkinCareFormSchema.shape.description,
+                validateEditSkinTreatField(
+                  editSkinTreatFormSchema.shape.description,
                   value,
                 ),
               onSubmit: ({ value }) =>
-                validateEditSkinCareField(
-                  editSkinCareFormSchema.shape.description,
+                validateEditSkinTreatField(
+                  editSkinTreatFormSchema.shape.description,
                   value,
                 ),
             }}
@@ -170,7 +171,7 @@ export function EditSkinCareDialog({
           ) : null}
         </DialogBody>
 
-        {/* Section: Edit skin care form actions */}
+        {/* Section: Edit skin treat form actions */}
         <DialogFooter>
           <Button
             type="button"

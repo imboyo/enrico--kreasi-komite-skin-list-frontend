@@ -15,7 +15,7 @@ import {
   type UserAccount,
 } from "backend-service/admin/account/user";
 import { useToast } from "components/provider/Toast";
-import { USER_ACCOUNT_QUERY_KEY } from "client-side-page/admin/user/user/account-list/useUserAccountList";
+import { USER_ACCOUNT_QUERY_KEY } from "client-side-page/admin/user/user/account-list/utils/userAccountList.store";
 import { getServerErrorMessage } from "client-side-page/admin/user/user/account-list/item-card/item-actions/utils/getServerErrorMessage";
 
 export type FormValues = {

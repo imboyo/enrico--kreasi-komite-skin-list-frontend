@@ -1,38 +1,36 @@
-export type AdminDefaultSkinCareCategory =
-  | "routine"
-  | "make_up"
-  | "barrier"
-  | "colors"
-  | "scars"
-  | "contour"
-  | "fats"
-  | "hairs";
+import type {
+  DefaultSkinTreat,
+  DefaultSkinTreatCategory,
+  DefaultSkinTreatFilterDto,
+  DefaultSkinTreatFilterItem,
+  DefaultSkinTreatListField,
+  DefaultSkinTreatListMeta,
+  DefaultSkinTreatSortDto,
+  ListDefaultSkinTreatPayload,
+  ListDefaultSkinTreatResponse,
+} from "backend-service/default-skin-treat";
 
-export type AdminDefaultSkinCare = {
-  uuid: string;
-  name: string;
-  description: string | null;
-  category: AdminDefaultSkinCareCategory;
-  created_at: string;
-  updated_at: string;
-};
-
-export type AddAdminDefaultSkinCarePayload = {
+export type AdminDefaultSkinTreatCategory = DefaultSkinTreatCategory;
+export type AdminDefaultSkinTreatListField = DefaultSkinTreatListField;
+export type AdminDefaultSkinTreatSortDto = DefaultSkinTreatSortDto;
+export type AdminDefaultSkinTreatFilterItem = DefaultSkinTreatFilterItem;
+export type AdminDefaultSkinTreatFilterDto = DefaultSkinTreatFilterDto;
+export type AdminDefaultSkinTreat = DefaultSkinTreat;
+export type AdminDefaultSkinTreatListMeta = DefaultSkinTreatListMeta;
+export type ListAdminDefaultSkinTreatPayload = ListDefaultSkinTreatPayload;
+export type ListAdminDefaultSkinTreatResponse = ListDefaultSkinTreatResponse;
+export type AddAdminDefaultSkinTreatPayload = {
   name: string;
   description?: string | null;
-  category: AdminDefaultSkinCareCategory;
+  category: AdminDefaultSkinTreatCategory;
 };
-
-export type AddAdminDefaultSkinCareResponse = AdminDefaultSkinCare;
-
-export type EditAdminDefaultSkinCarePayload = {
+export type AddAdminDefaultSkinTreatResponse = AdminDefaultSkinTreat;
+export type EditAdminDefaultSkinTreatPayload = {
   name?: string;
   description?: string | null;
 };
-
-export type EditAdminDefaultSkinCareResponse = AdminDefaultSkinCare;
-
-export type DeleteAdminDefaultSkinCareResponse = {
+export type EditAdminDefaultSkinTreatResponse = AdminDefaultSkinTreat;
+export type DeleteAdminDefaultSkinTreatResponse = {
   success: boolean;
   uuid: string;
 };
