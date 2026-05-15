@@ -43,8 +43,10 @@ export function PageUserSkinTreat({
       />
 
       <div className="flex flex-col gap-4 w-full">
-        {/* Section: Toolbar with search and sort (read-only, no add button) */}
+        {/* Section: Toolbar with search, sort, and add action */}
         <AdminUserSkinTreatToolbar
+          userUuid={userUuid}
+          activeCategory={activeCategory}
           activeCategoryConfig={activeCategoryConfig}
           searchValue={searchValue}
           onSearchChange={handleSearchChange}

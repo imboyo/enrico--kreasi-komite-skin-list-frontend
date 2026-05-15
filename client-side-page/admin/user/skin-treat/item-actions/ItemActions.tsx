@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import type { AdminUserSkinTreat } from "backend-service/admin/user/skin-treat";
-import { deleteAdminUserSkinTreat } from "backend-service/admin/user/skin-treat";
+import { deleteSkinTreat } from "backend-service/admin/user/skin-treat";
 import { Button } from "components/atomic/atom/Button";
 import { ConfirmationDialog } from "components/atomic/molecule/ConfirmationDialog";
 import {
@@ -30,7 +30,7 @@ export function ItemActions({ item }: Readonly<ItemActionsProps>) {
   const { showToast } = useToast();
 
   const deleteMutation = useMutation({
-    mutationFn: () => deleteAdminUserSkinTreat(item.uuid),
+    mutationFn: () => deleteSkinTreat(item.uuid),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ADMIN_USER_SKIN_TREAT_QUERY_KEY,

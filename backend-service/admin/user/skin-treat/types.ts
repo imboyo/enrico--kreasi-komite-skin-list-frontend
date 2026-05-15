@@ -103,6 +103,15 @@ export type ListAdminUserSkinTreatResponse = {
 
 export type GetAdminUserSkinTreatResponse = AdminUserSkinTreat;
 
+export type CreateAdminUserSkinTreatPayload = {
+  user_uuid: string;
+  name: string;
+  description?: string | null;
+  category: AdminUserSkinTreatCategory;
+};
+
+export type CreateAdminUserSkinTreatResponse = AdminUserSkinTreat;
+
 export type UpdateAdminUserSkinTreatPayload = {
   name?: string;
   description?: string | null;
@@ -112,7 +121,7 @@ export type UpdateAdminUserSkinTreatPayload = {
 
 export type UpdateAdminUserSkinTreatResponse = AdminUserSkinTreat;
 
-export type DeleteAdminUserSkinTreatResponse = {
+export type DeleteSkinTreatResponse = {
   success: boolean;
   uuid: string;
 };
