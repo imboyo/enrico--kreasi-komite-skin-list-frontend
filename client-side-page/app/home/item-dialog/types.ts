@@ -1,6 +1,6 @@
 import type { DashboardItemEditFormApi } from "@/hooks/useDashboardItemEditForm";
 import type { SkinTreatCategory } from "@/backend-service/user/skin-treat";
-import type { DashboardEditableItem } from "@/mock-backend/user/dashboard/item-store";
+import type { DashboardEditableItem } from "@/client-side-page/app/home/util/dashboard-item.types";
 
 export type DialogMode = "view" | "edit";
 

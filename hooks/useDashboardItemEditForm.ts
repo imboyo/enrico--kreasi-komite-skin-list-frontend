@@ -14,7 +14,7 @@ import {
   type SkinTreatCategory,
   type SkinTreat,
 } from "@/backend-service/user/skin-treat";
-import type { DashboardEditableItem } from "@/mock-backend/user/dashboard/item-store";
+import type { DashboardEditableItem } from "@/client-side-page/app/home/util/dashboard-item.types";
 
 export const dashboardItemEditSchema = z.object({
   label: z

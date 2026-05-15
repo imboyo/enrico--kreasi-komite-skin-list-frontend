@@ -3,7 +3,7 @@ import {
   type ListSkinTreatResponse,
   type SkinTreat,
 } from "@/backend-service/user/skin-treat";
-import type { DashboardEditableItem } from "@/mock-backend/user/dashboard/item-store";
+import type { DashboardEditableItem } from "./dashboard-item.types";
 
 import {
   SKIN_TREAT_CATEGORY_BY_TAB,
