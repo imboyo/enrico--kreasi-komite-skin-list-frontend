@@ -2,7 +2,16 @@
 
 import { HeroSection } from "@/components/atomic/molecule/HeroSection";
 
-const CATEGORY_LABELS = ["Routine", "Tone", "Make Up", "Concerns"];
+const CATEGORY_LABELS = [
+  "Routine",
+  "Tone",
+  "Make Up",
+  "Barrier",
+  "Scars",
+  "Contour",
+  "Fats",
+  "Hairs",
+];
 
 export const HeroCard = () => {
   return (
@@ -15,7 +24,7 @@ export const HeroCard = () => {
           glow naturally.
         </>
       }
-      description="Track your daily routine, find the right tones, organize your make up, and monitor skin concerns — all in one place."
+      description="Track your daily routine, find the right tones, organize your make up, protect your skin barrier, and review scars, contour, fats, and hairs in one place."
     >
       {/* Category pills */}
       <div className="flex flex-wrap gap-2 md:gap-3">

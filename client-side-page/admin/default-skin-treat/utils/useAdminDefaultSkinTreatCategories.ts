@@ -3,9 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 
 import {
-  listDefaultSkinCare,
-  type AdminDefaultSkinCare,
-} from "backend-service/admin/default-skin-care";
+  listDefaultSkinTreat,
+  type DefaultSkinTreat,
+} from "backend-service/default-skin-treat";
 
 import {
   getAdminDefaultSkinTreatCategoryConfig,
@@ -24,7 +24,7 @@ export function useAdminDefaultSkinTreatCategories(
     queryFn: async () => {
       // Query only the active backend category so the page shape stays aligned
       // with the real API contract instead of a stitched mock collection.
-      return await listDefaultSkinCare({
+      return await listDefaultSkinTreat({
         page: 1,
         limit: 100,
         sort: [{ field: "updated_at", direction: "DESC" }],
@@ -50,7 +50,7 @@ export function useAdminDefaultSkinTreatCategories(
     adminDefaultSkinTreatCategoriesQuery,
   } satisfies {
     activeCategoryConfig: AdminDefaultSkinTreatCategoryConfig;
-    activeItems: AdminDefaultSkinCare[];
+    activeItems: DefaultSkinTreat[];
     adminDefaultSkinTreatCategoriesQuery: typeof adminDefaultSkinTreatCategoriesQuery;
   };
 }

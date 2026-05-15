@@ -3,7 +3,7 @@
 import { Icon } from "@iconify/react";
 import { useId } from "react";
 
-import type { AdminDefaultSkinCare } from "backend-service/admin/default-skin-care";
+import type { DefaultSkinTreat } from "backend-service/default-skin-treat";
 import { Button } from "components/atomic/atom/Button";
 import { FormFieldError } from "components/atomic/atom/FormFieldError";
 import { TextInput } from "components/atomic/atom/TextInput";
@@ -22,7 +22,7 @@ import {
 } from "./useEditSkinCareForm";
 
 type EditSkinCareDialogProps = {
-  item: AdminDefaultSkinCare;
+  item: DefaultSkinTreat;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };

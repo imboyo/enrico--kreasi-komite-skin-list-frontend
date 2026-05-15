@@ -10,9 +10,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
   editDefaultSkinCare,
-  type AdminDefaultSkinCare,
   type EditAdminDefaultSkinCarePayload,
 } from "backend-service/admin/default-skin-care";
+import type { DefaultSkinTreat } from "backend-service/default-skin-treat";
 import { useToast } from "components/provider/Toast";
 
 import { ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY } from "../../utils/defaultSkinTreatCategory";
@@ -55,7 +55,7 @@ function buildUpdateDefaultSkinCarePayload(
   };
 }
 
-export function useEditSkinCareForm(item: AdminDefaultSkinCare) {
+export function useEditSkinCareForm(item: DefaultSkinTreat) {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 

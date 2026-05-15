@@ -18,6 +18,8 @@ the relevant guide in `node_modules/next/dist/docs/` before writing any code. He
 - One Function must be one responsibility and one file. 
 - One Component must be one responsibility and one file.
 - Form and Validation is using zod and useForm @tanstack/react-form. So will use useForm and form.Field
+- When using zustand, always use selector to get the state. e.g const count = useCounterStore((state) => state.count);
+- Always using zustand for store and context passing
 
 ### Moduling / Project Structure
 1. Backend Service use barrel export with naming for example `backend-service/auth/index.ts` and its have index.ts on `backend-service` so in consumer we can choose import directly from `backend-service/auth` or for more readable we can import from `backend-service`

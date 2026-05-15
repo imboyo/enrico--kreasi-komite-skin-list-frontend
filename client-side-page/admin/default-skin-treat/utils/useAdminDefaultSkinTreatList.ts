@@ -5,10 +5,10 @@ import debounce from "lodash/debounce";
 import { useEffect, useMemo, useState } from "react";
 
 import {
-  listDefaultSkinCare,
-  type AdminDefaultSkinCare,
-  type ListAdminDefaultSkinCarePayload,
-} from "backend-service/admin/default-skin-care";
+  listDefaultSkinTreat,
+  type DefaultSkinTreat,
+  type ListDefaultSkinTreatPayload,
+} from "backend-service/default-skin-treat";
 
 import {
   ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY,
@@ -37,7 +37,7 @@ function buildAdminDefaultSkinTreatListPayload({
   currentPage: number;
   debouncedSearchValue: string;
   sortValue: AdminDefaultSkinTreatSortValue;
-}): ListAdminDefaultSkinCarePayload {
+}): ListDefaultSkinTreatPayload {
   return {
     page: currentPage,
     limit: DEFAULT_PAGE_LIMIT,
@@ -103,7 +103,7 @@ export function useAdminDefaultSkinTreatList(
       sortValue,
     ],
     queryFn: async () => {
-      return await listDefaultSkinCare(
+      return await listDefaultSkinTreat(
         buildAdminDefaultSkinTreatListPayload({
           activeCategory,
           currentPage,
@@ -160,7 +160,7 @@ export function useAdminDefaultSkinTreatList(
     handleSortChange,
   } satisfies {
     activeCategoryConfig: AdminDefaultSkinTreatCategoryConfig;
-    activeItems: AdminDefaultSkinCare[];
+    activeItems: DefaultSkinTreat[];
     adminDefaultSkinTreatListQuery: typeof adminDefaultSkinTreatListQuery;
     currentPage: number;
     totalPages: number;

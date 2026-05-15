@@ -1,7 +1,7 @@
 import { APP_URL } from "@/constant";
-import type { AdminDefaultSkinCareCategory } from "backend-service/admin/default-skin-care";
+import type { DefaultSkinTreatCategory } from "backend-service/default-skin-treat";
 
-export type AdminDefaultSkinTreatCategoryId = AdminDefaultSkinCareCategory;
+export type AdminDefaultSkinTreatCategoryId = DefaultSkinTreatCategory;
 
 export type AdminDefaultSkinTreatActionId = "edit" | "delete";
 

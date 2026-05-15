@@ -42,8 +42,8 @@ export function HomeChecklistSection<TItem extends HomeChecklistItem>({
   emptyDescription,
   defaultOpen = false,
 }: HomeChecklistSectionProps<TItem>) {
-  // Each section manages its own initial fold state so PageHome can choose
-  // which checklist is expanded on the first render.
+  // Each section manages its own fold state so the parent can simply render
+  // a list of descriptors without duplicating animation logic.
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [contentHeight, setContentHeight] = useState(
     defaultOpen ? "auto" : "0px",
@@ -135,7 +135,7 @@ export function HomeChecklistSection<TItem extends HomeChecklistItem>({
             emptyTitle={emptyTitle}
             emptyDescription={emptyDescription}
           >
-              <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
               {resolvedItems.map((item) => (
                 <ChecklistItemCard
                   key={item.id}

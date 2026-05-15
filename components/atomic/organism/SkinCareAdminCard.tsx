@@ -3,12 +3,10 @@
 import { Icon } from "@iconify/react";
 import type { ReactNode } from "react";
 
-import { Checkbox } from "@/components/atomic/atom/Checkbox";
-
-import type { AdminDefaultSkinCare } from "backend-service/admin/default-skin-care";
+import type { DefaultSkinTreat } from "backend-service/default-skin-treat";
 
 type SkinCareItemCardProps = {
-  item: AdminDefaultSkinCare;
+  item: DefaultSkinTreat;
   icon?: ReactNode;
   actions?: ReactNode;
   isChecked?: boolean;

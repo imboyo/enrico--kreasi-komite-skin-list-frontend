@@ -4,8 +4,8 @@ import { Icon } from "@iconify/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fragment, useState } from "react";
 
-import type { AdminDefaultSkinCare } from "backend-service/admin/default-skin-care";
 import { deleteDefaultSkinCare } from "backend-service/admin/default-skin-care";
+import type { DefaultSkinTreat } from "backend-service/default-skin-treat";
 import { Button } from "components/atomic/atom/Button";
 import { ConfirmationDialog } from "components/atomic/molecule/ConfirmationDialog";
 import {
@@ -23,7 +23,7 @@ import {
 } from "../utils/defaultSkinTreatCategory";
 
 interface ItemActionsProps {
-  item: AdminDefaultSkinCare;
+  item: DefaultSkinTreat;
   actions: AdminDefaultSkinTreatCategoryAction[];
 }
 

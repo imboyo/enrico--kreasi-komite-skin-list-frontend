@@ -1,4 +1,4 @@
-import type { AdminDefaultSkinCare } from "backend-service/admin/default-skin-care";
+import type { DefaultSkinTreat } from "backend-service/default-skin-treat";
 import { HttpError } from "libs/error/http-error";
 import { z } from "zod";
 
@@ -30,7 +30,7 @@ export function validateSkinCareField<T>(
 }
 
 export function getSkinCareFormValues(
-  item?: Pick<AdminDefaultSkinCare, "name" | "description">,
+  item?: Pick<DefaultSkinTreat, "name" | "description">,
 ): SkinCareFormValues {
   if (!item) {
     return { ...EMPTY_SKIN_CARE_FORM_VALUES };

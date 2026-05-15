@@ -4,11 +4,8 @@ import { create } from "zustand";
 export const CHECK_LIMIT = 15;
 
 interface RoutineCheckStore {
-  /** Total number of check/uncheck interactions across all routines */
   checkCount: number;
-  /** True when checkCount hits a multiple of CHECK_LIMIT — drives the limit dialog */
   showLimitDialog: boolean;
-  /** Increments the counter; sets showLimitDialog when hitting a multiple of CHECK_LIMIT */
   increment: () => void;
   dismissLimitDialog: () => void;
   reset: () => void;
