@@ -1,11 +1,11 @@
 "use client";
 
-import { HomeChecklistSection } from "@/client-side-page/home/home-checklist-section/HomeChecklistSection";
+import { HomeChecklistSection } from "client-side-page/home/home-checklist-section/HomeChecklistSection";
 import {
   getHomeDefaultSkinTreatQueryKey,
   listHomeDefaultSkinTreat,
   type HomeDefaultSkinTreatItem,
-} from "@/client-side-page/home/utils/defaultSkinTreat";
+} from "client-side-page/home/utils/default-skin-treat";
 import { mapSkinTreatLabel } from "libs/util/mapSkinTreatLabel";
 
 export type HomeSkinTreatCategory =

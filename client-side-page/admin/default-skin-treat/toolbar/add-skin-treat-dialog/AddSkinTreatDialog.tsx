@@ -15,27 +15,27 @@ import BaseDialog, {
 } from "components/atomic/molecule/Dialog";
 
 import {
-  useAddSkinCareForm,
-  addSkinCareFormSchema,
-  validateAddSkinCareField,
-} from "./useAddSkinCareForm";
+  addSkinTreatFormSchema,
+  useAddSkinTreatForm,
+  validateAddSkinTreatField,
+} from "./useAddSkinTreatForm";
 import type { AdminDefaultSkinTreatCategoryId } from "../../utils/defaultSkinTreatCategory";
 
-type AddSkinCareDialogProps = {
+type AddSkinTreatDialogProps = {
   open: boolean;
   category: AdminDefaultSkinTreatCategoryId;
   categoryLabel: string;
   onOpenChange: (open: boolean) => void;
 };
 
-export function AddSkinCareDialog({
+export function AddSkinTreatDialog({
   open,
   category,
   categoryLabel,
   onOpenChange,
-}: AddSkinCareDialogProps) {
+}: Readonly<AddSkinTreatDialogProps>) {
   const formId = useId();
-  const { form, isPending, resetForm, serverError } = useAddSkinCareForm({
+  const { form, isPending, resetForm, serverError } = useAddSkinTreatForm({
     category,
     categoryLabel,
     onSuccess: () => {
@@ -45,10 +45,11 @@ export function AddSkinCareDialog({
   });
 
   function handleDialogOpenChange(nextOpen: boolean) {
-    // Reset stale form state only after the dialog is truly closing.
+    // Reset stale field state only after the dialog is actually closing.
     if (!nextOpen && !isPending) {
       resetForm();
     }
+
     onOpenChange(nextOpen);
   }
 
@@ -58,12 +59,12 @@ export function AddSkinCareDialog({
       onOpenChange={handleDialogOpenChange}
       surface="dialog-2"
     >
-      {/* Section: Add skin care dialog header */}
+      {/* Section: Add skin treat dialog header */}
       <DialogHeader className="items-start">
         <div className="flex flex-col gap-1">
           <DialogTitle>{`Tambah ${categoryLabel}`}</DialogTitle>
           <DialogDescription>
-            {`Buat data skin care baru untuk kategori ${categoryLabel.toLowerCase()}.`}
+            {`Buat data skin treat baru untuk kategori ${categoryLabel.toLowerCase()}.`}
           </DialogDescription>
         </div>
 
@@ -80,7 +81,7 @@ export function AddSkinCareDialog({
         </Button>
       </DialogHeader>
 
-      {/* Section: Add skin care form */}
+      {/* Section: Add skin treat form */}
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -88,18 +89,18 @@ export function AddSkinCareDialog({
         }}
       >
         <DialogBody className="flex flex-col gap-4">
-          {/* Section: Skin care name field */}
+          {/* Section: Skin treat name field */}
           <form.Field
             name="name"
             validators={{
               onBlur: ({ value }) =>
-                validateAddSkinCareField(
-                  addSkinCareFormSchema.shape.name,
+                validateAddSkinTreatField(
+                  addSkinTreatFormSchema.shape.name,
                   value,
                 ),
               onSubmit: ({ value }) =>
-                validateAddSkinCareField(
-                  addSkinCareFormSchema.shape.name,
+                validateAddSkinTreatField(
+                  addSkinTreatFormSchema.shape.name,
                   value,
                 ),
             }}
@@ -128,18 +129,18 @@ export function AddSkinCareDialog({
             )}
           </form.Field>
 
-          {/* Section: Skin care description field */}
+          {/* Section: Skin treat description field */}
           <form.Field
             name="description"
             validators={{
               onBlur: ({ value }) =>
-                validateAddSkinCareField(
-                  addSkinCareFormSchema.shape.description,
+                validateAddSkinTreatField(
+                  addSkinTreatFormSchema.shape.description,
                   value,
                 ),
               onSubmit: ({ value }) =>
-                validateAddSkinCareField(
-                  addSkinCareFormSchema.shape.description,
+                validateAddSkinTreatField(
+                  addSkinTreatFormSchema.shape.description,
                   value,
                 ),
             }}
@@ -155,7 +156,7 @@ export function AddSkinCareDialog({
                     (opsional)
                   </span>
                 </label>
-                {/* Match the dialog field styling while keeping multiline input readable. */}
+                {/* Keep the textarea styling aligned with the edit dialog for a consistent form surface. */}
                 <textarea
                   id={`${formId}-description`}
                   value={field.state.value}
@@ -179,7 +180,7 @@ export function AddSkinCareDialog({
           ) : null}
         </DialogBody>
 
-        {/* Section: Add skin care form actions */}
+        {/* Section: Add skin treat form actions */}
         <DialogFooter>
           <Button
             type="button"

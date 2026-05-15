@@ -9,13 +9,13 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
-  addDefaultSkinCare,
-  type AdminDefaultSkinCareCategory,
-  type AddAdminDefaultSkinCarePayload,
+  addAdminDefaultSkinTreat,
+  type AddAdminDefaultSkinTreatPayload,
+  type AdminDefaultSkinTreatCategory,
 } from "backend-service/admin/default-skin-care";
 import { useToast } from "components/provider/Toast";
 
-import { ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY } from "../../utils/defaultSkinTreatCategory";
+import { ADMIN_DEFAULT_SKIN_TREAT_QUERY_KEY } from "../../utils/defaultSkinTreatCategory";
 import {
   EMPTY_SKIN_CARE_FORM_VALUES,
   getSkinCareFormServerErrorMessage,
@@ -25,34 +25,34 @@ import {
   type SkinCareFormValues,
 } from "../../utils/skinCareForm";
 
-export type AddSkinCareFormValues = SkinCareFormValues;
+export type AddSkinTreatFormValues = SkinCareFormValues;
 export {
-  skinCareFormSchema as addSkinCareFormSchema,
-  validateSkinCareField as validateAddSkinCareField,
+  skinCareFormSchema as addSkinTreatFormSchema,
+  validateSkinCareField as validateAddSkinTreatField,
 };
 
-export type AddSkinCareFormApi = ReactFormExtendedApi<
-  AddSkinCareFormValues,
-  undefined | FormValidateOrFn<AddSkinCareFormValues>,
-  undefined | FormValidateOrFn<AddSkinCareFormValues>,
-  undefined | FormAsyncValidateOrFn<AddSkinCareFormValues>,
-  undefined | FormValidateOrFn<AddSkinCareFormValues>,
-  undefined | FormAsyncValidateOrFn<AddSkinCareFormValues>,
-  undefined | FormValidateOrFn<AddSkinCareFormValues>,
-  undefined | FormAsyncValidateOrFn<AddSkinCareFormValues>,
-  undefined | FormValidateOrFn<AddSkinCareFormValues>,
-  undefined | FormAsyncValidateOrFn<AddSkinCareFormValues>,
-  undefined | FormAsyncValidateOrFn<AddSkinCareFormValues>,
+export type AddSkinTreatFormApi = ReactFormExtendedApi<
+  AddSkinTreatFormValues,
+  undefined | FormValidateOrFn<AddSkinTreatFormValues>,
+  undefined | FormValidateOrFn<AddSkinTreatFormValues>,
+  undefined | FormAsyncValidateOrFn<AddSkinTreatFormValues>,
+  undefined | FormValidateOrFn<AddSkinTreatFormValues>,
+  undefined | FormAsyncValidateOrFn<AddSkinTreatFormValues>,
+  undefined | FormValidateOrFn<AddSkinTreatFormValues>,
+  undefined | FormAsyncValidateOrFn<AddSkinTreatFormValues>,
+  undefined | FormValidateOrFn<AddSkinTreatFormValues>,
+  undefined | FormAsyncValidateOrFn<AddSkinTreatFormValues>,
+  undefined | FormAsyncValidateOrFn<AddSkinTreatFormValues>,
   never
 >;
 
-function buildCreateDefaultSkinCarePayload({
+function buildCreateDefaultSkinTreatPayload({
   category,
   values,
 }: {
-  category: AdminDefaultSkinCareCategory;
-  values: AddSkinCareFormValues;
-}): AddAdminDefaultSkinCarePayload {
+  category: AdminDefaultSkinTreatCategory;
+  values: AddSkinTreatFormValues;
+}): AddAdminDefaultSkinTreatPayload {
   return {
     name: values.name.trim(),
     description: normalizeSkinCareDescription(values.description),
@@ -60,26 +60,26 @@ function buildCreateDefaultSkinCarePayload({
   };
 }
 
-type UseAddSkinCareFormParams = {
-  category: AdminDefaultSkinCareCategory;
+type UseAddSkinTreatFormParams = {
+  category: AdminDefaultSkinTreatCategory;
   categoryLabel: string;
   onSuccess: () => void;
 };
 
-export function useAddSkinCareForm({
+export function useAddSkinTreatForm({
   category,
   categoryLabel,
   onSuccess,
-}: UseAddSkinCareFormParams) {
+}: UseAddSkinTreatFormParams) {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 
   const mutation = useMutation({
-    mutationFn: (payload: AddAdminDefaultSkinCarePayload) =>
-      addDefaultSkinCare(payload),
+    mutationFn: (payload: AddAdminDefaultSkinTreatPayload) =>
+      addAdminDefaultSkinTreat(payload),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY,
+        queryKey: ADMIN_DEFAULT_SKIN_TREAT_QUERY_KEY,
       });
       showToast(`Data ${categoryLabel.toLowerCase()} berhasil ditambahkan.`, {
         variant: "success",
@@ -88,11 +88,11 @@ export function useAddSkinCareForm({
     },
   });
 
-  const form: AddSkinCareFormApi = useForm({
+  const form: AddSkinTreatFormApi = useForm({
     defaultValues: EMPTY_SKIN_CARE_FORM_VALUES,
     onSubmit: ({ value }) => {
       mutation.mutate(
-        buildCreateDefaultSkinCarePayload({
+        buildCreateDefaultSkinTreatPayload({
           category,
           values: value,
         }),

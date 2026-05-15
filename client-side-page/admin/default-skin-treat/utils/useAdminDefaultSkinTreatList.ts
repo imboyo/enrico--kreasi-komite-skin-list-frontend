@@ -2,107 +2,82 @@
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import debounce from "lodash/debounce";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 import {
   listDefaultSkinTreat,
   type DefaultSkinTreat,
-  type ListDefaultSkinTreatPayload,
 } from "backend-service/default-skin-treat";
 
 import {
-  ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY,
-  ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_IDS,
   getAdminDefaultSkinTreatCategoryConfig,
   type AdminDefaultSkinTreatCategoryConfig,
   type AdminDefaultSkinTreatCategoryId,
 } from "./defaultSkinTreatCategory";
 import {
-  DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_SORT_VALUE,
-  getAdminDefaultSkinTreatSortRequest,
+  buildAdminDefaultSkinTreatListPayload,
+  buildAdminDefaultSkinTreatListQueryKey,
+  DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_PAGE_NUMBER,
+  getAdminDefaultSkinTreatCurrentPage,
+  useAdminDefaultSkinTreatPageLevelStore,
+} from "../page-level.store";
+import {
   type AdminDefaultSkinTreatSortValue,
 } from "./defaultSkinTreatListSort";
 
 const CACHE_TIME_MS = 5 * 60 * 1000;
-const DEFAULT_PAGE_NUMBER = 1;
-const DEFAULT_PAGE_LIMIT = 20;
-
-function buildAdminDefaultSkinTreatListPayload({
-  activeCategory,
-  currentPage,
-  debouncedSearchValue,
-  sortValue,
-}: {
-  activeCategory: AdminDefaultSkinTreatCategoryId;
-  currentPage: number;
-  debouncedSearchValue: string;
-  sortValue: AdminDefaultSkinTreatSortValue;
-}): ListDefaultSkinTreatPayload {
-  return {
-    page: currentPage,
-    limit: DEFAULT_PAGE_LIMIT,
-    search: debouncedSearchValue || undefined,
-    sort: [getAdminDefaultSkinTreatSortRequest(sortValue)],
-    // Keep the active tab category as a hard backend filter so search and sort
-    // always operate inside the selected category instead of a client slice.
-    filter: {
-      and: [
-        {
-          field: "category",
-          operator: "eq",
-          value: activeCategory,
-        },
-      ],
-    },
-  };
-}
 
 export function useAdminDefaultSkinTreatList(
   activeCategory: AdminDefaultSkinTreatCategoryId,
 ) {
-  const [pageByCategory, setPageByCategory] = useState<
-    Record<AdminDefaultSkinTreatCategoryId, number>
-  >(() =>
-    ADMIN_DEFAULT_SKIN_TREAT_CATEGORY_IDS.reduce(
-      (result, categoryId) => {
-        result[categoryId] = DEFAULT_PAGE_NUMBER;
-        return result;
-      },
-      {} as Record<AdminDefaultSkinTreatCategoryId, number>,
-    ),
+  const currentPage = useAdminDefaultSkinTreatPageLevelStore((state) =>
+    getAdminDefaultSkinTreatCurrentPage(state.pageByCategory, activeCategory),
   );
-  const [searchValue, setSearchValue] = useState("");
-  const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
-  const [sortValue, setSortValue] = useState<AdminDefaultSkinTreatSortValue>(
-    DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_SORT_VALUE,
+  const searchValue = useAdminDefaultSkinTreatPageLevelStore(
+    (state) => state.searchValue,
   );
-  const currentPage = pageByCategory[activeCategory];
+  const debouncedSearchValue = useAdminDefaultSkinTreatPageLevelStore(
+    (state) => state.debouncedSearchValue,
+  );
+  const sortValue = useAdminDefaultSkinTreatPageLevelStore(
+    (state) => state.sortValue,
+  );
+  const setPage = useAdminDefaultSkinTreatPageLevelStore(
+    (state) => state.setPage,
+  );
+  const setSearchValue = useAdminDefaultSkinTreatPageLevelStore(
+    (state) => state.setSearchValue,
+  );
+  const applySearchToStore = useAdminDefaultSkinTreatPageLevelStore(
+    (state) => state.applyDebouncedSearch,
+  );
+  const setSortValue = useAdminDefaultSkinTreatPageLevelStore(
+    (state) => state.setSortValue,
+  );
+  const resetToolbarState = useAdminDefaultSkinTreatPageLevelStore(
+    (state) => state.resetToolbarState,
+  );
 
   const applyDebouncedSearch = useMemo(
     () =>
       debounce((value: string) => {
-        setDebouncedSearchValue(value.trim());
-        // Restart from the first page so the backend query stays aligned with
-        // the newly debounced keyword.
-        setPageByCategory((previousPageByCategory) => ({
-          ...previousPageByCategory,
-          [activeCategory]: DEFAULT_PAGE_NUMBER,
-        }));
+        applySearchToStore(value);
       }, 400),
-    [activeCategory],
+    [applySearchToStore],
   );
 
   useEffect(() => () => applyDebouncedSearch.cancel(), [applyDebouncedSearch]);
 
   const adminDefaultSkinTreatListQuery = useQuery({
-    queryKey: [
-      ...ADMIN_DEFAULT_SKIN_CARE_QUERY_KEY,
+    queryKey: buildAdminDefaultSkinTreatListQueryKey({
       activeCategory,
       currentPage,
       debouncedSearchValue,
       sortValue,
-    ],
+    }),
     queryFn: async () => {
+      // The page-level store owns the query contract so page state changes and
+      // backend payload changes stay in one place.
       return await listDefaultSkinTreat(
         buildAdminDefaultSkinTreatListPayload({
           activeCategory,
@@ -118,19 +93,21 @@ export function useAdminDefaultSkinTreatList(
   });
 
   const totalPages = Math.max(
-    DEFAULT_PAGE_NUMBER,
+    DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_PAGE_NUMBER,
     adminDefaultSkinTreatListQuery.data?.meta.total_pages ??
-      DEFAULT_PAGE_NUMBER,
+      DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_PAGE_NUMBER,
   );
 
+  useEffect(() => {
+    // Keep the store aligned with the backend after searches or mutations
+    // shrink the result set and invalidate a previously selected page.
+    if (currentPage > totalPages) {
+      setPage(activeCategory, totalPages, totalPages);
+    }
+  }, [activeCategory, currentPage, setPage, totalPages]);
+
   function handlePageChange(page: number) {
-    setPageByCategory((previousPageByCategory) => ({
-      ...previousPageByCategory,
-      [activeCategory]: Math.min(
-        Math.max(page, DEFAULT_PAGE_NUMBER),
-        totalPages,
-      ),
-    }));
+    setPage(activeCategory, page, totalPages);
   }
 
   function handleSearchChange(value: string) {
@@ -140,10 +117,13 @@ export function useAdminDefaultSkinTreatList(
 
   function handleSortChange(nextSortValue: AdminDefaultSkinTreatSortValue) {
     setSortValue(nextSortValue);
-    setPageByCategory((previousPageByCategory) => ({
-      ...previousPageByCategory,
-      [activeCategory]: DEFAULT_PAGE_NUMBER,
-    }));
+  }
+
+  function handleReset() {
+    // Cancel the queued debounce so an old keyword cannot overwrite the reset
+    // state after the toolbar has already been cleared.
+    applyDebouncedSearch.cancel();
+    resetToolbarState();
   }
 
   return {
@@ -156,6 +136,7 @@ export function useAdminDefaultSkinTreatList(
     searchValue,
     sortValue,
     handlePageChange,
+    handleReset,
     handleSearchChange,
     handleSortChange,
   } satisfies {
@@ -167,6 +148,7 @@ export function useAdminDefaultSkinTreatList(
     searchValue: string;
     sortValue: AdminDefaultSkinTreatSortValue;
     handlePageChange: (page: number) => void;
+    handleReset: () => void;
     handleSearchChange: (value: string) => void;
     handleSortChange: (value: AdminDefaultSkinTreatSortValue) => void;
   };

@@ -1,6 +1,6 @@
 "use client";
 
-import { HeroCard } from "@/client-side-page/home/HeroCard";
+import { HeroCard } from "client-side-page/home/utils/HeroCard";
 import { RoutineCheckLimitDialog } from "components/atomic/organism/RoutineCheckLimitDialog";
 import { useRoutineCheckStore } from "@/client-side-page/home/routine-check-store";
 import { useEffect } from "react";
@@ -11,8 +11,8 @@ import {
   pageVariants,
   sectionVariants,
 } from "libs/util/page-motion-variants";
-import { getHomeSkinTreatSections } from "@/client-side-page/home/home-checklist-section/homeSkinTreatSections";
-import { HomeSkinTreatSection } from "@/client-side-page/home/home-skin-treat-section/HomeSkinTreatSection";
+import { getHomeSkinTreatSections } from "client-side-page/home/home-checklist-section/home-skin-treat-sections";
+import { HomeSkinTreatSection } from "client-side-page/home/HomeSkinTreatSection";
 
 export const PageHome = () => {
   const reset = useRoutineCheckStore((s) => s.reset);
@@ -36,7 +36,6 @@ export const PageHome = () => {
         animate="animate"
         variants={pageVariants}
       >
-        {/* Renders itself automatically when the check limit is hit */}
         <RoutineCheckLimitDialog />
 
         {/* Hero section */}

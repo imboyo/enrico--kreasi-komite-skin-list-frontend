@@ -1,6 +1,6 @@
 "use client";
 
-import { HeroSection } from "@/components/atomic/molecule/HeroSection";
+import { HeroSection } from "components/atomic/molecule/HeroSection";
 
 const CATEGORY_LABELS = [
   "Routine",

@@ -10,14 +10,13 @@ import {
 } from "components/atomic/molecule/ListToolbar";
 import { mapSkinTreatLabel } from "libs/util/mapSkinTreatLabel";
 
-import { AddSkinCareDialog } from "./add-skin-care-dialog/AddSkinCareDialog";
+import { AddSkinTreatDialog } from "./add-skin-treat-dialog/AddSkinTreatDialog";
 import type {
-  AdminDefaultSkinTreatCategoryConfig,
   AdminDefaultSkinTreatCategoryId,
+  AdminDefaultSkinTreatCategoryConfig,
 } from "../utils/defaultSkinTreatCategory";
 import {
   ADMIN_DEFAULT_SKIN_TREAT_SORT_OPTIONS,
-  DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_SORT_VALUE,
   type AdminDefaultSkinTreatSortValue,
 } from "../utils/defaultSkinTreatListSort";
 
@@ -28,6 +27,7 @@ type AdminDefaultSkinTreatToolbarProps = {
   onSearchChange: (value: string) => void;
   sortValue: AdminDefaultSkinTreatSortValue;
   onSortChange: (value: AdminDefaultSkinTreatSortValue) => void;
+  onReset: () => void;
 };
 
 const EMPTY_FILTER_OPTIONS: ListToolbarOption<never>[] = [];
@@ -44,13 +44,9 @@ export function AdminDefaultSkinTreatToolbar({
   onSearchChange,
   sortValue,
   onSortChange,
+  onReset,
 }: AdminDefaultSkinTreatToolbarProps) {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-
-  function handleReset() {
-    onSearchChange("");
-    onSortChange(DEFAULT_ADMIN_DEFAULT_SKIN_TREAT_SORT_VALUE);
-  }
 
   return (
     <>
@@ -66,7 +62,7 @@ export function AdminDefaultSkinTreatToolbar({
         sortValue={sortValue}
         sortOptions={ADMIN_DEFAULT_SKIN_TREAT_SORT_OPTIONS}
         onSortChange={onSortChange}
-        onReset={handleReset}
+        onReset={onReset}
         actions={
           <Button
             type="button"
@@ -80,7 +76,7 @@ export function AdminDefaultSkinTreatToolbar({
         }
       />
 
-      <AddSkinCareDialog
+      <AddSkinTreatDialog
         open={isAddDialogOpen}
         category={activeCategory}
         categoryLabel={mapSkinTreatLabel(activeCategoryConfig.label)}

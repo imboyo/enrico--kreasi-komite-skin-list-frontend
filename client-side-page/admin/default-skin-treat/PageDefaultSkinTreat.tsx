@@ -7,8 +7,8 @@ import { MobilePagination } from "@/components/atomic/molecule/MobilePagination"
 import { QueryStateHandler } from "@/components/atomic/molecule/QueryStateHandler";
 import { SkinCareAdminCardSkeleton } from "@/components/atomic/molecule/SkinCareAdminCardSkeleton";
 
-import { AdminDefaultSkinTreatToolbar } from "./toolbar/AdminDefaultSkinTreatToolbar";
 import { ItemActions } from "./item-actions/ItemActions";
+import { AdminDefaultSkinTreatToolbar } from "./toolbar/AdminDefaultSkinTreatToolbar";
 import { useAdminDefaultSkinTreatList } from "./utils/useAdminDefaultSkinTreatList";
 import type { AdminDefaultSkinTreatCategoryId } from "./utils/defaultSkinTreatCategory";
 
@@ -28,6 +28,7 @@ export function PageDefaultSkinTreat({
     sortValue,
     totalPages,
     handlePageChange,
+    handleReset,
     handleSearchChange,
     handleSortChange,
   } = useAdminDefaultSkinTreatList(activeCategory);
@@ -38,7 +39,7 @@ export function PageDefaultSkinTreat({
       <AdminDefaultSkinTreatTabNavigation activeTabId={activeCategory} />
 
       <div className="flex flex-col gap-4 w-full">
-        {/* Section: Toolbar with search, sort and add new skin care */}
+        {/* Section: Toolbar with search, sort, and add actions */}
         <AdminDefaultSkinTreatToolbar
           activeCategory={activeCategory}
           activeCategoryConfig={activeCategoryConfig}
@@ -46,6 +47,7 @@ export function PageDefaultSkinTreat({
           onSearchChange={handleSearchChange}
           sortValue={sortValue}
           onSortChange={handleSortChange}
+          onReset={handleReset}
         />
 
         <QueryStateHandler
@@ -65,12 +67,7 @@ export function PageDefaultSkinTreat({
                 icon={
                   <Icon icon={activeCategoryConfig.icon} className="size-6" />
                 }
-                actions={
-                  <ItemActions
-                    item={item}
-                    actions={activeCategoryConfig.actions}
-                  />
-                }
+                actions={<ItemActions item={item} />}
               />
             ))}
           </div>

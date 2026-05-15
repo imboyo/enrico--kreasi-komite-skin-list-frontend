@@ -1,4 +1,4 @@
-import type { ListDefaultSkinTreatPayload } from "backend-service/default-skin-treat";
+import type { ListAdminDefaultSkinTreatPayload } from "backend-service/admin/default-skin-care";
 import type { ListToolbarOption } from "components/atomic/molecule/ListToolbar";
 
 export type AdminDefaultSkinTreatSortValue =
@@ -20,7 +20,7 @@ export const ADMIN_DEFAULT_SKIN_TREAT_SORT_OPTIONS: ListToolbarOption<AdminDefau
 
 const ADMIN_DEFAULT_SKIN_TREAT_SORT_REQUEST_MAP: Record<
   AdminDefaultSkinTreatSortValue,
-  NonNullable<ListDefaultSkinTreatPayload["sort"]>[number]
+  NonNullable<ListAdminDefaultSkinTreatPayload["sort"]>[number]
 > = {
   "updated-at-desc": {
     field: "updated_at",
