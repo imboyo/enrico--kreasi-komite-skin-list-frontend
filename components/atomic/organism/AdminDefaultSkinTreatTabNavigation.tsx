@@ -9,15 +9,11 @@ import {
   getAdminDefaultSkinTreatCategoryHref,
   type AdminDefaultSkinTreatCategoryId,
 } from "@/client-side-page/admin/default-skin-treat/utils/defaultSkinTreatCategory";
+import { usePageLevelStore } from "@/client-side-page/admin/default-skin-treat/page-level.store";
 
-interface AdminDefaultSkinTreatTabNavigationProps {
-  activeTabId: AdminDefaultSkinTreatCategoryId;
-}
-
-export function AdminDefaultSkinTreatTabNavigation({
-  activeTabId,
-}: Readonly<AdminDefaultSkinTreatTabNavigationProps>) {
+export function AdminDefaultSkinTreatTabNavigation() {
   const router = useRouter();
+  const activeTabId = usePageLevelStore((state) => state.activeCategory);
 
   function handleTabChange(tabId: AdminDefaultSkinTreatCategoryId) {
     if (tabId === activeTabId) {

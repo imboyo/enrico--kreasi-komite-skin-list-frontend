@@ -9,8 +9,11 @@ import { SkinCareAdminCardSkeleton } from "@/components/atomic/molecule/SkinCare
 
 import { ItemActions } from "./item-actions/ItemActions";
 import { AdminDefaultSkinTreatToolbar } from "./toolbar/AdminDefaultSkinTreatToolbar";
-import { useAdminDefaultSkinTreatList } from "./utils/useAdminDefaultSkinTreatList";
-import type { AdminDefaultSkinTreatCategoryId } from "./utils/defaultSkinTreatCategory";
+import { usePageLevelStore } from "./page-level.store";
+import {
+  getAdminDefaultSkinTreatCategoryConfig,
+  type AdminDefaultSkinTreatCategoryId,
+} from "./utils/defaultSkinTreatCategory";
 
 interface PageDefaultSkinTreatProps {
   activeCategory: AdminDefaultSkinTreatCategoryId;
@@ -19,36 +22,30 @@ interface PageDefaultSkinTreatProps {
 export function PageDefaultSkinTreat({
   activeCategory,
 }: Readonly<PageDefaultSkinTreatProps>) {
-  const {
-    activeCategoryConfig,
-    activeItems,
-    adminDefaultSkinTreatListQuery,
-    currentPage,
-    searchValue,
-    sortValue,
-    totalPages,
-    handlePageChange,
-    handleReset,
-    handleSearchChange,
-    handleSortChange,
-  } = useAdminDefaultSkinTreatList(activeCategory);
+  const activeCategoryConfig =
+    getAdminDefaultSkinTreatCategoryConfig(activeCategory);
+
+  const adminDefaultSkinTreatListQuery = usePageLevelStore(
+    (state) => state.adminDefaultSkinTreatListQuery,
+  );
+
+  const currentPage = usePageLevelStore((state) => state.currentPage);
+  const totalPages = usePageLevelStore((state) => state.totalPages);
+  const setPage = usePageLevelStore((state) => state.setPage);
+
+  const activeItems = adminDefaultSkinTreatListQuery.data?.data ?? [];
+
+  function handlePageChange(page: number) {
+    setPage(activeCategory, page, totalPages);
+  }
 
   return (
     <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
-      {/* Section: Skin care category tabs */}
-      <AdminDefaultSkinTreatTabNavigation activeTabId={activeCategory} />
+      {/* Section: Default skin treat category navigation */}
+      <AdminDefaultSkinTreatTabNavigation />
 
       <div className="flex flex-col gap-4 w-full">
-        {/* Section: Toolbar with search, sort, and add actions */}
-        <AdminDefaultSkinTreatToolbar
-          activeCategory={activeCategory}
-          activeCategoryConfig={activeCategoryConfig}
-          searchValue={searchValue}
-          onSearchChange={handleSearchChange}
-          sortValue={sortValue}
-          onSortChange={handleSortChange}
-          onReset={handleReset}
-        />
+        <AdminDefaultSkinTreatToolbar />
 
         <QueryStateHandler
           query={adminDefaultSkinTreatListQuery}

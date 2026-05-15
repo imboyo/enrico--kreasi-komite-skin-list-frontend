@@ -21,6 +21,17 @@ the relevant guide in `node_modules/next/dist/docs/` before writing any code. He
 - When using zustand, always use selector to get the state. e.g const count = useCounterStore((state) => state.count);
 - Always using zustand for store and context passing
 
+# Project Structure
+1. hooks -> For reusable hooks
+2. libs
+   a. util -> For reusable function
+   b. error -> Error class or error handling
+3. components
+   a. atomic -> For reusable component. Include atom, molecule, organism, layout etch
+   b. provider -> For init like PWA, Query Client, Toast
+4. guard -> For guard like auth, role,
+5. store -> For store like zustand
+
 ### Moduling / Project Structure
 1. Backend Service use barrel export with naming for example `backend-service/auth/index.ts` and its have index.ts on `backend-service` so in consumer we can choose import directly from `backend-service/auth` or for more readable we can import from `backend-service`
 2. **Client-Side Page** (`client-side-page/`) structure follows the route module hierarchy. For a module like `client-side-page/admin/user/admin`:
