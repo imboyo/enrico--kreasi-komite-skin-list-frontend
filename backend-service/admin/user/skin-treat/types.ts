@@ -121,7 +121,7 @@ export type UpdateAdminUserSkinTreatPayload = {
 
 export type UpdateAdminUserSkinTreatResponse = AdminUserSkinTreat;
 
-export type DeleteSkinTreatResponse = {
+export type DeleteAdminUserSkinTreatResponse = {
   success: boolean;
   uuid: string;
 };
