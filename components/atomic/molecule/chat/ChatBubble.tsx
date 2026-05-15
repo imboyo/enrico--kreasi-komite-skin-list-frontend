@@ -6,10 +6,9 @@ import Link from "next/link";
 import { cn } from "libs/util/cn";
 import { formatTimeChat } from "libs/util/chat/format-time-chat";
 import { ChatMessage } from "@/types/chat.types";
-import type { AdminChatMessage } from "@/mock-backend/admin/chat/chats";
 import type { AdminSkinChatMessage } from "backend-service/admin/skin-chat";
 
-type ChatBubbleMessage = ChatMessage | AdminChatMessage | AdminSkinChatMessage;
+type ChatBubbleMessage = ChatMessage | AdminSkinChatMessage;
 
 interface ChatBubbleProps {
   message: ChatBubbleMessage;

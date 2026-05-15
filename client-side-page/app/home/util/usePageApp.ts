@@ -3,8 +3,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import debounce from "lodash/debounce";
 
 import type { SkinTreatListItem } from "./useSkinTreatChecklistUpdate";
+import type { DashboardEditableItem } from "./dashboard-item.types";
 import type { SkinTreatCategory } from "@/backend-service/user/skin-treat";
-import type { DashboardEditableItem } from "@/mock-backend/user/dashboard/item-store";
 
 import {
   SKIN_TREAT_CACHE_MS,

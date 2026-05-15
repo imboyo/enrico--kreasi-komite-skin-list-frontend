@@ -1,6 +1,7 @@
 "use client";
 
-import debounce, { type DebouncedFunc } from "lodash/debounce";
+import type { DebouncedFunc } from "lodash";
+import debounce from "lodash/debounce";
 import { createStore } from "zustand";
 
 import type { AccountStatus } from "backend-service/admin/account";
